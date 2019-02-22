@@ -31,6 +31,8 @@ class SecurityController extends AbstractController
 
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
+
+        //TODO variable check before register
         if ($request->isMethod('POST'))
         {
             $user = new User();

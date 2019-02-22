@@ -4,7 +4,7 @@
 
 {% block stylesheets %}
 {{ parent() }}
-<link rel="stylesheet" href="css/login.css" type="text/css"/>
+<link rel="stylesheet" href="css/security/form.css" type="text/css"/>
 
 <style type="text/css">
 body {
@@ -17,21 +17,12 @@ body {
 
 {% block body %}
 
-<div>
-{% if error %}
-    <div class="alert alert-danger alert-dismissible" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    	{{ error.messageKey|trans(error.messageData, 'security') }}
-    </div>
-{% endif %}
-
-
-<form method="post" class="form-signin">
+<form method="post" class="form">
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-    <h2 class="form-signin-heading"> Please sign in</h2>
+    <h2 class="form-heading"> Please sign in</h2>
     <div class="form-group">
         <label class="sr-only" for="inputUsername">Username</label>
         <input class="form-control" type="text" value="{{ last_username }}" name="username" id="inputUsername" placeholder="Username" required autofocus>
@@ -48,9 +39,7 @@ body {
             </label>
         </div>
 
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
+    <button class="btn btn-lg btn-primary btn-block" type="submit"> Sign in </button>
 
     <div>
         <a href="{{path('register') }}">Not registered yet !</a>
@@ -61,5 +50,4 @@ body {
     </div>
 </form>
 
-</div>
 {% endblock %}

@@ -2,19 +2,41 @@
 
 {% block title %}Sign up!{% endblock %}
 
+{% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="css/security/form.css" type="text/css"/>
+
+<style type="text/css">
+body {
+    background: transparent url('picture/default/login.jpg')  no-repeat center fixed;
+    background-size: cover;
+}
+</style>
+{% endblock %}
+
 {% block body %}
 
-<form method="post">
-    <h1 class="h3 mb-3 font-weight-normal">Please register</h1>
-    <label for="inputUsername" class="sr-only">Username</label>
-    <input type="text" value="username" name="username" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
-    <label for="inputPassword" class="sr-only">Password</label>
-    <label for="inputEmail" class="sr-only">Email</label>
-    <input type="email" value="email" name="email" id="inputemail" class="form-control" placeholder="email@domain.ext" required>
-    <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+<form method="post" class="form">
 
-    <button class="btn btn-lg btn-primary" type="submit">
-        Register
-    </button>
+    <h2 class="form-heading">Please register</h2>
+    <div class="form-group">
+        <label class="sr-only" for="inputUsername">Username</label>
+        <input class="form-control" type="text" name="username" id="inputUsername" placeholder="Username" required autofocus>
+    </div>
+    <div class="form-group">
+        <label class="sr-only" for="inputEmail">Email</label>
+        <input class="form-control" type="email" name="email" id="inputemail" placeholder="email@domain.ext" required>
+    </div>
+    <div class="form-group">
+        <label class="sr-only" for="inputPassword">Password</label>
+        <input class="form-control" type="password" name="password" id="inputPassword" placeholder="Password" required>
+    </div>
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit"> Register </button>
+
+    <div>
+        <a href="{{path('login') }}"> Already registered </a>
+    </div>
+
 </form>
 {% endblock %}
