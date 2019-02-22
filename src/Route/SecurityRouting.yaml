@@ -1,0 +1,19 @@
+login:
+    path: /login
+    controller: App\Controller\SecurityController::login
+    
+logout:
+    path: /logout
+    controller: App\controller\SecurityController::logout
+
+register:
+    path: /register
+    controller: App\Controller\SecurityController::register
+
+forgotten_password:
+    path: /forgotten_password
+    controller: App\Controller\SecurityController::forgottenPassword
+
+reset_password:
+    path: /reset_password/{token}
+    controller: App\Controller\SecurityController::resetPassword
