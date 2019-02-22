@@ -32,12 +32,6 @@
   {# On définit ce block, dans lequel vont venir s'insérer les autres vues du bundle #}
   <div>
 
-{% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-	<div>
-		<a href="{{ path('register') }}">Register</a>
-	</div>
-{% endif %}
-
   {% block body %}
   {% endblock body %}
   </div>
