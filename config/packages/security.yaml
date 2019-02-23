@@ -14,18 +14,31 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
+        admin:
+            anonymous: true
+            pattern: /admin/(.*)
+            guard:
+                authenticators:
+                    - App\Security\AdminLoginFormAuthenticator
+            
+            logout:
+                path: logout
+
         main:
             anonymous: true
             guard:
                 authenticators:
                     - App\Security\LoginFormAuthenticator
-
+            
             logout:
                 path: logout
 
             remember_me:
                 secret: '%kernel.secret%'
                 lifetime: 2592000 #30 days, 1 year by default
+
+
 
             # activate different ways to authenticate
 

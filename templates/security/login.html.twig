@@ -4,11 +4,11 @@
 
 {% block stylesheets %}
 {{ parent() }}
-<link rel="stylesheet" href="css/security/form.css" type="text/css"/>
+<link rel="stylesheet" href="{{asset('css/security/form.css') }}" type="text/css"/>
 
 <style type="text/css">
 body {
-    background: transparent url('picture/default/login.jpg')  no-repeat center fixed;
+    background: transparent url('{{ asset('picture/default/login.jpg') }}')  no-repeat center fixed;
     background-size: cover;
 }
 </style>

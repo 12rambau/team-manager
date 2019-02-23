@@ -8,7 +8,7 @@
 	
 	{% block stylesheets %}
 		{# On charge le bootstrap depuis le site directement #}
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 		{#<link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">#}
 		<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/ui-lightness/jquery-ui.css" type="text/css" />
 	{% endblock %}
@@ -29,9 +29,7 @@
 	{% endfor %}
 	</div>
 	
-  {# On définit ce block, dans lequel vont venir s'insérer les autres vues du bundle #}
-  <div>
-
-  {% block body %}
-  {% endblock body %}
-  </div>
+  	{# On définit ce block, dans lequel vont venir s'insérer les autres vues du bundle #}
+	{% block body %}
+	{% endblock body %}
+</body>

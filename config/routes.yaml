@@ -1,15 +1,19 @@
 user:
-    resource: "../src/Route/UserRouting.yaml" 
+    resource: "Route/UserRouting.yaml" 
     prefix: /
 
 Security:
-    resource: "../src/Route/SecurityRouting.yaml"
+    resource: "Route/SecurityRouting.yaml"
     prefix: /
 
 blog:
-    resource: "../src/Route/BlogRouting.yaml"
+    resource: "Route/BlogRouting.yaml"
     prefix: /
 
 home:
-    resource: "../src/Route/DefaultRouting.yaml"
+    resource: "Route/DefaultRouting.yaml"
     prefix: /
+
+admin:
+    resource: "Route/AdminRouting.yaml"
+    prefix: admin/

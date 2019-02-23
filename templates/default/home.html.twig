@@ -5,11 +5,11 @@
 {% block stylesheets %}
 {{ parent() }}
 
-<link rel="stylesheet" href="css/Default/home.css" type="text/css"/>
+<link rel="stylesheet" href="{{ asset('css/Default/home.css') }}" type="text/css"/>
 
 <style type="text/css">
 body {
-    background: transparent url('picture/default/home.png')  no-repeat center fixed;
+    background: transparent url('{{ asset('picture/default/home.png') }}')  no-repeat center fixed;
     background-size: cover;
 }
 </style>
