@@ -7,6 +7,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Faker;
 use App\Entity\User;
 use App\Entity\BlogPost;
+use App\Entity\Event;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
@@ -21,7 +22,7 @@ class AppFixtures extends Fixture
     {
 
         //language configuration
-        $faker = Faker\Factory::create('en');
+        $faker = Faker\Factory::create('en_US');
 
         //user creator
         $user = new User();
@@ -44,6 +45,21 @@ class AppFixtures extends Fixture
             $post->setAuthor($user);
 
             $manager->persist($post);
+        }
+
+        //event creator
+        for ($i=0; $i< 30; $i++)
+        {
+            $event = new Event();
+
+            $date = $faker->dateTimeThisMonth($max = 'now', $timezone = null);
+            $event->setStart($date);
+            $event->setFinish($date->add(new DateInterval('P2H')));
+            $event->setInfo($faker->sentence(10, true));
+            $event->setMaxPlayers(10);
+
+            $manager->persist($event);
+
         }
 
         $manager->flush();

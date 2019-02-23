@@ -7,7 +7,7 @@ blog-index:
         page: \d+
 
 blog-view:
-    path: /post/{slug}
+    path: /{slug}/view
     controller: App\Controller\BlogController::view
 
 blog-add:
@@ -15,17 +15,17 @@ blog-add:
     controller: App\Controller\BlogController::add
 
 blog-edit:
-    path: post/{slug}/edit
+    path: /{slug}/edit
     controller: App\Controller\BlogController::edit
 
 blog-delete:
-    path: post/{slug}/delete
+    path: /{slug}/delete
     controller: App\Controller\BlogController::delete
 
 blog-activate:
-    path: post/{slug}/activate
+    path: /{slug}/activate
     controller: App\Controller\BlogController::activate
 
 blog-deactivate:
-    path: post/{slug}/deactivate
+    path: /{slug}/deactivate
     controller: App\Controller\BlogController::deactivate

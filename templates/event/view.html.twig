@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ post.slug }}{% endblock %}
+
+{% block body %}
+<div> {{ post.slug }}</div>
+
+<a class="btn btn-success" href={{ path('blog-activate', {'slug': post.slug}) }}>activate</a>
+<a class="btn btn-primary" href={{ path('blog-deactivate', {'slug': post.slug}) }}>deactivate</a>
+<a class="btn btn-danger" href={{ path('blog-delete', {'slug': post.slug}) }}>delete</a>
+
+{{dump()}}
+
+{% endblock %}

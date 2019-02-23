@@ -1,0 +1,31 @@
+event-index:
+    path: /{page}
+    controller: App\Controller\EventController::index
+    defaults:
+        page: 1
+    requirements:
+        page: \d+
+
+event-view:
+    path: /{slug}/view
+    controller: App\Controller\EventController::view
+
+event-add:
+    path: /add
+    controller: App\Controller\EventController::add
+
+event-edit:
+    path: /{slug}/edit
+    controller: App\Controller\EventController::edit
+
+event-delete:
+    path: /{slug}/delete
+    controller: App\Controller\EventController::delete
+
+event-activate:
+    path: /{slug}/activate
+    controller: App\Controller\EventController::activate
+
+event-deactivate:
+    path: /{slug}/deactivate
+    controller: App\Controller\EventController::deactivate

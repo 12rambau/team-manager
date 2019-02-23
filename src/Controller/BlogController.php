@@ -12,8 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 class BlogController extends AbstractController
 {
     public function index($page): Response
-    {		
-		//on recupere la liste des news du sport, on en affiche 10 par page		
+    {				
         $em = $this->getDoctrine()->getEntityManager();
         $listPosts = $em->getRepository(BlogPost::class)->findTen(($page-1)*10);
             
@@ -23,7 +22,7 @@ class BlogController extends AbstractController
         ]);
     }
 
-    public function view(BlogPost $post)
+    public function view(BlogPost $post): Response
     {
         return $this->render('blog/view.html.twig', array(
             'post' => $post
@@ -31,7 +30,7 @@ class BlogController extends AbstractController
 
     }
 
-    public function add(Request $request)
+    public function add(Request $request): Response
     {
         $post = new BlogPost();
 
@@ -100,7 +99,7 @@ class BlogController extends AbstractController
     public function activate(BlogPost $post, Request $request) : Response
     {
 
-        //shouldn't be allowed to anyone 
+        //TODO shouldn't be allowed to anyone 
         $em = $this->getDoctrine()->getEntityManager();
 
         $post->setActive(true);
@@ -116,7 +115,7 @@ class BlogController extends AbstractController
 
     public function deactivate(BlogPost $post, Request $request): Response
     {
-        //shouldn't be allowed to anyone 
+        //TODO shouldn't be allowed to anyone 
 
         $em = $this->getDoctrine()->getEntityManager();
 
@@ -127,11 +126,7 @@ class BlogController extends AbstractController
 
         $request->getSession()->getFlashBag()->add('success', 'The post : '.$post->getSlug().' has been deactivated.');
 
-        return $this->render('blog/view.html.twig', array(
-            'post' => $post,
-            'request' => $request
-        ));
-        //return $this->redirect($request->headers->get('referer'));
+        return $this->redirect($request->headers->get('referer'));
 
     }
 
