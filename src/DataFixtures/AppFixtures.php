@@ -53,10 +53,12 @@ class AppFixtures extends Fixture
             $event = new Event();
 
             $date = $faker->dateTimeThisMonth($max = 'now', $timezone = null);
+            $fin = new \DateTime($date->format('Y-m-d H:i:s'));
             $event->setStart($date);
-            $event->setFinish($date->add(new DateInterval('P2H')));
+            $event->setFinish($fin->add(new \DateInterval('PT2H')));
             $event->setInfo($faker->sentence(10, true));
             $event->setMaxPlayers(10);
+            $event->setName($faker->word());
 
             $manager->persist($event);
 

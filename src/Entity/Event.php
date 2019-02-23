@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Cocur\Slugify\Slugify;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
@@ -78,6 +79,9 @@ class Event
 
     public function setName(string $name): self
     {
+        $slug = new Slugify();
+        $this->slug = $slug->slugify($name.date_format($this->start, 'Y-m-d'));
+
         $this->name = $name;
 
         return $this;
@@ -90,6 +94,10 @@ class Event
 
     public function setStart(\DateTimeInterface $start): self
     {
+
+        $slug = new Slugify();
+        $this->slug = $slug->slugify($this->name.date_format($start, 'Y-m-d'));
+
         $this->start = $start;
 
         return $this;
