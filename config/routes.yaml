@@ -9,3 +9,7 @@ Security:
 blog:
     resource: "../src/Route/BlogRouting.yaml"
     prefix: /
+
+home:
+    resource: "../src/Route/DefaultRouting.yaml"
+    prefix: /

@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+
+<link rel="stylesheet" href="css/Default/home.css" type="text/css"/>
+
+<style type="text/css">
+body {
+    background: transparent url('picture/default/home.png')  no-repeat center fixed;
+    background-size: cover;
+}
+</style>
+{% endblock %}
+
+{% block body %}
+<h1 id="teamName" class="text-primary"> Welcome on the XX team website ! </h1>
+
+<a id="logIn" class="btn btn-lg btn-primary" href="{{ path('login') }}">Log In !</a>
+
+{% endblock %}
