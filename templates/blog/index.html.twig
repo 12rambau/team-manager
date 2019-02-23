@@ -3,17 +3,33 @@
 {% block title %}Hello BlogController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    {% for post in listPosts %}
-        <div>{{ post.title }}</div>
-    {% endfor %}
+<div class="panel panel-default">
+	<div class="panel-heading"><h2>blog posts</h2></div>
+  		<div class="panel-body">
+  			<div class="row">
+	    		{% for post in listPosts %}
+	    		    {% if post.active == true or app.user == post.author %}
+				        <div class="col-lg-12 panel panel-default">
+		      		        <div class="panel-body">
+		      			        <div>
+                                  <p> {{post.id }}</p>
+		        			        {#<p><strong>by <em>{{ post.author.username }}</em>, on {{ author.publishDate|date('d/m/Y') }}</strong></p>#}
+                                    <p>{{post.content|slice(0,150)|raw}}</p>
+		   					        {% if post.active == false %}
+		   					            <p class="alert alert-warning">The post is not yet public</p>
+		   					        {% endif %}
+		      			        </div>
+		      		        </div>
+	      		        </div>
+	      		    {% endif %}
+                {% else %}
+	      		    <div>No post (yet!)</div>
+	    		{% endfor %}
+            </div>
+        </div>
+    </div>
 </div>
+
+{{dump()}}
 
 {% endblock %}

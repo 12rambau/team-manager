@@ -34,13 +34,13 @@ class AppFixtures extends Fixture
         $manager->persist($user);
 
         //post creator
-        for ($i=0; $i < 3; $i++)
+        for ($i=0; $i < 50; $i++)
         {
             $post = new BlogPost();
             $post->setTitle($faker->words(4, true));
             $post->setShort($faker->sentence(30, true));
             $post->setContent($faker->text(500));
-            //$post->setActive(true);
+            $post->setActive(true);
             $post->setAuthor($user);
 
             $manager->persist($post);

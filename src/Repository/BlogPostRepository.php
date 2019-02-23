@@ -27,7 +27,7 @@ class BlogPostRepository extends ServiceEntityRepository
         $Posts = $this->createQueryBuilder('b')
             ->orderBy('b.publishDate', 'DESC')
             ->setFirstResult($offset)
-            ->setMaxResults($offset+10)
+            ->setMaxResults(10)
             ->getQuery()
             ->getResult();
         if ($Posts == null)
