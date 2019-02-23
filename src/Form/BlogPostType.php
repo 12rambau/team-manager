@@ -6,6 +6,7 @@ use App\Entity\BlogPost;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 
 class BlogPostType extends AbstractType
 {
@@ -14,7 +15,7 @@ class BlogPostType extends AbstractType
         $builder
             ->add('title')
             ->add('short')
-            ->add('content')
+            ->add('content', CKEditorType::Class)
         ;
     }
 
