@@ -1,9 +1,31 @@
 blog-index:
-    path: /blog/{page}
+    path: /{page}
     controller: App\Controller\BlogController::index
     defaults:
         page: 1
     requirements:
         page: \d+
 
-    
+blog-view:
+    path: /post/{slug}
+    controller: App\Controller\BlogController::view
+
+blog-add:
+    path: /add
+    controller: App\Controller\BlogController::add
+
+blog-edit:
+    path: post/{slug}/edit
+    controller: App\Controller\BlogController::edit
+
+blog-delete:
+    path: post/{slug}/delete
+    controller: App\Controller\BlogController::delete
+
+blog-activate:
+    path: post/{slug}/activate
+    controller: App\Controller\BlogController::activate
+
+blog-deactivate:
+    path: post/{slug}/deactivate
+    controller: App\Controller\BlogController::deactivate

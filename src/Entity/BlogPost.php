@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\User;
+use Cocur\Slugify\Slugify;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BlogPostRepository")
@@ -48,6 +49,11 @@ class BlogPost
     private $active;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $slug;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="posts", cascade={"persist"})
      */
     private $author;
@@ -70,6 +76,8 @@ class BlogPost
 
     public function setTitle(string $title): self
     {
+        $slug = new Slugify();
+        $this->slug = $slug->slugify($title);
         $this->title = $title;
 
         return $this;
@@ -143,6 +151,18 @@ class BlogPost
     public function setAuthor(User $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }

@@ -8,7 +8,7 @@ Security:
 
 blog:
     resource: "Route/BlogRouting.yaml"
-    prefix: /
+    prefix: /blog/
 
 home:
     resource: "Route/DefaultRouting.yaml"
