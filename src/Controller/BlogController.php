@@ -5,7 +5,9 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use App\Entity\BlogPost;
+use App\Form\BlogPostType;
 use Symfony\Component\HttpFoundation\Request;
+
 
 class BlogController extends AbstractController
 {
@@ -31,11 +33,55 @@ class BlogController extends AbstractController
 
     public function add(Request $request)
     {
+        $post = new BlogPost();
 
+        $form = $this->createForm(BlogPostType::class, $post);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $post->setAuthor();
+
+            $em = $this->getDoctrine()->getEntityManager();            
+            $em->persist($post);
+            $em->flush();
+
+            // TODO send an email to the administrator
+
+            return new RedirectResponse($this->urlGenerator->generate('blog-view', array(
+                'slug' => $post->getSlug()
+            )));
+        }
+
+        return $this->render('blog/add.html.twig', array(
+            'form' => $form->createView()
+        ));
     }
 
     public function edit(BlogPost $post, Request $request)
     {
+        $form = $this->createForm(BlogPostType::class, $post);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $post->setEditDate(new \DateTime());
+            $post->setActivate(false);
+
+            $em = $this->getDoctrine()->getEntityManager();            
+            $em->persist($post);
+            $em->flush();
+
+            // TODO send an email to the administrator
+
+            return new RedirectResponse($this->urlGenerator->generate('blog-view', array(
+                'slug' => $post->getSlug()
+            )));
+        }
+
+        return $this->render('blog/edit.html.twig', array(
+            'form' => $form->createView()
+        ));
 
     }
 
