@@ -1,3 +1,9 @@
-blog:
-    path: /blog
+blog-index:
+    path: /blog/{page}
     controller: App\Controller\BlogController::index
+    defaults:
+        page: 1
+    requirements:
+        page: \d+
+
+    

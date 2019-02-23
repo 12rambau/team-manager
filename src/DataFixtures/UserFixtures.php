@@ -33,16 +33,5 @@ class UserFixtures extends Fixture
 
             $manager->persist($user);
         } */
-
-        $user = new User();
-        $user->setLastName('root');
-        $user->setFirstName('root');
-        $user->setUserName('root');
-        $user->setPassword($this->passwordEncoder->encodePassword($user,'root'));
-        $user->setEmail('root@root.com');
-
-        $manager->persist($user);
-
-        $manager->flush();
     }
 }
