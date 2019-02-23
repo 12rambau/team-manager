@@ -5,7 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Event;
-use App\Entity\EventType;
+use App\Form\EventType;
 use Symfony\Component\HttpFoundation\Request;
 
 class EventController extends AbstractController
@@ -24,7 +24,7 @@ class EventController extends AbstractController
     public function view(Event $event): Response
     {
         return $this->render('event/view.html.twig', [
-            'slug' => $event->getSlug()
+            'event' => $event
         ]);
     }
 
@@ -43,7 +43,7 @@ class EventController extends AbstractController
 
             //TODO email the administrator to validate the new event 
 
-            $request->getSession()->getFlashBag()->add('success', 'The post : '.$post->getSlug().' has been added.');
+            $request->getSession()->getFlashBag()->add('success', 'The post : '.$event->getSlug().' has been added.');
 
             return new RedirecResponse($this->urlGenerator->generate('event-view', [
                 'slug' => $event->getSlug()
@@ -51,7 +51,7 @@ class EventController extends AbstractController
         }
 
         return $this->render('event/add.html.twig', [
-            'form' => $form->creatView()
+            'form' => $form->createView()
         ]);
     }
 
@@ -68,7 +68,7 @@ class EventController extends AbstractController
 
             //TODO email the administrator to validate the new event 
 
-            $request->getSession()->getFlashBag()->add('success', 'The post : '.$post->getSlug().' has been edited.');
+            $request->getSession()->getFlashBag()->add('success', 'The post : '.$event->getSlug().' has been edited.');
 
             return new RedirecResponse($this->urlGenerator->generate('event-view', [
                 'slug' => $event->getSlug()
@@ -76,7 +76,8 @@ class EventController extends AbstractController
         }
 
         return $this->render('event/edit.html.twig', [
-            'form' => $form->creatView()
+            'form' => $form->createView(),
+            'event' => $event
         ]);
     }
 
@@ -86,7 +87,7 @@ class EventController extends AbstractController
         $em->remove($event);
         $em->flush();
 
-        $request->getSession()->getFlashBag()->add('success', 'The post : '.$post->getSlug().' has been deleted.');
+        $request->getSession()->getFlashBag()->add('success', 'The post : '.$event->getSlug().' has been deleted.');
 
         return $this->redirect($request->headers->get('referer'));
     }
@@ -101,7 +102,7 @@ class EventController extends AbstractController
         $em->persist($event);
         $em->flush();
 
-        $request->getSession()->getFlashBag()->add('success', 'The post : '.$post->getSlug().' has been activated.');
+        $request->getSession()->getFlashBag()->add('success', 'The post : '.$event->getSlug().' has been activated.');
         
         return $this->redirect($request->headers->get('referer'));
     }
@@ -116,7 +117,7 @@ class EventController extends AbstractController
         $em->persist($event);
         $em->flush();
         
-        $request->getSession()->getFlashBag()->add('success', 'The post : '.$post->getSlug().' has been deactivated.');
+        $request->getSession()->getFlashBag()->add('success', 'The post : '.$event->getSlug().' has been deactivated.');
 
         return $this->redirect($request->headers->get('referer'));
     }

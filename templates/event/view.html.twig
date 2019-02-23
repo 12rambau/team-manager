@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ post.slug }}{% endblock %}
+{% block title %}{{ event.slug }}{% endblock %}
 
 {% block body %}
-<div> {{ post.slug }}</div>
+<div> {{ event.slug }}</div>
 
-<a class="btn btn-success" href={{ path('blog-activate', {'slug': post.slug}) }}>activate</a>
-<a class="btn btn-primary" href={{ path('blog-deactivate', {'slug': post.slug}) }}>deactivate</a>
-<a class="btn btn-danger" href={{ path('blog-delete', {'slug': post.slug}) }}>delete</a>
+<a class="btn btn-success" href={{ path('event-activate', {'slug': event.slug}) }}>activate</a>
+<a class="btn btn-primary" href={{ path('event-deactivate', {'slug': event.slug}) }}>deactivate</a>
+<a class="btn btn-danger" href={{ path('event-delete', {'slug': event.slug}) }}>delete</a>
 
 {{dump()}}
 

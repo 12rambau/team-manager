@@ -16,8 +16,8 @@ home:
 
 admin:
     resource: "Route/AdminRouting.yaml"
-    prefix: admin/
+    prefix: /admin/
 
 event:
     resource: "Route/EventRouting.yaml"
-    prefix: /
+    prefix: /event/
