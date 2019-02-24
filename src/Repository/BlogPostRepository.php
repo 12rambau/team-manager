@@ -20,20 +20,20 @@ class BlogPostRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Posts[] Returns an array of X blogPosts
+     * @return posts[] Returns an array of X blogPosts
      */
     public function findSome(int $offset, int $number)
     {
-        $Posts = $this->createQueryBuilder('b')
+        $posts = $this->createQueryBuilder('b')
             ->orderBy('b.publishDate', 'DESC')
             ->setFirstResult($offset)
             ->setMaxResults($number)
             ->getQuery()
             ->getResult();
-        if ($Posts == null)
-            $Posts = [];
+        if ($posts == null)
+            $posts = [];
 
-        return $Posts;
+        return $posts;
 
     }
 

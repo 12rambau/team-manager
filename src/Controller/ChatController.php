@@ -91,4 +91,14 @@ class ChatController extends AbstractController
 
     }
 
+    public function list():Response
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $messages = $em->getRepository(ChatMessage::class)->findSome(0, 30);
+
+        return $this->render('chat/list.html.twig', [
+            'messages' => $messages
+        ]);
+    }
+
 }

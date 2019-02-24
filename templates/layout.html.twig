@@ -1,5 +1,10 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{asset('css/default/style.css') }}" type="text/css"/>
+{% endblock %}
+
 {% block navbar %}
 <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-primary">
     <a class="navbar-brand" href="#">TeamManager</a>
@@ -31,13 +36,49 @@
 {% endblock %}
 
 {% block body %}
-    <div class="container-fluid">
+    <div class="container-fluid row">
         <div class="col-9">
             {% block content %}
             {% endblock %}
         </div>
         <div class="col-3">
             {% block aside %}
+                <div class="card">
+	                <div class="card-header">
+		                <p class="panel-title"><span class="fas fa-comment"/> Chat</p>
+	                </div>
+                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+	                    <div id="chatwindow" class="card-body">
+		                    {{ render(controller('App\\Controller\\ChatController::list')) }}
+	                    </div>
+	                    <div class="card-footer">
+                            <form id="chatForm" action="{{ path('chat-add') }}" method="post">
+    		                    <div class="input-group">
+    			                    <input type="text" name="message" id="chatMessage" class="form-control" placeholder="votre message..."/>
+                                    <span class="input-group-btn">
+                                        <input class="btn btn-success" type="submit" value="poster" />
+                                    </span>
+    		                    </div>
+		                    </form>
+	                    </div>
+                    {% else %}
+                        <div class="card-body">
+                            <p class="text-center">Authentification is required to access the Chat</p>
+                        </div>
+                        <div class="footer">
+                            <a href="{{path('login') }}" class="btn btn-primary">login</a>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <p class="paneel-title"><span class="fas fa-calendar"/>Mini-Calendar</p>
+                    </div>
+                    <div class="card-body">
+                        I assure you there will be a calendar
+                    </div>
+                </div>
             {% endblock %}
         </div>
     </div>

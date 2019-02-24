@@ -19,6 +19,24 @@ class ChatMessageRepository extends ServiceEntityRepository
         parent::__construct($registry, ChatMessage::class);
     }
 
+    /**
+     * @return messages[] Returns an array of X messages
+     */
+    public function findSome(int $offset, int $number)
+    {
+        $messages = $this->createQueryBuilder('b')
+            ->orderBy('b.date', 'DESC')
+            ->setFirstResult($offset)
+            ->setMaxResults($number)
+            ->getQuery()
+            ->getResult();
+        if ($messages == null)
+            $messages = [];
+
+        return $messages;
+
+    }
+
     // /**
     //  * @return ChatMessage[] Returns an array of ChatMessage objects
     //  */

@@ -1,0 +1,24 @@
+<div class="card">
+	<div class="card-header">
+		<p class="panel-title"><span class="fas fa-comment"/> Chat</p>
+	</div>
+	<div class="card-body">
+		{% render(controller('App\Controller\ChatController:Chat:list')) %}
+	</div>
+	<div class="card-footer"
+		<form id="chatForm" action="{{ path('bds_chat_post', {'channel': channel}) }}" method="post">
+    		<div class="input-group">
+    			<input type="text" name="message" id="chatMessage" class="form-control" placeholder="votre message..."/>
+    			<span class="input-group-btn">
+   	    			<input class="btn btn-success" type="submit" value="poster" />
+   	    		</span>
+    		</div>
+		</form>
+	</div>
+<div>
+
+
+<script type="text/javascript">
+	var updateInterval = {{ updateInterval }};
+	
+</script>
