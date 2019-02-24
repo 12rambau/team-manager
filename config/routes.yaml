@@ -21,3 +21,7 @@ admin:
 event:
     resource: "Route/EventRouting.yaml"
     prefix: /event/
+
+chat:
+    resource: "Route/ChatRouting.yaml"
+    prefix: /chat/

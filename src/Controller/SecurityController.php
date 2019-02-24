@@ -26,7 +26,7 @@ class SecurityController extends AbstractController
 
     public function logout()
     {
-        return $this->redirectToRoute('blog');
+        return $this->redirectToRoute('home');
     }
 
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
@@ -46,7 +46,7 @@ class SecurityController extends AbstractController
             $em->persist($user);
             $em->flush();
 
-            return $this->redirectToRoute('blog');
+            return $this->redirectToRoute('blog-index');
         }
         return $this->render('security/register.html.twig');
     }
@@ -63,7 +63,7 @@ class SecurityController extends AbstractController
             if ($user === null)
             {
                 $this->addFlash('danger', 'Email Inconnu');
-                return $this->redirectToRoute('blog');
+                return $this->redirectToRoute('forgotten_password');
             }
             $token = $tokenGenerator->generateToken();
             
@@ -75,7 +75,7 @@ class SecurityController extends AbstractController
             catch (\Exception $e)
             {
                 $this->addFlash('warning', $e->getMessage());
-                return $this->redirectToRoute('blog');
+                return $this->redirectToRoute('blog-index');
             }
 
             $url = $this->generateUrl('reset_password', array('token' => $token), UrlGeneratorInterface::ABSOLUTE_URL);
@@ -106,7 +106,7 @@ class SecurityController extends AbstractController
             if ($user === null)
             {
                 $this->addFlash('danger', 'Invalid Token');
-                return $this->redirectToRoute('blog');
+                return $this->redirectToRoute('blog-index');
             }
 
             $user->setResetToken(null);
@@ -116,7 +116,7 @@ class SecurityController extends AbstractController
 
             $this->addFlash('notice', 'Updated password');
 
-            return $this->redirectToRoute('blog');
+            return $this->redirectToRoute('blog-index');
         }
         
         return $this->render('security/reset_password.html.twig', ['token'=>$token]);

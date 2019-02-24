@@ -39,7 +39,7 @@ class BlogController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
-            $post->setAuthor();
+            $post->setAuthor($this->getUser());
 
             $em = $this->getDoctrine()->getEntityManager();            
             $em->persist($post);
@@ -47,7 +47,7 @@ class BlogController extends AbstractController
 
             // TODO send an email to the administrator
 
-            return new RedirectResponse($this->urlGenerator->generate('blog-view', array(
+            return new RedirectResponse($this->generateUrl('blog-view', array(
                 'slug' => $post->getSlug()
             )));
         }

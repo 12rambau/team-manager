@@ -45,7 +45,7 @@ class EventController extends AbstractController
 
             $request->getSession()->getFlashBag()->add('success', 'The post : '.$event->getSlug().' has been added.');
 
-            return new RedirecResponse($this->urlGenerator->generate('event-view', [
+            return new RedirecResponse($this->generateUrl('event-view', [
                 'slug' => $event->getSlug()
             ]));
         }
@@ -70,7 +70,7 @@ class EventController extends AbstractController
 
             $request->getSession()->getFlashBag()->add('success', 'The post : '.$event->getSlug().' has been edited.');
 
-            return new RedirecResponse($this->urlGenerator->generate('event-view', [
+            return new RedirecResponse($this->generateUrl('event-view', [
                 'slug' => $event->getSlug()
             ]));
         }

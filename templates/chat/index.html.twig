@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}messages index{% endblock %}
+
+{% block body %}
+<div class="panel panel-default">
+	<div class="panel-heading"><h2>messages</h2></div>
+  		<div class="panel-body">
+  			<div class="row">
+	    		{% for message in messages %}
+					<div><b>{{message.id}}</b> {{message.content}}</div>
+                {% else %}
+	      		    <div>No messages (yet!)</div>
+	    		{% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

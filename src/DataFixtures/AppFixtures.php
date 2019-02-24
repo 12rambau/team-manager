@@ -8,6 +8,7 @@ use Faker;
 use App\Entity\User;
 use App\Entity\BlogPost;
 use App\Entity\Event;
+use App\Entity\ChatMessage;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
@@ -62,6 +63,20 @@ class AppFixtures extends Fixture
 
             $manager->persist($event);
 
+        }
+
+        //message creator
+        for ($i = 0; $i < 50; $i++)
+        {
+            $message = new ChatMessage();
+
+            $date = new \DateTime();
+            $date->add(new \DateInterval('PT'.$i.'S'));
+            $message->setDate($date);
+            $message->setContent($faker->text(100));
+            $message->setAuthor($user);
+
+            $manager->persist($message);
         }
 
         $manager->flush();
