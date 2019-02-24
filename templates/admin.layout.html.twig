@@ -1,45 +1,192 @@
-{% extends 'base.html.twig' %}
+{#{% extends 'base.html.twig' %}
 
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('css/theme/admin.css') }}" type="text/css"/>
+    <link rel="stylesheet" href="{{ asset('css/admin/style.css') }}" type="text/css"/>
 {% endblock %}
 
 
 {% block navbar %}
-<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">TeamManager</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav mr-auto">
-            <a class="nav-item nav-link" href="#">Home</a>
+<div class="wrapper">
+    <!-- Sidebar -->
+    <nav id="sidebar" class="active">
+        <div class="sidebar-header">
+        <h3>Bootstrap Sidebar</h3>
         </div>
-    </div>
-    <div class="navbar-nav ml-auto">
-        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-            <div class=" nav-item dropdown">
-                <div class=" dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="caret">{{ app.user.username }}</span>
-                </div>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">Profile</a>
-                        <p class="dropdown-tem divider"><p>
-                        <a class="dropdown-item" href="{{ path('logout') }}"><span class="glyphicon glyphicon-off"/>logout</a>
-                    </div>
-                </div>
-            </div>
-        {% endif %}
-    </div>
-</nav>
+        <ul class="list-unstyled components">
+            <p>Dummy Heading</p>
+            <li class="active">
+                <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
+                <ul class="collapse list-unstyled" id="homeSubmenu">
+                    <li>
+                        <a href="#">Home 1</a>
+                    </li>
+                    <li>
+                        <a href="#">Home 2</a>
+                    </li>
+                    <li>
+                        <a href="#">Home 3</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">About</a>
+            </li>
+            <li>
+                <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
+                <ul class="collapse list-unstyled" id="pageSubmenu">
+                    <li>
+                        <a href="#">Page 1</a>
+                    </li>
+                    <li>
+                        <a href="#">Page 2</a>
+                    </li>
+                    <li>
+                        <a href="#">Page 3</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">Portfolio</a>
+            </li>
+            <li>
+                <a href="#">Contact</a>
+            </li>
+        </ul>
+    </nav>
+</div>
 {% endblock %}
 
 {% block body %}
-    <div class="container-fluid">
-        <div class="col-12">
-            {% block content %}
-            {% endblock %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <button type="button" id="sidebarCollapse" class="btn btn-secondary">
+            <i class="fas fa-align-left"></i>
+            <span>Toggle Sidebar</span>
+        </button>
+        <a class="navbar-brand" href="#">TeamManager</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav mr-auto">
+                <a class="nav-item nav-link" href="#">Home</a>
+            </div>
         </div>
+        <div class="navbar-nav ml-auto">
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                <div class=" nav-item dropdown">
+                    <div class=" dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret">{{ app.user.username }}</span>
+                    </div>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Profile</a>
+                            <p class="dropdown-tem divider"><p>
+                            <a class="dropdown-item" href="{{ path('logout') }}"><span class="glyphicon glyphicon-off"/>logout</a>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="row">
+        {% block content %}
+        {% endblock %}
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+
+    $(document).ready(function () {
+
+    $("#sidebar").mCustomScrollbar({
+         theme: "minimal"
+    });
+
+    $('#sidebarCollapse').on('click', function () {
+        // open or close navbar
+        $('#sidebar').toggleClass('active');
+        // close dropdowns
+        $('.collapse.in').toggleClass('in');
+        // and also adjust aria-expanded attributes we use for the open/closed arrows
+        // in our CSS
+        $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+    });
+
+});
+	
+    </script>
+
+    {% endblock %}#}
+
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+
+    <link rel="stylesheet" href="{{ asset('css/theme/admin.css') }}" type="text/css"/>
+    <link rel="stylesheet" href="{{ asset('css/admin/style.css') }}" type="text/css"/>
+{% endblock %}
+
+
+
+ {% block sidebar %}
+    <!-- Sidebar Holder -->
+    <nav id="sidebar">
+        <ul class="list-group">
+            <li class="list-group-item"><a href="{{ path('admin-blog-index') }}">Blog Posts</a></li>
+            <li class="list-group-item"><a href="{{ path('admin-chat-index') }}">Chat messages</a></li>
+        </ul>
+    </nav>
+{% endblock %}
+        
+{% block navbar %}
+    <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-info">
+        <button type="button" id="sidebarCollapse" class="btn btn-secondary">
+            <i class="fas fa-align-left"></i>
+            <span>Toggle Sidebar</span>
+        </button>
+        <a class="navbar-brand" href="#">TeamManager</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav mr-auto">
+                <a class="nav-item nav-link" href="#">Home</a>
+            </div>
+        </div>
+    </nav>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $("#sidebar").mCustomScrollbar({
+                theme: "minimal"
+            });
+
+            $('#sidebarCollapse').on('click', function () {
+                // open or close navbar
+                $('#sidebar').toggleClass('active');
+                $('#content').toggleClass('active');
+                // close dropdowns
+                $('.collapse.in').toggleClass('in');
+                // and also adjust aria-expanded attributes we use for the open/closed arrows
+                // in our CSS
+                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            });
+
+        });
+	
+    </script>
+
 {% endblock %}

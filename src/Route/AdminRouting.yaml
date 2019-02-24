@@ -29,3 +29,7 @@ admin-blog-activate:
 admin-blog-view:
     path: /{slug}/view
     controller: App\Controller\BlogController::adminView
+
+admin-chat-index:
+    path: /chat/index
+    
