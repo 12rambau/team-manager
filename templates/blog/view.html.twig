@@ -1,14 +1,29 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout.html.twig' %}
 
 {% block title %}{{ post.slug }}{% endblock %}
 
-{% block body %}
-<div> {{ post.slug }}</div>
+{% block content %}
+<div class="jumbotron text-center">
+    <div><h1>{{ post.title }}</h1></div>
+    <div>{{ post.short }}</div>
+</div>
 
-<a class="btn btn-success" href={{ path('blog-activate', {'slug': post.slug}) }}>activate</a>
-<a class="btn btn-primary" href={{ path('blog-deactivate', {'slug': post.slug}) }}>deactivate</a>
-<a class="btn btn-danger" href={{ path('blog-delete', {'slug': post.slug}) }}>delete</a>
+<div class="card">
+    <div class="card-body">
+        <div class="card-text">
+            {{ post.content }}
+        </div>
+    </div>
+</div>
 
-{{dump()}}
+{% if post.active == false %}
+    <hr/>
+    <div class="alert alert-danger text-center"> The Post is not yet activated</div>
+{% endif %}
+
+<hr/>
+<div class="container text-center">
+    <a class="btn btn-primary" href={{ path('blog-index') }}>Return to index</a>
+</div>
 
 {% endblock %}

@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Entity\BlogPost;
 use App\Form\BlogPostType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 
 class BlogController extends AbstractController
@@ -65,7 +66,7 @@ class BlogController extends AbstractController
         if ($form->isSubmitted() && $form->isValid())
         {
             $post->setEditDate(new \DateTime());
-            $post->setActivate(false);
+            $post->setActive(false);
 
             $em = $this->getDoctrine()->getEntityManager();            
             $em->persist($post);
@@ -73,14 +74,16 @@ class BlogController extends AbstractController
 
             // TODO send an email to the administrator
 
-            return new RedirectResponse($this->generateUrl('blog-view', array(
+            return new RedirectResponse($this->generateUrl('blog-view', [
                 'slug' => $post->getSlug()
-            )));
+                // TODO bug, le slug ne change pas.
+            ]));
         }
 
-        return $this->render('blog/edit.html.twig', array(
-            'form' => $form->createView()
-        ));
+        return $this->render('blog/edit.html.twig', [
+            'form' => $form->createView(),
+            'post' => $post
+        ]);
 
     }
 
