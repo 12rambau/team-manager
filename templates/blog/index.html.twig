@@ -1,35 +1,39 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout.html.twig' %}
 
 {% block title %}Hello BlogController!{% endblock %}
 
-{% block body %}
-<div class="panel panel-default">
-	<div class="panel-heading"><h2>blog posts</h2></div>
-  		<div class="panel-body">
-  			<div class="row">
-	    		{% for post in listPosts %}
-	    		    {% if post.active == true or app.user == post.author %}
-				        <div class="col-lg-12 panel panel-default">
-		      		        <div class="panel-body">
-		      			        <div>
-                                  <p> {{post.id }}</p>
-		        			        {#<p><strong>by <em>{{ post.author.username }}</em>, on {{ author.publishDate|date('d/m/Y') }}</strong></p>#}
-                                    <p>{{post.content|slice(0,150)|raw}}</p>
-		   					        {% if post.active == false %}
-		   					            <p class="alert alert-warning">The post is not yet public</p>
-		   					        {% endif %}
-		      			        </div>
-		      		        </div>
-	      		        </div>
-	      		    {% endif %}
-                {% else %}
-	      		    <div>No post (yet!)</div>
-	    		{% endfor %}
-            </div>
-        </div>
-    </div>
+{% block content %}
+
+<div class="jumbotron text-center">
+	<h1>Blog Posts</h1>
 </div>
 
-{{dump()}}
+<div class="container">
+	<div class="row flex">
+		{% for post in posts %}
+			<div class="col-4">
+				<div class="card">
+					<!-- <img class="card-img-top" src=".../100px180/" alt="Card image cap"> -->
+					<div class="card-body">
+						<h5 class="card-title">{{ post.title }}</h5>
+						<p><strong>by <em>{{ post.author.username }}</em>, on {{ post.publishDate|date('d/m/Y') }}</strong></p>
+						<p class="card-text">{{ post.short|slice(0,150)|raw}}</p>
+						<a href="{{ path('blog-view', { 'slug':post.slug }) }}" class="btn btn-primary btn-block">view</a>
+						{% if post.active == false %}
+							<hr/>
+							<p class="alert alert-danger text-center">The post is not yet public</p>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		{% else %}
+		<div class="card">
+			<div class="card-body">
+				<h2 class="card-title">no Post (yet!)</h2>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+</div>
 
 {% endblock %}

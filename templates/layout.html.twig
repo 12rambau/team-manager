@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block navbar %}
+<nav class="navbar sticky-top navbar-expand-lg navbar-light bg-primary">
+    <a class="navbar-brand" href="#">TeamManager</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav mr-auto">
+            <a class="nav-item nav-link" href="{{ path('home') }}">Home</a>
+        </div>
+    </div>
+    <div class="navbar-nav ml-auto">
+
+    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+    <div class=" nav-item dropdown">
+        <div class=" dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="caret">{{ app.user.username }}</span>
+        </div>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">Profile</a>
+                <p class="dropdown-tem divider"><p>
+                <a class="dropdown-item" href="{{ path('logout') }}"><span class="glyphicon glyphicon-off"/>logout</a>
+            </div>
+        </div>
+        {% else %}
+        <a class="nav-item nav-link" href="{{ path('login') }}">login</a>
+        {% endif %}
+    </div>
+</nav>
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="col-9">
+            {% block content %}
+            {% endblock %}
+        </div>
+        <div class="col-3">
+            {% block aside %}
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}

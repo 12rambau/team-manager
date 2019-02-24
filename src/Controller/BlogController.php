@@ -14,11 +14,11 @@ class BlogController extends AbstractController
     public function index($page): Response
     {				
         $em = $this->getDoctrine()->getEntityManager();
-        $listPosts = $em->getRepository(BlogPost::class)->findTen(($page-1)*10);
+        $posts = $em->getRepository(BlogPost::class)->findTen(($page-1)*10);
             
         return $this->render('blog/index.html.twig', [
             'controller_name' => 'BlogController',
-            'listPosts' => $listPosts
+            'posts' => $posts
         ]);
     }
 
@@ -73,7 +73,7 @@ class BlogController extends AbstractController
 
             // TODO send an email to the administrator
 
-            return new RedirectResponse($this->urlGenerator->generate('blog-view', array(
+            return new RedirectResponse($this->generateUrl('blog-view', array(
                 'slug' => $post->getSlug()
             )));
         }
