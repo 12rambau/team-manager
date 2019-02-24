@@ -1,8 +1,14 @@
-{% extends 'layout.html.twig' %}
+{% extends 'admin.layout.html.twig' %}
 
 {% block title %}edit post - {{ post.slug }}{% endblock %}
 
 {% block content %}
+
+<div class="jumbotron text-center">
+	<h1>Edition</h1>
+    <p>BlogPost Edition system</p>
+</div>
+
 	{{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
 	{{ form_errors(form) }}
 	

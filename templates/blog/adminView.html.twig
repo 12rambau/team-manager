@@ -1,0 +1,43 @@
+{% extends 'admin.layout.html.twig' %}
+
+{% block title %}{{ post.slug }}{% endblock %}
+
+{% block content %}
+<div class="jumbotron text-center">
+    <div><h1>{{ post.title }}</h1></div>
+    <div>{{ post.short }}</div>
+</div>
+<div class="container">
+    <p class="text-right"> by {{ post.author.username }}, on {{ post.publishDate|date('d/m/Y') }} </p>
+    <div class="card">
+    <div class="card-body">
+        <div class="card-text">
+            {{ post.content }}
+        </div>
+    </div>
+</div>
+
+{% if post.active == false %}
+    <hr/>
+    <div class="alert alert-danger text-center"> The Post is not yet activated</div>
+{% endif %}
+
+<hr/>
+<div class="container-fluid text-center">
+    <div class="btn-group btn-group-justified">
+        <a href="#" class="btn btn-outline-primary">View</a>
+        <a href="{{ path('admin-blog-edit', {'slug':post.slug}) }}"class="btn btn-outline-info">Edit</a>
+        <a href="{{ path('admin-blog-activate', {'slug':post.slug}) }}" class="btn btn-outline-secondary">
+            {% if post.active == true %}disable{% else %}enable{% endif %}
+        </a>
+        <a href="{{path('admin-blog-delete', {'slug':post.slug}) }}"class="btn btn-outline-danger">delete</a>
+    </div>
+</div>
+
+<hr/>
+<div class="container text-center">
+    <a class="btn btn-secondary btn-block" href={{ path('admin-blog-index') }}>Return to index</a>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'admin.layout.html.twig' %}
+
+{% block title %}Blog index{% endblock %}
+
+{% block content %}
+
+<div class="jumbotron text-center">
+	<h1>Blog Posts</h1>
+    <p> Blog Post management system </p>
+</div>
+
+<dic class="container">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Published</th>
+                <th>LasUpdated</th>
+                <th>Author</th>
+                <th>visibility</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for post in posts %}
+                <tr>
+                    <td>{{ post.id }}</td>
+                    <td>{{ post.title }}</td>
+                    <td>{{ post.publishDate|date('d/m/Y')}}</td>
+                    <td>{% if post.editDate %}{{ post.publishDate|date('d/m/Y') }}{% else %}never{% endif %}</td>
+                    <td>{{ post.author.username }}</td>
+                    <td>{% if  post.active %}ok{% else %}mute{% endif %}</td>
+                    <td>
+                        <div class="btn-group">
+                            <a href="{{ path('admin-blog-view', {'slug':post.slug}) }}" class="btn btn-outline-primary">View</a>
+                            <a href="{{ path('admin-blog-edit', {'slug':post.slug}) }}"class="btn btn-outline-info">Edit</a>
+                            <a href="{{ path('admin-blog-activate', {'slug':post.slug}) }}" class="btn btn-outline-secondary">
+                                {% if post.active == true %}disable{% else %}enable{% endif %}
+                            </a>
+                            <a href="{{path('admin-blog-delete', {'slug':post.slug}) }}"class="btn btn-outline-danger">delete</a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{# TODO add pagination #}
+
+{% endblock %}

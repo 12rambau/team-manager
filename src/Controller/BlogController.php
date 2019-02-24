@@ -15,10 +15,9 @@ class BlogController extends AbstractController
     public function index($page): Response
     {				
         $em = $this->getDoctrine()->getEntityManager();
-        $posts = $em->getRepository(BlogPost::class)->findTen(($page-1)*10);
+        $posts = $em->getRepository(BlogPost::class)->findSome(($page-1)*10, 10);
             
         return $this->render('blog/index.html.twig', [
-            'controller_name' => 'BlogController',
             'posts' => $posts
         ]);
     }
@@ -105,31 +104,32 @@ class BlogController extends AbstractController
         //TODO shouldn't be allowed to anyone 
         $em = $this->getDoctrine()->getEntityManager();
 
-        $post->setActive(true);
+        $post->setActive(!$post->getActive());
 
         $em->persist($post);
         $em->flush();
 
-        $request->getSession()->getFlashBag()->add('success', 'The post : '.$post->getSlug().' has been activated.');
+        $request->getSession()->getFlashBag()->add('success', 'The post : '.$post->getSlug().' has change visibility.');
 
         return $this->redirect($_SERVER['HTTP_REFERER']);
 
     }
 
-    public function deactivate(BlogPost $post, Request $request): Response
+    public function adminIndex($page): Response
     {
-        //TODO shouldn't be allowed to anyone 
-
         $em = $this->getDoctrine()->getEntityManager();
+        $posts = $em->getRepository(BlogPost::class)->findSome(($page-1)*30, 30);
+            
+        return $this->render('blog/adminIndex.html.twig', [
+            'posts' => $posts
+        ]);
+    }
 
-        $post->setActive(false);
-
-        $em->persist($post);
-        $em->flush();
-
-        $request->getSession()->getFlashBag()->add('success', 'The post : '.$post->getSlug().' has been deactivated.');
-
-        return $this->redirect($request->headers->get('referer'));
+    public function adminView(BlogPost $post): Response
+    {
+        return $this->render('blog/adminView.html.twig', array(
+            'post' => $post
+        ));
 
     }
 

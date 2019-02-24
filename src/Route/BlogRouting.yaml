@@ -13,19 +13,3 @@ blog-view:
 blog-add:
     path: /add
     controller: App\Controller\BlogController::add
-
-blog-edit:
-    path: /{slug}/edit
-    controller: App\Controller\BlogController::edit
-
-blog-delete:
-    path: /{slug}/delete
-    controller: App\Controller\BlogController::delete
-
-blog-activate:
-    path: /{slug}/activate
-    controller: App\Controller\BlogController::activate
-
-blog-deactivate:
-    path: /{slug}/deactivate
-    controller: App\Controller\BlogController::deactivate

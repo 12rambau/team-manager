@@ -7,8 +7,9 @@
     <div><h1>{{ post.title }}</h1></div>
     <div>{{ post.short }}</div>
 </div>
-
-<div class="card">
+<div class="container">
+    <p class="text-right"> by {{ post.author.username }}, on {{ post.publishDate|date('d/m/Y') }} </p>
+    <div class="card">
     <div class="card-body">
         <div class="card-text">
             {{ post.content }}

@@ -5,3 +5,27 @@ admin-login:
 admin-index:
     path: /index
     controller: App\Controller\AdminController::index
+
+admin-blog-index:
+    path: /blog/index/{page}
+    controller: App\Controller\BlogController::adminIndex
+    defaults:
+        page: 1
+    requirements:
+        page: \d+
+
+admin-blog-delete:
+    path: /{slug}/delete
+    controller: App\Controller\BlogController::delete
+
+admin-blog-edit:
+    path: /{slug}/edit
+    controller: App\Controller\BlogController::edit
+
+admin-blog-activate:
+    path: /{slug}/activate
+    controller: App\Controller\BlogController::activate
+
+admin-blog-view:
+    path: /{slug}/view
+    controller: App\Controller\BlogController::adminView

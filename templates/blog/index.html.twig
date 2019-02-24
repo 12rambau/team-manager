@@ -16,7 +16,10 @@
 					<!-- <img class="card-img-top" src=".../100px180/" alt="Card image cap"> -->
 					<div class="card-body">
 						<h5 class="card-title">{{ post.title }}</h5>
-						<p><strong>by <em>{{ post.author.username }}</em>, on {{ post.publishDate|date('d/m/Y') }}</strong></p>
+						<div class="small text-muted row">
+							<p class="text-left col-6">by <em>{{ post.author.username }}</em></p>
+							<p class="text-right col-6">{{ post.publishDate|date('d/m/Y') }}</p>
+						</div>
 						<p class="card-text">{{ post.short|slice(0,150)|raw}}</p>
 						<a href="{{ path('blog-view', { 'slug':post.slug }) }}" class="btn btn-primary btn-block">view</a>
 						{% if post.active == false %}
