@@ -29,3 +29,7 @@ event-activate:
 event-deactivate:
     path: /{slug}/deactivate
     controller: App\Controller\EventController::deactivate
+
+event-calendar:
+    path: /calendar
+    controller: App\Controller\EventController::showCalendar

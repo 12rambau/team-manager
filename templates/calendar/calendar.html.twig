@@ -1,0 +1,59 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+	<div class="col-lg-2">
+		<div class="row">
+			<div class=""></div>
+		</div>
+	</div>
+	<div class="col-lg-10">
+		<div id="header_cal">
+			{{ render(controller('App\\Controller\\EventController::header')) }}
+		</div>
+		<div class="col-lg-12" style="overflow-y: scroll; height: 913px; position: relative;">
+			<table style="position: absolute;" class="table table-hover">
+				<tbody>
+					{% for i in 0..48 %}
+						{% if i is even %}
+							<tr style="height: 30px; border-bottom: 1px #eeeeee dotted;">
+								<td style="width: 50px; border-top: none; padding-top: 0px;">
+									<small><small class="text-muted" style="padding-top: 0px;">{{ i/2 }}:00</small></small>
+								</td>
+								{% for j in 1..7 %}
+									<td class="table-bordered" style=" height: 30px; border-bottom: 1px #eeeeee dotted;"></td>
+								{% endfor %}
+							</tr>
+						{% else %}
+							<tr style="height: 30px; border-top: 1px #eeeeee dotted;">
+								<td style="width: 50px; border-top: none"></td>
+								{% for h in 1..7 %}
+									<td class="table-bordered" style="height: 30px; border-top: 1px #eeeeee dotted"></td>
+								{% endfor %}
+							</tr>
+						{% endif %}
+					{% endfor %}
+				</tbody>
+			</table>
+			<table  style="table-layout: fixed; position: absolute; top: 0; z-index: 2; height:1440px; overflow: hidden" class="table">
+				<!-- cette table contiendra les evenements chargés en javascript -->
+				<tbody>
+					<tr>
+						<td style="width: 50px;"></td>
+						{% for jour in joursSemaine %}
+							<td style="position: relative;" id="jour_{{ loop.index }}_{{ jour.timestamp }}"></td>
+						{% endfor %}
+					</tr>
+				</tbody>
+			</table>
+			<table style="position: absolute; top: 0; z-index: 3; height: 1440px;" class="table">
+				<tbody>
+					<tr id="premiere_ligne"  style="height: 600px;">
+						<td style="border-bottom: 1px #ff0000 solid;"></td>
+					</tr>
+					<tr></tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+{% endblock %}
+

@@ -177,5 +177,5 @@ class BlogController extends AbstractController
 
         return $this->redirect($_SERVER['HTTP_REFERER']);
     }
-
+    
 }
