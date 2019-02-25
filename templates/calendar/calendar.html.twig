@@ -1,54 +1,57 @@
 {% extends 'layout.html.twig' %}
 
+{% block stylesheets %}
+	{{ parent() }}
+
+	<link rel="stylesheet" href="{{ asset('css/calendar/style.css') }}" type="text/css"/>
+{% endblock %}
+
 {% block content %}
-	<div class="col-lg-2">
-		<div class="row">
-			<div class=""></div>
-		</div>
-	</div>
-	<div class="col-lg-10">
+	<div style="max-height:100vh;">
 		<div id="header_cal">
 			{{ render(controller('App\\Controller\\EventController::header')) }}
 		</div>
-		<div class="col-lg-12" style="overflow-y: scroll; height: 913px; position: relative;">
-			<table style="position: absolute;" class="table table-hover">
+		<div id="calendar-framework" class="col-lg-12">
+			<table id="table-times" class="table table-hover">
 				<tbody>
 					{% for i in 0..48 %}
 						{% if i is even %}
-							<tr style="height: 30px; border-bottom: 1px #eeeeee dotted;">
-								<td style="width: 50px; border-top: none; padding-top: 0px;">
-									<small><small class="text-muted" style="padding-top: 0px;">{{ i/2 }}:00</small></small>
+							<tr class="hour-line-even">
+								<td class="first-column" style="">
+									<small><small class="hour-label text-muted">{{ i/2 }}:00</small></small>
 								</td>
 								{% for j in 1..7 %}
-									<td class="table-bordered" style=" height: 30px; border-bottom: 1px #eeeeee dotted;"></td>
+									<td class="column table-bordered"></td>
 								{% endfor %}
 							</tr>
 						{% else %}
-							<tr style="height: 30px; border-top: 1px #eeeeee dotted;">
-								<td style="width: 50px; border-top: none"></td>
+							<tr class="hour-line-odd">
+								<td class="first-column"></td>
 								{% for h in 1..7 %}
-									<td class="table-bordered" style="height: 30px; border-top: 1px #eeeeee dotted"></td>
+									<td class="column table-bordered"></td>
 								{% endfor %}
 							</tr>
 						{% endif %}
 					{% endfor %}
 				</tbody>
 			</table>
-			<table  style="table-layout: fixed; position: absolute; top: 0; z-index: 2; height:1440px; overflow: hidden" class="table">
+			<table  id="event-table" class="table">
 				<!-- cette table contiendra les evenements chargés en javascript -->
 				<tbody>
 					<tr>
-						<td style="width: 50px;"></td>
-						{% for jour in joursSemaine %}
-							<td style="position: relative;" id="jour_{{ loop.index }}_{{ jour.timestamp }}"></td>
+						<td class="column"></td>
+						{% for iday in 0..6 %}
+						{% set day = targetMonday.timestamp + iday * 86400 %}
+							<td class="case" id="jour_{{ loop.index }}_{{ day }}"></td>
 						{% endfor %}
 					</tr>
 				</tbody>
 			</table>
-			<table style="position: absolute; top: 0; z-index: 3; height: 1440px;" class="table">
+			<!-- je sais plus à quoi elle sert -->
+			<table id="today-bar" class="table">
 				<tbody>
-					<tr id="premiere_ligne"  style="height: 600px;">
-						<td style="border-bottom: 1px #ff0000 solid;"></td>
+					<tr id="first-line">
+						<td  id="red-line"></td>
 					</tr>
 					<tr></tr>
 				</tbody>

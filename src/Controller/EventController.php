@@ -125,86 +125,23 @@ class EventController extends AbstractController
     public function showCalendar($date=null) : Response
     {
 
-        		//on récupère la date d'aujourd'hui et la date cible 
-		$now = new \DateTime();
-		if($date == null){ $date = $now->getTimestamp();}
-		$dateCible = new \DateTime();
-		$dateCible->setTimestamp($date);
-		
-		//on récupère le lundi de la semaine
-		$lundi = new \DateTime();
-		$jsemaine = strftime('%u', $date)-1; //-1 car le jour 0 st dimanche dans le php
-		$lundi->setTimestamp($date);
-		$lundi->sub(new \DateInterval("P".$jsemaine."D"));
-		
-		//on tabule ls jours de la semaine 
-		$joursSemaine = array ();
-		for ($i = 0; $i < 7; $i++)
-		{
-			$joursSemaine[$i] = new \DateTime();
-			$joursSemaine[$i]->setTimestamp($lundi->getTimestamp());
-			$joursSemaine[$i]->add(new \DateInterval("P".$i."D"));
-			$joursSemaine[$i]->setTime(0, 0, 0);
-		}
-		
-		//lundi suivant et lundi precedent
-		$lundiPrec = new \DateTime();
-		$lundiPrec->setTimestamp($lundi->getTimestamp());
-		$lundiPrec->sub(new \DateInterval("P7D"));
-		$lundiSui = new \DateTime();
-		$lundiSui->setTimestamp($lundi->getTimestamp());
-		$lundiSui->add(new \DateInterval("P7D"));
+        // getting the monday corresponding to the given date
+        $targetMonday = ($date) ? new \DateTime($date) : new \DateTime();
+        $targetMonday->sub(new \DateInterval("P".(date('N',$targetMonday->getTimestamp())-1)."D"));
+        $targetMonday->setTime(0,0,0);
         
-         return $this->render('calendar/calendar.html.twig', [
-            'now'			=>	$now,
-            'joursSemaine'	=>	$joursSemaine,
-            'lundiPrec'		=>	$lundiPrec,
-            'lundiSui'		=>	$lundiSui,
-            'dateCible'		=>	$dateCible
-            ]);
+         return $this->render('calendar/calendar.html.twig', [ 'targetMonday'=>$targetMonday ]);
 
     }
 
     public function header($date=null) : Response
     {
-        //on récupère la date d'aujourd'hui et la date cible 
-		$now = new \DateTime();
-		if($date == null){ $date = $now->getTimestamp();}
-		$dateCible = new \DateTime();
-		$dateCible->setTimestamp($date);
+        // getting the monday corresponding to the given date
+        $targetMonday = ($date) ? new \DateTime($date) : new \DateTime();
+        $targetMonday->sub(new \DateInterval("P".(date('N',$targetMonday->getTimestamp())-1)."D"));
+        $targetMonday->setTime(0,0,0);
 		
-		//on récupère le lundi de la semaine
-		$lundi = new \DateTime();
-		$jsemaine = strftime('%u', $date)-1; //-1 car le jour 0 st dimanche dans le php
-		$lundi->setTimestamp($date);
-		$lundi->sub(new \DateInterval("P".$jsemaine."D"));
-		
-		//on tabule ls jours de la semaine 
-		$joursSemaine = array ();
-		for ($i = 0; $i < 7; $i++)
-		{
-			$joursSemaine[$i] = new \DateTime();
-			$joursSemaine[$i]->setTimestamp($lundi->getTimestamp());
-			$joursSemaine[$i]->add(new \DateInterval("P".$i."D"));
-			$joursSemaine[$i]->setTime(0, 0, 0);
-		}
-		
-		//lundi suivant et lundi precedent
-		$lundiPrec = new \DateTime();
-		$lundiPrec->setTimestamp($lundi->getTimestamp());
-		$lundiPrec->sub(new \DateInterval("P7D"));
-		$lundiSui = new \DateTime();
-		$lundiSui->setTimestamp($lundi->getTimestamp());
-		$lundiSui->add(new \DateInterval("P7D"));
-		
-		//on retourne la vue 
-		return $this->render('calendar\header.html.twig', array(
-				'now'			=>	$now,
-				'joursSemaine'	=>	$joursSemaine,
-				'lundiPrec'		=>	$lundiPrec,
-				'lundiSui'		=>	$lundiSui,
-				'dateCible'		=>	$dateCible
-		));
+		return $this->render('calendar/header.html.twig', ['targetMonday'=>$targetMonday] );
     }
 
 
