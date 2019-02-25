@@ -1,15 +1,11 @@
 #calendar-framework{
     overflow-y: scroll;
-    height: 913px;
+    height: 100vh;
     position: relative;
 }
 
 #table-times{
     position: absolute;
-}
-#table-times .hour-line-even{
-    height: 30px; 
-    border-bottom: 1px #eeeeee dotted;
 }
 
 #table-times .first-column{
@@ -54,7 +50,7 @@
 }
 
 #first-line{
-    height: 600px;
+    height: 200px;
 }
 
 #red-line{
