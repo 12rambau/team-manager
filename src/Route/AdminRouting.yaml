@@ -15,21 +15,29 @@ admin-blog-index:
         page: \d+
 
 admin-blog-delete:
-    path: /{slug}/delete
+    path: /blog/{slug}/delete
     controller: App\Controller\BlogController::delete
 
 admin-blog-edit:
-    path: /{slug}/edit
+    path: /blog/{slug}/edit
     controller: App\Controller\BlogController::edit
 
 admin-blog-activate:
-    path: /{slug}/activate
+    path: /blog/{slug}/activate
     controller: App\Controller\BlogController::activate
 
 admin-blog-view:
-    path: /{slug}/view
+    path: /blog/{slug}/view
     controller: App\Controller\BlogController::adminView
 
 admin-chat-index:
     path: /chat/index
-    
+    controller: App\Controller\ChatController::Index
+    defaults:
+        page: 1
+    requirements:
+        page: \d+
+
+admin-chat-delete:
+    path: /chat/{id}/delete
+    controller: App\Controller\ChatController::delete

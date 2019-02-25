@@ -1,20 +1,35 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin.layout.html.twig' %}
 
 {% block title %}messages index{% endblock %}
 
-{% block body %}
-<div class="panel panel-default">
-	<div class="panel-heading"><h2>messages</h2></div>
-  		<div class="panel-body">
-  			<div class="row">
-	    		{% for message in messages %}
-					<div><b>{{message.id}}</b> {{message.content}}</div>
-                {% else %}
-	      		    <div>No messages (yet!)</div>
-	    		{% endfor %}
-            </div>
-        </div>
-    </div>
-</div>
+{% block content %}
+	<div class="jumbotron text-center">
+		<h1>Chat Messages</h1>
+		<p>Chat messages management systen</p>
+	</div>
 
+	<div class="container small">
+		<table class="table table-hover small">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>content</th>
+					<th>published</th>
+					<th>author</th>
+					<th>action</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for message in messages %}
+					<tr>
+						<td>{{ message.id }}<td>
+						<td>{{ message.content }}</td>
+						<td>{{ message.date|date('d/m/Y h:i:s') }}</td>
+						<td>{{ message.author.username }}</td>
+						<td><a href="{{ path('admin-chat-delete', {'id':message.id}) }}" class="btn btn-outline-danger btn-sm">delete</a></td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
 {% endblock %}

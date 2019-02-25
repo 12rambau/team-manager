@@ -12,22 +12,14 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class ChatController extends AbstractController
 {
-    public function index(): Response
+    public function Index($page): Response
     {				
         $em = $this->getDoctrine()->getEntityManager();
-        $messages = $em->getRepository(ChatMessage::class)->findAll();
+        $messages = $em->getRepository(ChatMessage::class)->findSome(($page-1)*40,40);
             
         return $this->render('chat/index.html.twig', [
             'messages' => $messages
         ]);
-    }
-
-    public function view(ChatMessage $message): Response
-    {
-        return $this->render('chat/view.html.twig', [
-            'message' => $message
-        ]);
-
     }
 
     public function add(Request $request): Response
@@ -55,30 +47,6 @@ class ChatController extends AbstractController
         ));
     }
 
-    public function edit(ChatMessage $message, Request $request)
-    {
-        $form = $this->createForm(ChatMessageType::class, $message);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid())
-        {
-            $em = $this->getDoctrine()->getEntityManager();            
-            $em->persist($message);
-            $em->flush();
-
-            $request->getSession()->getFlashBag()->add('success', 'The message : '.$message->getId().' has been modified.');
-
-            return new RedirectResponse($this->generateUrl('chat-view', [
-                'id' => $message->getId()
-            ]));
-        }
-
-        return $this->render('chat/edit.html.twig', [
-            'form' => $form->createView()
-        ]);
-
-    }
-
     public function delete(ChatMessage $message, Request $request):Response
     {
         $em = $this->getDoctrine()->getEntityManager();
@@ -87,6 +55,7 @@ class ChatController extends AbstractController
 
         $request->getSession()->getFlashBag()->add('success', 'The message : '.$message->getId().' has been removed.');
 
+        // TODO code refactoring
         return $this->redirect($_SERVER['HTTP_REFERER']);
 
     }
