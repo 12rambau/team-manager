@@ -31,7 +31,7 @@ admin-blog-view:
     controller: App\Controller\BlogController::adminView
 
 admin-chat-index:
-    path: /chat/index
+    path: /chat/index/{page}
     controller: App\Controller\ChatController::Index
     defaults:
         page: 1
@@ -41,3 +41,15 @@ admin-chat-index:
 admin-chat-delete:
     path: /chat/{id}/delete
     controller: App\Controller\ChatController::delete
+
+admin-comment-delete:
+    path: /comment/{id}/delete
+    controller: App\Controller\BlogController::commentDelete
+
+admin-comment-index:
+    path: /comment/index/{page}
+    controller: App\Controller\BlogController::commentAdmin
+    defaults:
+        page: 1
+    requirements:
+        page: \d+

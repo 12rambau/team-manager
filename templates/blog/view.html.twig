@@ -3,28 +3,51 @@
 {% block title %}{{ post.slug }}{% endblock %}
 
 {% block content %}
-<div class="jumbotron text-center">
-    <div><h1>{{ post.title }}</h1></div>
-    <div>{{ post.short }}</div>
-</div>
-<div class="container">
-    <p class="text-right"> by {{ post.author.username }}, on {{ post.publishDate|date('d/m/Y') }} </p>
-    <div class="card">
-    <div class="card-body">
-        <div class="card-text">
-            {{ post.content }}
+    <div class="jumbotron text-center">
+        <div><h1>{{ post.title }}</h1></div>
+        <div>{{ post.short }}</div>
+    </div>
+    <div class="container">
+        <p class="text-right"> by {{ post.author.username }}, on {{ post.publishDate|date('d/m/Y') }} </p>
+        <div class="card">
+            <div class="card-body">
+                <div class="card-text">
+                    {{ post.content }}
+                </div>
+            </div>
+        </div>
+
+        {% if comments %}
+            <div class="container">
+                <h3>Comments</h3>
+                <table class="table-striped">
+                    <tbody>
+                        {% for comment in comments %}
+                            <tr> 
+                                <p><a href="#">{{comment.author.username}}: </a> {{ comment.content }}</p>
+                                <p class="text-muted">{{ comment.publishDate|date('h:i:s') }}</p>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+
+        {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+            {{ form_errors(form.content) }}
+            {{form_widget(form.content, {'attr': {'class':'form-control', 'placeholder':'Your comment...'}}) }}
+            {{ form_rest(form)}}
+            <button typ="submit" name="comment-add" class="btn btn-primary btn-block">submit</button>
+        {{ form_end(form) }}
+
+        {% if post.active == false %}
+            <hr/>
+            <div class="alert alert-danger text-center"> The Post is not yet activated</div>
+        {% endif %}
+
+        <hr/>
+        <div class="container text-center">
+            <a class="btn btn-primary" href={{ path('blog-index') }}>Return to index</a>
         </div>
     </div>
-</div>
-
-{% if post.active == false %}
-    <hr/>
-    <div class="alert alert-danger text-center"> The Post is not yet activated</div>
-{% endif %}
-
-<hr/>
-<div class="container text-center">
-    <a class="btn btn-primary" href={{ path('blog-index') }}>Return to index</a>
-</div>
-
 {% endblock %}

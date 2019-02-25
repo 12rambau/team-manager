@@ -1,0 +1,42 @@
+{% extends 'admin.layout.html.twig' %}
+
+{% block title %}Blog index{% endblock %}
+
+{% block content %}
+
+<div class="jumbotron text-center">
+	<h1>Comments</h1>
+    <p> Comments management system </p>
+</div>
+
+<div class="container small">
+    <table class="table table-hover small">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>content</th>
+                <th>Published</th>
+                <th>post</th>
+                <th>Author</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for comment in comments %}
+                <tr>
+                    <td>{{ comment.id }}</td>
+                    <td>{{ comment.content }}</td>
+                    <td>{{ comment.publishDate|date('Y-m-d H:i:s
+') }}</td>
+                    <td>{{ comment.post.slug }}</td>
+                    <td>{{ comment.author.username }}</td>
+                    <td><a href="{{ path('admin-comment-delete', {'id':comment.id}) }}" class="btn btn-outline-danger btn-sm">delete</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{# TODO add pagination #}
+
+{% endblock %}

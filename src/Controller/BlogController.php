@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use App\Entity\BlogPost;
 use App\Form\BlogPostType;
+use App\Entity\Comment;
+use App\Form\CommentType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -22,11 +24,33 @@ class BlogController extends AbstractController
         ]);
     }
 
-    public function view(BlogPost $post): Response
+    public function view(BlogPost $post, Request $request): Response
     {
-        return $this->render('blog/view.html.twig', array(
-            'post' => $post
-        ));
+        $comment= new Comment();
+
+        $form= $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $comment->setAuthor($this->getUser());
+            $post->addComment($comment);
+
+            $em = $this->getDoctrine()->getEntityManager();
+            $em->persist($comment);
+            $em->persist($post);
+            $em->flush();
+
+            $request->getSession()->getFlashBag()->add('success', 'The comment : '.$post->getId().' has been aded.');
+        }
+
+        $comments= $post->getComments();
+
+        return $this->render('blog/view.html.twig', [
+            'post' => $post,
+            'comments' => $comments,
+            'form' => $form->createView()
+        ]);
 
     }
 
@@ -131,6 +155,27 @@ class BlogController extends AbstractController
             'post' => $post
         ));
 
+    }
+
+    public function commentAdmin($page): Response
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $comments = $em->getRepository(Comment::class)->findSome(($page-1)*30,30);
+
+        return $this->render('comment/adminIndex.html.twig', [
+            'comments' => $comments
+        ]);
+    }
+
+    public function commentDelete(Comment $comment, Request $request):Response
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $em->remove($comment);
+        $em->flush();
+
+        $request->getSession()->getFlashBag()->add('success', 'The comment : '.$comment->getId().' has been removed.');
+
+        return $this->redirect($_SERVER['HTTP_REFERER']);
     }
 
 }
