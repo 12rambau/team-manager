@@ -9,6 +9,7 @@ use App\Entity\User;
 use App\Entity\BlogPost;
 use App\Entity\Event;
 use App\Entity\ChatMessage;
+use App\Entity\EventTag;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
@@ -78,6 +79,19 @@ class AppFixtures extends Fixture
 
             $manager->persist($message);
         }
+
+        //default EventTag creator
+        $tag = new EventTag();
+        $tag->setName('trainning');
+        $manager->persist($tag);
+
+        $tag = new EventTag();
+        $tag->setName('Race');
+        $manager->persist($tag);
+
+        $tag = new EventTag();
+        $tag->setName('other');
+        $manager->persist($tag);
 
         $manager->flush();
     }
