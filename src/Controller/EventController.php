@@ -7,11 +7,14 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Event;
 use App\Form\EventType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 class EventController extends AbstractController
 {
 
-    public function index(): Response
+    public function index(int $page): Response
     {
         $em = $this->getDoctrine()->getEntityManager();
         $listEvents = $em->getRepository(Event::class)->findTen(($page-1)*10);
@@ -122,26 +125,35 @@ class EventController extends AbstractController
         return $this->redirect($request->headers->get('referer'));
     }
 
-    public function showCalendar($date=null) : Response
+    public function showCalendar(int $timestamp=null) : Response
     {
 
         // getting the monday corresponding to the given date
-        $targetMonday = ($date) ? new \DateTime($date) : new \DateTime();
+        $targetMonday = ($timestamp) ? new \DateTime('@'.$timestamp) : new \DateTime();
         $targetMonday->sub(new \DateInterval("P".(date('N',$targetMonday->getTimestamp())-1)."D"));
         $targetMonday->setTime(0,0,0);
         
-         return $this->render('calendar/calendar.html.twig', [ 'targetMonday'=>$targetMonday ]);
+         return $this->render('event/calendar.html.twig', [ 'targetMonday'=>$targetMonday ]);
 
     }
 
-    public function header($date=null) : Response
+    public function loadEvents(int $timestamp=null):Response
     {
         // getting the monday corresponding to the given date
-        $targetMonday = ($date) ? new \DateTime($date) : new \DateTime();
+        $targetMonday = ($timestamp) ? new \DateTime('@'.$timestamp) : new \DateTime();
         $targetMonday->sub(new \DateInterval("P".(date('N',$targetMonday->getTimestamp())-1)."D"));
         $targetMonday->setTime(0,0,0);
+        $targetSunday = new \DateTime($targetMonday->getTimestamp());
+        $targetSunday->add(new \DateInterval('P7DT23H59M59S'));
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        $events = $em->getRepository(Event::class)->findbyDateInterval($targetMonday, $targetSunday);
+
+        
 		
-		return $this->render('calendar/header.html.twig', ['targetMonday'=>$targetMonday] );
+		$response = new Response($serializer->serialize($events, 'json'));
+        
+        return $response;
     }
 
 

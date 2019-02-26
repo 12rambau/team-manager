@@ -20,50 +20,38 @@ class EventRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return events[] Returns an array of 10 blogPosts
+     * @return events[] Returns an array of 10 events
      */
     public function findTen(int $offset)
     {
-        $events = $this->createQueryBuilder('b')
-            ->orderBy('b.start', 'DESC')
+        $qb = $this->createQueryBuilder('ev');
+
+        $qb->select(array('ev'))
+            ->orderBy('ev.start', 'DESC')
             ->setFirstResult($offset)
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult();
-            
-        if ($events == null)
-            $events = [];
+            ->setMaxResults(10);
 
-        return $events;
+        return $qb->getQuery()->getResult();
 
     }
 
-    // /**
-    //  * @return Event[] Returns an array of Event objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findbyDateInterval($firstDate, $lastDate):arrayCollection
     {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('e.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Event
-    {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
+        $qb = $this->createQueryBuilder();
+
+        $qb->select(array('ev'))
+            ->from('Event', 'ev')
+            ->where($qb->expr()->between('ev.start', ':firstDate', ':lastDate'))
+            ->order('ev.start', 'ASC')
+            ->setParameters(
+                [
+                    'firstDate'=>$firstDate->format('Y-m-d H:i:s'),
+                    'lastDate'=>$lastDate->format('Y-m-d H:i:s')
+                ]
+            )
         ;
+        
+        return $qb->getQuery()->getRsult();
     }
-    */
 }

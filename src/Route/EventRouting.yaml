@@ -31,5 +31,15 @@ event-deactivate:
     controller: App\Controller\EventController::deactivate
 
 event-calendar:
-    path: /calendar
+    path: /calendar/{timestamp}
     controller: App\Controller\EventController::showCalendar
+    defaults:
+        timestamp: null
+
+event-load-events:
+    path: /calendar/load-events/{timestamp}
+    controller: App\Controller\EventController::loadEvent
+    defaults:
+        timestamp: null
+    options:
+        expose: true

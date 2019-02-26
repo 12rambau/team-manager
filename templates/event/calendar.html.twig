@@ -1,5 +1,9 @@
 {% extends 'layout.html.twig' %}
 
+{% block title %}
+	Calendrier
+{% endblock %}
+
 {% block stylesheets %}
 	{{ parent() }}
 
@@ -9,7 +13,42 @@
 {% block content %}
 	<div id="calendar-framework">
 		<div id="header_cal">
-			{{ render(controller('App\\Controller\\EventController::header')) }}
+			<div class="row">
+				<div class="col-lg-6"><h1>{{ targetMonday|date('F') }} <small>S{{ targetMonday|date('W') }}</small></h1></div>
+				<div class="col-lg-6 text-right">
+					<div class="col-lg-12">
+						<div class="btn-group">
+							<a href="{{path('event-calendar', {'timestamp': targetMonday.timestamp - 604800 }) }}" class="btn btn-default"><span class="fas fa-chevron-left"/></a>
+							<a href="{{path('event-calendar', {}) }}"  class="btn btn-default">Aujourd'hui</a>
+							<a href="{{path('event-calendar', {'timestamp': targetMonday.timestamp + 604800  }) }}"  class="btn btn-default"><span class="fas fa-chevron-right"/></a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-12">
+				<table class="table">
+					<tbody>
+						<tr>
+							<td style="width: 50px;"></td>
+							{% for iday in 0..6 %}
+								{% set day = targetMonday.timestamp + (86400 * iday) %}
+								<td>
+									<h3>
+										{{ day|date('D') }}
+										{% if day|date('d/m/Y') == "now"|date('d/m/Y') %}
+											<span  class="badge badge-danger">
+										{% else %}
+											<span>
+										{% endif %}
+										{{ day|date('j') }}
+										</span>
+									</h3>
+								</td>
+							{% endfor %}
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 		<div class="col-lg-12">
 			<table id="table-times" class="table table-hover">
@@ -23,7 +62,6 @@
 					{% for i in 1..46 %}
 						{% if i is even %}
 							<tr class="hour-line-even">
-
 								{% for j in 1..7 %}
 									<td class="column table-bordered"></td>
 								{% endfor %}
@@ -77,5 +115,6 @@
 
 	<script src="{{ asset('js/moment-locale-min.js') }}"></script>
 	<script src="{{ asset('js/calendar/updateTime.js') }}"></script>
+	<script src="{{ asset('js/calendar/updateEvents.js') }}"></script> 
 {% endblock %}
 
