@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 class EventType extends AbstractType
 {
@@ -14,11 +15,22 @@ class EventType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('start')
-            ->add('finish')
-            ->add('registerStart')
-            ->add('registerFinish')
-            ->add('info', CKEditorType::class)
+            ->add('start', DateTimeType::class,[
+                'date_widget'=>'single_text',
+                'time_widget'=>'single_text'
+                ]
+            )
+            ->add('finish', DateTimeType::class,[
+                'date_widget'=>'single_text',
+                'time_widget'=>'single_text'
+                ]
+            )
+            ->add('registerFinish', DateTimeType::class,[
+                'date_widget'=>'single_text',
+                'time_widget'=>'single_text'
+                ]
+            )
+            ->add('info')
             ->add('maxPlayers')
         ;
     }

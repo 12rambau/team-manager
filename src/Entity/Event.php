@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Cocur\Slugify\Slugify;
 
@@ -35,11 +37,6 @@ class Event
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $registerStart;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
     private $registerFinish;
 
     /**
@@ -62,6 +59,11 @@ class Event
      */
     private $slug;
 
+    /**
+    * @ORM\ManyToOne(targetEntity="App\Entity\EventTag", inversedBy="events", cascade={"persist"})
+    */
+    private $tag;
+    
     public function __construct()
     {
         $this->active = false;
@@ -111,18 +113,6 @@ class Event
     public function setFinish(\DateTimeInterface $finish): self
     {
         $this->finish = $finish;
-
-        return $this;
-    }
-
-    public function getRegisterStart(): ?\DateTimeInterface
-    {
-        return $this->registerStart;
-    }
-
-    public function setRegisterStart(?\DateTimeInterface $registerStart): self
-    {
-        $this->registerStart = $registerStart;
 
         return $this;
     }
@@ -183,6 +173,18 @@ class Event
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getTag(): ?EventTag
+    {
+        return $this->tag;
+    }
+
+    public function setTag(?EventTag $tag): self
+    {
+        $this->tag = $tag;
 
         return $this;
     }
