@@ -28,46 +28,64 @@ class AppFixtures extends Fixture
         //language configuration
         $faker = Faker\Factory::create('en_US');
 
-        //user creator
-        $user = new User();
-        $user->setLastName('root');
-        $user->setFirstName('root');
-        $user->setUserName('root');
-        $user->setPassword($this->passwordEncoder->encodePassword($user,'root'));
-        $user->setEmail('root@root.com');
+        //users creator
+        $root = new User();
+        $root->setLastName('root');
+        $root->setFirstName('root');
+        $root->setUserName('root');
+        $root->setPassword($this->passwordEncoder->encodePassword($root,'root'));
+        $root->setEmail('root@root.com');
 
-        $manager->persist($user);
-        //$manager->flush();
+        $manager->persist($root);
+
+        $nbUser = 15;
+        $users = array($nbUser);
+        for ($i=0; $i < $nbUser; $i++)
+        {
+            $users[$i] = new User();
+            $users[$i]->setLastName($faker->lastName());
+            $users[$i]->setFirstName($faker->firstName());
+            $users[$i]->setUserName($users[$i]->getfirstName().$users[$i]->getLastName());
+            $users[$i]->setPassword($this->passwordEncoder->encodePassword($users[$i],'userdemo'.$i));
+            $users[$i]->setEmail($users[$i]->getfirstName().".".$users[$i]->getLastName().'@team.com');
+
+            $manager->persist($users[$i]);
+        }
 
         //post creator
-        for ($i=0; $i < 50; $i++)
+        $nbPost = 50;
+        $posts = array($nbPost);
+        for ($i=0; $i < $nbPost; $i++)
         {
-            $post = new BlogPost();
-            $post->setTitle($faker->words(4, true));
-            $post->setShort($faker->sentence(30, true));
-            $post->setContent($faker->text(500));
-            $post->setActive(true);
-            $post->setAuthor($user);
+            $posts[$i] = new BlogPost();
+            $posts[$i]->setTitle($faker->words(4, true));
+            $posts[$i]->setShort($faker->sentence(30, true));
+            $posts[$i]->setContent($faker->text(500));
+            $posts[$i]->setActive(true);
+            $j = $faker->numberBetween(0, ($nbUser-1));
+            $posts[$i]->setAuthor($users[$j]);
 
-            $manager->persist($post);
+            $manager->persist($posts[$i]);
         }
 
         //default EventTag creator
-        $tag = new EventTag();
-        $tag->setName('trainning');
-        $manager->persist($tag);
+        $tags = array(3);
+        $tag[1] = new EventTag();
+        $tag[1]->setName('trainning');
+        $manager->persist($tag[1]);
 
-        $tag = new EventTag();
-        $tag->setName('Race');
-        $manager->persist($tag);
+        $tag[2] = new EventTag();
+        $tag[2]->setName('Race');
+        $manager->persist($tag[2]);
 
-        $tag = new EventTag();
-        $tag->setName('other');
-        $manager->persist($tag);
+        $tag[0] = new EventTag();
+        $tag[0]->setName('other');
+        $manager->persist($tag[0]);
 
         //event creator
-        $events = array(30);
-        for ($i=0; $i< 30; $i++)
+        $nbEvent = 30;
+        $events = array($nbEvent);
+        for ($i=0; $i< $nbEvent; $i++)
         {
             $events[$i] = new Event();
 
@@ -78,7 +96,8 @@ class AppFixtures extends Fixture
             $events[$i]->setInfo($faker->sentence(10, true));
             $events[$i]->setMaxPlayers(10);
             $events[$i]->setName($faker->word());
-            $events[$i]->setTag($tag);
+            $j = $faker->numberBetween(0, 2);
+            $events[$i]->setTag($tag[$j]);
             $events[$i]->setActive(true);
 
             $location = new Location();
@@ -93,18 +112,27 @@ class AppFixtures extends Fixture
         }
 
         //participation // TODO shouldn't be necessary
-        $nbEvents = count($events);
-        for ($i=0; $i < $nbEvents; $i++)
+        for ($i=0; $i < $nbEvent; $i++)
         {
+            for ($j=0; $j < $nbUser; $j++)
+            {
+                $participation = new Participation();
+                $participation->setUser($users[$j]);
+                $participation->setEvent($events[$i]);
+
+                $manager->persist($participation);
+            }
+
             $participation = new Participation();
-            $participation->setUser($user);
+            $participation->setUser($root);
             $participation->setEvent($events[$i]);
 
             $manager->persist($participation);
         }
 
         //message creator
-        for ($i = 0; $i < 50; $i++)
+        $nbMessage = 100;
+        for ($i = 0; $i < $nbMessage; $i++)
         {
             $message = new ChatMessage();
 
@@ -112,7 +140,8 @@ class AppFixtures extends Fixture
             $date->add(new \DateInterval('PT'.$i.'S'));
             $message->setDate($date);
             $message->setContent($faker->text(100));
-            $message->setAuthor($user);
+            $j = $faker->numberBetween(0, ($nbUser-1));
+            $message->setAuthor($users[$j]);
 
             $manager->persist($message);
         }

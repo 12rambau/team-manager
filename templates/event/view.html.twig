@@ -17,7 +17,7 @@
             <p>
                 <span class=""><i class="fas fa-location-arrow"></i></span>
                 {{ event.location.fullAdr }}
-                <a style="margin-left: 15px" href="#">map</a>
+                <a style="margin-left: 15px" href="#map">map</a>
             </p>
             <p>
                 <span class=""><i class="fas fa-info"></i></span>
@@ -44,6 +44,23 @@
 
             {{ form_end(form) }}    
         </div>
+    </div>
+
+    <div class="card">
+        <div class="card-title">
+            List OF all people
+        </div>
+        {# <div class="card-body">
+            {% for participation in participations %}
+                <div class="row">
+                    <small>
+                    {{ form_widget(form.value, {'attr': {'class': 'form-check-inline'}}) }}
+                    {{ form_widget(form.comment, {'attr': {'class': 'form-control col-7'}}) }}
+                    <button type="submit" name="particpation-update" class="btn btn-sucess">comment</button>
+                    </small>
+                </div>
+            {% endfor %}
+        </div> #}
     </div>
 
     <div id="map"></div>

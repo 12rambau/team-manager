@@ -102,6 +102,7 @@ class Event
     public function setName(string $name): self
     {
         $this->name = $name;
+        $this->setSlug();
 
         return $this;
     }
@@ -114,6 +115,7 @@ class Event
     public function setStart(\DateTimeInterface $start): self
     {
         $this->start = $start;
+        $this->setSlug();
 
         return $this;
     }
@@ -183,10 +185,12 @@ class Event
         return $this->slug;
     }
 
-    public function setSlug(string $slug): self
+    public function setSlug(): self
     {
-        $this->slug = $slug;
-
+        $slugify = new Slugify();
+        $date = ($this->start)?date_format($this->start, "Y-m-d"):"";
+        $this->slug = $slugify->slugify($this->name.$date);
+        
         return $this;
     }
 

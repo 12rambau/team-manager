@@ -21,6 +21,7 @@ class ParticipationType extends AbstractType
                 ],
                 'expanded' => true,
                 'multiple' => false,
+                'required' => false
             ])
         ;
     }

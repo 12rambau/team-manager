@@ -86,6 +86,7 @@ class BlogPost
     public function setTitle(string $title): self
     {
         $this->title = $title;
+        $this->setSlug();
 
         return $this;
     }
@@ -167,9 +168,10 @@ class BlogPost
         return $this->slug;
     }
 
-    public function setSlug(string $slug): self
+    public function setSlug(): self
     {
-        $this->slug = $slug;
+        $slugify = new Slugify();
+        $this->slug = $slugify->slugify($this->title);
 
         return $this;
     }
