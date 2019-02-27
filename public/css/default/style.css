@@ -2,3 +2,7 @@
     overflow-y: auto;
     height: 10em;
 }
+
+#map{
+    height: 300px;
+}

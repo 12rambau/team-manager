@@ -95,11 +95,12 @@
             </div>
             <div class="col-lg-10 row">
                 {{ form_label(form.location.lat, "lat: ", {'label_attr': {'class': 'col-lg-1 col-form-label'}}) }}
-                {{ form_widget(form.location.lat, {'attr': {'class': 'form-control col-lg-2', 'readonly': 'true'}}) }}
+                {{ form_widget(form.location.lat, {'attr': { 'class': 'form-control col-lg-2 lat', 'readonly': 'true', 'value':'40.710358'}}) }}
                 {{ form_label(form.location.lng, "lng: ", {'label_attr': {'class': 'col-lg-1 col-form-label'}}) }}
-                {{ form_widget(form.location.lng, {'attr': {'class': 'form-control col-lg-2', 'readonly': 'true'}}) }}
+                {{ form_widget(form.location.lng, {'attr': { 'class': 'form-control col-lg-2 lng', 'readonly': 'true', 'value':'-73.983748'}}) }}
             </div>
         </div>
+        <div id="map" style="heigt: 400px;"></div>
 
         <hr/>
 
@@ -156,17 +157,12 @@
 {% block javascripts %}
     {{ parent() }}
 
-    <script type="text/javascript">
-		$(function () {
-			$("[id^=datepicker]").datetimepicker({
-                format: 'L'
-            });
+    <<script type="text/javascript">
+        var lat = document.getElementById('event_location_lat').value;
+        var lng = document.getElementById('event_location_lng').value;
+    </script>
 
-            $("[id^=timepicker]").datetimepicker({
-                format: 'LT'
-            });
-		});
-
-	</script>
-    
+	 <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==" crossorigin=""></script>
+    <script src="{{ asset('js/event/datepicker.js') }}"></script>
+    <script src="{{ asset('js/event/leaferMap.js') }}"></script>
 {% endblock %}
