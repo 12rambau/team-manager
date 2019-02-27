@@ -10,6 +10,7 @@ use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Entity\EventTag;
+use App\Form\LocationType;
 
 class EventType extends AbstractType
 {
@@ -48,6 +49,7 @@ class EventType extends AbstractType
             ->add('maxPlayers', null,[
                 'required'=>false
             ])
+            ->add('location', LocationType::class)
         ;
     }
 

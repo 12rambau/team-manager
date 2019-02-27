@@ -10,6 +10,7 @@ use App\Entity\BlogPost;
 use App\Entity\Event;
 use App\Entity\ChatMessage;
 use App\Entity\EventTag;
+use App\Entity\Location;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
@@ -49,6 +50,19 @@ class AppFixtures extends Fixture
             $manager->persist($post);
         }
 
+        //default EventTag creator
+        $tag = new EventTag();
+        $tag->setName('trainning');
+        $manager->persist($tag);
+
+        $tag = new EventTag();
+        $tag->setName('Race');
+        $manager->persist($tag);
+
+        $tag = new EventTag();
+        $tag->setName('other');
+        $manager->persist($tag);
+
         //event creator
         for ($i=0; $i< 30; $i++)
         {
@@ -61,6 +75,15 @@ class AppFixtures extends Fixture
             $event->setInfo($faker->sentence(10, true));
             $event->setMaxPlayers(10);
             $event->setName($faker->word());
+            $event->setTag($tag);
+
+            $location = new Location();
+            $location->setFullAdr($faker->address());
+            $location->setLat($faker->latitude($min = -90, $max = 90));
+            $location->setLng($faker->longitude($min = -180, $max = 180));
+
+            $event->setLocation($location);
+
 
             $manager->persist($event);
 
@@ -79,19 +102,6 @@ class AppFixtures extends Fixture
 
             $manager->persist($message);
         }
-
-        //default EventTag creator
-        $tag = new EventTag();
-        $tag->setName('trainning');
-        $manager->persist($tag);
-
-        $tag = new EventTag();
-        $tag->setName('Race');
-        $manager->persist($tag);
-
-        $tag = new EventTag();
-        $tag->setName('other');
-        $manager->persist($tag);
 
         $manager->flush();
     }

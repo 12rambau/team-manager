@@ -77,6 +77,30 @@
             </div>
         </div>
 
+        <div class="form-group row">
+            {{ form_label(form.location.fullAdr, "location: ", {'label_attr': {'class': 'col-lg-2 col-form-label'}}) }}
+            <div class="col-lg-10">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-location-arrow"></i></span>
+                    </div>
+                    {{ form_widget(form.location.fullAdr, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-lg-2 col-form-label">
+                GPS: 
+            </div>
+            <div class="col-lg-10 row">
+                {{ form_label(form.location.lat, "lat: ", {'label_attr': {'class': 'col-lg-1 col-form-label'}}) }}
+                {{ form_widget(form.location.lat, {'attr': {'class': 'form-control col-lg-2', 'readonly': 'true'}}) }}
+                {{ form_label(form.location.lng, "lng: ", {'label_attr': {'class': 'col-lg-1 col-form-label'}}) }}
+                {{ form_widget(form.location.lng, {'attr': {'class': 'form-control col-lg-2', 'readonly': 'true'}}) }}
+            </div>
+        </div>
+
         <hr/>
 
         <div class="form-group row">
@@ -110,12 +134,14 @@
                         </div>
                     </div>
                 </div>
+            
                 <div class="form-group row" >
                     {{ form_label(form.maxPlayers, "Max players: ", {'label_attr': {'class': 'col-lg-2 col-form-label'}} )}}
                     <div class="col-lg-2">
                         {{ form_widget(form.maxPlayers, {'attr': {'class': 'form-control'}}) }}
                     </div>
                 </div>
+
             </div>
         </div>
 

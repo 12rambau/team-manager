@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Cocur\Slugify\Slugify;
+use App\Entity\Location;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
@@ -63,10 +64,17 @@ class Event
     * @ORM\ManyToOne(targetEntity="App\Entity\EventTag", inversedBy="events", cascade={"persist"})
     */
     private $tag;
+
+    /**
+    * @ORM\OneToOne(targetEntity="App\Entity\Location", cascade={"persist"}, orphanRemoval=true)
+    * @ORM\JoinColumn(nullable=false)
+    */
+    private $location;
     
     public function __construct()
     {
         $this->active = false;
+        $this->location = new Location();
     }
 
     public function getId(): ?int
@@ -186,6 +194,18 @@ class Event
     public function setTag(?EventTag $tag): self
     {
         $this->tag = $tag;
+
+        return $this;
+    }
+
+    public function getLocation(): Location
+    {
+        return $this->location;
+    }
+
+    public function setLocation(Location $location): self
+    {
+        $this->location = $location;
 
         return $this;
     }
