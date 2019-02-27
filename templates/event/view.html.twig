@@ -1,14 +1,66 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout.html.twig' %}
 
 {% block title %}{{ event.slug }}{% endblock %}
 
-{% block body %}
-<div> {{ event.slug }}</div>
+{% block content %}
 
-<a class="btn btn-success" href={{ path('event-activate', {'slug': event.slug}) }}>activate</a>
-<a class="btn btn-primary" href={{ path('event-deactivate', {'slug': event.slug}) }}>deactivate</a>
-<a class="btn btn-danger" href={{ path('event-delete', {'slug': event.slug}) }}>delete</a>
+    <div class="jumbotron">
+        <h2><span class="badge badge-primary">{{event.tag.name|slice(0,3)|raw}}.</span>{{ event.name }}</h2>
+    </div>
 
-{{dump()}}
+    <div class="card">
+        <div class="card-body">
+            <p>
+                <span><i class="fas fa-calendar"></i></span> 
+                {{ event.start|date('d/m/Y h:i:s') }}
+            </p>
+            <p>
+                <span class=""><i class="fas fa-location-arrow"></i></span>
+                {{ event.location.fullAdr }}
+                <a style="margin-left: 15px" href="#">map</a>
+            </p>
+            <p>
+                <span class=""><i class="fas fa-info"></i></span>
+                {{  event.info }}
+            </p>
+        </div>
+    </div>
 
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">My Participation</h2>
+
+            {{ form_start(form) }}
+                
+                {{ form_errors(form) }} 
+
+                <div class="form-group row">
+                    {{ form_widget(form.value, {'attr': {'class': 'form-check-inline'}}) }}
+                    {{ form_widget(form.comment, {'attr': {'class': 'form-control col-7'}}) }}
+                    <button type="submit" name="particpation-update" class="btn btn-sucess">comment</button>
+                </div>
+
+                {{ form_rest(form) }}
+
+            {{ form_end(form) }}    
+        </div>
+    </div>
+
+    <div id="map"></div>
+
+    {{ dump() }}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <<script type="text/javascript">
+        var lat = {{ event.location.lat }};
+        var lng = {{ event.location.lng }};
+    </script>
+
+	 <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==" crossorigin=""></script>
+    <script src="{{ asset('js/event/datepicker.js') }}"></script>
+    <script src="{{ asset('js/event/leaferMap.js') }}"></script>
 {% endblock %}

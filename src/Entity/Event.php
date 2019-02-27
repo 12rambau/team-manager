@@ -61,6 +61,11 @@ class Event
     private $slug;
 
     /**
+    * @ORM\Column(type="datetime", nullable=false)
+    */
+    private $publishDate;
+
+    /**
     * @ORM\ManyToOne(targetEntity="App\Entity\EventTag", inversedBy="events", cascade={"persist"})
     */
     private $tag;
@@ -70,11 +75,18 @@ class Event
     * @ORM\JoinColumn(nullable=false)
     */
     private $location;
+
+    /**
+    * @ORM\OneToMany(targetEntity="App\Entity\Participation", mappedBy="event", cascade={"persist"}, orphanRemoval=true)
+    */
+    private $participations;
     
     public function __construct()
     {
         $this->active = false;
         $this->location = new Location();
+        $this->publishDate = new \DateTime();
+        $this->participations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -89,10 +101,6 @@ class Event
 
     public function setName(string $name): self
     {
-        $slug = new Slugify();
-        $dateSlug = ($this->start)? date_format($this->start, 'Y-m-d'): null;
-        $this->slug = $slug->slugify($name.$dateSlug);
-
         $this->name = $name;
 
         return $this;
@@ -105,10 +113,6 @@ class Event
 
     public function setStart(\DateTimeInterface $start): self
     {
-
-        $slug = new Slugify();
-        $this->slug = $slug->slugify($this->name.date_format($start, 'Y-m-d'));
-
         $this->start = $start;
 
         return $this;
@@ -155,7 +159,7 @@ class Event
         return $this->maxPlayers;
     }
 
-    public function setMaxPlayers(int $maxPlayers): self
+    public function setMaxPlayers(?int $maxPlayers): self
     {
         $this->maxPlayers = $maxPlayers;
 
@@ -198,7 +202,7 @@ class Event
         return $this;
     }
 
-    public function getLocation(): Location
+    public function getLocation(): ?Location
     {
         return $this->location;
     }
@@ -206,6 +210,49 @@ class Event
     public function setLocation(Location $location): self
     {
         $this->location = $location;
+
+        return $this;
+    }
+
+    public function getPublishDate(): ?\DateTimeInterface
+    {
+        return $this->publishDate;
+    }
+
+    public function setPublishDate(\DateTimeInterface $publishDate): self
+    {
+        $this->publishDate = $publishDate;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Participation[]
+     */
+    public function getParticipations(): Collection
+    {
+        return $this->participations;
+    }
+
+    public function addParticipation(Participation $participation): self
+    {
+        if (!$this->participations->contains($participation)) {
+            $this->participations[] = $participation;
+            $participation->setEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParticipation(Participation $participation): self
+    {
+        if ($this->participations->contains($participation)) {
+            $this->participations->removeElement($participation);
+            // set the owning side to null (unless already changed)
+            if ($participation->getEvent() === $this) {
+                $participation->setEvent(null);
+            }
+        }
 
         return $this;
     }

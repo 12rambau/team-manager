@@ -1,5 +1,5 @@
 event-index:
-    path: /{page}
+    path: /index/{page}
     controller: App\Controller\EventController::index
     defaults:
         page: 1

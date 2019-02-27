@@ -85,8 +85,6 @@ class BlogPost
 
     public function setTitle(string $title): self
     {
-        $slug = new Slugify();
-        $this->slug = $slug->slugify($title);
         $this->title = $title;
 
         return $this;
@@ -152,12 +150,12 @@ class BlogPost
         return $this;
     }
 
-    public function getAuthor(): User
+    public function getAuthor(): ?User
     {
         return $this->author;
     }
 
-    public function setAuthor(User $author): self
+    public function setAuthor(?User $author): self
     {
         $this->author = $author;
 

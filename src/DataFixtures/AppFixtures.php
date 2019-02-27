@@ -11,6 +11,7 @@ use App\Entity\Event;
 use App\Entity\ChatMessage;
 use App\Entity\EventTag;
 use App\Entity\Location;
+use App\Entity\Participation;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
@@ -36,6 +37,7 @@ class AppFixtures extends Fixture
         $user->setEmail('root@root.com');
 
         $manager->persist($user);
+        //$manager->flush();
 
         //post creator
         for ($i=0; $i < 50; $i++)
@@ -64,29 +66,41 @@ class AppFixtures extends Fixture
         $manager->persist($tag);
 
         //event creator
+        $events = array(30);
         for ($i=0; $i< 30; $i++)
         {
-            $event = new Event();
+            $events[$i] = new Event();
 
             $date = $faker->dateTimeThisMonth($max = 'now', $timezone = null);
             $fin = new \DateTime($date->format('Y-m-d H:i:s'));
-            $event->setStart($date);
-            $event->setFinish($fin->add(new \DateInterval('PT2H')));
-            $event->setInfo($faker->sentence(10, true));
-            $event->setMaxPlayers(10);
-            $event->setName($faker->word());
-            $event->setTag($tag);
+            $events[$i]->setStart($date);
+            $events[$i]->setFinish($fin->add(new \DateInterval('PT2H')));
+            $events[$i]->setInfo($faker->sentence(10, true));
+            $events[$i]->setMaxPlayers(10);
+            $events[$i]->setName($faker->word());
+            $events[$i]->setTag($tag);
+            $events[$i]->setActive(true);
 
             $location = new Location();
             $location->setFullAdr($faker->address());
             $location->setLat($faker->latitude($min = -90, $max = 90));
             $location->setLng($faker->longitude($min = -180, $max = 180));
 
-            $event->setLocation($location);
+            $events[$i]->setLocation($location);
 
+            $manager->persist($events[$i]);
 
-            $manager->persist($event);
+        }
 
+        //participation // TODO shouldn't be necessary
+        $nbEvents = count($events);
+        for ($i=0; $i < $nbEvents; $i++)
+        {
+            $participation = new Participation();
+            $participation->setUser($user);
+            $participation->setEvent($events[$i]);
+
+            $manager->persist($participation);
         }
 
         //message creator

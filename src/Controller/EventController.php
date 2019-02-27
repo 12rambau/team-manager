@@ -11,6 +11,8 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use App\Entity\Location;
+use App\Entity\Participation;
+use App\Form\ParticipationType;
 
 class EventController extends AbstractController
 {
@@ -18,17 +20,42 @@ class EventController extends AbstractController
     public function index(int $page): Response
     {
         $em = $this->getDoctrine()->getEntityManager();
-        $listEvents = $em->getRepository(Event::class)->findTen(($page-1)*10);
+        $events = $em->getRepository(Event::class)->findTen(($page-1)*10);
 
         return $this->render('event/index.html.twig', [
-            'listEvents' => $listEvents
+            'events' => $events
         ]);
     }
 
-    public function view(Event $event): Response
+    public function view(Event $event, Request $request): Response
     {
+        $participations = $event->getParticipations();
+        $nbParticipations = count($participations);
+        for ($i=0; $i < $nbParticipations; $i++)
+        {
+            if($participations[$i]->getUser() === $this->getUser())
+            {
+                $myParticipation = $participations[$i];
+                break;
+            }
+        }
+        // TODO $particpation = $em->getRepository(Participation::class)->findByUsername($this->getUser());
+
+        $form = $this->createForm(ParticipationType::class, $myParticipation);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $em = $this->getDoctrine()->getEntityManager();
+            $em->persist($myParticipation);
+            $em->flush();
+
+            $request->getSession()->getFlashBag()->add('success', 'The participation has been updated.');
+        }
+        
         return $this->render('event/view.html.twig', [
-            'event' => $event
+            'event' => $event,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -42,6 +69,17 @@ class EventController extends AbstractController
         if ($form->isSubmitted() && $form->isValid())
         {
             $em = $this->getDoctrine()->getEntityManager();
+
+            //adding the participation of the already registered players 
+            $users = $em->getRepository(User::class)->findAll();
+            $nbUser = count($user); //optimisation purpose
+            for ($i=0; $i < $nbUser; $i++)
+            {
+                $participation = new Participation();
+                $participation->setUser($users[$i]);
+                $event->addParticipation($participation);
+            }
+
             $em->persist($event);
             $em->flush();
 

@@ -83,12 +83,12 @@ class Comment
         return $this;
     }
 
-    public function getPost(): BlogPost
+    public function getPost(): ?BlogPost
     {
         return $this->post;
     }
 
-    public function setPost(BlogPost $post): self
+    public function setPost(?BlogPost $post): self
     {
         $this->post = $post;
 
