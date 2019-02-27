@@ -45,7 +45,7 @@ class Event
     private $info;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $maxPlayers;
 
@@ -82,7 +82,8 @@ class Event
     public function setName(string $name): self
     {
         $slug = new Slugify();
-        $this->slug = $slug->slugify($name.date_format($this->start, 'Y-m-d'));
+        $dateSlug = ($this->start)? date_format($this->start, 'Y-m-d'): null;
+        $this->slug = $slug->slugify($name.$dateSlug);
 
         $this->name = $name;
 

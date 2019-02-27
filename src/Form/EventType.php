@@ -25,21 +25,29 @@ class EventType extends AbstractType
             ->add('name')
             ->add('start', DateTimeType::class,[
                 'date_widget'=>'single_text',
-                'time_widget'=>'single_text'
+                'time_widget'=>'single_text',
+                'date_format'=>'MM/dd/yyyy h:mm a'
                 ]
             )
             ->add('finish', DateTimeType::class,[
                 'date_widget'=>'single_text',
-                'time_widget'=>'single_text'
+                'time_widget'=>'single_text',
+                'date_format'=>'MM/dd/yyyy h:mm a'
                 ]
             )
             ->add('registerFinish', DateTimeType::class,[
                 'date_widget'=>'single_text',
-                'time_widget'=>'single_text'
+                'time_widget'=>'single_text',
+                'required'=>false,
+                'date_format'=>'MM/dd/yyyy h:mm a'
                 ]
             )
-            ->add('info')
-            ->add('maxPlayers')
+            ->add('info', null,[
+                'required'=>false
+            ])
+            ->add('maxPlayers', null,[
+                'required'=>false
+            ])
         ;
     }
 
