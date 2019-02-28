@@ -3,9 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Participation;
+use App\Entity\Event;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
-use App\Entity\user;
+use App\Entity\User;
 
 /**
  * @method Participation|null find($id, $lockMode = null, $lockVersion = null)
@@ -23,5 +24,30 @@ class ParticipationRepository extends ServiceEntityRepository
     public function getByUsername(User $user)
     {
         
+    }
+
+    public function findMyByEvents($events, User $user)
+    {
+        $qb = $this->createQueryBuilder('p');
+
+        $qb->select(array('p'))
+            ->from('Participation', 'p')
+            ->where('p.user.id = :userId')
+            ->andWhere(':exprEvents')
+            ->setParameter('userId', $user->getId());
+        
+        $nbEvent = count($events);
+        $qbEvent = $this->createQueryBuilder('p');
+        for ($i=0; $i < $nbEvent; $i++)
+        {
+            $qbEvent->expr()->eq('p.event.id', ':eventId')
+                    ->setParameter('eventId', $events[$i]->getId());
+        }
+
+        $qb->setParameter('exprEvents', $qbEvent)
+            ->order('p.event.start', 'ASC')
+        ;
+        
+        return $qb->getQuery()->getRsult();
     }
 }

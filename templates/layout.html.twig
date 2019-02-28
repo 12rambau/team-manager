@@ -45,11 +45,11 @@
         <div class="navbar-nav">
             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                 <div class=" nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="DropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="{{ path('profile-edit', {'username':app.user.username}) }}" id="DropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="caret">{{ app.user.username }}</span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="DropdownProfile">
-                        <a class="dropdown-item" href="#">Profile</a>
+                        <a class="dropdown-item" href="{{ path('profile-edit', {'username':app.user.username}) }}">Profile</a>
                         <hr/>
                         <a class="dropdown-item" href="{{ path('logout') }}"><span class="fas fa-off"/>logout</a>
                     </div>

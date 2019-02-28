@@ -6,25 +6,58 @@
 <div class="jumbotron">
 	<h2>Event index</h2>
 </div>
-	
+
 <div class="row">
 	{% for event in events %}
-		{% if event.active == true %}
-			<div class="card">
-				<div class="card-body">
-					<p> {{event.id }}</p>
-					{#<p><strong>by <em>{{ post.author.username }}</em>, on {{ author.publishDate|date('d/m/Y') }}</strong></p>#}
-					<p>{{event.info|slice(0,150)|raw}}</p>
-				</div>
-				<div class="card-footer">
-					<a href="{{ path('event-view', {'slug':event.slug}) }}" class="btn btn-success">view</a>
+		<div class="card col-lg-12">
+			<div class="card-header">
+				<h3 class="card-title">
+					<span class="badge badge-primary">{{event.tag.name|slice(0,3)|raw}}.</span> 
+					{{ event.name }}
+				</h3>
+			</div>
+			<div class="card-body">
+				<div class="row">
+					<div class="col-lg-2">
+						<div class="row">
+							{{  event.start|date('D')}}.
+						</div>
+						<div class="row">
+							<h2>{{ event.start|date('j') }}</h2>
+						</div>
+						<div class="row">
+							<h2>
+								XX
+								{% if event.maxPlayers %}
+									/{{ event.maxPlayers }}
+								{% endif %}
+							</h2>
+						</div>
+					</div>
+					<div class="col-lg-10">
+						<div class="row">
+							<div class="col">
+								<b>{{event.start|date('D h:i') }} - {{ event.finish|date('D h:i') }}</b>
+							</div>
+							<div class="col">
+								formulaire
+							</div>
+						</div>
+						<div class="row">
+							<span class=""><i class="fas fa-info"></i></span>
+							{{ event.info }}
+						</div>
+						<div class="row">
+							participants
+						</div>
+					</div>
 				</div>
 			</div>
-		{% endif %}
-	{% else %}
-		<div>No Events (yet!)</div>
+		</div>
 	{% endfor %}
 </div>
+
+{{ dump() }}
 
 
 {% endblock %}

@@ -18,10 +18,13 @@ use App\Form\ListParticipationType;
 class EventController extends AbstractController
 {
 
-    public function index(int $page): Response
+    public function index(int $page, Request $request): Response
     {
+        
         $em = $this->getDoctrine()->getEntityManager();
         $events = $em->getRepository(Event::class)->findTen(($page-1)*10);
+
+        //$participations = $em->getRepository(Participation::class)->findMyByEvents($events, $this->getUser());
 
         return $this->render('event/index.html.twig', [
             'events' => $events

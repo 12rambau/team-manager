@@ -1,0 +1,57 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+    <div class="jumbotron">
+        <h1>My Profile</h1>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-2">
+                    Ma Gueule
+                </div>
+                <div class="col">
+                    {{ form_start(form) }} 
+
+                        {{ form_errors(form) }} 
+
+                        <div class="form-group row">
+                            {{ form_label(form.username, 'Username: ', {'label_attr': {'class': 'col-lg-2 col-form-label'}}) }}
+                            <div class="col-lg-10">
+                                {{ form_widget(form.username, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            {{ form_label(form.firstName, 'Username: ', {'label_attr': {'class': 'col-lg-2 col-form-label'}}) }}
+                            <div class="col-lg-10">
+                                {{ form_widget(form.firstName, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            {{ form_label(form.lastName, 'Username: ', {'label_attr': {'class': 'col-lg-2 col-form-label'}}) }}
+                            <div class="col-lg-10">
+                                {{ form_widget(form.lastName, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            {{ form_label(form.email, 'Username: ', {'label_attr': {'class': 'col-lg-2 col-form-label'}}) }}
+                            <div class="col-lg-10">
+                                {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                        </div> 
+
+                        <a href="#">Change the pasword</a>
+                                                                     
+                        {{ form_rest(form) }}  
+
+                    {{ form_end(form) }}    
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ dump() }}
+{% endblock %}
