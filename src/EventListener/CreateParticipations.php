@@ -10,15 +10,9 @@ use Doctrine\ORM\EntityManager;
 
 class CreateParticipations
 {
-    private $em; // EntityManager
-
-    public function __construct(EntityManager $entityManager)
-    {
-        $this->em = $entityManager;
-    }
     public function postPersist(LifecycleEventArgs $args)
     {
-        
+        $em = $args->getEntityManager();
         $event = $args->getObject();
 
         if ($event instanceof Event) { 
@@ -31,10 +25,10 @@ class CreateParticipations
                 $participation->setUser($users[$i]);
                 $participation->setEvent($event);
                 
-                $this->em->persist($participation);
+                $em->persist($participation);
             }
 
-            $this->em->flush();
+            $em->flush();
         }
 
         return;

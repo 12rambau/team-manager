@@ -96,7 +96,7 @@ class AppFixtures extends Fixture
         $manager->persist($tag[0]);
 
         //event creator
-        $nbEvent = 50;
+        $nbEvent = 2;
         $events = array($nbEvent);
         for ($i=0; $i< $nbEvent; $i++)
         {
