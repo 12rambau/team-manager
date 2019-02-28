@@ -25,6 +25,11 @@ class Participation
     * @ORM\Column(type="boolean", nullable=true)
     */
     private $value;
+
+    /**
+    * @ORM\Column(type="datetime", nullable=true)
+    */
+    private $lastUpdate;
     
     /**
     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="participations", cascade={"persist"})
@@ -39,6 +44,7 @@ class Participation
     public function __construct()
     {
         $this->value = null;
+        $this->lastUpdate = null;
     }
 
     public function getId(): ?int
@@ -90,6 +96,18 @@ class Participation
     public function setValue(?bool $value): self
     {
         $this->value = $value;
+
+        return $this;
+    }
+
+    public function getLastUpdate(): ?\DateTimeInterface
+    {
+        return $this->lastUpdate;
+    }
+
+    public function setLastUpdate(?\DateTimeInterface $lastUpdate): self
+    {
+        $this->lastUpdate = $lastUpdate;
 
         return $this;
     }

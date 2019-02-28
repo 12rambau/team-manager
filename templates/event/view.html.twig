@@ -8,7 +8,7 @@
         <h2><span class="badge badge-primary">{{event.tag.name|slice(0,3)|raw}}.</span>{{ event.name }}</h2>
     </div>
 
-    <div class="card">
+    <div class="card row">
         <div class="card-body">
             <p>
                 <span><i class="fas fa-calendar"></i></span> 
@@ -26,46 +26,85 @@
         </div>
     </div>
 
-    <div class="card">
+    <div class="card row">
         <div class="card-body">
             <h2 class="card-title">My Participation</h2>
 
-            {{ form_start(form) }}
+            {{ form_start(myFormInOut) }}
                 
-                {{ form_errors(form) }} 
+                {{ form_errors(myFormInOut) }} 
 
                 <div class="form-group row">
-                    {{ form_widget(form.value, {'attr': {'class': 'form-check-inline'}}) }}
-                    {{ form_widget(form.comment, {'attr': {'class': 'form-control col-7'}}) }}
+                    {{ form_widget(myFormInOut.value, {'attr': {'class': 'form-check-inline'}}) }}
+                    {{ form_widget(myFormInOut.comment, {'attr': {'class': 'form-control col-7'}}) }}
                     <button type="submit" name="particpation-update" class="btn btn-sucess">comment</button>
                 </div>
 
-                {{ form_rest(form) }}
+                {{ form_rest(myFormInOut) }}
 
-            {{ form_end(form) }}    
+            {{ form_end(myFormInOut) }}    
         </div>
     </div>
 
-    <div class="card">
+    <div class="card row">
         <div class="card-title">
-            List OF all people
+            <h2>List of all people</h2>
         </div>
-        {# <div class="card-body">
-            {% for participation in participations %}
-                <div class="row">
-                    <small>
-                    {{ form_widget(form.value, {'attr': {'class': 'form-check-inline'}}) }}
-                    {{ form_widget(form.comment, {'attr': {'class': 'form-control col-7'}}) }}
-                    <button type="submit" name="particpation-update" class="btn btn-sucess">comment</button>
-                    </small>
-                </div>
-            {% endfor %}
-        </div> #}
+        <div class="card-body">
+            {{ form_start(formsInOut) }}
+
+                {{ form_errors(formsInOut) }}
+
+                <button type="submit" name="listParticpation-update" class="btn btn-block btn-success">save changes</button>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>name</th>
+                            <th>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <span class=""><i class="fas fa-thumbs-up"></i></span> 
+                                    </div>
+                                    <div class="col-6">
+                                        <span class=""><i class="fas fa-thumbs-down"></i></span>
+                                    </div>
+                                </div>
+                            </th>
+                            <th>Comment</th>
+                            <th><span class=""><i class="fas fa-clock"></i></span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for formInOut in formsInOut.participations %}
+                            <tr>
+                                <td>{{participations[loop.index0].user.username }}</td>
+                                <td>{{ form_widget(formInOut.value, {'attr': {'class': 'form-chek-inline'}}) }}</td>
+                                {% if participations[loop.index0].user == app.user %}
+                                   <td>{{ form_widget(formInOut.comment, {'attr': {'class': 'form-control'}}) }}</td> 
+                                {% else %}
+                                    <td>{{ form_widget(formInOut.comment, {'attr': {'class': 'form-control','readonly': 'true'}}) }}</td>
+                                {% endif %}
+                                <td>
+                                    {% if participations[loop.index0].lastUpdate %} 
+                                        {{participations[loop.index0].lastUpdate|date('d.m') }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                
+                {{ form_rest(formsInOut) }}
+
+            {{ form_end(formsInOut) }}
+        </div>  
     </div>
 
     <div id="map"></div>
 
     {{ dump() }}
+
 
 {% endblock %}
 

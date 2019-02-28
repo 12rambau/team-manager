@@ -7,7 +7,7 @@
 
 {% block navbar %}
 <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-primary">
-    <a class="navbar-brand" href="#">TeamManager</a>
+    <a class="navbar-brand" href="{{ path('home') }}">TeamManager</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -15,12 +15,12 @@
         <ul class="navbar-nav mr-auto">
             <li class="nav-item"><a class="nav-link" href="{{ path('home') }}">Home</a></li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="dropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" href="{{ path('blog-index') }}" id="dropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     blog
                 </a>
                  <div class="dropdown-menu" aria-labelledby="dropdownBlog">
-                    <a class="dropdown-item" href="#">Wall</a>
-                    <a class="dropdown-item" href="#">Add new post</a>
+                    <a class="dropdown-item" href="{{ path('blog-index', {'page':1}) }}">Wall</a>
+                    <a class="dropdown-item" href="{{ path('blog-add') }}">Add new post</a>
                 </div>
             </li>            
             <li class="nav-item dropdown">
@@ -28,7 +28,7 @@
                     Calendar
                 </a>
                  <div class="dropdown-menu" aria-labelledby="dropdownCalendar">
-                    <a class="dropdown-item" href="#">List</a>
+                    <a class="dropdown-item" href="{{ path('event-index') }}">List</a>
                     <a class="dropdown-item" href="#">Mensual Calendar</a>
                     <a class="dropdown-item" href="{{ path('event-add') }}">add a new event</a>
                 </div>

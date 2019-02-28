@@ -13,6 +13,7 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use App\Entity\Location;
 use App\Entity\Participation;
 use App\Form\ParticipationType;
+use App\Form\ListParticipationType;
 
 class EventController extends AbstractController
 {
@@ -41,21 +42,36 @@ class EventController extends AbstractController
         }
         // TODO $particpation = $em->getRepository(Participation::class)->findByUsername($this->getUser());
 
-        $form = $this->createForm(ParticipationType::class, $myParticipation);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid())
+        $myFormInOut = $this->createForm(ParticipationType::class, $myParticipation);
+        $formsInOut = $this->createForm(ListParticipationType::class, $event);
+ 
+        if ($request->request->has('list_participation'))
         {
-            $em = $this->getDoctrine()->getEntityManager();
-            $em->persist($myParticipation);
-            $em->flush();
-
-            $request->getSession()->getFlashBag()->add('success', 'The participation has been updated.');
+                $formsInOut->handleRequest($request);
+                if ($formsInOut->isSubmitted() && $formsInOut->isValid())
+                {
+                    $em = $this->getDoctrine()->getEntityManager();
+                    $em->persist($event);
+                    $em->flush();
+                }
+        }
+     
+        if ($request->request->has('participation') )
+        {
+                $myFormInOut->handleRequest($request);
+                if ($myFormInOut->isSubmitted() && $myFormInOut->isValid())
+                {
+                    $em = $this->getDoctrine()->getEntityManager();
+                    $em->persist($myParticipation);
+                    $em->flush();
+                }
         }
         
         return $this->render('event/view.html.twig', [
             'event' => $event,
-            'form' => $form->createView(),
+            'myFormInOut' => $myFormInOut->createView(),
+            'formsInOut' => $formsInOut->createView(),
+            'participations' => $participations
         ]);
     }
 
