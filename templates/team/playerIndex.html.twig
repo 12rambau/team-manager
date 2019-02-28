@@ -1,0 +1,32 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    player index    
+{% endblock %}
+
+{% block content %}
+    <div class="jumbotron">
+        <h1>Player index</h1>
+    </div>
+
+    {% for player in players %}
+        <div class="card">
+            <div class="card-body row">
+                <div class="col-2">
+                    <img src="{{ asset('picture/default/no-profile-pic.jpg') }}" class="img-rounded col-lg-12" alt="profile-pic">
+                </div>
+                <div class="col">
+                    <div class="row">
+                        <h3>{{ player.firstName }} {{player.LastName}}</h3>
+                        <small class="text-muted"> // {{ player.username }}</small>
+                    </div>
+                    <div class="row">
+                        email: {{player.email}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+    {{ dump() }}
+{% endblock %}

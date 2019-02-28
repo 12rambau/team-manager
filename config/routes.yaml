@@ -25,3 +25,7 @@ event:
 chat:
     resource: "Route/ChatRouting.yaml"
     prefix: /chat/
+
+team:
+    resource: "Route/TeamRouting.yaml"
+    prefix: /team/
