@@ -19,11 +19,6 @@ class AdminController extends AbstractController
         return $this->render('admin/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
 
-    public function logout()
-    {
-
-    }
-
     public function index()
     {
         return $this->render('admin/index.html.twig', [

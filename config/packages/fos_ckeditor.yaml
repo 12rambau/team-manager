@@ -4,10 +4,13 @@ twig:
     form_themes:
         - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
 
-#fos_ck_editor:
-#    configs:
-#        my_config:
-#            toolbar: [ ["Source", "-", "Save"], "/", ["Anchor"], "/", ["Maximize"] ]
-#            uiColor:                "#000000"
-#            filebrowserUploadRoute: "my_route"
-#            extraPlugins:           "wordcount"
+fos_ck_editor:
+    configs:
+        my_config:
+            toolbar: 
+                - ['Styles','Format','Font','FontSize']
+                - '/'
+                - ['Bold','Italic','Underline','StrikeThrough','-','Undo','Redo','-','Cut','Copy','Paste','Find','Replace','-','Outdent','Indent','-','Print']
+                - '/'
+                - ['NumberedList','BulletedList','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock']
+                - ['Image','Table','-','Link','Smiley','TextColor','BGColor','Source']
