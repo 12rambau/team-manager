@@ -12,6 +12,7 @@ use App\Entity\ChatMessage;
 use App\Entity\EventTag;
 use App\Entity\Location;
 use App\Entity\Participation;
+use App\Entity\Comment;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
@@ -62,10 +63,22 @@ class AppFixtures extends Fixture
             $posts[$i]->setShort($faker->sentence(30, true));
             $posts[$i]->setContent($faker->text(500));
             $posts[$i]->setActive(true);
-            $j = $faker->numberBetween(0, ($nbUser-1));
-            $posts[$i]->setAuthor($users[$j]);
+            $posts[$i]->setAuthor($users[$faker->numberBetween(0, ($nbUser-1))]);
 
             $manager->persist($posts[$i]);
+        }
+
+        //commments creator
+        $nbComment = 200;
+        $comments = array($nbComment);
+        for ($i=0; $i < $nbComment; $i++)
+        {
+            $comments[$i] = new Comment();
+            $comments[$i]->setContent($faker->text(50));
+            $comments[$i]->setAuthor($users[$faker->numberBetween(0, $nbUser-1)]);
+            $comments[$i]->setPost($posts[$faker->numberBetween(0, $nbPost-1)]);
+
+            $manager->persist($comments[$i]);
         }
 
         //default EventTag creator
@@ -96,8 +109,7 @@ class AppFixtures extends Fixture
             $events[$i]->setInfo($faker->sentence(10, true));
             $events[$i]->setMaxPlayers(10);
             $events[$i]->setName($faker->word());
-            $j = $faker->numberBetween(0, 2);
-            $events[$i]->setTag($tag[$j]);
+            $events[$i]->setTag($tag[$faker->numberBetween(0, 2)]);
             $events[$i]->setActive(true);
 
             $location = new Location();
@@ -140,8 +152,7 @@ class AppFixtures extends Fixture
             $date->add(new \DateInterval('PT'.$i.'S'));
             $message->setDate($date);
             $message->setContent($faker->text(100));
-            $j = $faker->numberBetween(0, ($nbUser-1));
-            $message->setAuthor($users[$j]);
+            $message->setAuthor($users[$faker->numberBetween(0, ($nbUser-1))]);
 
             $manager->persist($message);
         }
