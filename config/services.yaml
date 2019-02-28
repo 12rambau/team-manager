@@ -24,3 +24,8 @@ services:
     App\EventListener\UpdateTime:
         tags:
             - { name: doctrine.event_listener, event: preUpdate }
+
+    App\EventListener\CreateParticipations:
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+        arguments: [ "@doctrine.orm.entity_manager" ]

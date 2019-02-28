@@ -96,7 +96,7 @@ class AppFixtures extends Fixture
         $manager->persist($tag[0]);
 
         //event creator
-        $nbEvent = 30;
+        $nbEvent = 50;
         $events = array($nbEvent);
         for ($i=0; $i< $nbEvent; $i++)
         {
@@ -121,25 +121,6 @@ class AppFixtures extends Fixture
 
             $manager->persist($events[$i]);
 
-        }
-
-        //participation // TODO shouldn't be necessary
-        for ($i=0; $i < $nbEvent; $i++)
-        {
-            for ($j=0; $j < $nbUser; $j++)
-            {
-                $participation = new Participation();
-                $participation->setUser($users[$j]);
-                $participation->setEvent($events[$i]);
-
-                $manager->persist($participation);
-            }
-
-            $participation = new Participation();
-            $participation->setUser($root);
-            $participation->setEvent($events[$i]);
-
-            $manager->persist($participation);
         }
 
         //message creator

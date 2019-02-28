@@ -3,7 +3,6 @@
 namespace App\EventListener;
 
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
-use App\Entity\Product;
 use App\Entity\Participation;
 
 class UpdateTime

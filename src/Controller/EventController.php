@@ -86,16 +86,6 @@ class EventController extends AbstractController
         {
             $em = $this->getDoctrine()->getEntityManager();
 
-            //adding the participation of the already registered players 
-            $users = $em->getRepository(User::class)->findAll();
-            $nbUser = count($user); //optimisation purpose
-            for ($i=0; $i < $nbUser; $i++)
-            {
-                $participation = new Participation();
-                $participation->setUser($users[$i]);
-                $event->addParticipation($participation);
-            }
-
             $em->persist($event);
             $em->flush();
 
