@@ -53,6 +53,8 @@ class AppFixtures extends Fixture
             $manager->persist($users[$i]);
         }
 
+        $manager->flush();
+
         //post creator
         $nbPost = 50;
         $posts = array($nbPost);
@@ -96,7 +98,7 @@ class AppFixtures extends Fixture
         $manager->persist($tag[0]);
 
         //event creator
-        $nbEvent = 2;
+        $nbEvent = 30;
         $events = array($nbEvent);
         for ($i=0; $i< $nbEvent; $i++)
         {
