@@ -5,14 +5,16 @@
         <h1>My Profile</h1>
     </div>
 
+    {{ form_start(form) }} 
     <div class="card">
         <div class="card-body">
             <div class="row">
                 <div class="col-lg-3">
                     <img src="{{ asset('picture/default/no-profile-pic.jpg') }}" class="img-rounded col-lg-12" alt="profile-pic">
+                    {{ form_widget(form.profilePic, {'attr': {'required':false}}) }}
                 </div>
                 <div class="col">
-                    {{ form_start(form) }} 
+                    
 
                         {{ form_errors(form) }} 
 
@@ -47,11 +49,13 @@
                         <a href="#">Change the pasword</a>
 
                         {{ form_rest(form) }}  
+                        
+                        <hr>
+                        <button type="submit" name="user-edit" class="btn btn-primary btn-block">save modification</button>
 
                     {{ form_end(form) }}    
                 </div>
             </div>
         </div>
     </div>
-    {{ dump() }}
 {% endblock %}

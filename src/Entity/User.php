@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use App\Entity\BlogPost;
 use App\Entity\Comment;
+use App\Entity\Image;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -77,7 +78,11 @@ class User implements UserInterface
     */
     private $participations;
 
-
+    /**
+    * @ORM\OneToOne(targetEntity="App\Entity\Image", cascade={"persist"}, orphanRemoval=true)
+    * @ORM\JoinColumn(nullable=true)
+    */
+    private $profilePic;
 
     public function __construct()
     {
@@ -313,6 +318,18 @@ class User implements UserInterface
                 $participation->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getProfilePic(): ?Image
+    {
+        return $this->profilePic;
+    }
+
+    public function setProfilePic(?Image $profilePic): self
+    {
+        $this->profilePic = $profilePic;
 
         return $this;
     }

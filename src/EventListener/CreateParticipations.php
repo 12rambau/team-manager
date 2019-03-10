@@ -17,7 +17,7 @@ class CreateParticipations
 
         if ($event instanceof Event) { 
 
-            $users = $this->em->getRepository(User::class)->findAll();
+            $users = $em->getRepository(User::class)->findAll();
             $nbUser = count($users);
             for ($i=0; $i < $nbUser; $i++)
             {

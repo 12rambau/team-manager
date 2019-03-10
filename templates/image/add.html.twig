@@ -1,0 +1,24 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}add a new Image{% endblock %}
+
+{% block content %}
+
+	<div class="jumbotron">
+		<h2>Add a new Image</h2>
+	</div>
+	
+	{{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+		{{ form_errors(form) }}
+	
+		{{ form_label(form.imageFile, "imageFile : ", {'label_attr': {'class':'control-label'}}) }}
+		{{ form_widget(form.imageFile, {'attr': {'class': 'form-control'}}) }}
+	
+		{{ form_rest(form) }}
+		<hr>
+		<button type="submit" name="image-add" class="btn btn-primary btn-block">add new image</button>
+	
+	{{ form_end(form) }}
+
+
+{% endblock %}

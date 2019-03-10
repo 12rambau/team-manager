@@ -29,3 +29,7 @@ chat:
 team:
     resource: "Route/TeamRouting.yaml"
     prefix: /team/
+
+image:
+    resource: "Route/ImageRouting.yaml"
+    prefix: /image/

@@ -1,0 +1,23 @@
+image-index:
+    path: /index/{page}
+    controller: App\Controller\ImageController::index
+    defaults:
+        page: 1
+    requirements:
+        page: \d+
+
+image-view:
+    path: /{slug}/view
+    controller: App\Controller\ImageController::view
+
+image-add:
+    path: /add
+    controller: App\Controller\ImageController::add
+
+image-edit:
+    path: /{slug}/edit
+    controller: App\Controller\ImageController::edit
+
+image-delete:
+    path: /{slug}/delete
+    controller: App\Controller\ImageController::delete
