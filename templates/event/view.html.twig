@@ -52,16 +52,17 @@
 
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
+                <a class="nav-link active" id="drag-tab" data-toggle="tab" href="#drag" role="tab" aria-controls="drag" aria-selected="true">drag N Drop</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
+                <a class="nav-link" id="list-tab" data-toggle="tab" href="#list" role="tab" aria-controls="list" aria-selected="false">List of players</a>
             </li>
+
         </ul>
         <div class="tab-content" id="myTabContent">
             <button type="submit" name="listParticpation-update" class="btn btn-block btn-success">save changes</button>
             <hr/>
-            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">        
+            <div class="tab-pane fade" id="list" role="tabpanel" aria-labelledby="list-tab">        
 
                 {{ form_errors(formsInOut) }}
 
@@ -107,30 +108,39 @@
 
             </div>
             
-            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                <div class="alert alert-success" ondrop="drop(event)" ondragover="allowDrop(event)" role="alert">
-                    <h3 class="col-12">Of course I can come !<h3>
-                    {% for participation in participations %}
-                        {% if participation.value == 1 %}
-                           <span id="{{ participation.user.username }}-participation" draggable="true" ondragstart="drag(event)" class="badge badge-secondary">{{ participation.user.username }}</span>
-                        {% endif %}
-                    {% endfor %}
+            <div class="tab-pane fade show active" id="drag" role="tabpanel" aria-labelledby="drag-tab">
+                <div class="alert alert-success">
+                    <h3 class="col-12">Of course I can come !</h3>
+                    <div id="drag-success" ondrop="drop(event)" ondragover="allowDrop(event)">
+                        <span><i class="fas fa-thumbs-up"></i></span>
+                        {% for participation in participations %}
+                            {% if participation.value == 1 %}
+                                <span id="{{ participation.user.username }}-participation" draggable="true" ondragstart="drag(event)" class="badge badge-secondary">{{ participation.user.username }}</span>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
                 </div>
-                <div class="alert alert-danger" ondrop="drop(event)" ondragover="allowDrop(event)" role="alert">
+                <div class="alert alert-danger">
                     <h3 class="col-12">Sorry but not this time !</h3>
-                    {% for participation in participations %}
-                        {% if participation.value == 0 %}
-                           <span id="{{ participation.user.username }}-participation" draggable="true" ondragstart="drag(event)" class="badge badge-secondary">{{ participation.user.username }}</span>
-                        {% endif %}
-                    {% endfor %}
+                    <div id="drag-danger" ondrop="drop(event)" ondragover="allowDrop(event)">
+                        <span><i class="fas fa-thumbs-down"></i></span>
+                        {% for participation in participations %}
+                            {% if participation.value == 0 %}
+                                <span id="{{ participation.user.username }}-participation" draggable="true" ondragstart="drag(event)" class="badge badge-secondary">{{ participation.user.username }}</span>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
                 </div>
-                <div class="alert alert-light" ondrop="drop(event)" ondragover="allowDrop(event)" role="alert">
+                <div class="alert alert-light">
                     <h3 class="col-12">Not decided yet !</h3>
-                    {% for participation in participations %}
-                        {% if participation.value == 2 %}
-                           <span id="{{ participation.user.username }}-participation" draggable="true" ondragstart="drag(event)" class="badge badge-secondary">{{ participation.user.username }}</span>
-                        {% endif %}
-                    {% endfor %}
+                    <div id="drag-light" ondrop="drop(event)" ondragover="allowDrop(event)">
+                        <span><i class="fas fa-thumbtack"></i></span>
+                        {% for participation in participations %}
+                            {% if participation.value == 2 %}
+                            <span id="{{ participation.user.username }}-participation" draggable="true" ondragstart="drag(event)" class="badge badge-secondary">{{ participation.user.username }}</span>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
