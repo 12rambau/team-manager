@@ -134,7 +134,7 @@
                 <div class="alert alert-light">
                     <h3 class="col-12">Not decided yet !</h3>
                     <div id="drag-2" ondrop="drop(event)" ondragover="allowDrop(event)">
-                        <span><i class="fas fa-thumbtack"></i></span>
+                        <span><i class="fas fa-question-circle"></i></span>
                         {% for participation in participations %}
                             {% if participation.value == 2 %}
                             <span id="{{ loop.index0 }}-drag-element" draggable="true" ondragstart="drag(event)" class="badge badge-secondary">{{ participation.user.username }}</span>
