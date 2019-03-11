@@ -111,33 +111,33 @@
             <div class="tab-pane fade show active" id="drag" role="tabpanel" aria-labelledby="drag-tab">
                 <div class="alert alert-success">
                     <h3 class="col-12">Of course I can come !</h3>
-                    <div id="drag-success" ondrop="drop(event)" ondragover="allowDrop(event)">
+                    <div id="drag-0" ondrop="drop(event)" ondragover="allowDrop(event)">
                         <span><i class="fas fa-thumbs-up"></i></span>
                         {% for participation in participations %}
                             {% if participation.value == 1 %}
-                                <span id="{{ participation.user.username }}-participation" draggable="true" ondragstart="drag(event)" class="badge badge-secondary">{{ participation.user.username }}</span>
+                                <span id="{{ loop.index0 }}-drag-element" draggable="true" ondragstart="drag(event)" class="badge badge-secondary">{{ participation.user.username }}</span>
                             {% endif %}
                         {% endfor %}
                     </div>
                 </div>
                 <div class="alert alert-danger">
                     <h3 class="col-12">Sorry but not this time !</h3>
-                    <div id="drag-danger" ondrop="drop(event)" ondragover="allowDrop(event)">
+                    <div id="drag-1" ondrop="drop(event)" ondragover="allowDrop(event)">
                         <span><i class="fas fa-thumbs-down"></i></span>
                         {% for participation in participations %}
                             {% if participation.value == 0 %}
-                                <span id="{{ participation.user.username }}-participation" draggable="true" ondragstart="drag(event)" class="badge badge-secondary">{{ participation.user.username }}</span>
+                                <span id="{{ loop.index0 }}-drag-element" draggable="true" ondragstart="drag(event)" class="badge badge-secondary">{{ participation.user.username }}</span>
                             {% endif %}
                         {% endfor %}
                     </div>
                 </div>
                 <div class="alert alert-light">
                     <h3 class="col-12">Not decided yet !</h3>
-                    <div id="drag-light" ondrop="drop(event)" ondragover="allowDrop(event)">
+                    <div id="drag-2" ondrop="drop(event)" ondragover="allowDrop(event)">
                         <span><i class="fas fa-thumbtack"></i></span>
                         {% for participation in participations %}
                             {% if participation.value == 2 %}
-                            <span id="{{ participation.user.username }}-participation" draggable="true" ondragstart="drag(event)" class="badge badge-secondary">{{ participation.user.username }}</span>
+                            <span id="{{ loop.index0 }}-drag-element" draggable="true" ondragstart="drag(event)" class="badge badge-secondary">{{ participation.user.username }}</span>
                             {% endif %}
                         {% endfor %}
                     </div>
@@ -179,6 +179,10 @@
             ev.preventDefault();
             var data = ev.dataTransfer.getData("text");
             ev.target.appendChild(document.getElementById(data));
+
+            var participationNumber = data.replace("-drag-element", "");
+            var value = ev.target.id.replace("drag-", "");
+            document.getElementById("list_participation_participations_"+participationNumber+"_value_"+value).checked = true;
         }
     </script>
 
