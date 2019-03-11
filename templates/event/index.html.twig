@@ -11,10 +11,12 @@
 	{% for event in events %}
 		<div class="card col-lg-12">
 			<div class="card-header">
-				<h3 class="card-title">
-					<span class="badge badge-primary">{{event.tag.name|slice(0,3)|raw}}.</span> 
-					{{ event.name }}
-				</h3>
+				<a href="{{ path('event-view', {'slug':event.slug}) }}">
+					<h3 class="card-title">
+						<span class="badge badge-primary">{{event.tag.name|slice(0,3)|raw}}.</span> 
+						{{ event.name }}
+					</h3>
+				</a>
 			</div>
 			<div class="card-body">
 				<div class="row">
