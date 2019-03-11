@@ -22,7 +22,7 @@ class Participation
     private $comment;
 
     /**
-    * @ORM\Column(type="boolean", nullable=true)
+    * @ORM\Column(type="integer", nullable=true)
     */
     private $value;
 
@@ -45,6 +45,7 @@ class Participation
     {
         $this->value = null;
         $this->lastUpdate = null;
+        $this->value = 2;
     }
 
     public function getId(): ?int
@@ -88,14 +89,15 @@ class Participation
         return $this;
     }
 
-    public function getValue(): ?bool
+    public function getValue(): ?int
     {
         return $this->value;
     }
 
-    public function setValue(?bool $value): self
+    public function setValue(?int $value): self
     {
-        $this->value = $value;
+        if ($value == 1 || $value == 0)
+            $this->value = $value;
 
         return $this;
     }

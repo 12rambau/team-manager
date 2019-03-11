@@ -4,7 +4,7 @@
 
 {% block content %}
 
-    <div class="jumbotron">
+    <div class="jumbotron bg-primary-light">
         <h2><span class="badge badge-primary">{{event.tag.name|slice(0,3)|raw}}.</span>{{ event.name }}</h2>
     </div>
 
@@ -46,16 +46,24 @@
         </div>
     </div>
 
-    <div class="card row">
-        <div class="card-title">
-            <h2>List of all people</h2>
-        </div>
-        <div class="card-body">
-            {{ form_start(formsInOut) }}
+    <hr/>
+
+    {{ form_start(formsInOut) }}
+
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <button type="submit" name="listParticpation-update" class="btn btn-block btn-success">save changes</button>
+            <hr/>
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">        
 
                 {{ form_errors(formsInOut) }}
-
-                <button type="submit" name="listParticpation-update" class="btn btn-block btn-success">save changes</button>
 
                 <table class="table">
                     <thead>
@@ -81,7 +89,7 @@
                                 <td>{{participations[loop.index0].user.username }}</td>
                                 <td>{{ form_widget(formInOut.value, {'attr': {'class': 'form-chek-inline'}}) }}</td>
                                 {% if participations[loop.index0].user == app.user %}
-                                   <td>{{ form_widget(formInOut.comment, {'attr': {'class': 'form-control'}}) }}</td> 
+                                    <td>{{ form_widget(formInOut.comment, {'attr': {'class': 'form-control'}}) }}</td> 
                                 {% else %}
                                     <td>{{ form_widget(formInOut.comment, {'attr': {'class': 'form-control','readonly': 'true'}}) }}</td>
                                 {% endif %}
@@ -94,14 +102,48 @@
                         {% endfor %}
                     </tbody>
                 </table>
-                
+            
                 {{ form_rest(formsInOut) }}
 
-            {{ form_end(formsInOut) }}
-        </div>  
+            </div>
+            
+            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="alert alert-success" ondrop="drop(event)" ondragover="allowDrop(event)" role="alert">
+                    <h3 class="col-12">Of course I can come !<h3>
+                    {% for participation in participations %}
+                        {% if participation.value == 1 %}
+                           <span id="{{ participation.user.username }}-participation" draggable="true" ondragstart="drag(event)" class="badge badge-secondary">{{ participation.user.username }}</span>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="alert alert-danger" ondrop="drop(event)" ondragover="allowDrop(event)" role="alert">
+                    <h3 class="col-12">Sorry but not this time !</h3>
+                    {% for participation in participations %}
+                        {% if participation.value == 0 %}
+                           <span id="{{ participation.user.username }}-participation" draggable="true" ondragstart="drag(event)" class="badge badge-secondary">{{ participation.user.username }}</span>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="alert alert-light" ondrop="drop(event)" ondragover="allowDrop(event)" role="alert">
+                    <h3 class="col-12">Not decided yet !</h3>
+                    {% for participation in participations %}
+                        {% if participation.value == 2 %}
+                           <span id="{{ participation.user.username }}-participation" draggable="true" ondragstart="drag(event)" class="badge badge-secondary">{{ participation.user.username }}</span>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+    {{ form_end(formsInOut) }}
+
+    <div class="card row">
+        <div class="card-body">
+            <div id="map"></div>
+        </div>
     </div>
 
-    <div id="map"></div>
+    
 
 
 {% endblock %}
@@ -112,6 +154,22 @@
     <<script type="text/javascript">
         var lat = {{ event.location.lat }};
         var lng = {{ event.location.lng }};
+    </script>
+
+    <script type="text/javascript">
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("text");
+            ev.target.appendChild(document.getElementById(data));
+        }
     </script>
 
 	 <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==" crossorigin=""></script>

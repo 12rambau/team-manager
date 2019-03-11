@@ -74,7 +74,7 @@ class EventController extends AbstractController
             'event' => $event,
             'myFormInOut' => $myFormInOut->createView(),
             'formsInOut' => $formsInOut->createView(),
-            'participations' => $participations
+            'participations' => $participations,
         ]);
     }
 

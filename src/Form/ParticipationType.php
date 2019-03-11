@@ -16,12 +16,12 @@ class ParticipationType extends AbstractType
             ->add('comment')
             ->add('value', ChoiceType::class,[
                 'choices' =>[
-                    'in'=> true,
-                    'out'=>false
+                    'in'=> 1,
+                    'out'=>0, 
+                    'none'=>2
                 ],
                 'expanded' => true,
                 'multiple' => false,
-                'required' => false
             ])
         ;
     }
