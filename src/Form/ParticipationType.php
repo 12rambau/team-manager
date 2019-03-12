@@ -17,11 +17,12 @@ class ParticipationType extends AbstractType
             ->add('value', ChoiceType::class,[
                 'choices' =>[
                     'in'=> 1,
-                    'out'=>0, 
-                    'none'=>2
+                    'out'=>0,
                 ],
                 'expanded' => true,
                 'multiple' => false,
+                'required' => false,
+                'placeholder' => false
             ])
         ;
     }
