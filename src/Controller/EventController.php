@@ -25,7 +25,7 @@ class EventController extends AbstractController
         $events = $em->getRepository(Event::class)->findTen(($page-1)*10);
 
         // TODO: code enhancement
-        $participations = $em->getRepository(Participation::class)->findTenByUser($this->getUser());
+        $participations = $em->getRepository(Participation::class)->findTenByUser(($page-1)*10, $this->getUser());
         $form = $this->createForm(ListParticipationType::class, ['participations'=> $participations]);
 
         $form->handleRequest($request);

@@ -37,10 +37,8 @@ class ParticipationRepository extends ServiceEntityRepository
         
     }
 
-    public function findTenByUser( User $user)
+    public function findTenByUser(int $offset, User $user)
     {
-        $offset = 0;
-
         $qb = $this->createQueryBuilder('p');
 
         $qb->select(array('p','e'))
