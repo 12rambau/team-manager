@@ -24,10 +24,19 @@ class EventController extends AbstractController
         $em = $this->getDoctrine()->getEntityManager();
         $events = $em->getRepository(Event::class)->findTen(($page-1)*10);
 
-        //$participations = $em->getRepository(Participation::class)->findMyByEvents($events, $this->getUser());
+        // TODO: code enhancement
+        $participations = $em->getRepository(Participation::class)->findTenByUser($this->getUser());
+        $form = $this->createForm(ListParticipationType::class, ['participations'=> $participations]);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $em->flush();
+        }
 
         return $this->render('event/index.html.twig', [
-            'events' => $events
+            'events' => $events,
+            'form' => $form->createView()
         ]);
     }
 

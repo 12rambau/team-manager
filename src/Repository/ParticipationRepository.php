@@ -26,28 +26,21 @@ class ParticipationRepository extends ServiceEntityRepository
         
     }
 
-    public function findMyByEvents($events, User $user)
+    public function findTenByUser( User $user)
     {
+        $offset = 0;
+
         $qb = $this->createQueryBuilder('p');
 
-        $qb->select(array('p'))
-            ->from('Participation', 'p')
-            ->where('p.user.id = :userId')
-            ->andWhere(':exprEvents')
-            ->setParameter('userId', $user->getId());
-        
-        $nbEvent = count($events);
-        $qbEvent = $this->createQueryBuilder('p');
-        for ($i=0; $i < $nbEvent; $i++)
-        {
-            $qbEvent->expr()->eq('p.event.id', ':eventId')
-                    ->setParameter('eventId', $events[$i]->getId());
-        }
-
-        $qb->setParameter('exprEvents', $qbEvent)
-            ->order('p.event.start', 'ASC')
+        $qb->select(array('p','e'))
+            ->where('p.user = :user')
+            ->leftJoin('p.event', 'e')
+            ->setParameter('user', $user)
+            ->orderBy('e.start', 'DESC')
+            ->setFirstResult($offset)
+            ->setMaxResults(10);
         ;
         
-        return $qb->getQuery()->getRsult();
+        return $qb->getQuery()->getResult();
     }
 }
