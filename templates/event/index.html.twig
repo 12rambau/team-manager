@@ -3,76 +3,74 @@
 {% block title %}indeEvent{% endblock %}
 
 {% block content %}
-<div class="jumbotron">
-	<h2>Event index</h2>
-</div>
 
-{{ form_start(form) }}
+	<div class="jumbotron">
+		<h2>Event index</h2>
+	</div>
 
-	{{ form_errors(form) }}
+	{{ form_start(form) }}
 
-	<button type="submit" name="listParticpation-update" class="btn btn-block btn-success">save changes</button>
-	
-	<hr/>
+		{{ form_errors(form) }}
 
-	<div class="row">
-		{% for event in events %}
-			<div class="card col-lg-12">
-				<div class="card-header">
-					<a href="{{ path('event-view', {'slug':event.slug}) }}">
-						<h3 class="card-title">
-							<span class="badge badge-primary">{{event.tag.name|slice(0,3)|raw}}.</span> 
-							{{ event.name }}
-						</h3>
-					</a>
-				</div>
-				<div class="card-body">
-					<div class="row">
-						<div class="col-lg-2">
-							<div class="row">
-								{{  event.start|date('D')}}.
-							</div>
-							<div class="row">
-								<h2>{{ event.start|date('j') }}</h2>
-							</div>
-							<div class="row">
-								<h2>
-									XX
-									{% if event.maxPlayers %}
-										/{{ event.maxPlayers }}
-									{% endif %}
-								</h2>
-							</div>
-						</div>
-						<div class="col-lg-10">
-							<div class="row">
-								<div class="col">
-									<b>{{event.start|date('D h:i') }} - {{ event.finish|date('D h:i') }}</b>
+		<button type="submit" name="listParticpation-update" class="btn btn-block btn-success">save changes</button>
+		
+		<hr/>
+
+		<div class="row">
+			{% for event in events %}
+				<div class="card col-lg-12">
+					<div class="card-header">
+						<a href="{{ path('event-view', {'slug':event.slug}) }}">
+							<h3 class="card-title">
+								<span class="badge badge-primary">{{event.tag.name|slice(0,3)|raw}}.</span> 
+								{{ event.name }}
+							</h3>
+						</a>
+					</div>
+					<div class="card-body">
+						<div class="row">
+							<div class="col-lg-2">
+								<div class="row">
+									{{  event.start|date('D')}}.
 								</div>
-								<div class="col">
-									{{ form_widget(form.participations[loop.index0].value, {'attr': {'class': 'form-control'}}) }}
-									{{ form_widget(form.participations[loop.index0].comment, {'attr': {'class': 'sr-only'}}) }}
+								<div class="row">
+									<h2>{{ event.start|date('j') }}</h2>
+								</div>
+								<div class="row">
+									<h2>
+										XX
+										{% if event.maxPlayers %}
+											/{{ event.maxPlayers }}
+										{% endif %}
+									</h2>
 								</div>
 							</div>
-							<div class="row">
-								<span class=""><i class="fas fa-info"></i></span>
-								{{ event.info }}
-							</div>
-							<div class="row">
-								participants
+							<div class="col-lg-10">
+								<div class="row">
+									<div class="col">
+										<b>{{event.start|date('D h:i') }} - {{ event.finish|date('D h:i') }}</b>
+									</div>
+									<div class="col">
+										{{ form_widget(form.participations[loop.index0].value, {'attr': {'class': 'form-control'}}) }}
+										{{ form_widget(form.participations[loop.index0].comment, {'attr': {'class': 'sr-only'}}) }}
+									</div>
+								</div>
+								<div class="row">
+									<span class=""><i class="fas fa-info"></i></span>
+									{{ event.info }}
+								</div>
+								<div class="row">
+									participants
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-		{% endfor %}
-	</div>
+			{% endfor %}
+		</div>
 
-	{{ form_rest(form) }}
+		{{ form_rest(form) }}
 
-{{ form_end(form) }}
-
-{{ dump() }}
-
+	{{ form_end(form) }}
 
 {% endblock %}

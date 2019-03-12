@@ -42,41 +42,28 @@ class EventController extends AbstractController
 
     public function view(Event $event, Request $request): Response
     {
+        $em = $this->getDoctrine()->getEntityManager();
+
         $participations = $event->getParticipations();
-        $nbParticipations = count($participations);
-        for ($i=0; $i < $nbParticipations; $i++)
-        {
-            if($participations[$i]->getUser() === $this->getUser())
-            {
-                $myParticipation = $participations[$i];
-                break;
-            }
-        }
-        // TODO $particpation = $em->getRepository(Participation::class)->findByUsername($this->getUser());
+        $myParticipation = $em->getRepository(Participation::class)->FindByEventAndUsername($event, $this->getUser());
 
         $myFormInOut = $this->createForm(ParticipationType::class, $myParticipation);
-        $formsInOut = $this->createForm(ListParticipationType::class, ["participations"=>$event->getParticipations()]);
+        $formsInOut = $this->createForm(ListParticipationType::class, ['participations' => $participations]);
  
         if ($request->request->has('list_participation'))
         {
-                $formsInOut->handleRequest($request);
-                if ($formsInOut->isSubmitted() && $formsInOut->isValid())
-                {
-                    $em = $this->getDoctrine()->getEntityManager();
-                    $em->persist($event);
-                    $em->flush();
-                }
+            $formsInOut->handleRequest($request);
+
+            if ($formsInOut->isSubmitted() && $formsInOut->isValid())
+                $em->flush();
         }
      
         if ($request->request->has('participation') )
         {
-                $myFormInOut->handleRequest($request);
-                if ($myFormInOut->isSubmitted() && $myFormInOut->isValid())
-                {
-                    $em = $this->getDoctrine()->getEntityManager();
-                    $em->persist($myParticipation);
-                    $em->flush();
-                }
+            $myFormInOut->handleRequest($request);
+                
+            if ($myFormInOut->isSubmitted() && $myFormInOut->isValid())
+                $em->flush();
         }
         
         return $this->render('event/view.html.twig', [
