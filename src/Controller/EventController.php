@@ -55,7 +55,7 @@ class EventController extends AbstractController
         // TODO $particpation = $em->getRepository(Participation::class)->findByUsername($this->getUser());
 
         $myFormInOut = $this->createForm(ParticipationType::class, $myParticipation);
-        $formsInOut = $this->createForm(ListParticipationType::class, $event);
+        $formsInOut = $this->createForm(ListParticipationType::class, ["participations"=>$event->getParticipations()]);
  
         if ($request->request->has('list_participation'))
         {
