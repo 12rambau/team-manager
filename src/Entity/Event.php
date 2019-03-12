@@ -248,6 +248,18 @@ class Event
         return $this;
     }
 
+    public function getNbParticipationIn(): int
+    {
+        $nbParticipant = 0;
+        foreach ($this->participations as $participation) 
+        {
+            if($participation->getValue() == 1)
+                $nbParticipant++;
+        }
+
+        return $nbParticipant;
+    }
+
     public function removeParticipation(Participation $participation): self
     {
         if ($this->participations->contains($participation)) {
