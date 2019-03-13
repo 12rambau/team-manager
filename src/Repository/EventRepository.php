@@ -35,23 +35,22 @@ class EventRepository extends ServiceEntityRepository
 
     }
 
-    public function findbyDateInterval($firstDate, $lastDate):arrayCollection
+    public function findWeeklyEvent(\DateTime $monday):array
     {
+        $sunday = new \DateTime('@'.$monday->getTimestamp());
+        $sunday->add(new \DateInterval('P6DT23H59M59S'));
 
-        $qb = $this->createQueryBuilder();
+        $qb = $this->createQueryBuilder('ev');
 
-        $qb->select(array('ev'))
-            ->from('Event', 'ev')
-            ->where($qb->expr()->between('ev.start', ':firstDate', ':lastDate'))
-            ->order('ev.start', 'ASC')
-            ->setParameters(
-                [
-                    'firstDate'=>$firstDate->format('Y-m-d H:i:s'),
-                    'lastDate'=>$lastDate->format('Y-m-d H:i:s')
-                ]
-            )
+        $qb->select('ev')
+            ->where('ev.start < :sunday')
+            ->andWhere('ev.finish > :monday')
+            ->setParameter('monday', $monday)
+            ->setParameter('sunday', $sunday)
         ;
-        
-        return $qb->getQuery()->getRsult();
+
+        $result = $qb->getQuery()->getResult();
+
+        return ($result)? $result:[];
     }
 }

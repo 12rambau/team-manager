@@ -1,0 +1,1 @@
+{"base_url":"","routes":{"event-load-events":{"tokens":[["variable","\/","[^\/]++","timestamp",true],["text","\/event\/calendar\/load-events"]],"defaults":{"timestamp":null},"requirements":[],"hosttokens":[],"methods":[],"schemes":[]}},"prefix":"","host":"localhost","port":"","scheme":"http"}

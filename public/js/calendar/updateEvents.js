@@ -1,8 +1,9 @@
 
+// TODO : remove JSRouting superfuous
 //starting the JS Router to generate routes directly from the JS code
-const routes = require('../../public/js/fos_js_routes.json');
-import Routing from '../../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js';
-Routing.setRoutingData(routes);
+// const routes = require('../../public/js/fos_js_routes.json');
+// import Routing from '../../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js';
+// Routing.setRoutingData(routes);
 
 
 /* function calendarUpdate(events){

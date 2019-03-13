@@ -14,6 +14,7 @@ use App\Entity\Location;
 use App\Entity\Participation;
 use App\Form\ParticipationType;
 use App\Form\ListParticipationType;
+use App\Utils\CalendarBox;
 
 class EventController extends AbstractController
 {
@@ -176,8 +177,19 @@ class EventController extends AbstractController
         $targetMonday = ($timestamp) ? new \DateTime('@'.$timestamp) : new \DateTime();
         $targetMonday->sub(new \DateInterval("P".(date('N',$targetMonday->getTimestamp())-1)."D"));
         $targetMonday->setTime(0,0,0);
+
+        //getting all the event concerning this period
+        $em = $this->getDoctrine()->getEntityManager();
+        $events = $em->getRepository(Event::class)->findWeeklyEvent($targetMonday);
+
+        //separate them for each day of the week 
+        $weeklyEvents = CalendarBox::getWeeklyBoxes($targetMonday,$events);
         
-         return $this->render('event/calendar.html.twig', [ 'targetMonday'=>$targetMonday ]);
+         return $this->render('event/calendar.html.twig', [ 
+             'targetMonday'=>$targetMonday,
+             'events'=>$events, 
+             'weeklyEvents'=>$weeklyEvents
+             ]);
 
     }
 
