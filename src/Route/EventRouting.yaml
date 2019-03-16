@@ -36,10 +36,6 @@ event-calendar:
     defaults:
         timestamp: null
 
-event-load-events:
-    path: /calendar/load-events/{timestamp}
-    controller: App\Controller\EventController::loadEvent
-    defaults:
-        timestamp: null
-    options:
-        expose: true
+event-get:
+    path: /calendar/get/events
+    controller: App\Controller\EventController::getEvents

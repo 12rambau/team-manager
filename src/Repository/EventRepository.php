@@ -53,4 +53,20 @@ class EventRepository extends ServiceEntityRepository
 
         return ($result)? $result:[];
     }
+
+    public function findbyDateInterval(\DateTime $start, \DateTime $end): array
+    {
+        $qb = $this->createQueryBuilder('ev');
+
+        $qb->select('ev')
+            ->where('ev.start < :end')
+            ->andWhere('ev.finish > :start')
+            ->setParameter('start', $start)
+            ->setParameter('end', $end)
+        ;
+
+        $result = $qb->getQuery()->getResult();
+
+        return ($result)? $result:[];  
+    }
 }

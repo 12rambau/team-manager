@@ -7,6 +7,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Cocur\Slugify\Slugify;
 use App\Entity\Location;
+use Symfony\Component\Serializer\Annotation\SerializedName;
+use Symfony\Component\Serializer\Annotation\Groups;
+//use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
@@ -22,16 +25,22 @@ class Event
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @SerializedName("title")
+     * @Groups({"calendar"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="datetime")
+     * @SerializedName("start")
+     * @Groups({"calendar"})
      */
     private $start;
 
     /**
      * @ORM\Column(type="datetime")
+     * @SerializedName("end")
+     * @Groups({"calendar"})
      */
     private $finish;
 

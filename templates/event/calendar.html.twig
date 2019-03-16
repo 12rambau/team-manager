@@ -8,129 +8,29 @@
 	{{ parent() }}
 
 	<link rel="stylesheet" href="{{ asset('css/calendar/style.css') }}" type="text/css"/>
+	<link rel='stylesheet' href="{{ asset('css/fullcalendar/fullcalendar.css') }}" />
+	<link rel='stylesheet' href="{{ asset('css/fullcalendar/scheduler.css') }}"  />
+
 {% endblock %}
 
 {% block content %}
 	<div class="jumbotron">
-		<h2>Weekly calendar</h2>
+		<h2>Calendar</h2>
 	</div>
 
+	<div id="calendar"></div>
 
-	<div id="header_cal">
-		<div class="row">
-			<div class="col-lg-6"><h1>{{ targetMonday|date('F') }} <small>S{{ targetMonday|date('W') }}</small></h1></div>
-			<div class="col-lg-6 text-right">
-				<div class="col-lg-12">
-					<div class="btn-group">
-						<a href="{{path('event-calendar', {'timestamp': targetMonday.timestamp - 604800 }) }}" class="btn btn-default"><span class="fas fa-chevron-left"/></a>
-						<a href="{{path('event-calendar', {}) }}"  class="btn btn-default">Aujourd'hui</a>
-						<a href="{{path('event-calendar', {'timestamp': targetMonday.timestamp + 604800  }) }}"  class="btn btn-default"><span class="fas fa-chevron-right"/></a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-
-	<div class="col-lg-12">
-		<table class="table">
-			<tbody>
-				<tr>
-					<td style="width: 50px;"></td>
-					{% for iday in 0..6 %}
-						{% set day = targetMonday.timestamp + (86400 * iday) %}
-						<td>
-							<h3>
-								{{ day|date('D') }}
-								{% if day|date('d/m/Y') == "now"|date('d/m/Y') %}
-									<span  class="badge badge-danger">
-								{% else %}
-									<span>
-								{% endif %}
-								{{ day|date('j') }}
-								</span>
-							</h3>
-						</td>
-					{% endfor %}
-				</tr>
-			</tbody>
-		</table>
-	</div>
-	
-	<div id="calendar-framework">
-		<div class="col-lg-12">
-			<table id="table-times" class="table table-hover">
-				<tbody>
-					<tr class="hour-line-even">
-						<td class="first-column"></td>
-						{% for i in 1..7 %}
-							<td class="column table-bordered"></td>
-						{% endfor %}
-					</tr>
-					{% for i in 1..46 %}
-						{% if i is even %}
-							<tr class="hour-line-even">
-								{% for j in 1..7 %}
-									<td class="column table-bordered"></td>
-								{% endfor %}
-							</tr>
-						{% else %}
-							<tr class="hour-line-odd">
-								<td rowspan="2" class="first-column  align-middle">
-									<small><small class="hour-label text-muted">{{ (i+1)/2 }}:00</small></small>
-								</td>
-								{% for j in 1..7 %}
-									<td class="column table-bordered"></td>
-								{% endfor %}
-							</tr>
-						{% endif %}
-					{% endfor %}
-					<tr class="hour-line-odd">
-						<td class="first-column"></td>
-						{% for i in 1..7 %}
-							<td class="column table-bordered"></td>
-						{% endfor %}
-					</tr>
-				</tbody>
-			</table>
-			<table  id="event-table" class="table">
-				<!-- cette table contiendra les evenements chargés en javascript -->
-				<tbody>
-					<tr>
-						<td class="first-column"></td>
-						{% for iday in 0..6 %}
-						{% set day = targetMonday.timestamp + iday * 86400 %}
-							<td class="case" id="jour_{{ loop.index }}_{{ day }}">
-								{% for event in weeklyEvents[loop.index0] %}
-									<div
-										style=" top: {{ ((event.start)/60)|number_format(0, '.', '') }}px; height: {{ ((event.height)/60)|number_format(0) }}px;"
-										class="calendar-box">
-											{% if event.init %}<a href="{{ path('event-view', {'slug': event.event.slug}) }}"> {{ event.event.name }} </a>{% endif %}
-									</div>
-								{% endfor %}
-							</td>
-						{% endfor %}
-					</tr>
-				</tbody>
-			</table>
-			<!-- je sais plus à quoi elle sert -->
-			<table id="today-bar" class="table">
-				<tbody>
-					<tr id="first-line">
-						<td  id="red-line"></td>
-					</tr>
-					<tr></tr>
-				</tbody>
-			</table>
-		</div>
-	</div>
 {% endblock %}
 
 {% block javascripts %}
 	{{ parent() }}
 
-	{# <script src="{{ asset('js/moment-locale-min.js') }}"></script> #}
-	<script src="{{ asset('js/calendar/updateTime.js') }}"></script>
-	<script type="module" src="{{ asset('js/calendar/updateEvents.js') }}"></script> 
-{% endblock %}
+	<script >
+		var getEvents = "{{ url('event-get', {}) }}";
+	</script>
 
+	<script src="{{ asset('js/calendar/updateTime.js') }}"></script>
+	<script src="{{ asset('js/fullcalendar/fullcalendar.js') }}"></script>
+	<script src="{{ asset('js/fullcalendar/myCalendar.js') }}"></script>
+	<script src="{{ asset('js/fullcalendar/scheduler.js') }}"></script>
+{% endblock %}

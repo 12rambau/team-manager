@@ -7,9 +7,6 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Event;
 use App\Form\EventType;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use App\Entity\Location;
 use App\Entity\Participation;
 use App\Form\ParticipationType;
@@ -193,25 +190,17 @@ class EventController extends AbstractController
 
     }
 
-    public function loadEvents(int $timestamp=null):Response
+    public function getEvents(Request $request):Response
     {
-        // getting the monday corresponding to the given date
-        $targetMonday = ($timestamp) ? new \DateTime('@'.$timestamp) : new \DateTime();
-        $targetMonday->sub(new \DateInterval("P".(date('N',$targetMonday->getTimestamp())-1)."D"));
-        $targetMonday->setTime(0,0,0);
-        $targetSunday = new \DateTime($targetMonday->getTimestamp());
-        $targetSunday->add(new \DateInterval('P7DT23H59M59S'));
-        
+        $start = new \DateTime($request->query->get('start')); //change start into DateTime
+        $end = new \DateTime($request->query->get('end')); //change end into dateTime
+
         $em = $this->getDoctrine()->getEntityManager();
-        $events = $em->getRepository(Event::class)->findbyDateInterval($targetMonday, $targetSunday);
+        $events = $em->getRepository(Event::class)->findbyDateInterval($start, $end);
 
-        
-		
-		$response = new Response($serializer->serialize($events, 'json'));
-        
-        return $response;
+        $data = $this->get('serializer')->serialize($events, 'json', ['groups' => ['calendar']]);
+
+        return new Response($data);
     }
-
-
 
 }
