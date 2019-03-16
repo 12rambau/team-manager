@@ -109,7 +109,7 @@ class AppFixtures extends Fixture
             $events[$i]->setStart($date);
             $events[$i]->setFinish($fin->add(new \DateInterval('PT2H')));
             $events[$i]->setInfo($faker->sentence(10, true));
-            $events[$i]->setMaxPlayers(10);
+            if ($i%2 == 0) $events[$i]->setMaxPlayers(10);
             $events[$i]->setName($faker->word());
             $events[$i]->setTag($tag[$faker->numberBetween(0, 2)]);
             $events[$i]->setActive(true);

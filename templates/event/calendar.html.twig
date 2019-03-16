@@ -13,7 +13,6 @@
 {% block content %}
 	<div class="jumbotron">
 		<h2>Weekly calendar</h2>
-		{{ dump() }}
 	</div>
 
 
@@ -98,17 +97,16 @@
 				<!-- cette table contiendra les evenements chargés en javascript -->
 				<tbody>
 					<tr>
-						<td class="column"></td>
+						<td class="first-column"></td>
 						{% for iday in 0..6 %}
 						{% set day = targetMonday.timestamp + iday * 86400 %}
 							<td class="case" id="jour_{{ loop.index }}_{{ day }}">
 								{% for event in weeklyEvents[loop.index0] %}
-									<a
-										{% if event.init %}href="{{ path('event-view', {'slug': event.event.slug}) }}"{% endif %}
-										style=" top: {{ ((event.start)/60)|number_format(0) }}px; height: {{ ((event.height)/60)|number_format(0) }}px;"
+									<div
+										style=" top: {{ ((event.start)/60)|number_format(0, '.', '') }}px; height: {{ ((event.height)/60)|number_format(0) }}px;"
 										class="calendar-box">
-										{{ event.event.name }}
-									</a>
+											{% if event.init %}<a href="{{ path('event-view', {'slug': event.event.slug}) }}"> {{ event.event.name }} </a>{% endif %}
+									</div>
 								{% endfor %}
 							</td>
 						{% endfor %}

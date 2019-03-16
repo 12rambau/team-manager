@@ -9,7 +9,7 @@
 }
 
 #table-times .first-column{
-    width: 50px; 
+    width: 7%; 
     border-top: none; 
     padding-top: 0px;   
 }
@@ -29,13 +29,13 @@
 #event-table{
     table-layout: fixed; 
     position: absolute; 
-    top: 0; z-index: 2; 
+    top: 0; z-index: 3; 
     height:1440px; 
     overflow: hidden;
 }
 
-#event-table .column{
-    width: 50px;
+#event-table .first-column{
+    width: 7%;
 }
 
 #event-table .case{
@@ -45,7 +45,7 @@
 #today-bar{
     position: absolute; 
     top: 0; 
-    z-index: 3; 
+    z-index: 2; 
     height: 1440px;
 }
 
@@ -59,8 +59,8 @@
 
 .calendar-box{
     position: absolute;
-    left: 5px;
-    width: 45px;
+    left: 5%;
+    width: 95%;
     border-left: 2px solid red;
     background-color: rgba(255, 0, 0, 0.2);
     color: red;
