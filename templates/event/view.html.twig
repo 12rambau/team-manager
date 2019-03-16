@@ -125,7 +125,7 @@
                     <div id="drag-1" ondrop="drop(event)" ondragover="allowDrop(event)">
                         <span><i class="fas fa-thumbs-down"></i></span>
                         {% for participation in participations %}
-                            {% if participation.value == 0 %}
+                            {% if participation.value == 0  and participation.lastUpdate != null %}
                                 <span id="{{ loop.index0 }}-drag-element" draggable="true" ondragstart="drag(event)" class="badge badge-secondary">{{ participation.user.username }}</span>
                             {% endif %}
                         {% endfor %}
@@ -136,7 +136,7 @@
                     <div id="drag-2">
                         <span><i class="fas fa-question-circle"></i></span>
                         {% for participation in participations %}
-                            {% if participation.value == null %}
+                            {% if participation.lastUpdate == null %}
                             <span id="{{ loop.index0 }}-drag-element" draggable="true" ondragstart="drag(event)" class="badge badge-secondary">{{ participation.user.username }}</span>
                             {% endif %}
                         {% endfor %}
@@ -152,6 +152,7 @@
             <div id="map"></div>
         </div>
     </div>
+{{ dump() }}
 
 {% endblock %}
 
