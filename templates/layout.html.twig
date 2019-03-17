@@ -3,6 +3,8 @@
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{asset('css/default/style.css') }}" type="text/css"/>
+    <link rel='stylesheet' href="{{ asset('css/fullcalendar/fullcalendar.css') }}" />
+	<link rel='stylesheet' href="{{ asset('css/fullcalendar/scheduler.css') }}"  />
 {% endblock %}
 
 {% block navbar %}
@@ -71,6 +73,16 @@
         <div class="col-3">
             {% block aside %}
                 <div class="card">
+                    <div class="card-header">
+                        <p class="card-title"><span class="fas fa-calendar"/>Mini-Calendar</p>
+                    </div>
+                    <div class="card-body">
+                        <div id="mini-calendar"></div>
+                    </div>
+                </div>
+            {% endblock %}
+            {% block chat %}
+                <div class="card">
 	                <div class="card-header">
 		                <p class="card-title"><span class="fas fa-comment"/> Chat</p>
 	                </div>
@@ -99,16 +111,17 @@
                         </div>
                     {% endif %}
                 </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <p class="paneel-title"><span class="fas fa-calendar"/>Mini-Calendar</p>
-                    </div>
-                    <div class="card-body">
-                        I assure you there will be a calendar
-                    </div>
-                </div>
             {% endblock %}
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    
+    {{ parent() }}
+
+    <script src="{{ asset('js/calendar/updateTime.js') }}"></script>
+	<script src="{{ asset('js/fullcalendar/fullcalendar.js') }}"></script>
+    <script src="{{ asset('js/fullcalendar/scheduler.js') }}"></script>
+    <script src="{{ asset('js/fullcalendar/miniCalendar.js') }}"></script>
 {% endblock %}

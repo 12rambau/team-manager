@@ -1,15 +1,7 @@
 {% extends 'layout.html.twig' %}
 
 {% block title %}
-	Calendrier
-{% endblock %}
-
-{% block stylesheets %}
-	{{ parent() }}
-
-	<link rel='stylesheet' href="{{ asset('css/fullcalendar/fullcalendar.css') }}" />
-	<link rel='stylesheet' href="{{ asset('css/fullcalendar/scheduler.css') }}"  />
-
+	Calendar
 {% endblock %}
 
 {% block content %}
@@ -23,14 +15,5 @@
 
 {% block javascripts %}
 	{{ parent() }}
-
-	<script >
-		var getEvents = "{{ path('event-get', {}) }}";
-		var pathToView = "{{ path('event-view', {'slug': '1234'}) }}";
-	</script>
-
-	<script src="{{ asset('js/calendar/updateTime.js') }}"></script>
-	<script src="{{ asset('js/fullcalendar/fullcalendar.js') }}"></script>
 	<script src="{{ asset('js/fullcalendar/myCalendar.js') }}"></script>
-	<script src="{{ asset('js/fullcalendar/scheduler.js') }}"></script>
 {% endblock %}

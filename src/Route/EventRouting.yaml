@@ -9,6 +9,8 @@ event-index:
 event-view:
     path: /{slug}/view
     controller: App\Controller\EventController::view
+    options:
+        expose: true
 
 event-add:
     path: /add
@@ -39,3 +41,5 @@ event-calendar:
 event-get:
     path: /calendar/get/events
     controller: App\Controller\EventController::getEvents
+    options:
+        expose: true
