@@ -15,12 +15,18 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 class BlogController extends AbstractController
 {
     public function index($page): Response
-    {				
+    {	
+        $nbPostPerPage = 12;			
         $em = $this->getDoctrine()->getEntityManager();
-        $posts = $em->getRepository(BlogPost::class)->findSome(($page-1)*10, 10);
+        $posts = $em->getRepository(BlogPost::class)->findSome(($page-1)*$nbPostPerPage, $nbPostPerPage);
+        $nbPost = $em->getRepository(BlogPost::class)->countAll();
             
         return $this->render('blog/index.html.twig', [
-            'posts' => $posts
+            'posts' => $posts,
+            'page' => $page,
+            'nbPost' => $nbPost,
+            'nbPostPerPage' => $nbPostPerPage,
+            'maxPage' => ceil($nbPost/$nbPostPerPage)
         ]);
     }
 

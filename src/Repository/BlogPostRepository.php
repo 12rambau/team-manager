@@ -36,4 +36,18 @@ class BlogPostRepository extends ServiceEntityRepository
         return $posts;
 
     }
+
+    /**
+     * @return int the number of posts in the db
+     */
+    public function countAll()
+    {
+        $qb = $this->createQueryBuilder('b');
+
+        $qb->select('COUNT(b)');
+
+        $result = $qb->getQuery()->getSingleScalarResult();
+
+        return ($result)?$result:0;
+    }
 }

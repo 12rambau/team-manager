@@ -4,11 +4,10 @@
 
 {% block content %}
 
-<div class="jumbotron text-center">
-	<h1>Blog Posts</h1>
-</div>
+	<div class="jumbotron text-center">
+		<h1>Blog Posts</h1>
+	</div>
 
-<div class="container">
 	<div class="row flex">
 		{% for post in posts %}
 			<div class="col-4">
@@ -37,6 +36,19 @@
 		</div>
 		{% endfor %}
 	</div>
-</div>
+	
+	<hr/>
 
+	<div class=" row">
+		<nav class="col-lg-6">
+			<ul class="pagination">
+				<li class="page-item {% if page == 1 %}disabled{% endif %}"><a class="page-link" href="{{ path('blog-index', {'page': page-1}) }}">Previous</a></li>
+				{% for i in max(page-3,1)..min(page+3,maxPage) %}
+					<li class="page-item {% if i == page %}active{% endif %}"><a class="page-link" href="{{ path('blog-index', {'page': i}) }}">{{ i }}</a></li>
+				{% endfor %}
+				<li class="page-item {% if page == maxPage %}disabled{% endif %}"><a class="page-link" href="{{ path('blog-index', {'page': page+1}) }}">Next</a></li>
+			</lu>
+		</nav>
+		<div class="col-lg-6">Result {{ (page-1) * nbPostPerPage }} - {{ min(page * nbPostPerPage,nbPost) }} from {{ nbPost }} blogPost</div>
+	</div>
 {% endblock %}

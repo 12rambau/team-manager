@@ -39,7 +39,7 @@ class AppFixtures extends Fixture
 
         $manager->persist($root);
 
-        $nbUser = 15;
+        $nbUser = 50;
         $users = array($nbUser);
         for ($i=0; $i < $nbUser; $i++)
         {
@@ -56,7 +56,7 @@ class AppFixtures extends Fixture
         $manager->flush();
 
         //post creator
-        $nbPost = 50;
+        $nbPost = 70;
         $posts = array($nbPost);
         for ($i=0; $i < $nbPost; $i++)
         {
@@ -71,7 +71,7 @@ class AppFixtures extends Fixture
         }
 
         //commments creator
-        $nbComment = 200;
+        $nbComment = 600;
         $comments = array($nbComment);
         for ($i=0; $i < $nbComment; $i++)
         {
@@ -98,7 +98,7 @@ class AppFixtures extends Fixture
         $manager->persist($tag[0]);
 
         //event creator
-        $nbEvent = 30;
+        $nbEvent = 100;
         $events = array($nbEvent);
         for ($i=0; $i< $nbEvent; $i++)
         {
