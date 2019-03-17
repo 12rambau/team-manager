@@ -18,9 +18,11 @@ class EventController extends AbstractController
 
     public function index(int $page, Request $request): Response
     {
+        $nbEventPerPage = 10;
         
         $em = $this->getDoctrine()->getEntityManager();
-        $events = $em->getRepository(Event::class)->findTen(($page-1)*10);
+        $events = $em->getRepository(Event::class)->findTenByUser(($page-1)*$nbEventPerPage, $nbEventPerPage, $this->getUser());
+        $nbEvent = $em->getRepository(Event::class)->countUserEvent($this->getuser());
 
         // TODO: code enhancement
         $participations = $em->getRepository(Participation::class)->findTenByUser(($page-1)*10, $this->getUser());
@@ -35,7 +37,11 @@ class EventController extends AbstractController
         return $this->render('event/index.html.twig', [
             'events' => $events,
             'form' => $form->createView(),
-            'participations' => $participations
+            'participations' => $participations,
+            'nbEvent' => $nbEvent,
+            'page' => $page,
+            'nbEventPerPage' => $nbEventPerPage,
+            'maxPage' => ceil($nbEvent/$nbEventPerPage)
         ]);
     }
 

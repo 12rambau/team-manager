@@ -130,6 +130,21 @@
 
 	{{ form_end(form) }}
 
+	<hr/>
+
+	<div class=" row">
+		<nav class="col-lg-6">
+			<ul class="pagination">
+				<li class="page-item {% if page == 1 %}disabled{% endif %}"><a class="page-link" href="{{ path('event-index', {'page': page-1}) }}">Previous</a></li>
+				{% for i in max(page-3,1)..min(page+3,maxPage) %}
+					<li class="page-item {% if i == page %}active{% endif %}"><a class="page-link" href="{{ path('event-index', {'page': i}) }}">{{ i }}</a></li>
+				{% endfor %}
+				<li class="page-item {% if page == maxPage %}disabled{% endif %}"><a class="page-link" href="{{ path('event-index', {'page': page+1}) }}">Next</a></li>
+			</lu>
+		</nav>
+		<div class="col-lg-6">Result {{ (page-1) * nbEventPerPage }} - {{ min(page * nbEventPerPage,nbEvent) }} from {{ nbEvent }} Events</div>
+	</div>
+
 {% endblock %}
 
 {% block aside %}

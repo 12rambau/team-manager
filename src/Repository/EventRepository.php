@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Event;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -22,14 +23,33 @@ class EventRepository extends ServiceEntityRepository
     /**
      * @return events[] Returns an array of 10 events
      */
-    public function findTen(int $offset)
+    public function findTen(int $offset, int $nbEvent)
     {
         $qb = $this->createQueryBuilder('ev');
 
         $qb->select(array('ev'))
             ->orderBy('ev.start', 'DESC')
             ->setFirstResult($offset)
-            ->setMaxResults(10);
+            ->setMaxResults($nbEvent);
+
+        return $qb->getQuery()->getResult();
+
+    }
+
+    /**
+     * @return events[] Returns an array of  nbEvent events if the User
+     */
+    public function findTenByUser(int $offset, int $nbEvent, User $user)
+    {
+        $qb = $this->createQueryBuilder('ev');
+
+        $qb->select('ev')
+            ->join('ev.participations', 'p')
+            ->where('p.user = :user')
+            ->setParameter('user', $user)
+            ->orderBy('ev.start', 'DESC')
+            ->setFirstResult($offset)
+            ->setMaxResults($nbEvent);
 
         return $qb->getQuery()->getResult();
 
@@ -68,5 +88,23 @@ class EventRepository extends ServiceEntityRepository
         $result = $qb->getQuery()->getResult();
 
         return ($result)? $result:[];  
+    }
+
+    /**
+     * @return int the number of events in the dataBase with this user
+     */
+    public function countUserEvent(User $user)
+    {
+        $qb = $this->createQueryBuilder('ev');
+
+        $qb->select('COUNT(ev)')
+            ->leftJoin('ev.participations', 'p')
+            ->where('p.user = :user')
+            ->setParameter('user', $user);
+
+        $result = $qb->getQuery()->getSingleScalarResult();
+
+        return ($result)?$result:0;
+
     }
 }
