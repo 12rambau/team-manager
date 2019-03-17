@@ -85,8 +85,39 @@
 									<span class=""><i class="fas fa-info"></i></span>
 									{{ event.info }}
 								</div>
+								<ul class="nav nav-tabs row" id="tab" role="tablist">
+									<li class="nav-item">
+										<a class="nav-link active" id="in-tab" data-toggle="tab" href="#in-{{loop.index0 }}" role="tab" aria-controls="in" aria-selected="true">
+											<span class=""><i class="fas fa-thumbs-up"></i></span> In {{ event.nbParticipationIn }}
+										</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" id="out-tab" data-toggle="tab" href="#out-{{ loop.index0 }}" role="tab" aria-controls="out" aria-selected="false">
+											<span class=""><i class="fas fa-thumbs-down"></i></span> Out {{ event.nbParticipationOut }}
+										</a>
+									</li>
+								</ul>
 								<div class="row">
-									participants
+									<div class="tab-content" id="tabContent">
+										<div class="tab-pane fade show active" id="in-{{ loop.index0 }}" role="tabpanel" aria-labelledby="in-tab">
+											<div>
+												{% for participation in event.participations %}
+													{% if participation.value == 1 %}
+														<span class="badge badge-secondary">{{ participation.user.username }}</span>
+													{% endif %}
+												{% endfor %}
+											</div>
+										</div>
+										<div class="tab-pane fade" id="out-{{ loop.index0 }}" role="tabpanel" aria-labelledby="out-tab">
+											<div>
+												{% for participation in event.participations %}
+													{% if participation.value == 0  and participation.lastUpdate != null %}
+														<span class="badge badge-secondary">{{ participation.user.username }}</span>
+													{% endif %}
+												{% endfor %}
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>

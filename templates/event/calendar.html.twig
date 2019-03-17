@@ -13,6 +13,17 @@
 
 {% endblock %}
 
+{% block aside %}
+	<div class="card">
+		<div class="card-header">
+			<p class="card-title"><span class="fas fa-info"/> Calendar legend</p>
+		</div>
+		<div class="card-body">
+			list of tags
+		</div>
+	</div>
+{% endblock %}
+
 {% block javascripts %}
 	{{ parent() }}
 	<script src="{{ asset('js/fullcalendar/myCalendar.js') }}"></script>

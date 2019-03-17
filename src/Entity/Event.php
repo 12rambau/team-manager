@@ -264,7 +264,19 @@ class Event
         $nbParticipant = 0;
         foreach ($this->participations as $participation) 
         {
-            if($participation->getValue() == 1)
+            if($participation->getValue() == true)
+                $nbParticipant++;
+        }
+
+        return $nbParticipant;
+    }
+
+    public function getNbParticipationOut(): int
+    {
+        $nbParticipant = 0;
+        foreach ($this->participations as $participation) 
+        {
+            if($participation->getValue() == false && $participation->getLastUpdate() != null)
                 $nbParticipant++;
         }
 
