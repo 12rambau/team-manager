@@ -35,9 +35,35 @@
                 {{ form_errors(myFormInOut) }} 
 
                 <div class="form-group row">
-                    {{ form_widget(myFormInOut.value, {'attr': {'class': 'form-check-inline'}}) }}
+                    <div 
+                        id="button_participation_value_0" 
+                        class="btn 
+                        {% if myParticipation.value == 0 %}
+                            btn-outline-success
+                        {% else %}
+                            btn-success
+                        {% endif %}"
+                        onclick="changeCheckValue(this)"
+                    >
+                        <span class=""><i class="fas fa-thumbs-up"></i></span>
+                        In
+                    </div>
+                    <div 
+                        id="button_participation_value_1" 
+                        class="btn 
+                        {% if myParticipation.value == 0 and myParticipation.lastUpdate != null %}
+                            btn-danger
+                        {% else %}
+                            btn-outline-danger
+                        {% endif %}"
+                        onclick="changeCheckValue(this)"
+                    >
+                        <span class=""><i class="fas fa-thumbs-down"></i></span>
+                        Out
+                    </div>
+                    {{ form_widget(myFormInOut.value, {'attr': {'class': 'form-check-inline sr-only'}}) }}
                     {{ form_widget(myFormInOut.comment, {'attr': {'class': 'form-control col-7'}}) }}
-                    <button type="submit" name="particpation-update" class="btn btn-sucess">comment</button>
+                    <button type="submit" name="particpation-update" class="btn btn-secondary">comment</button>
                 </div>
 
                 {{ form_rest(myFormInOut) }}
@@ -159,7 +185,7 @@
 {% block javascripts %}
     {{ parent() }}
 
-    <<script type="text/javascript">
+    <script type="text/javascript">
         var lat = {{ event.location.lat }};
         var lng = {{ event.location.lng }};
     </script>
@@ -181,6 +207,19 @@
             var participationNumber = data.replace("-drag-element", "");
             var value = ev.target.id.replace("drag-", "");
             document.getElementById("list_participation_participations_"+participationNumber+"_value_"+value).checked = true;
+        }
+    </script>
+
+    <script type="text/javascript">
+
+        function changeCheckValue(item) {
+            var value = (item.id.replace("button_participation_value_","") == "1");
+            item.className = item.className.replace("btn-outline","btn");
+            noItem = document.getElementById(item.id.slice(0,-1) + (!value | 0)  );
+            if (noItem.className.search('outline') == -1) 
+                noItem.className = noItem.className.replace("btn-", "btn-outline-");
+            var input = document.getElementById(item.id.replace("button_",""));
+            input.checked = true;
         }
     </script>
 
