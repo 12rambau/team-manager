@@ -1,6 +1,6 @@
 {% extends 'layout.html.twig' %}
 
-{% block title %}indeEvent{% endblock %}
+{% block title %}Event index{% endblock %}
 
 {% block content %}
 
@@ -99,6 +99,18 @@
 
 	{{ form_end(form) }}
 
+{% endblock %}
+
+{% block aside %}
+	<div class="card">
+		<div class="card-header">
+			<p class="card-title"><span class="fas fa-filter"/>Filter events</p>
+		</div>
+		<div class="card-body">
+			plein de filtres
+		</div>
+	</div>
+	
 {% endblock %}
 
 {% block javascripts %}

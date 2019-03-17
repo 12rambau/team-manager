@@ -23,6 +23,9 @@
                 <span class=""><i class="fas fa-info"></i></span>
                 {{  event.info }}
             </p>
+            <p>
+                <a href="#">prepare the match plan</a>
+            </p>
         </div>
     </div>        
     
@@ -196,8 +199,20 @@
             <div id="map"></div>
         </div>
     </div>
-{{ dump() }}
 
+{% endblock %}
+
+{% block aside %}
+	<div class="card">
+		<div class="card-header">
+			<p class="card-title"><span class="fas fa-filter"/>Other events</p>
+		</div>
+		<div class="card-body">
+			5 closest events of the current event
+            <a href="{{ path('event-index', {}) }}">All other events</a>
+		</div>
+	</div>
+	
 {% endblock %}
 
 {% block javascripts %}

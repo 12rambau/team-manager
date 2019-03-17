@@ -34,6 +34,18 @@
             </div>
         </div>
     {% endfor %}
+{% endblock %}
 
-    {{ dump() }}
+{% block aside %}
+    {% block aside %}
+	<div class="card">
+		<div class="card-header">
+			<p class="card-title"><span class="fas fa-filter"/>Filter members</p>
+		</div>
+		<div class="card-body">
+			plein de filtres
+		</div>
+	</div>
+	
+{% endblock %}
 {% endblock %}
