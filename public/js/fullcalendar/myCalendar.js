@@ -17,6 +17,11 @@ $(function() {
         nowIndicator: true,
         navLinks: true,
 
-        events: getEvents
+        events: getEvents,
+
+        eventClick: function(event, jsevent, view){
+            window.open(pathToView.replace('1234', event.url));
+            return false;
+        }
     });
 });

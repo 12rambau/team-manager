@@ -7,7 +7,6 @@
 {% block stylesheets %}
 	{{ parent() }}
 
-	<link rel="stylesheet" href="{{ asset('css/calendar/style.css') }}" type="text/css"/>
 	<link rel='stylesheet' href="{{ asset('css/fullcalendar/fullcalendar.css') }}" />
 	<link rel='stylesheet' href="{{ asset('css/fullcalendar/scheduler.css') }}"  />
 
@@ -26,7 +25,8 @@
 	{{ parent() }}
 
 	<script >
-		var getEvents = "{{ url('event-get', {}) }}";
+		var getEvents = "{{ path('event-get', {}) }}";
+		var pathToView = "{{ path('event-view', {'slug': '1234'}) }}";
 	</script>
 
 	<script src="{{ asset('js/calendar/updateTime.js') }}"></script>

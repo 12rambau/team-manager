@@ -66,6 +66,8 @@ class Event
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @SerializedName("url")
+     * @Groups({"calendar"})
      */
     private $slug;
 
