@@ -51,7 +51,33 @@
 										<b>{{event.start|date('D h:i') }} - {{ event.finish|date('D h:i') }}</b>
 									</div>
 									<div class="col">
-										{{ form_widget(form.participations[loop.index0].value, {'attr': {'class': 'form-control'}}) }}
+										<div 
+                        					id="button_list_participation_participations_{{ loop.index0 }}_value_0" 
+                        					class="btn 
+                        						{% if participations[loop.index0].value == 0 %}
+                            						btn-outline-success
+                        						{% else %}
+                            						btn-success
+                        						{% endif %}"
+                        					onclick="changeCheckValue(this)"
+                    					>
+                        					<span class=""><i class="fas fa-thumbs-up"></i></span>
+                        					In
+                    					</div>
+										<div 
+											id="button_list_participation_participations_{{ loop.index0 }}_value_1" 
+											class="btn 
+												{% if participations[loop.index0].value == 0 and participations[loop.index0].lastUpdate != null %}
+													btn-danger
+												{% else %}
+													btn-outline-danger
+												{% endif %}"
+											onclick="changeCheckValue(this)"
+										>
+											<span class=""><i class="fas fa-thumbs-down"></i></span>
+											Out
+										</div>
+										{{ form_widget(form.participations[loop.index0].value, {'attr': {'class': 'form-control sr-only'}}) }}
 										{{ form_widget(form.participations[loop.index0].comment, {'attr': {'class': 'sr-only'}}) }}
 									</div>
 								</div>
@@ -73,4 +99,12 @@
 
 	{{ form_end(form) }}
 
+{% endblock %}
+
+{% block javascripts %}
+
+	{{ parent() }}
+
+	<script src="{{ asset('js/event/changeCheck.js') }}"></script>
+	
 {% endblock %}

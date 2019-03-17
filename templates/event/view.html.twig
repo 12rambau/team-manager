@@ -96,16 +96,7 @@
                     <thead>
                         <tr>
                             <th>name</th>
-                            <th>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <span class=""><i class="fas fa-thumbs-up"></i></span> 
-                                    </div>
-                                    <div class="col-6">
-                                        <span class=""><i class="fas fa-thumbs-down"></i></span>
-                                    </div>
-                                </div>
-                            </th>
+                            <th>In/Out</th>
                             <th>Comment</th>
                             <th><span class=""><i class="fas fa-clock"></i></span></th>
                         </tr>
@@ -114,7 +105,34 @@
                         {% for formInOut in formsInOut.participations %}
                             <tr>
                                 <td>{{participations[loop.index0].user.username }}</td>
-                                <td>{{ form_widget(formInOut.value, {'attr': {'class': 'form-chek-inline'}}) }}</td>
+                                <td>
+                                    <div 
+                                        id="button_list_participation_participations_{{ loop.index0 }}_value_0" 
+                                        class="btn 
+                                            {% if participations[loop.index0].value == 0 %}
+                                                btn-outline-success
+                                            {% else %}
+                                                btn-success
+                                            {% endif %}"
+                                        onclick="changeCheckValue(this)"
+                                    >
+                                        <span class=""><i class="fas fa-thumbs-up"></i></span>
+                                    </div>
+                                    <div 
+                                        id="button_list_participation_participations_{{ loop.index0 }}_value_1" 
+                                        class="btn 
+                                            {% if participations[loop.index0].value == 0 and participations[loop.index0].lastUpdate != null %}
+                                                btn-danger
+                                            {% else %}
+                                                btn-outline-danger
+                                            {% endif %}"
+                                        onclick="changeCheckValue(this)"
+                                    >
+                                        <span class=""><i class="fas fa-thumbs-down"></i></span>
+                                    </div>
+                                    {{ form_widget(formInOut.value, {'attr': {'class': 'form-chek-inline sr-only'}}) }}
+                                    
+                                </td>
                                 {% if participations[loop.index0].user == app.user %}
                                     <td>{{ form_widget(formInOut.comment, {'attr': {'class': 'form-control'}}) }}</td> 
                                 {% else %}
@@ -210,20 +228,7 @@
         }
     </script>
 
-    <script type="text/javascript">
-
-        function changeCheckValue(item) {
-            var value = (item.id.replace("button_participation_value_","") == "1");
-            item.className = item.className.replace("btn-outline","btn");
-            noItem = document.getElementById(item.id.slice(0,-1) + (!value | 0)  );
-            if (noItem.className.search('outline') == -1) 
-                noItem.className = noItem.className.replace("btn-", "btn-outline-");
-            var input = document.getElementById(item.id.replace("button_",""));
-            input.checked = true;
-        }
-    </script>
-
-	 <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==" crossorigin=""></script>
-    <script src="{{ asset('js/event/datepicker.js') }}"></script>
+    <script src="{{ asset('js/event/changeCheck.js') }}"></script>
+	<script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==" crossorigin=""></script>
     <script src="{{ asset('js/event/leaferMap.js') }}"></script>
 {% endblock %}
