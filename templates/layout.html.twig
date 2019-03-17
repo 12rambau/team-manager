@@ -14,13 +14,23 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item"><a class="nav-link" href="{{ path('home') }}">Home</a></li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="dropdownCalendar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Teams
+                </a>
+                 <div class="dropdown-menu" aria-labelledby="dropdownCalendar">
+                    <a class="dropdown-item" href="#">a first team</a>
+                    <a class="dropdown-item" href="#">another one</a>
+                    <a class="dropdown-item" href="#">the last one</a>
+                </div>
+            </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="{{ path('blog-index') }}" id="dropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    blog
+                    News
                 </a>
                  <div class="dropdown-menu" aria-labelledby="dropdownBlog">
-                    <a class="dropdown-item" href="{{ path('blog-index', {'page':1}) }}">Wall</a>
+                    <a class="dropdown-item" href="{{ path('blog-index', {'page':1}) }}">Blog</a>
+                    <a class="dropdown-item" href="#">Galery</a>
                     <a class="dropdown-item" href="{{ path('blog-add') }}">Add new post</a>
                 </div>
             </li>            
@@ -41,6 +51,9 @@
                  <div class="dropdown-menu" aria-labelledby="dropdownCalendar">
                     <a class="dropdown-item" href="{{ path('team-player-index', {}) }}">Player list</a>
                 </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">contact</a>
             </li>
         </ul>
         <div class="navbar-nav">
