@@ -208,9 +208,10 @@
 			<p class="card-title"><span class="fas fa-filter"/>Other events</p>
 		</div>
 		<div class="card-body">
-			5 closest events of the current event
-            <a href="{{ path('event-index', {}) }}">All other events</a>
+			{{ render(controller('App\\Controller\\AsideController::event', {'slug': event.slug})) }}
+            <p><a href="{{ path('event-index', {}) }}">All other events</a></p>
 		</div>
+        
 	</div>
 	
 {% endblock %}

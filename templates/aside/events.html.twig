@@ -1,0 +1,26 @@
+<small>
+    <table class="table table-sm">
+        <tr>
+            <th>tag</th>
+            <th>date</th>
+            <th>in</th>
+            <th>out</th>
+        </tr>
+        {% for event in events %}
+            <tr {% if event == currentEvent %}class="table-active"{% endif %}>
+                <td>
+                    <span class="badge badge-primary">
+                        {{event.tag.name }}
+                    </span>
+                </td>
+                <td>
+                    <a href="{{ path('event-view', {'slug': event.slug }) }}" class="text-reset">
+                        {{ event.start|date('d/m/Y h:i:s') }}
+                    </a>
+                </td>
+                <td>{{ event.nbParticipationIn }}</td>
+                <td>{{ event.nbParticipationOut }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</small>

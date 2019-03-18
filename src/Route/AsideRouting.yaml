@@ -1,0 +1,3 @@
+aside-events: 
+    path: events/{slug}
+    controller: App\Controller\AsideController::event

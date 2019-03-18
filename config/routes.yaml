@@ -33,3 +33,7 @@ team:
 image:
     resource: "Route/ImageRouting.yaml"
     prefix: /image/
+
+aside:
+    resource: "Route/AsideRouting.yaml"
+    prefix: /aside/

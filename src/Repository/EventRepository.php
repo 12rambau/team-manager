@@ -107,4 +107,41 @@ class EventRepository extends ServiceEntityRepository
         return ($result)?$result:0;
 
     }
+
+    /**
+     * @return array the list of x events around the currentEvent
+     */
+    public function findAround(int $nbEvents, Event $currentEvent):array
+    {
+
+        $qb1 = $this->createQueryBuilder('ev');
+        $qb1->select('ev')
+            ->where('ev.start < :date')
+            ->setParameter('date', $currentEvent->getStart())
+            ->orderBy('ev.start', 'DESC')
+            ->setFirstResult(1)
+            ->setMaxResults($nbEvents);
+
+        $qb2 = $this->createQueryBuilder('ev');
+        $qb2->select('ev')
+            ->where('ev.start > :date')
+            ->setParameter('date', $currentEvent->getStart())
+            ->orderBy('ev.start', 'ASC')
+            ->setFirstResult(1)
+            ->setMaxResults($nbEvents);
+        
+        $before = $qb1->getQuery()->getResult();
+        $after = $qb2->getQuery()->getResult();
+
+        $events = [];
+        for ($i=$nbEvents-1; $i >= 0; $i--)
+            array_push($events, $before[$i]);
+
+        array_push($events, $currentEvent);
+
+        for ($i=0; $i < $nbEvents; $i++)
+            array_push($events, $after[$i]);
+        
+        return $events;
+    }
 }
