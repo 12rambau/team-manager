@@ -34,6 +34,13 @@ class AppFixtures extends Fixture
         //language configuration
         $faker = Faker\Factory::create('en_US');
 
+        //empty the upload dir
+        $dirPath = $this->container->get('kernel')->getRootDir().'/../public/image/upload/';
+    
+        foreach(new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dirPath, \FilesystemIterator::SKIP_DOTS), \RecursiveIteratorIterator::CHILD_FIRST) as $path) 
+            $path->isDir() && !$path->isLink() ? rmdir($path->getPathname()) : unlink($path->getPathname());
+
+
         //users creator
         $root = new User();
         $root->setLastName('root');
