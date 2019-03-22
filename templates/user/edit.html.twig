@@ -13,7 +13,7 @@
                     {% if user.profilePic != null %}
                         <img src="{{ asset(vich_uploader_asset(user.profilePic, "imageFile")) }}" class="img-rounded col-lg-12" alt="profile-pic">
                     {% else %}
-                        <img src="{{ asset('picture/default/no-profile-pic.jpg') }}" class="img-rounded col-lg-12" alt="profile-pic">
+                        <img src="{{ asset('image/default/no-profile-pic.jpg') }}" class="img-rounded col-lg-12" alt="profile-pic">
                     {% endif %}
                     {{ form_widget(form.profilePic, {'attr': {'required':false}}) }}
                 </div>

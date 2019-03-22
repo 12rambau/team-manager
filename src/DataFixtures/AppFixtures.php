@@ -13,15 +13,20 @@ use App\Entity\EventTag;
 use App\Entity\Location;
 use App\Entity\Participation;
 use App\Entity\Comment;
+use App\Entity\Image;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\File\File;
 
 class AppFixtures extends Fixture
 {
     private $passwordEncoder;
+    private $container;
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder, ContainerInterface $container)
     {
         $this->passwordEncoder = $passwordEncoder;
+        $this->container = $container;
     }
     public function load(ObjectManager $manager)
     {
@@ -36,6 +41,9 @@ class AppFixtures extends Fixture
         $root->setUserName('root');
         $root->setPassword($this->passwordEncoder->encodePassword($root,'root'));
         $root->setEmail('root@root.com');
+        $image = AppFixtures::manualImage('no-profile-pic.jpg');
+        //$manager ->persist($image);
+        $root->setProfilePic($image);
 
         $manager->persist($root);
 
@@ -141,5 +149,25 @@ class AppFixtures extends Fixture
         }
 
         $manager->flush();
+    }
+
+    public function ManualImage(string $imageName):Image
+    {
+        $image = new Image();
+
+        $image->setUpdatedAt(new \DateTime());
+
+        $sourcePath = $this->container->get('kernel')->getRootDir().'/../public/image/default/'.$imageName;
+        
+        $name = str_replace('.', '', uniqid('', true));
+        if ($extension = pathinfo($sourcePath, PATHINFO_EXTENSION)) 
+            $name = sprintf('%s.%s', $name, $extension);
+    
+        $copyPath = $this->container->get('kernel')->getRootDir().'/../public/image/upload/'.$name;
+
+        copy($sourcePath, $copyPath);
+        $image->setFileName($name);
+
+        return $image;
     }
 }
