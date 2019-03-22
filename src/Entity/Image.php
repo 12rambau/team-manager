@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @Vich\Uploadable
  * @AppAssert\Image
  */
-class Image
+class Image implements \Serializable
 {
     /**
      * @ORM\Id()
@@ -27,11 +27,10 @@ class Image
      /** 
      * @Vich\UploadableField(mapping="picture", fileNameProperty="fileName")
      * @Assert\File(
-     * maxSize="1000k",
-     * maxSizeMessage="Le fichier excède 1000Ko.",
      * mimeTypes={"image/png", "image/jpeg", "image/jpg", "image/gif"},
      * mimeTypesMessage= "formats autorisés: png, jpeg, jpg, gif"
      * )
+     * 
      * @var File
      */
     private $imageFile;
@@ -113,5 +112,16 @@ class Image
         $this->tmpFile = $tmpFile;
 
         return $this;
+    }
+
+    public function serialize()
+    {
+        $this->imageFile = base64_encode($this->imageFile);
+    }
+
+    public function unserialize($serialized)
+    {
+        $this->imageFile = base64_decode($this->imageFile);
+
     }
 }

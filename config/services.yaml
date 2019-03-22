@@ -2,7 +2,7 @@
 # Files in the packages/ subdirectory configure your dependencies.
 parameters:
     locale: 'en'
-    path_image: picture/upload
+    path_image: image/upload
 
 
 services:

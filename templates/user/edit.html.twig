@@ -10,8 +10,8 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-lg-3">
-                    {% if user.profilePic is defined %}
-                        <img src="{{ asset(user.profilePic.fileName) }}" class="img-rounded col-lg-12" alt="profile-pic">
+                    {% if user.profilePic != null %}
+                        <img src="{{ asset(vich_uploader_asset(user.profilePic, "imageFile")) }}" class="img-rounded col-lg-12" alt="profile-pic">
                     {% else %}
                         <img src="{{ asset('picture/default/no-profile-pic.jpg') }}" class="img-rounded col-lg-12" alt="profile-pic">
                     {% endif %}
