@@ -18,9 +18,9 @@
 						<div class="row">
 							<h5 class="card-title col-lg-8">{{ image.fileName }}</h5>
 							<div class="btn-group col-lg-4">
-                            	<a href="{{ path('image-view', {'slug':image.slug}) }}" class="btn btn-outline-primary">View</a>
-                            	<a href="{{ path('image-edit', {'slug':image.slug}) }}"class="btn btn-outline-info">Edit</a>
-                            	<a href="{{path('image-delete', {'slug':image.slug}) }}"class="btn btn-outline-danger">delete</a>
+                            	<a href="{{ path('image-view', {'fileName':image.fileName}) }}" class="btn btn-outline-primary">View</a>
+                            	<a href="{{ path('image-edit', {'fileName':image.fileName}) }}"class="btn btn-outline-info">Edit</a>
+                            	<a href="{{path('image-delete', {'fileName':image.fileName}) }}"class="btn btn-outline-danger">delete</a>
                         	</div>
 						</div>
 					</div>

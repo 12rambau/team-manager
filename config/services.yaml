@@ -2,6 +2,8 @@
 # Files in the packages/ subdirectory configure your dependencies.
 parameters:
     locale: 'en'
+    path_image: picture/upload
+
 
 services:
     # default configuration for services in *this* file
@@ -29,3 +31,12 @@ services:
         tags:
             - { name: doctrine.event_listener, event: postPersist }
         arguments: [ "@doctrine.orm.entity_manager" ]
+
+    App\EventListener\ImageListener:
+        arguments:
+            $path_image: "%path_image%"
+        tags:
+            - {name: doctrine.event_listener, event: postUpdate}
+            - {name: doctrine.event_listener, event: preRemove}
+            - {name: doctrine.event_listener, event: postPersist}
+            - {name: kernel.event_listener, event: vich_uploader.pre_inject }

@@ -7,10 +7,13 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Cocur\Slugify\Slugify;
+use App\Validator as AppAssert;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ImageRepository")
  * @Vich\Uploadable
+ * @AppAssert\Image
  */
 class Image
 {
@@ -23,6 +26,12 @@ class Image
 
      /** 
      * @Vich\UploadableField(mapping="picture", fileNameProperty="fileName")
+     * @Assert\File(
+     * maxSize="1000k",
+     * maxSizeMessage="Le fichier excède 1000Ko.",
+     * mimeTypes={"image/png", "image/jpeg", "image/jpg", "image/gif"},
+     * mimeTypesMessage= "formats autorisés: png, jpeg, jpg, gif"
+     * )
      * @var File
      */
     private $imageFile;
@@ -40,9 +49,9 @@ class Image
     private $updatedAt;  // TODO remettre en nullable=false quand on passera en mysql
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=false)
-     */
-    private $slug; 
+    * @ORM\Column(type="string", length=255, nullable=true)
+    */
+    private $tmpFile;
 
     public function __construct()
     {
@@ -59,10 +68,9 @@ class Image
         return $this->fileName;
     }
 
-    public function setFileName(string $fileName): self
+    public function setFileName(?string $fileName): self
     {
         $this->fileName = $fileName;
-        $this->setSlug();
 
         return $this;
     }
@@ -84,7 +92,7 @@ class Image
         return $this->imageFile;
     }
 
-    public function setImageFile(File $imageFile): self
+    public function setImageFile(?File $imageFile): self
     {
         $this->imageFile = $imageFile;
         if ($this->imageFile instanceof UploadedFile)
@@ -95,15 +103,14 @@ class Image
         return $this;
     }
 
-    public function getSlug(): ?string
+    public function getTmpFile(): ?string
     {
-        return $this->slug;
+        return $this->tmpFile;
     }
 
-    public function setSlug(): self
+    public function setTmpFile(?string $tmpFile): self
     {
-        $slugify = new Slugify();
-        $this->slug = $slugify->slugify($this->fileName);
+        $this->tmpFile = $tmpFile;
 
         return $this;
     }

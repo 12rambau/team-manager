@@ -7,7 +7,7 @@ image-index:
         page: \d+
 
 image-view:
-    path: /{slug}/view
+    path: /{fileName}/view
     controller: App\Controller\ImageController::view
 
 image-add:
@@ -15,9 +15,9 @@ image-add:
     controller: App\Controller\ImageController::add
 
 image-edit:
-    path: /{slug}/edit
+    path: /{fileName}/edit
     controller: App\Controller\ImageController::edit
 
 image-delete:
-    path: /{slug}/delete
+    path: /{fileName}/delete
     controller: App\Controller\ImageController::delete

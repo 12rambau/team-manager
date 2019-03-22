@@ -35,7 +35,7 @@ class ImageController extends AbstractController
             $em->persist($image);
             $em->flush();
 
-            $request->getSession()->getFlashBag()->add('success', 'The image : '.$image->getSlug().' has been added.');
+            $request->getSession()->getFlashBag()->add('success', 'The image : '.$image->getFileName().' has been added.');
 
             return new RedirectResponse($this->generateUrl('image-index'));
         }
@@ -56,7 +56,7 @@ class ImageController extends AbstractController
             $em = $this->getDoctrine()->getEntityManager();
             $em->flush();
 
-            $request->getSession()->getFlashBag()->add('success', 'The image : '.$image->getSlug().' has been edited.');
+            $request->getSession()->getFlashBag()->add('success', 'The image : '.$image->getFileName().' has been edited.');
 
             return new RedirectResponse($this->generateUrl('image-index'));
         }
@@ -66,13 +66,13 @@ class ImageController extends AbstractController
         ]);
     }
 
-    public function delete(Image $image):Response
+    public function delete(Image $image, Request $request):Response
     {
         $em = $this->getDoctrine()->getEntityManager();
         $em->remove($image);
         $em->flush();
 
-        $request->getSession()->getFlashBag()->add('danger', 'The image : '.$image->getSlug().' has been deleted.');
+        $request->getSession()->getFlashBag()->add('danger', 'The image : '.$image->getFileName().' has been deleted.');
 
         return new RedirectResponse($this->generateUrl('image-index'));
     }
