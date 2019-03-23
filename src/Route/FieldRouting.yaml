@@ -1,0 +1,23 @@
+field-index:
+    path: /index/{page}
+    controller: App\Controller\FieldController::index
+    defaults:
+        page: 1
+    requirements:
+        page: \d+
+
+field-view:
+    path: /{slug}/view
+    controller: App\Controller\FieldController::view
+
+field-add:
+    path: /add
+    controller: App\Controller\FieldController::add
+
+field-edit:
+    path: /{slug}/edit
+    controller: App\Controller\FieldController::edit
+
+field-delete:
+    path: /{slug}/delete
+    controller: App\Controller\FieldController::delete

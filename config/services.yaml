@@ -40,3 +40,8 @@ services:
             - {name: doctrine.event_listener, event: preRemove}
             - {name: doctrine.event_listener, event: postPersist}
             - {name: kernel.event_listener, event: vich_uploader.pre_inject }
+
+    App\EventListener\FieldListener:
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: preUpdate }

@@ -1,0 +1,28 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}add a new field{% endblock %}
+
+{% block content %}
+
+	<div class="jumbotron">
+		<h2>Add a new field</h2>
+	</div>
+	
+	{{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+		{{ form_errors(form) }}
+	
+		{{ form_label(form.name, "name : ", {'label_attr': {'class':'control-label'}}) }}
+		{{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+
+		{{ form_label(form.image.imageFile, "imageFile : ", {'label_attr': {'class':'control-label'}}) }}
+		{{ form_widget(form.image.imageFile, {'attr': {'class': 'form-control'}}) }}
+	
+		{{ form_rest(form) }}
+		<hr>
+		<button type="submit" name="field-add" class="btn btn-primary btn-block">add new field</button>
+	
+	{{ form_end(form) }}
+	
+
+
+{% endblock %}

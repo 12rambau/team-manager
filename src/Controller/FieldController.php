@@ -1,0 +1,85 @@
+<?php
+
+namespace App\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\Field;
+use App\Form\FieldType;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+
+class FieldController extends AbstractController
+{
+    public function index($page): Response
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $fields = $em->getRepository(Field::class)->findAll();
+        
+        return $this->render('field/index.html.twig', [
+            'fields' => $fields
+        ]);
+    }
+
+    public function add(Request $request):Response 
+    {
+        $field = new Field();
+
+        $form = $this->createForm(FieldType::class, $field);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $em = $this->getDoctrine()->getEntityManager();
+            $em->persist($field);
+            $em->flush();
+
+            $request->getSession()->getFlashBag()->add('success', 'The field : '.$field->getSlug().' has been added.');
+
+            return new RedirectResponse($this->generateUrl('field-index'));
+        }
+
+        return $this->render('field/add.html.twig', [
+            'form' => $form->createView()
+        ]);
+        
+    }
+
+    public function edit(Field $field, Request $request):Response
+    {
+        $form = $this->createForm(FieldType::class, $field);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $em = $this->getDoctrine()->getEntityManager();
+            $em->flush();
+
+            $request->getSession()->getFlashBag()->add('success', 'The field : '.$field->geSlug().' has been edited.');
+
+            return new RedirectResponse($this->generateUrl('field-index'));
+        }
+
+        return $this->render('field/edit.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    public function delete(Field $field, Request $request):Response
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $em->remove($field);
+        $em->flush();
+
+        $request->getSession()->getFlashBag()->add('danger', 'The field : '.$field->getSlug().' has been deleted.');
+
+        return new RedirectResponse($this->generateUrl('field-index'));
+    }
+
+    public function view(Field $field):Response
+    {
+        return $this->render('field/view.html.twig', [
+            'field' => $field
+        ]); 
+    }
+}

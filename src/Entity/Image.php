@@ -6,7 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Cocur\Slugify\Slugify;
 use App\Validator as AppAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 
