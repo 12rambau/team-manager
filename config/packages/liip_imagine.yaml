@@ -1,6 +1,40 @@
-liip_imagine:
-    resolvers:
+liip_imagine :
+
+    resolvers :
+        default :
+            web_path:
+                web_root: "%kernel.project_dir%/public"
+                cache_prefix: "image/cache"
+
+    loaders:
         default:
-            web_path: ~
-    filter_sets:
-        cache: ~
+            filesystem:
+                data_root: "%kernel.project_dir%/public"
+
+    driver:               gd
+    cache:                default
+    data_loader:          default
+    default_image:        null
+    controller:
+        filter_action:         liip_imagine.controller:filterAction
+        filter_runtime_action: liip_imagine.controller:filterRuntimeAction
+
+
+    filter_sets :
+
+        cache : ~
+
+        field :
+            quality : 75
+            filters :
+                thumbnail :
+                    size : [500, 281]
+                    mode : inset
+
+        profile_pic:
+            quality: 75
+            filters : 
+                thumbnail : 
+                    size : [400, 567]
+                    mode : outbound
+

@@ -26,7 +26,9 @@ class FieldListener
         $entity = $args->getObject();
 
         if($entity instanceof Field)
+        {
             $entity->setUpdateAt();
             $entity->setSlug();
+        }
     }
 }

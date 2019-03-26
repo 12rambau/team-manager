@@ -1,23 +1,23 @@
-field-index:
-    path: /index/{page}
+template-index:
+    path: template/index/{page}
     controller: App\Controller\FieldController::index
     defaults:
         page: 1
     requirements:
         page: \d+
 
-field-view:
-    path: /{slug}/view
+template-view:
+    path: template/{slug}/view
     controller: App\Controller\FieldController::view
 
-field-add:
-    path: /add
+template-add:
+    path: template/add
     controller: App\Controller\FieldController::add
 
-field-edit:
-    path: /{slug}/edit
+template-edit:
+    path: template/{slug}/edit
     controller: App\Controller\FieldController::edit
 
-field-delete:
-    path: /{slug}/delete
+template-delete:
+    path: template/{slug}/delete
     controller: App\Controller\FieldController::delete

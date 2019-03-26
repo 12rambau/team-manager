@@ -43,13 +43,14 @@ class ImageListener
     public function postUpdate(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
+
  
         if (!$entity instanceof Image) {
             return;
         }
         $changeSet = $args->getEntityManager()->getUnitOfWork()->getEntityChangeSet($entity);
  
-        if(!array_key_exists("image", $changeSet)){ 
+        if(!array_key_exists("fileName", $changeSet)){ 
         return;
         }
   

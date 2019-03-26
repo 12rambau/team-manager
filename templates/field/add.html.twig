@@ -5,21 +5,38 @@
 {% block content %}
 
 	<div class="jumbotron">
-		<h2>Add a new field</h2>
+		<h2>Add a new Template</h2>
 	</div>
 	
 	{{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
 		{{ form_errors(form) }}
 	
 		{{ form_label(form.name, "name : ", {'label_attr': {'class':'control-label'}}) }}
-		{{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+		<div class="input-group">
+        	<div class="input-group-prepend">
+          		<div class="input-group-text">template_</div>
+        	</div>
+			{{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+		</div>
+
+		<div class="row">
+			<img class="col -lg-12" 
+				src=
+					{% if template.image != null %}
+						{{ asset(vich_uploader_asset(template.image, "imageFile")) | imagine_filter('field') }}
+					{% else %}
+						{{ asset('image/default/empty_field.jpg') | imagine_filter('field') }}
+					{% endif %}
+				alt="image {{ template.id }}"
+			>
+		</div>
 
 		{{ form_label(form.image.imageFile, "imageFile : ", {'label_attr': {'class':'control-label'}}) }}
 		{{ form_widget(form.image.imageFile, {'attr': {'class': 'form-control'}}) }}
 	
 		{{ form_rest(form) }}
 		<hr>
-		<button type="submit" name="field-add" class="btn btn-primary btn-block">add new field</button>
+		<button type="submit" name="field-add" class="btn btn-primary btn-block">add new template</button>
 	
 	{{ form_end(form) }}
 	

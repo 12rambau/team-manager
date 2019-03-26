@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Field;
 use App\Form\FieldType;
+use App\Form\TemplateType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -23,24 +24,26 @@ class FieldController extends AbstractController
 
     public function add(Request $request):Response 
     {
-        $field = new Field();
+        $template = new Field();
 
-        $form = $this->createForm(FieldType::class, $field);
+        $form = $this->createForm(TemplateType::class, $template);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid())
         {
+            $template->setName("template_".$template->getName());
             $em = $this->getDoctrine()->getEntityManager();
-            $em->persist($field);
+            $em->persist($template);
             $em->flush();
 
-            $request->getSession()->getFlashBag()->add('success', 'The field : '.$field->getSlug().' has been added.');
+            $request->getSession()->getFlashBag()->add('success', 'The template : '.$template->getSlug().' has been added.');
 
-            return new RedirectResponse($this->generateUrl('field-index'));
+            //return new RedirectResponse($this->generateUrl('field-index'));
         }
 
         return $this->render('field/add.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'template' => $template
         ]);
         
     }
