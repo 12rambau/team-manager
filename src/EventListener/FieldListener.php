@@ -27,5 +27,6 @@ class FieldListener
 
         if($entity instanceof Field)
             $entity->setUpdateAt();
+            $entity->setSlug();
     }
 }
