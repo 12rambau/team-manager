@@ -1,45 +1,150 @@
 {% extends 'layout.html.twig' %}
 
-{% block title %}add a new field{% endblock %}
+{% block title %}add a new field template{% endblock %}
 
-{% block content %}
+{% block body %}
 
-	<div class="jumbotron">
-		<h2>Add a new Template</h2>
-	</div>
-	
 	{{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
-		{{ form_errors(form) }}
-	
-		{{ form_label(form.name, "name : ", {'label_attr': {'class':'control-label'}}) }}
-		<div class="input-group">
-        	<div class="input-group-prepend">
-          		<div class="input-group-text">template_</div>
-        	</div>
-			{{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
-		</div>
 
-		<div class="row">
-			<img class="col -lg-12" 
-				src=
-					{% if template.image != null %}
-						{{ asset(vich_uploader_asset(template.image, "imageFile")) | imagine_filter('field') }}
-					{% else %}
-						{{ asset('image/default/empty_field.jpg') | imagine_filter('field') }}
-					{% endif %}
-				alt="image {{ template.id }}"
-			>
-		</div>
+		<div class="container-fluid row">
+			<div class="col-9">
 
-		{{ form_label(form.image.imageFile, "imageFile : ", {'label_attr': {'class':'control-label'}}) }}
-		{{ form_widget(form.image.imageFile, {'attr': {'class': 'form-control'}}) }}
-	
+				<div class="jumbotron">
+					<h2>Add a new Template</h2>
+				</div>
+				
+				{{ form_errors(form) }}
+
+				<button type="submit" name="field-add" class="btn btn-success btn-block">add new template</button>
+				
+				{{ form_label(form.name, "name : ", {'label_attr': {'class':'control-label'}}) }}
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<div class="input-group-text">template_</div>
+					</div>
+					{{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+				</div>
+
+				<div id="positionning" class="row">
+					<img 
+						id="imageFile"
+						class="col -lg-12" 
+						src=
+							{% if template.image != null %}
+								{{ asset(vich_uploader_asset(template.image, "imageFile")) | imagine_filter('field') }}
+							{% else %}
+								{{ asset('image/default/empty_field.jpg') | imagine_filter('field') }}
+							{% endif %}
+						alt="image {{ template.id }}"
+					>
+				</div>
+				<div id="previewAlert" class="alert alert-warning sr-only">
+					This is a preview, please save before any other modification
+				</div>
+
+				{{ form_label(form.image.imageFile, "imageFile : ", {'label_attr': {'class':'control-label', }}) }}
+				{{ form_widget(form.image.imageFile) }}
+
+			</div>
+			
+			<div class="col-3">
+				<div class="card">
+                    <div class="card-header">
+                        <p class="card-title"><span class="fas fa-arrows-alt"/> Positions</p>
+                    </div>
+                    <div class="card-body">
+						<small>
+                        	<ul id="positions" class="list-group list-group-flush" data-prototype="{{ form_widget(form.positions.vars.prototype)|e('html_attr') }}">
+							</ul>
+						</small>
+                    </div>
+                </div>
+			</div>
+		</div>
+		
 		{{ form_rest(form) }}
-		<hr>
-		<button type="submit" name="field-add" class="btn btn-primary btn-block">add new template</button>
-	
+
 	{{ form_end(form) }}
 	
 
 
+{% endblock %}
+
+{% block javascripts %}
+	
+	{{ parent() }}
+
+	<script type="text/javascript">
+		function readURL(input) {
+  			if (input.files && input.files[0]) {
+    			var reader = new FileReader();
+    			reader.onload = function (e) {
+      				$('#imageFile')
+        				.attr('src', e.target.result)
+        				.width(150)
+        				.height(200);
+				};
+    			reader.readAsDataURL(input.files[0]);
+				$('#previewAlert').attr('class', $('#previewAlert').attr('class').replace('sr-only', ''));
+  			}
+		}
+	</script>
+
+	<script type="text/javascript">
+		var $collectionHolder;
+
+		// setup an "add a tag" link
+		var $addPositionButton = $('<button type="button" class="btn btn-primary">Add a position</button>');
+		var $newLinkLi = $('<li class="list-group-item"></li>').append($addPositionButton);
+
+		jQuery(document).ready(function() {
+    		// Get the ul that holds the collection of tags
+    		$collectionHolder = $('#positions');
+
+    		// add the "add a tag" anchor and li to the tags ul
+			$collectionHolder.append($newLinkLi);
+
+    		// count the current form inputs we have (e.g. 2), use that as the new
+    		// index when inserting a new item (e.g. 2)
+    		$collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+    		$addPositionButton.on('click', function(e) {
+				// add a new tag form (see next code block)
+        		addPositionForm($collectionHolder, $newLinkLi);
+    		});
+		});
+
+		function addPositionForm($collectionHolder, $newLinkLi) {
+    		// Get the data-prototype explained earlier
+    		var prototype = $collectionHolder.data('prototype');
+
+    		// get the new index
+    		var index = $collectionHolder.data('index');
+
+    		var newForm = prototype;
+
+    		// Replace '__name__' in the prototype's HTML to
+    		// instead be a number based on how many items we have
+    		newForm = newForm.replace(/__name__/g, index);
+
+    		// increase the index with one for the next item
+    		$collectionHolder.data('index', index + 1);
+
+			var test = $('<button/>',
+			{
+				class: "btn btn-danger",
+        		text: 'Remove',
+        		click: function () { removePosition(event); }
+    		});
+
+    		// Display the form in the page in an li, before the "Add a tag" link li
+    		var $newFormLi = $('<li class="list-group-item"></li>').append(newForm).append(test);
+    		$newLinkLi.before($newFormLi);
+		}
+
+		function removePosition(event){
+			event.preventDefault();
+			$(event.target).parent().remove();
+		}
+	</script>
 {% endblock %}

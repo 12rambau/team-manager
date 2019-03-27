@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Field;
 use Symfony\Component\Form\AbstractType;
 use App\Form\ImageType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 

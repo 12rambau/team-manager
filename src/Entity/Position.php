@@ -34,6 +34,12 @@ class Position
      */
     private $vertical;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Field", inversedBy="positions")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $field;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -71,6 +77,18 @@ class Position
     public function setVertical(int $vertical): self
     {
         $this->vertical = $vertical;
+
+        return $this;
+    }
+
+    public function getField(): ?Field
+    {
+        return $this->field;
+    }
+
+    public function setField(?Field $field): self
+    {
+        $this->field = $field;
 
         return $this;
     }

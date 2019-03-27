@@ -1,25 +1,25 @@
 {% extends 'layout.html.twig' %}
 
-{% block title %}Field index{% endblock %}
+{% block title %}Template index{% endblock %}
 
 {% block content %}
 
 <div class="jumbotron text-center">
-	<h1>Field list</h1>
+	<h1>Template list</h1>
 </div>
 
 <div class="container">
 	<div class="row flex">
-		{% for field in fields %}
+		{% for template in templates %}
 			<div class="col-12">
 				<div class="card">
 					<div class="card-body">
 						<div class="row">
-							<h5 class="card-title col-lg-8">{{ field.name }}</h5>
+							<h5 class="card-title col-lg-8">{{ template.name }}</h5>
 							<div class="btn-group col-lg-4">
-                            	<a href="{{ path('field-view', {'slug':field.slug}) }}" class="btn btn-outline-primary">View</a>
-                            	<a href="{{ path('field-edit', {'slug':field.slug}) }}"class="btn btn-outline-info">Edit</a>
-                            	<a href="{{path('field-delete', {'slug':field.slug}) }}"class="btn btn-outline-danger">delete</a>
+                            	<a href="{{ path('template-view', {'slug':template.slug}) }}" class="btn btn-outline-primary">View</a>
+                            	<a href="{{ path('template-edit', {'slug':template.slug}) }}"class="btn btn-outline-info">Edit</a>
+                            	<a href="{{path('template-delete', {'slug':template.slug}) }}"class="btn btn-outline-danger">delete</a>
                         	</div>
 						</div>
 					</div>
@@ -28,13 +28,13 @@
 		{% else %}
 		<div class="card">
 			<div class="card-body">
-				<h2 class="card-title">no fields (yet!)</h2>
+				<h2 class="card-title">no templates (yet!)</h2>
 			</div>
 		</div>
 		{% endfor %}
 	</div>
 </div>
 <hr/>
-<a href="{{ path('field-add') }}" class="btn btn-block btn-success">add an field</a>
+<a href="{{ path('template-add') }}" class="btn btn-block btn-success">add an template</a>
 
 {% endblock %}

@@ -6,6 +6,7 @@ use App\Entity\Position;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\RangeType;
 
 class PositionType extends AbstractType
 {
@@ -13,8 +14,12 @@ class PositionType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('horizontal')
-            ->add('vertical')
+            ->add('horizontal', RangeType::class, [
+                'attr' => ['min' => 0,'max' => 100]
+            ])
+            ->add('vertical', RangeType::class, [
+                'attr' => ['min' => 0,'max' => 100]
+            ])
         ;
     }
 

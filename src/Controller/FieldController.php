@@ -15,10 +15,10 @@ class FieldController extends AbstractController
     public function index($page): Response
     {
         $em = $this->getDoctrine()->getEntityManager();
-        $fields = $em->getRepository(Field::class)->findAll();
+        $templates = $em->getRepository(Field::class)->findAllTemplate();
         
         return $this->render('field/index.html.twig', [
-            'fields' => $fields
+            'templates' => $templates
         ]);
     }
 
@@ -38,7 +38,7 @@ class FieldController extends AbstractController
 
             $request->getSession()->getFlashBag()->add('success', 'The template : '.$template->getSlug().' has been added.');
 
-            //return new RedirectResponse($this->generateUrl('field-index'));
+            return new RedirectResponse($this->generateUrl('template-index'));
         }
 
         return $this->render('field/add.html.twig', [
@@ -48,9 +48,9 @@ class FieldController extends AbstractController
         
     }
 
-    public function edit(Field $field, Request $request):Response
+    public function edit(Field $template, Request $request):Response
     {
-        $form = $this->createForm(FieldType::class, $field);
+        $form = $this->createForm(TemplateType::class, $template);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid())
@@ -58,13 +58,14 @@ class FieldController extends AbstractController
             $em = $this->getDoctrine()->getEntityManager();
             $em->flush();
 
-            $request->getSession()->getFlashBag()->add('success', 'The field : '.$field->geSlug().' has been edited.');
+            $request->getSession()->getFlashBag()->add('success', 'The template : '.$template->getSlug().' has been edited.');
 
-            return new RedirectResponse($this->generateUrl('field-index'));
+            return new RedirectResponse($this->generateUrl('template-index'));
         }
 
         return $this->render('field/edit.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'template' => $template
         ]);
     }
 
@@ -74,9 +75,9 @@ class FieldController extends AbstractController
         $em->remove($field);
         $em->flush();
 
-        $request->getSession()->getFlashBag()->add('danger', 'The field : '.$field->getSlug().' has been deleted.');
+        $request->getSession()->getFlashBag()->add('danger', 'The template : '.$field->getSlug().' has been deleted.');
 
-        return new RedirectResponse($this->generateUrl('field-index'));
+        return new RedirectResponse($this->generateUrl('template-index'));
     }
 
     public function view(Field $field):Response

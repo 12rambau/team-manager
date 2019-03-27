@@ -18,4 +18,16 @@ class FieldRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Field::class);
     }
+
+    public function findAllTemplate()
+    {
+        $qb = $this->createQueryBuilder('t');
+
+        $qb->select('t')
+            ->where('t.name LIKE :regex')
+            ->setParameter('regex', 'template_%')
+        ;
+
+        return $qb->getQuery()->getResult();
+    }
 }
