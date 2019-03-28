@@ -42,11 +42,6 @@
 								{{ asset('image/default/empty_field.jpg') | imagine_filter('field') }}
 							{% endif %}
 						alt="image {{ template.id }}"
-						style="
-							{# position:absolute; #}
-							top:0px;
-							left:0px;
-						"
 					>
 
 					{% for position in template.positions %}
@@ -61,7 +56,6 @@
 								width:50px;
 								margin-top: -32px;  {# set to a negative number 1/2 of your height #}
     							margin-left: -25px;  {# set to a negative number 1/2 of your width #}
-								z-index: {{ loop.index + 1 }};
 							"
 						>
 							<img src="{{ asset('image/default/no-position.jpg') | imagine_filter('position') }}" alt="no-position">
@@ -84,13 +78,18 @@
                     </div>
                     <div class="card-body">
 						<small>
-                        	<ul id="positions" class="list-group list-group-flush" data-prototype="{{ form_widget(form.positions.vars.prototype)|e('html_attr') }}">
+                        	<ul 
+								id="positions" 
+								class="list-group list-group-flush" 
+								data-prototype="
+									{% filter escape('html_attr') %}
+										{% include 'position/prototype.html.twig' with {'form': form.positions.vars.prototype} only %}
+									{% endfilter %}
+								"
+							>
 							{% for position in form.positions %}
 								<li class="list-group-item">
-									{{ form_widget(position) }}
-									<button class="btn btn-danger" onClick="removePosition(event);">
-										Remove
-									</button>
+									{% include 'position/prototype.html.twig' with {'form': position} only %}
 								</li>
 							{% endfor %}
 							</ul>
@@ -111,6 +110,10 @@
 {% block javascripts %}
 	
 	{{ parent() }}
+
+	<script type="text/javascript">
+		var phantomUrl = "{{ asset('image/default/no-position.jpg') | imagine_filter('position') }}";
+	</script>
 
 	<script type="text/javascript">
 		$(document).ready(function(){
@@ -174,27 +177,48 @@
     		// increase the index with one for the next item
     		$collectionHolder.data('index', index + 1);
 
-			var test = $('<button/>',
-			{
-				class: "btn btn-danger",
-        		text: 'Remove',
-        		click: function () { removePosition(event); }
-    		});
-
     		// Display the form in the page in an li, before the "Add a tag" link li
-    		var $newFormLi = $('<li class="list-group-item"></li>').append(newForm).append(test);
-    		$newLinkLi.before($newFormLi);
+    		var newFormLi = $('<li class="list-group-item"></li>').append(newForm);
+    		$newLinkLi.before(newFormLi);
+
+			var card = $('<div/>',
+			{
+				id: newFormLi.children(":first").attr('id')+"_card",
+				"class": "card",
+				css:{
+					"position": "absolute",
+					"top": "0%",
+					"left": "0%",
+					"height": "65px",
+					"width": "50px",
+					"margin-top": "-32px",
+    				"margin-left": "-25px"
+				}
+			});
+
+			var phantom = $('<img/>',
+			{
+				src: phantomUrl
+			});
+
+			//display the new phantom on the field
+			$("#positionning").append(card.append(phantom));
+
+
 		}
 
 		function removePosition(event){
 			event.preventDefault();
+			var name = $(event.target).prev().attr('id');
+			$("#"+name+"_card").remove();
 			$(event.target).parent().remove();
 		}
 	</script>
 
 	<script type="text/javascript">
-		$('input[type=range]').change(function(event){
+		$(document).on("change", 'input[type=range]', function(event){
 			
+			alert("j'ai vu");
 			var target = $(event.target);
 			var position = $(event.target).parent().parent().attr('id');
 			

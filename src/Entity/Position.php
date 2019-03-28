@@ -40,6 +40,12 @@ class Position
      */
     private $field;
 
+    public function __construct()
+    {
+        $this->horizontal = 0;
+        $this->vertical = 0;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

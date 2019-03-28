@@ -1,0 +1,17 @@
+<div id="{{ form.vars.id }}">
+    <div class="form-group">
+        {{ form_label(form.name, "Name:", {'label_attr': {'class': 'control-label'}}) }}
+        {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(form.horizontal, "Horizontal: ", {'label_attr': {'class': 'control-label'}}) }}
+        {{ form_widget(form.horizontal, {'attr': {'value': form.horizontal.vars.value}}) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(form.vertical, "Vertical: ", {'label_attr': {'class': 'control-label'}}) }}
+        {{ form_widget(form.vertical, {'attr': {'value': form.vertical.vars.value}}) }} 
+    </div>
+</div>
+<button class="btn btn-danger" onClick="removePosition(event);">
+	Remove
+</button>
