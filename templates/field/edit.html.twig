@@ -25,10 +25,16 @@
 					{{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
 				</div>
 
-				<div id="positionning" class="row">
+				<div 
+					id="positionning" 
+					style="
+						position:relative;
+						border-color: red
+					"
+				>
 					<img 
 						id="imageFile"
-						class="col -lg-12" 
+						class="col-12" 
 						src=
 							{% if template.image != null %}
 								{{ asset(vich_uploader_asset(template.image, "imageFile")) | imagine_filter('field') }}
@@ -36,7 +42,31 @@
 								{{ asset('image/default/empty_field.jpg') | imagine_filter('field') }}
 							{% endif %}
 						alt="image {{ template.id }}"
+						style="
+							{# position:absolute; #}
+							top:0px;
+							left:0px;
+						"
 					>
+
+					{% for position in template.positions %}
+						<div
+							id="template_positions_{{ loop.index0 }}_card"
+							class="card"
+							style="
+								position: absolute;
+								top:{{ position.vertical }}%;
+								left:{{ position.horizontal }}%;
+								height:65px;
+								width:50px;
+								margin-top: -32px;  {# set to a negative number 1/2 of your height #}
+    							margin-left: -25px;  {# set to a negative number 1/2 of your width #}
+								z-index: {{ loop.index + 1 }};
+							"
+						>
+							<img src="{{ asset('image/default/no-position.jpg') | imagine_filter('position') }}" alt="no-position">
+						</div>
+					{% endfor %}
 				</div>
 				<div id="previewAlert" class="alert alert-warning sr-only">
 					This is a preview, please save before any other modification
@@ -81,6 +111,12 @@
 {% block javascripts %}
 	
 	{{ parent() }}
+
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$("#positionning").height($("#imageFile").height());
+		});
+	</script>
 
 	<script type="text/javascript">
 		function readURL(input) {
@@ -154,5 +190,22 @@
 			event.preventDefault();
 			$(event.target).parent().remove();
 		}
+	</script>
+
+	<script type="text/javascript">
+		$('input[type=range]').change(function(event){
+			
+			var target = $(event.target);
+			var position = $(event.target).parent().parent().attr('id');
+			
+			if(target.attr('id') == position+"_horizontal")
+			{
+				$("#"+position+"_card").css('left', target.val()+"%");
+			} else if(target.attr('id') == position+"_vertical")
+			{
+				$("#"+position+"_card").css('top', target.val()+"%");
+			}
+
+		});
 	</script>
 {% endblock %}

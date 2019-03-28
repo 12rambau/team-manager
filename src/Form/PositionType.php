@@ -15,10 +15,10 @@ class PositionType extends AbstractType
         $builder
             ->add('name')
             ->add('horizontal', RangeType::class, [
-                'attr' => ['min' => 0,'max' => 100]
+                'attr' => ['min' => 0,'max' => 100, 'class' => 'custom-range']
             ])
             ->add('vertical', RangeType::class, [
-                'attr' => ['min' => 0,'max' => 100]
+                'attr' => ['min' => 0,'max' => 100, 'class' => 'custom-range']
             ])
         ;
     }
