@@ -31,6 +31,9 @@
 					{{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
 				</div>
 
+				{{ form_label(form.image.imageFile, "imageFile : ", {'label_attr': {'class':'control-label', }}) }}
+				{{ form_widget(form.image.imageFile) }}
+
 				<div id="positionning">
 					<img 
 						id="imageFile"
@@ -61,8 +64,21 @@
 					This is a preview, please save before any other modification
 				</div>
 
-				{{ form_label(form.image.imageFile, "imageFile : ", {'label_attr': {'class':'control-label', }}) }}
-				{{ form_widget(form.image.imageFile) }}
+				<ul 
+					id="positions" 
+					class="list-group list-group-flush" 
+					data-prototype="
+						{% filter escape('html_attr') %}
+							{% include 'position/prototype.html.twig' with {'form': form.positions.vars.prototype} only %}
+						{% endfilter %}
+					"
+				>
+					{% for position in form.positions %}
+						<li class="list-group-item">
+							{% include 'position/prototype.html.twig' with {'form': position} only %}
+						</li>
+					{% endfor %}
+				</ul>
 
 			</div>
 			
@@ -73,20 +89,12 @@
                     </div>
                     <div class="card-body">
 						<small>
-                        	<ul 
-								id="positions" 
-								class="list-group list-group-flush" 
-								data-prototype="
-									{% filter escape('html_attr') %}
-										{% include 'position/prototype.html.twig' with {'form': form.positions.vars.prototype} only %}
-									{% endfilter %}
-								"
-							>
-							{% for position in form.positions %}
-								<li class="list-group-item">
-									{% include 'position/prototype.html.twig' with {'form': position} only %}
+							<ul id="position-name" class="list-group list-group-flush">
+								{% for position in template.positions %}
+								<li id="template_positions_{{ loop.index0 }}_namer" class="list-group-item">
+									{{ position.name }}
 								</li>
-							{% endfor %}
+								{% endfor %}
 							</ul>
 						</small>
                     </div>
@@ -110,7 +118,6 @@
 		var phantomUrl = "{{ asset('image/default/no-position.jpg') | imagine_filter('position') }}";
 	</script>
 
-	<script src="{{ asset('js/field/imageHeigt.js') }}"></script>
 	<script src="{{ asset('js/field/readUrl.js') }}"></script>
 	<script src="{{ asset('js/field/positionManager.js') }}"></script>
 {% endblock %}

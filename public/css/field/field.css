@@ -1,5 +1,6 @@
 #positionning{
     position: relative;
+    z-index: 3;
 }
 
 .position-card{

@@ -75,76 +75,9 @@
 	{{ parent() }}
 
 	<script type="text/javascript">
-		function readURL(input) {
-  			if (input.files && input.files[0]) {
-    			var reader = new FileReader();
-    			reader.onload = function (e) {
-      				$('#imageFile')
-        				.attr('src', e.target.result)
-        				.width(150)
-        				.height(200);
-				};
-    			reader.readAsDataURL(input.files[0]);
-				$('#previewAlert').attr('class', $('#previewAlert').attr('class').replace('sr-only', ''));
-  			}
-		}
+		var phantomUrl = "{{ asset('image/default/no-position.jpg') | imagine_filter('position') }}";
 	</script>
 
-	<script type="text/javascript">
-		var $collectionHolder;
-
-		// setup an "add a tag" link
-		var $addPositionButton = $('<button type="button" class="btn btn-primary">Add a position</button>');
-		var $newLinkLi = $('<li class="list-group-item"></li>').append($addPositionButton);
-
-		jQuery(document).ready(function() {
-    		// Get the ul that holds the collection of tags
-    		$collectionHolder = $('#positions');
-
-    		// add the "add a tag" anchor and li to the tags ul
-			$collectionHolder.append($newLinkLi);
-
-    		// count the current form inputs we have (e.g. 2), use that as the new
-    		// index when inserting a new item (e.g. 2)
-    		$collectionHolder.data('index', $collectionHolder.find(':input').length);
-
-    		$addPositionButton.on('click', function(e) {
-				// add a new tag form (see next code block)
-        		addPositionForm($collectionHolder, $newLinkLi);
-    		});
-		});
-
-		function addPositionForm($collectionHolder, $newLinkLi) {
-    		// Get the data-prototype explained earlier
-    		var prototype = $collectionHolder.data('prototype');
-
-    		// get the new index
-    		var index = $collectionHolder.data('index');
-
-    		var newForm = prototype;
-
-    		// Replace '__name__' in the prototype's HTML to
-    		// instead be a number based on how many items we have
-    		newForm = newForm.replace(/__name__/g, index);
-
-    		// increase the index with one for the next item
-    		$collectionHolder.data('index', index + 1);
-
-			var test = $('<button/>',
-			{
-				class: "btn btn-danger",
-        		text: 'Remove',
-        		click: function () { removePosition(event); }
-    		});
-
-    		// Display the form in the page in an li, before the "Add a tag" link li
-    		var $newFormLi = $('<li class="list-group-item"></li>').append(newForm).append(test);
-    		$newLinkLi.before($newFormLi);
-		}
-
-		function removePosition(event){
-			event.preventDefault();
-			$(event.target).parent().remove();
-		}
-	</script>
+	<script src="{{ asset('js/field/readUrl.js') }}"></script>
+	<script src="{{ asset('js/field/positionManager.js') }}"></script>
 {% endblock %}

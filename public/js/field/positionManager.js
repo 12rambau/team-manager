@@ -6,8 +6,11 @@ $(document).ready(function() {
     // Get the ul that holds the collection of tags
     var collectionHolder = $('#positions');
 
+    //get the ul that holds the position names
+    var namesHolder = $("#position-name");
+
     // add the "add a tag" anchor and li to the tags ul
-    collectionHolder.append(newLinkLi);
+    namesHolder.append(newLinkLi);
 
     // count the current form inputs we have, use that as the new
     // index when inserting a new item
@@ -35,7 +38,13 @@ function addPositionForm(collectionHolder, newLinkLi) {
 
     // Display the form in the page in an li, before the "Add a tag" link li
     var newFormLi = $('<li class="list-group-item"></li>').append(newForm);
-    newLinkLi.before(newFormLi);
+    collectionHolder.append(newFormLi);
+
+    //add the name in the aside list
+    var newNameLi = $('<li class="list-group-item"></li>');
+    newNameLi.attr('id', newFormLi.children(":first").attr('id')+"_namer");
+    newNameLi.text('automatic name');
+    newLinkLi.before(newNameLi);
 
     var card = $('<div/>',
     {
@@ -68,6 +77,9 @@ function removePosition(event){
     //remove the phantom card
     $("#"+name+"_card").remove();
 
+    //remove the name in aside 
+    $("#"+name+"_namer").remove();
+
     //remove the position form
     $(event.target).parent().remove();
 }
@@ -88,3 +100,14 @@ $(document).on("change", 'input[type=range]', function(event){
         $("#"+position+"_card").css('top', target.val()+"%");
 
 });
+
+$(document).on('change', 'input[type=text][id^="template_positions_"]', function(event){
+    //get the target HTML range input
+    var target = $(event.target);
+
+    //get the name of the position associated
+    var position = target.parent().parent().attr('id');
+
+    //change the name in the name list
+    $("#"+position+"_namer").text(target.val());
+})
