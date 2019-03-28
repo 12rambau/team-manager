@@ -2,6 +2,12 @@
 
 {% block title %}Edit a field Template{% endblock %}
 
+{% block stylesheets %}
+	{{ parent() }}
+
+	<link rel="stylesheet" href="{{ asset('css/field/field.css') }}" type="text/css"/>
+{% endblock %}
+
 {% block body %}
 
 	{{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
@@ -25,13 +31,7 @@
 					{{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
 				</div>
 
-				<div 
-					id="positionning" 
-					style="
-						position:relative;
-						border-color: red
-					"
-				>
+				<div id="positionning">
 					<img 
 						id="imageFile"
 						class="col-12" 
@@ -47,15 +47,10 @@
 					{% for position in template.positions %}
 						<div
 							id="template_positions_{{ loop.index0 }}_card"
-							class="card"
+							class="card position-card"
 							style="
-								position: absolute;
 								top:{{ position.vertical }}%;
 								left:{{ position.horizontal }}%;
-								height:65px;
-								width:50px;
-								margin-top: -32px;  {# set to a negative number 1/2 of your height #}
-    							margin-left: -25px;  {# set to a negative number 1/2 of your width #}
 							"
 						>
 							<img src="{{ asset('image/default/no-position.jpg') | imagine_filter('position') }}" alt="no-position">
@@ -115,121 +110,7 @@
 		var phantomUrl = "{{ asset('image/default/no-position.jpg') | imagine_filter('position') }}";
 	</script>
 
-	<script type="text/javascript">
-		$(document).ready(function(){
-			$("#positionning").height($("#imageFile").height());
-		});
-	</script>
-
-	<script type="text/javascript">
-		function readURL(input) {
-  			if (input.files && input.files[0]) {
-    			var reader = new FileReader();
-    			reader.onload = function (e) {
-      				$('#imageFile')
-        				.attr('src', e.target.result)
-        				.width(150)
-        				.height(200);
-				};
-    			reader.readAsDataURL(input.files[0]);
-				$('#previewAlert').attr('class', $('#previewAlert').attr('class').replace('sr-only', ''));
-  			}
-		}
-	</script>
-
-	<script type="text/javascript">
-		var $collectionHolder;
-
-		// setup an "add a tag" link
-		var $addPositionButton = $('<button type="button" class="btn btn-primary">Add a position</button>');
-		var $newLinkLi = $('<li class="list-group-item"></li>').append($addPositionButton);
-
-		jQuery(document).ready(function() {
-    		// Get the ul that holds the collection of tags
-    		$collectionHolder = $('#positions');
-
-    		// add the "add a tag" anchor and li to the tags ul
-			$collectionHolder.append($newLinkLi);
-
-    		// count the current form inputs we have (e.g. 2), use that as the new
-    		// index when inserting a new item (e.g. 2)
-    		$collectionHolder.data('index', $collectionHolder.find(':input').length);
-
-    		$addPositionButton.on('click', function(e) {
-				// add a new tag form (see next code block)
-        		addPositionForm($collectionHolder, $newLinkLi);
-    		});
-		});
-
-		function addPositionForm($collectionHolder, $newLinkLi) {
-    		// Get the data-prototype explained earlier
-    		var prototype = $collectionHolder.data('prototype');
-
-    		// get the new index
-    		var index = $collectionHolder.data('index');
-
-    		var newForm = prototype;
-
-    		// Replace '__name__' in the prototype's HTML to
-    		// instead be a number based on how many items we have
-    		newForm = newForm.replace(/__name__/g, index);
-
-    		// increase the index with one for the next item
-    		$collectionHolder.data('index', index + 1);
-
-    		// Display the form in the page in an li, before the "Add a tag" link li
-    		var newFormLi = $('<li class="list-group-item"></li>').append(newForm);
-    		$newLinkLi.before(newFormLi);
-
-			var card = $('<div/>',
-			{
-				id: newFormLi.children(":first").attr('id')+"_card",
-				"class": "card",
-				css:{
-					"position": "absolute",
-					"top": "0%",
-					"left": "0%",
-					"height": "65px",
-					"width": "50px",
-					"margin-top": "-32px",
-    				"margin-left": "-25px"
-				}
-			});
-
-			var phantom = $('<img/>',
-			{
-				src: phantomUrl
-			});
-
-			//display the new phantom on the field
-			$("#positionning").append(card.append(phantom));
-
-
-		}
-
-		function removePosition(event){
-			event.preventDefault();
-			var name = $(event.target).prev().attr('id');
-			$("#"+name+"_card").remove();
-			$(event.target).parent().remove();
-		}
-	</script>
-
-	<script type="text/javascript">
-		$(document).on("change", 'input[type=range]', function(event){
-			
-			alert("j'ai vu");
-			var target = $(event.target);
-			var position = $(event.target).parent().parent().attr('id');
-			
-			if(target.attr('id') == position+"_horizontal")
-			{
-				$("#"+position+"_card").css('left', target.val()+"%");
-			} else if(target.attr('id') == position+"_vertical")
-			{
-				$("#"+position+"_card").css('top', target.val()+"%");
-			}
-
-		});
-	</script>
+	<script src="{{ asset('js/field/imageHeigt.js') }}"></script>
+	<script src="{{ asset('js/field/readUrl.js') }}"></script>
+	<script src="{{ asset('js/field/positionManager.js') }}"></script>
 {% endblock %}

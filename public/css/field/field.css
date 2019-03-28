@@ -1,0 +1,11 @@
+#positionning{
+    position: relative;
+}
+
+.position-card{
+    position: absolute;
+	height:65px;
+	width:50px;
+	margin-top: -32px;  /* set to a negative number 1/2 of your height */
+    margin-left: -25px;  /* set to a negative number 1/2 of your width */
+}

@@ -4,12 +4,14 @@
         {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
     </div>
     <div class="form-group">
+        {% set horizontal = (form.horizontal.vars.value == "") ? 0 : form.horizontal.vars.value %}
         {{ form_label(form.horizontal, "Horizontal: ", {'label_attr': {'class': 'control-label'}}) }}
-        {{ form_widget(form.horizontal, {'attr': {'value': form.horizontal.vars.value}}) }}
+        {{ form_widget(form.horizontal, {'attr': {'value': horizontal}}) }}
     </div>
     <div class="form-group">
+        {% set vertical = (form.vertical.vars.value == "") ? 0 : form.vertical.vars.value %}
         {{ form_label(form.vertical, "Vertical: ", {'label_attr': {'class': 'control-label'}}) }}
-        {{ form_widget(form.vertical, {'attr': {'value': form.vertical.vars.value}}) }} 
+        {{ form_widget(form.vertical, {'attr': {'value': vertical}}) }} 
     </div>
 </div>
 <button class="btn btn-danger" onClick="removePosition(event);">
