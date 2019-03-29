@@ -31,9 +31,6 @@
 					{{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
 				</div>
 
-				{{ form_label(form.image.imageFile, "imageFile : ", {'label_attr': {'class':'control-label', }}) }}
-				{{ form_widget(form.image.imageFile) }}
-
 				<div id="positionning">
 					<img 
 						id="imageFile"
@@ -64,6 +61,12 @@
 					This is a preview, please save before any other modification
 				</div>
 
+
+				<div class="custom-file">
+					{{ form_widget(form.image.imageFile, {'attr': {'class': 'custom-file-input'}}) }}
+					{{ form_label(form.image.imageFile, "imageFile : ", {'label_attr': {'class':'custom-file-label', }}) }}
+				</div>
+				
 				<ul 
 					id="positions" 
 					class="list-group list-group-flush" 

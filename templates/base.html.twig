@@ -58,6 +58,13 @@
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
 	<script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
 	<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+  			bsCustomFileInput.init()
+		});
+	</script>
 {% endblock %}
 
 </body>

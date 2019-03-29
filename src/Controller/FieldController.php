@@ -80,10 +80,10 @@ class FieldController extends AbstractController
         return new RedirectResponse($this->generateUrl('template-index'));
     }
 
-    public function view(Field $field):Response
+    public function view(Field $template):Response
     {
         return $this->render('field/view.html.twig', [
-            'field' => $field
+            'template' => $template
         ]); 
     }
 }

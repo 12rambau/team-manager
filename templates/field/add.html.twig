@@ -2,6 +2,12 @@
 
 {% block title %}add a new field template{% endblock %}
 
+{% block stylesheets %}
+	{{ parent() }}
+
+	<link rel="stylesheet" href="{{ asset('css/field/field.css') }}" type="text/css"/>
+{% endblock %}
+
 {% block body %}
 
 	{{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
@@ -41,12 +47,23 @@
 				<div id="previewAlert" class="alert alert-warning sr-only">
 					This is a preview, please save before any other modification
 				</div>
-
-				{{ form_label(form.image.imageFile, "imageFile : ", {'label_attr': {'class':'control-label', }}) }}
-				{{ form_widget(form.image.imageFile) }}
-
+				
+				<div class="custom-file">
+					{{ form_widget(form.image.imageFile, {'attr': {'class': 'custom-file-input'}}) }}
+					{{ form_label(form.image.imageFile, "imageFile : ", {'label_attr': {'class':'custom-file-label', }}) }}
+				</div>
+				
+				<ul 
+					id="positions" 
+					class="list-group list-group-flush" 
+					data-prototype="
+						{% filter escape('html_attr') %}
+							{% include 'position/prototype.html.twig' with {'form': form.positions.vars.prototype} only %}
+						{% endfilter %}
+					"
+				></ul>
 			</div>
-			
+		
 			<div class="col-3">
 				<div class="card">
                     <div class="card-header">
@@ -54,8 +71,7 @@
                     </div>
                     <div class="card-body">
 						<small>
-                        	<ul id="positions" class="list-group list-group-flush" data-prototype="{{ form_widget(form.positions.vars.prototype)|e('html_attr') }}">
-							</ul>
+							<ul id="position-name" class="list-group list-group-flush"></ul>
 						</small>
                     </div>
                 </div>

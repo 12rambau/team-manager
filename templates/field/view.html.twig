@@ -1,33 +1,78 @@
 {% extends 'layout.html.twig' %}
 
-{% block title %}Field view{% endblock %}
+{% block title %}View a field Template{% endblock %}
 
-{% block content %}
+{% block stylesheets %}
+	{{ parent() }}
 
-<div class="jumbotron text-center">
-	<h1>Field</h1>
-</div>
+	<link rel="stylesheet" href="{{ asset('css/field/field.css') }}" type="text/css"/>
+{% endblock %}
 
-<div class="container">
-	<div class="row flex">
-		<div class="col-12">
-            <div class="card">
-                <img class="card-img-top" src={{ asset(vich_uploader_asset(field.image, "imageFile")) }} alt="image {{ field.name }}">
-                <div class="card-body">
-                    <div class="row">
-                        <h5 class="card-title col-lg-8">{{ field.name }}</h5>
-                        <div class="btn-group col-lg-4">
-                            <a href="{{ path('field-view', {'slug':field.slug}) }}" class="btn btn-outline-primary">View</a>
-                            <a href="{{ path('field-edit', {'slug':field.slug}) }}"class="btn btn-outline-info">Edit</a>
-                            <a href="{{path('field-delete', {'slug':field.slug}) }}"class="btn btn-outline-danger">delete</a>
-                        </div>
+{% block body %}
+
+    <div class="container-fluid row">
+        <div class="col-9">
+
+            <div class="jumbotron">
+                <h2>View a field Template</h2>
+            </div>
+        
+
+            <div id="positionning">
+                <img 
+                    id="imageFile"
+                    class="col-12" 
+                    src=
+                        {% if template.image != null %}
+                            {{ asset(vich_uploader_asset(template.image, "imageFile")) | imagine_filter('field') }}
+                        {% else %}
+                            {{ asset('image/default/empty_field.jpg') | imagine_filter('field') }}
+                        {% endif %}
+                    alt="image {{ template.id }}"
+                >
+
+                {% for position in template.positions %}
+                    <div
+                        id="template_positions_{{ loop.index0 }}_card"
+                        class="card position-card"
+                        style="
+                            top:{{ position.vertical }}%;
+                            left:{{ position.horizontal }}%;
+                        "
+                    >
+                        <img src="{{ asset('image/default/no-position.jpg') | imagine_filter('position') }}" alt="no-position">
                     </div>
+                {% endfor %}
+            </div>	
+
+            <div class="btn-group btn-group-justified">
+                <a href="{{ path('template-index') }}" class="btn btn-outline-primary">View</a>
+                <a href="{{ path('template-edit', {'slug':template.slug}) }}"class="btn btn-outline-info">Edit</a>
+                <a href="{{path('template-delete', {'slug':template.slug}) }}"class="btn btn-outline-danger">delete</a>
+            </div>		
+
+        </div>
+        
+        <div class="col-3">
+            <div class="card">
+                <div class="card-header">
+                    <p class="card-title"><span class="fas fa-arrows-alt"/> Positions</p>
+                </div>
+                <div class="card-body">
+                    <small>
+                        <ul id="position-name" class="list-group list-group-flush">
+                            {% for position in template.positions %}
+                            <li id="template_positions_{{ loop.index0 }}_namer" class="list-group-item">
+                                {{ position.name }}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </small>
                 </div>
             </div>
         </div>
-	</div>
-</div>
-<hr/>
-<a href="{{ path('field-index') }}" class="btn btn-block btn-success">return to index</a>
+    </div>
+	
+
 
 {% endblock %}
