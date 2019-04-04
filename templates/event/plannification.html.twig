@@ -1,0 +1,70 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    {{ event.slug }}
+    plannification
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <link rel="stylesheet" href="{{ asset('css/field/field.css') }}" type="text/css" />
+{% endblock %}
+
+{% block content %}
+
+    <div class="jumbotron bg-primary-light">
+        <h2>
+            <span class="badge badge-primary">{{event.tag.name|slice(0,3)|raw}}.</span>
+            <a href="{{ path('event-view', {'slug':event.slug}) }}">{{ event.name }}</a>
+            Plannification</h2>
+    </div>
+
+    {% for field in event.fields %}
+        <h2>{{ field.name }}</h2>
+        <div id="positionning">
+            <img id="imageFile" class="col-12" src={% if field.image != null %} {{ asset(vich_uploader_asset(field.image, "imageFile")) | imagine_filter('field') }} {% else %} {{ asset('image/default/empty_field.jpg') | imagine_filter('field') }} {% endif %} alt="image {{ field.id }}">
+
+            {% for position in field.positions %}
+                <div class="card position-card" id="field_positions_{{ loop.index0 }}_card" style="top:{{ position.vertical }}%; left:{{ position.horizontal }}%;">
+                    <img src="{{ asset('image/default/no-position.jpg') | imagine_filter('position') }}" alt="no-position">
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+
+    <div>
+        {{ form_start(templateForm) }}
+
+            {{ form_errors(templateForm) }}
+
+            {{ form_label(templateForm.template, 'template name', {'label_attr': {'class': 'control-label'}}) }}
+            {{ form_widget(templateForm.template, {'attr': {'class': 'form-control'}}) }}
+
+            {{ form_rest(templateForm) }}
+            <hr>
+            <button class="btn btn-block btn-success" type="submit">add field</button>
+
+        {{ form_end(templateForm) }}
+    </div>
+
+{{ dump() }}
+
+{% endblock %}
+
+{% block aside %}
+    <div class="card">
+        <div class="card-header">
+            <p class="card-title"><span class="fas fa-users" />
+                List of participating players</p>
+        </div>
+        <div class="card-body">
+            {% for participation in event.participations %}
+                <span id="{{ loop.index0 }}-drag-element" draggable="true" ondragstart="drag(event)" class="badge badge-secondary">{{ participation.user.username }}</span>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block chat %}{% endblock %}

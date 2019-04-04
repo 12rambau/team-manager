@@ -91,6 +91,11 @@ class Event
     * @ORM\OneToMany(targetEntity="App\Entity\Participation", mappedBy="event", cascade={"persist"}, orphanRemoval=true)
     */
     private $participations;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Field", mappedBy="event", cascade={"persist"}, orphanRemoval=true)
+     */
+    private $fields;
     
     public function __construct()
     {
@@ -98,6 +103,7 @@ class Event
         $this->location = new Location();
         $this->publishDate = new \DateTime();
         $this->participations = new ArrayCollection();
+        $this->fields = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -229,12 +235,12 @@ class Event
         return $this;
     }
 
-    public function getPublishDate(): ?\DateTimeInterface
+    public function getPublishDate(): ?\DateTime
     {
         return $this->publishDate;
     }
 
-    public function setPublishDate(\DateTimeInterface $publishDate): self
+    public function setPublishDate(\DateTime $publishDate): self
     {
         $this->publishDate = $publishDate;
 
@@ -290,6 +296,37 @@ class Event
             // set the owning side to null (unless already changed)
             if ($participation->getEvent() === $this) {
                 $participation->setEvent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Field[]
+     */
+    public function getFields(): Collection
+    {
+        return $this->fields;
+    }
+
+    public function addField(Field $field): self
+    {
+        if (!$this->fields->contains($field)) {
+            $this->fields[] = $field;
+            $field->setEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeField(Field $field): self
+    {
+        if ($this->fields->contains($field)) {
+            $this->fields->removeElement($field);
+            // set the owning side to null (unless already changed)
+            if ($field->getEvent() === $this) {
+                $field->setEvent(null);
             }
         }
 

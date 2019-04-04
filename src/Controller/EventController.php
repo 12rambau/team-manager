@@ -11,7 +11,10 @@ use App\Entity\Location;
 use App\Entity\Participation;
 use App\Form\ParticipationType;
 use App\Form\ListParticipationType;
+use App\Form\TemplateSelectType;
 use App\Utils\CalendarBox;
+use App\Entity\Field;
+use App\Entity\Position;
 
 class EventController extends AbstractController
 {
@@ -19,20 +22,19 @@ class EventController extends AbstractController
     public function index(int $page, Request $request): Response
     {
         $nbEventPerPage = 10;
-        
+
         $em = $this->getDoctrine()->getEntityManager();
-        $events = $em->getRepository(Event::class)->findTenByUser(($page-1)*$nbEventPerPage, $nbEventPerPage, $this->getUser());
+        $events = $em->getRepository(Event::class)->findTenByUser(($page - 1) * $nbEventPerPage, $nbEventPerPage, $this->getUser());
         $nbEvent = $em->getRepository(Event::class)->countUserEvent($this->getuser());
 
         // TODO: code enhancement
-        $participations = $em->getRepository(Participation::class)->findTenByUser(($page-1)*10, $this->getUser());
-        $form = $this->createForm(ListParticipationType::class, ['participations'=> $participations]);
+        $participations = $em->getRepository(Participation::class)->findTenByUser(($page - 1) * 10, $this->getUser());
+        $form = $this->createForm(ListParticipationType::class, ['participations' => $participations]);
 
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid())
-        {
-            $em->flush();
-        }
+        if ($form->isSubmitted() && $form->isValid()) {
+                $em->flush();
+            }
 
         return $this->render('event/index.html.twig', [
             'events' => $events,
@@ -41,7 +43,7 @@ class EventController extends AbstractController
             'nbEvent' => $nbEvent,
             'page' => $page,
             'nbEventPerPage' => $nbEventPerPage,
-            'maxPage' => ceil($nbEvent/$nbEventPerPage)
+            'maxPage' => ceil($nbEvent / $nbEventPerPage)
         ]);
     }
 
@@ -54,23 +56,21 @@ class EventController extends AbstractController
 
         $myFormInOut = $this->createForm(ParticipationType::class, $myParticipation);
         $formsInOut = $this->createForm(ListParticipationType::class, ['participations' => $participations]);
- 
-        if ($request->request->has('list_participation'))
-        {
-            $formsInOut->handleRequest($request);
 
-            if ($formsInOut->isSubmitted() && $formsInOut->isValid())
-                $em->flush();
-        }
-     
-        if ($request->request->has('participation') )
-        {
-            $myFormInOut->handleRequest($request);
-                
-            if ($myFormInOut->isSubmitted() && $myFormInOut->isValid())
-                $em->flush();
-        }
-        
+        if ($request->request->has('list_participation')) {
+                $formsInOut->handleRequest($request);
+
+                if ($formsInOut->isSubmitted() && $formsInOut->isValid())
+                    $em->flush();
+            }
+
+        if ($request->request->has('participation')) {
+                $myFormInOut->handleRequest($request);
+
+                if ($myFormInOut->isSubmitted() && $myFormInOut->isValid())
+                    $em->flush();
+            }
+
         return $this->render('event/view.html.twig', [
             'event' => $event,
             'myFormInOut' => $myFormInOut->createView(),
@@ -87,21 +87,20 @@ class EventController extends AbstractController
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
-        {
-            $em = $this->getDoctrine()->getEntityManager();
+        if ($form->isSubmitted() && $form->isValid()) {
+                $em = $this->getDoctrine()->getEntityManager();
 
-            $em->persist($event);
-            $em->flush();
+                $em->persist($event);
+                $em->flush();
 
-            //TODO email the administrator to validate the new event 
+                //TODO email the administrator to validate the new event 
 
-            $request->getSession()->getFlashBag()->add('success', 'The post : '.$event->getSlug().' has been added.');
+                $request->getSession()->getFlashBag()->add('success', 'The post : ' . $event->getSlug() . ' has been added.');
 
-            return new RedirecResponse($this->generateUrl('event-view', [
-                'slug' => $event->getSlug()
-            ]));
-        }
+                return new RedirecResponse($this->generateUrl('event-view', [
+                    'slug' => $event->getSlug()
+                ]));
+            }
 
         return $this->render('event/add.html.twig', [
             'form' => $form->createView()
@@ -113,20 +112,19 @@ class EventController extends AbstractController
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
-        {
-            $em = $this->getDoctrine()->getEntityManager();
-            $em->persist($event);
-            $em->flush();
+        if ($form->isSubmitted() && $form->isValid()) {
+                $em = $this->getDoctrine()->getEntityManager();
+                $em->persist($event);
+                $em->flush();
 
-            //TODO email the administrator to validate the new event 
+                //TODO email the administrator to validate the new event 
 
-            $request->getSession()->getFlashBag()->add('success', 'The post : '.$event->getSlug().' has been edited.');
+                $request->getSession()->getFlashBag()->add('success', 'The post : ' . $event->getSlug() . ' has been edited.');
 
-            return new RedirecResponse($this->generateUrl('event-view', [
-                'slug' => $event->getSlug()
-            ]));
-        }
+                return new RedirecResponse($this->generateUrl('event-view', [
+                    'slug' => $event->getSlug()
+                ]));
+            }
 
         return $this->render('event/edit.html.twig', [
             'form' => $form->createView(),
@@ -140,7 +138,7 @@ class EventController extends AbstractController
         $em->remove($event);
         $em->flush();
 
-        $request->getSession()->getFlashBag()->add('success', 'The post : '.$event->getSlug().' has been deleted.');
+        $request->getSession()->getFlashBag()->add('success', 'The post : ' . $event->getSlug() . ' has been deleted.');
 
         return $this->redirect($request->headers->get('referer'));
     }
@@ -155,8 +153,8 @@ class EventController extends AbstractController
         $em->persist($event);
         $em->flush();
 
-        $request->getSession()->getFlashBag()->add('success', 'The post : '.$event->getSlug().' has been activated.');
-        
+        $request->getSession()->getFlashBag()->add('success', 'The post : ' . $event->getSlug() . ' has been activated.');
+
         return $this->redirect($request->headers->get('referer'));
     }
 
@@ -169,36 +167,35 @@ class EventController extends AbstractController
         $em = $this->getDoctrine()->getEntityManager();
         $em->persist($event);
         $em->flush();
-        
-        $request->getSession()->getFlashBag()->add('success', 'The post : '.$event->getSlug().' has been deactivated.');
+
+        $request->getSession()->getFlashBag()->add('success', 'The post : ' . $event->getSlug() . ' has been deactivated.');
 
         return $this->redirect($request->headers->get('referer'));
     }
 
-    public function showCalendar(int $timestamp=null) : Response
+    public function showCalendar(int $timestamp = null): Response
     {
 
         // getting the monday corresponding to the given date
-        $targetMonday = ($timestamp) ? new \DateTime('@'.$timestamp) : new \DateTime();
-        $targetMonday->sub(new \DateInterval("P".(date('N',$targetMonday->getTimestamp())-1)."D"));
-        $targetMonday->setTime(0,0,0);
+        $targetMonday = ($timestamp) ? new \DateTime('@' . $timestamp) : new \DateTime();
+        $targetMonday->sub(new \DateInterval("P" . (date('N', $targetMonday->getTimestamp()) - 1) . "D"));
+        $targetMonday->setTime(0, 0, 0);
 
         //getting all the event concerning this period
         $em = $this->getDoctrine()->getEntityManager();
         $events = $em->getRepository(Event::class)->findWeeklyEvent($targetMonday);
 
         //separate them for each day of the week 
-        $weeklyEvents = CalendarBox::getWeeklyBoxes($targetMonday,$events);
-        
-         return $this->render('event/calendar.html.twig', [ 
-             'targetMonday'=>$targetMonday,
-             'events'=>$events, 
-             'weeklyEvents'=>$weeklyEvents
-             ]);
+        $weeklyEvents = CalendarBox::getWeeklyBoxes($targetMonday, $events);
 
+        return $this->render('event/calendar.html.twig', [
+            'targetMonday' => $targetMonday,
+            'events' => $events,
+            'weeklyEvents' => $weeklyEvents
+        ]);
     }
 
-    public function getEvents(Request $request):Response
+    public function getEvents(Request $request): Response
     {
         $start = new \DateTime($request->query->get('start')); //change start into DateTime
         $end = new \DateTime($request->query->get('end')); //change end into dateTime
@@ -211,4 +208,30 @@ class EventController extends AbstractController
         return new Response($data);
     }
 
+    public function plannification(Event $event, Request $request): Response
+    {
+        $templateForm = $this->createForm(TemplateSelectType::class);
+
+        if ($request->request->has('template_select')); {
+            $templateForm->handleRequest($request);
+
+            if ($templateForm->isSubmitted() && $templateForm->isValid()) {
+                    $em = $this->getDoctrine()->getEntityManager();
+
+                    $template = $em->getRepository(Field::class)->findOneById($request->get('template_select')['template']);
+
+                    //copying the template in the new field 
+                    $field = clone $template;
+                    $field->setName($event->getId()."_".$field->getName());
+                    $event->addField($field);
+
+                    $request->getSession()->getFlashBag()->add('success', 'The field : ' . $field->getName() . ' has been added to ' . $event->getName());
+                }
+        }
+
+        return $this->render('event/plannification.html.twig', [
+            'event' => $event,
+            'templateForm' => $templateForm->createView(),
+        ]);
+    }
 }

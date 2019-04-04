@@ -30,4 +30,16 @@ class FieldRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    public function queryAllTemplate()
+    {
+        $qb = $this->createQueryBuilder('t');
+
+        $qb->select('t')
+            ->where('t.name LIKE :regex')
+            ->setParameter('regex', 'template_%')
+        ;
+
+        return $qb;
+    }
 }

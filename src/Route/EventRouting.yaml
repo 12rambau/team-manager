@@ -43,3 +43,8 @@ event-get:
     controller: App\Controller\EventController::getEvents
     options:
         expose: true
+
+event-plannification:
+    path: /{slug}/plannification
+    controller: App\Controller\EventController:plannification
+    

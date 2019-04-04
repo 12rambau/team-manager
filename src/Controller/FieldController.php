@@ -69,13 +69,14 @@ class FieldController extends AbstractController
         ]);
     }
 
-    public function delete(Field $field, Request $request):Response
+    public function delete(Field $template, Request $request):RedirectResponse
     {
         $em = $this->getDoctrine()->getEntityManager();
-        $em->remove($field);
+        $em->remove($template);
+        $em->remove($template->getImage());
         $em->flush();
 
-        $request->getSession()->getFlashBag()->add('danger', 'The template : '.$field->getSlug().' has been deleted.');
+        $request->getSession()->getFlashBag()->add('danger', 'The template : '.$template->getSlug().' has been deleted.');
 
         return new RedirectResponse($this->generateUrl('template-index'));
     }

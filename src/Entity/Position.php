@@ -46,6 +46,12 @@ class Position
         $this->vertical = 0;
     }
 
+    public function __clone()
+    {
+        $this->id = null;
+        $this->field = null; //dealt by the field directly
+    }
+
     public function getId(): ?int
     {
         return $this->id;

@@ -35,7 +35,7 @@ class Field
     private $updateAt;
 
     /**
-    * @ORM\OneToOne(targetEntity="App\Entity\Image", cascade={"persist"}, orphanRemoval=true)
+    * @ORM\ManyToOne(targetEntity="App\Entity\Image", cascade={"persist"})
     */
     private $image;
 
@@ -44,9 +44,25 @@ class Field
      */
     private $positions;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Event", inversedBy="fields")
+     */
+    private $event;
+
     public function __construct()
     {
         $this->positions = new ArrayCollection();
+    }
+
+    public function __clone()
+    {
+        $this->id = null;
+        $this->setUpdateAt();
+        foreach ($this->positions->getIterator() as $position) {
+            $position = clone $position;
+            $this->addPosition($position);
+        }
+        $this->event = null; //handled by the controller
     }
 
     public function getId(): ?int
@@ -130,6 +146,18 @@ class Field
                 $position->setField(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEvent(): ?Event
+    {
+        return $this->event;
+    }
+
+    public function setEvent(?Event $event): self
+    {
+        $this->event = $event;
 
         return $this;
     }
