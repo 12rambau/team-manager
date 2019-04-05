@@ -49,7 +49,6 @@ class AppFixtures extends Fixture
         $root->setPassword($this->passwordEncoder->encodePassword($root,'root'));
         $root->setEmail('root@root.com');
         $image = AppFixtures::manualImage('no-profile-pic.jpg');
-        //$manager ->persist($image);
         $root->setProfilePic($image);
 
         $manager->persist($root);
@@ -64,7 +63,8 @@ class AppFixtures extends Fixture
             $users[$i]->setUserName($users[$i]->getfirstName().$users[$i]->getLastName());
             $users[$i]->setPassword($this->passwordEncoder->encodePassword($users[$i],'userdemo'.$i));
             $users[$i]->setEmail($users[$i]->getfirstName().".".$users[$i]->getLastName().'@team.com');
-
+            $image = AppFixtures::manualImage('no-profile-pic.jpg');
+            $users[$i]->setProfilePic($image);
             $manager->persist($users[$i]);
         }
 
