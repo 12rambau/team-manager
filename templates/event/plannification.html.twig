@@ -21,6 +21,10 @@
     </div>
 
     {{ form_start(fieldsForm) }}
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit"> Save Data </button>
+    <hr>
+
     <table class="table">
         {% for field in event.fields %}
         {% set fieldNumber = loop.index0 %}
@@ -41,7 +45,7 @@
                                 {% if position.participation == null %}
                                     <img src="{{ asset('image/default/no-position.jpg') | imagine_filter('position') }}" alt="no-position" data-image="{{ asset('image/default/no-position.jpg') | imagine_filter('position') }}">
                                 {% else %}
-                                    <img src="{{ asset(vich_uploader_asset(postion.participation.user.profilePic, "imageFile")) | imagine_filter('position') }}" alt="no-position">
+                                    <img src="{{ asset(vich_uploader_asset(position.participation.user.profilePic, "imageFile")) | imagine_filter('position') }}" alt="no-position">
                                 {% endif %}
                             </div>
                         {% endfor %}

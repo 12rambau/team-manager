@@ -6,33 +6,8 @@
 
 <style type="text/css">
 body {
-    background: transparent url('/picture/default/login.jpg')  no-repeat center fixed;
+    background: transparent url('/image/default/login.jpg')  no-repeat center fixed;
     background-size: cover;
 }
 </style>
 {% endblock %}
-{# {% block user_content %}
-<div class="col-lg-4"></div>
-<div class="container col-lg-4">
-{% if error %}
-    <div class="alert alert-danger alert-dismissible" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    	{{ error.messageKey|trans(error.messageData, 'security') }}
-    </div>
-{% endif %}
-<form action="{{ path("fos_user_security_check") }}" method="post" class="form-signin">
-    <h2 class="form-signin-heading">Connectez vous</h2>
-    <label class = "sr-only" for="username">nom d'utilisateur ou email</label>
-    <input class="form-control" type="email" id="username" name="_username" value="{{ last_username }}" required autofocus placeholder="nom d'utilisateur ou email"/>
-    <label class="sr-only" for="password">mot de passe</label>
-    <input class="form-control" type="password" id="password" name="_password" required="required" placeholder="mot de passe"/>
-    <input class= "control-label" type="checkbox" id="remember_me" name="_remember_me" value="on" />
-    <label for="remember_me">se souvenir de moi</label></br>
-    
-    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
-    <input class="btn btn-success btn-lg btn-block" type="submit" id="_submit" name="_submit" value="connexion" />
-    <br/>
-    <a class="btn btn btn-primary btn-lg btn-block" href="{{ path('fos_user_registration_register') }}">je n'ai pas encore de compte</a>
-</form>
-</div>
-{% endblock user_content %} #}

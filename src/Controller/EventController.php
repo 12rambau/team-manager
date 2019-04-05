@@ -215,7 +215,7 @@ class EventController extends AbstractController
 
         $fieldsForm = $this->createForm(EventFieldsType::class, $event);
 
-        if ($request->request->has('template_select')); {
+        if ($request->request->has('template_select')){
             $templateForm->handleRequest($request);
 
             if ($templateForm->isSubmitted() && $templateForm->isValid()) {
@@ -230,6 +230,19 @@ class EventController extends AbstractController
 
                     $request->getSession()->getFlashBag()->add('success', 'The field : ' . $field->getName() . ' has been added to ' . $event->getName());
                 }
+        }
+
+        if ($request->request->has("event_fields")){
+            $fieldsForm->handleRequest($request);
+
+            if ($fieldsForm->isSubmitted() && $fieldsForm->isValid()){
+
+                $em = $this->getDoctrine()->getEntityManager();
+                $em->flush();
+
+                $request->getSession()->getFlashBag()->add('success', 'The event plannification : ' . $event->getSlug() . ' has been updated.');
+
+            }
         }
 
         return $this->render('event/plannification.html.twig', [
