@@ -50,7 +50,7 @@
                             </div>
                         {% endfor %}
                     </div>
-                    <div id="form-{{ loop.index0 }}">
+                    <div id="form-{{ loop.index0 }}" class="sr-only">
                         {% for fieldForm in fieldsForm.fields[loop.index0] %}
                             {% for positionForm in fieldForm %}
                                 {{ form_widget(positionForm) }}
@@ -134,7 +134,21 @@
             var data = ev.dataTransfer.getData("id");
             var parentId = ev.dataTransfer.getData("parentId");
 
+            parent = $("#"+parentId);
+            if ($(ev.target).attr('class').match(parent.attr('class')+".*")){
+                alert("forbidden move");
+                return;
+            }
+
             if (parentId == $(ev.target).attr('id')) return;
+
+            //replace the old particiation in the aside block
+            if ($(ev.target).children() != null){
+                element =$(ev.target).children();
+                element.attr('class','position-card');
+                parent = $("#"+parentId);
+                parent.append(element);
+            }
 
             var refParticipation = $(ev.target).attr('id');
             var participation = refParticipation.replace('card_','')+"_"+data;

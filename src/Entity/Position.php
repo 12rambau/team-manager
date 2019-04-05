@@ -123,14 +123,12 @@ class Position
         $this->participation = $participation;
 
         // set (or unset) the owning side of the relation if necessary 
-        $newPosition = $participation === null ? null : $this;
-        if ($participation === null) {
-            if ($newPosition !== $oldParticipation->getPosition()) {
-                $oldParticipation->setPosition($newPosition);
-            }
-        } else {
-            if ($newPosition !== $participation->getPosition()) {
-                $participation->setPosition($newPosition);
+        if ($oldParticipation !== null) {
+            $oldParticipation->setPosition(null);
+        }
+        if ($participation !== null) {
+            if ($this !== $participation->getPosition()) {
+                $participation->setPosition($this);
             }
         }
 
