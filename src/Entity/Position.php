@@ -42,6 +42,7 @@ class Position
     private $field;
 
     /**
+     * @ORM\JoinColumn(nullable=true)
      * @ORM\OneToOne(targetEntity="App\Entity\Participation", inversedBy="position", cascade={"persist"})
      */
     private $participation;
@@ -118,12 +119,19 @@ class Position
 
     public function setParticipation(?Participation $participation): self
     {
+        $oldParticipation = $this->participation;
         $this->participation = $participation;
 
         // set (or unset) the owning side of the relation if necessary 
         $newPosition = $participation === null ? null : $this;
-        if ($newPosition !== $participation->getPosition()){
-            $participation->setPosition($newPosition);
+        if ($participation === null) {
+            if ($newPosition !== $oldParticipation->getPosition()) {
+                $oldParticipation->setPosition($newPosition);
+            }
+        } else {
+            if ($newPosition !== $participation->getPosition()) {
+                $participation->setPosition($newPosition);
+            }
         }
 
         return $this;

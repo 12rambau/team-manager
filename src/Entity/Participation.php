@@ -43,6 +43,7 @@ class Participation
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Position", mappedBy="participation", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
      */
     private $position;
 

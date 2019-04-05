@@ -41,11 +41,11 @@
                         <img id="imageFile" class="col-12" src={% if field.image != null %} {{ asset(vich_uploader_asset(field.image, "imageFile")) | imagine_filter('field') }} {% else %} {{ asset('image/default/empty_field.jpg') | imagine_filter('field') }} {% endif %} alt="image {{ field.id }}">
 
                         {% for position in field.positions %}
-                            <div class="card position-card positionned" id="card_event_fields_fields_{{ fieldNumber }}_positions_{{ loop.index0 }}_participation" ondragover="allowDrop(event)" ondragleave="disableDrop(event)" ondrop="drop(event)" style="top:{{ position.vertical }}%; left:{{ position.horizontal }}%;">
-                                {% if position.participation == null %}
-                                    <img src="{{ asset('image/default/no-position.jpg') | imagine_filter('position') }}" alt="no-position" data-image="{{ asset('image/default/no-position.jpg') | imagine_filter('position') }}">
-                                {% else %}
-                                    <img src="{{ asset(vich_uploader_asset(position.participation.user.profilePic, "imageFile")) | imagine_filter('position') }}" alt="no-position">
+                            <div class="card position-card positionned" id="card_event_fields_fields_{{ fieldNumber }}_positions_{{ loop.index0 }}_participation" ondragover="allowDrop(event)" ondragleave="disableDrop(event)" ondrop="drop(event)" style="top:{{ position.vertical }}%; left:{{ position.horizontal }}%; background: url('{{ asset('image/default/no-position.jpg') | imagine_filter('position') }}')">
+                                {% if position.participation != null %}
+                                    <img id="{{ position.participation.id }}" src=
+                                    "{{ asset(vich_uploader_asset(position.participation.user.profilePic, "imageFile")) | imagine_filter('position') }}"
+                                alt="car-img" data-toggle="tooltip" title="{{ position.participation.user.username }}" draggable="true" ondragstart="drag(event)">
                                 {% endif %}
                             </div>
                         {% endfor %}
@@ -91,22 +91,14 @@
                 List of participating players
             </p>
         </div>
-        <div class="card-body">
-            <div class="card-columns">
+        <div id="dropback" class="card-body" ondragover="allowDrop(event)" ondragleave="disableDrop(event)" ondrop="dropBack(event)">
                 {% for participation in event.participations %}
                     {% if (participation.value == true) and (participation.position == null) %}
-                        <div class="card position-card">
-                            <img id="{{ participation.id }}" src=
-                                {% if participation.user.profilePic != null %}
-                                    "{{ asset(vich_uploader_asset(participation.user.profilePic, "imageFile")) | imagine_filter('position') }}" 
-                                {% else %}
-                                    "{{ asset('image/default/no-profile-pic.jpg') | imagine_filter('position') }}"
-                                {% endif %}
+                            <img class="position-card" id="{{ participation.id }}" src=
+                                    "{{ asset(vich_uploader_asset(participation.user.profilePic, "imageFile")) | imagine_filter('position') }}"
                                 alt="car-img" data-toggle="tooltip" title="{{ participation.user.username }}" draggable="true" ondragstart="drag(event)">
-                        </div>
                     {% endif %}
                 {% endfor %}
-            </div>
         </div>
     </div>
 {% endblock %}
@@ -119,34 +111,55 @@
     <script type="text/javascript">
         function allowDrop(ev) {
             ev.preventDefault();
+            $(ev.target).addClass('bg-primary');
             $(ev.target).addClass('border-primary');
+
         }
 
         function disableDrop(ev){
             ev.preventDefault();
+            $(ev.target).removeClass('bg-primary');
             $(ev.target).removeClass('border-primary');
         }
 
         function drag(ev) {
-            ev.dataTransfer.setData("src", $(ev.target).attr("src"));
-            ev.dataTransfer.setData("title", $(ev.target).attr("data-original-title"));
             ev.dataTransfer.setData("id", $(ev.target).attr('id'));
+            ev.dataTransfer.setData("parentId", $(ev.target).parent().attr('id'));
         }
 
         function drop(ev) {
-            var src = ev.dataTransfer.getData("src");
-            $(ev.target).children().attr('src', src);
-            var title = ev.dataTransfer.getData("title");
-            $(ev.target).children().attr("title", title);
-            var id = ev.dataTransfer.getData("id");
-            $(ev.target).children().attr("data-id", id);
+
+            var data = ev.dataTransfer.getData("id");
+            var refParticipation = $(ev.target).attr('id');
+            var participation = refParticipation.replace('card_','')+"_"+data;
+            element = $("#"+data);
+            element.attr('class', '');
+            $(ev.target).empty();
+            $(ev.target).append(element);
 
             $(ev.target).removeClass('border-primary');
 
             //change the value of the appropriate position
-            var classStart = $(ev.target).attr('id').replace("card_","");
-            alert(classStart);
-            document.getElementById(classStart+"_"+id).checked = true;
+            $("#"+participation).prop('checked', true);
+
+        }
+
+        function dropBack(ev){
+            var data = ev.dataTransfer.getData("id");
+            var parentId = ev.dataTransfer.getData("parentId");
+            
+            element = $("#"+data);
+            element.attr('class', 'position-card');
+            $(ev.target).append(element);
+
+            parent = $("#"+parentId);
+            parent.empty();
+
+            var participation = parentId.replace("card_","")+'_'+data;
+            $("#"+participation).prop('checked',false);
+
+            $(ev.target).removeClass('bg-primary');
+
 
         }
     </script>
