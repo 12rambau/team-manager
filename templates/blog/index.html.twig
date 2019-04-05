@@ -4,51 +4,63 @@
 
 {% block content %}
 
-	<div class="jumbotron text-center">
-		<h1>Blog Posts</h1>
-	</div>
+    <div class="jumbotron text-center">
+        <h1>Blog Posts</h1>
+    </div>
 
-	<div class="row flex">
-		{% for post in posts %}
-			<div class="col-4">
-				<div class="card">
-					<!-- <img class="card-img-top" src=".../100px180/" alt="Card image cap"> -->
-					<div class="card-body">
-						<h5 class="card-title">{{ post.title }}</h5>
-						<div class="small text-muted row">
-							<p class="text-left col-6">by <em>{{ post.author.username }}</em></p>
-							<p class="text-right col-6">{{ post.publishDate|date('d/m/Y') }}</p>
-						</div>
-						<p class="card-text">{{ post.short|slice(0,150)|raw}}</p>
-						<a href="{{ path('blog-view', { 'slug':post.slug }) }}" class="btn btn-primary btn-block">view</a>
-						{% if post.active == false %}
-							<hr/>
-							<p class="alert alert-danger text-center">The post is not yet public</p>
-						{% endif %}
-					</div>
-				</div>
-			</div>
-		{% else %}
-		<div class="card">
-			<div class="card-body">
-				<h2 class="card-title">no Post (yet!)</h2>
-			</div>
-		</div>
-		{% endfor %}
-	</div>
-	
-	<hr/>
+    <div class="row row-flex">
+        {% for post in posts %}
+            <div class="card col-4">
+                <!-- <img class="card-img-top" src=".../100px180/" alt="Card image cap"> -->
+                <div class="card-body">
+                    <h5 class="card-title">{{ post.title }}</h5>
+                    <div class="small text-muted row">
+                        <p class="text-left col-6">by
+                            <em>{{ post.author.username }}</em>
+                        </p>
+                        <p class="text-right col-6">{{ post.publishDate|date('d/m/Y') }}</p>
+                    </div>
+                    <p class="card-text">{{ post.short|slice(0,150)|raw}}</p>
+                    <a href="{{ path('blog-view', { 'slug':post.slug }) }}" class="btn btn-primary btn-block">view</a>
+                    {% if post.active == false %}
+                        <hr/>
+                        <p class="alert alert-danger text-center">The post is not yet public</p>
+                    {% endif %}
+                </div>
+            </div>
+        {% else %}
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">no Post (yet!)</h2>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 
-	<div class=" row">
-		<nav class="col-lg-6">
-			<ul class="pagination">
-				<li class="page-item {% if page == 1 %}disabled{% endif %}"><a class="page-link" href="{{ path('blog-index', {'page': page-1}) }}">Previous</a></li>
-				{% for i in max(page-3,1)..min(page+3,maxPage) %}
-					<li class="page-item {% if i == page %}active{% endif %}"><a class="page-link" href="{{ path('blog-index', {'page': i}) }}">{{ i }}</a></li>
-				{% endfor %}
-				<li class="page-item {% if page == maxPage %}disabled{% endif %}"><a class="page-link" href="{{ path('blog-index', {'page': page+1}) }}">Next</a></li>
-			</lu>
-		</nav>
-		<div class="col-lg-6">Result {{ (page-1) * nbPostPerPage }} - {{ min(page * nbPostPerPage,nbPost) }} from {{ nbPost }} blogPost</div>
-	</div>
+    <hr/>
+
+    <div class=" row">
+        <nav class="col-lg-6">
+            <ul class="pagination">
+                <li class="page-item {% if page == 1 %}disabled{% endif %}">
+                    <a class="page-link" href="{{ path('blog-index', {'page': page-1}) }}">Previous</a>
+                </li>
+                {% for i in max(page-3,1)..min(page+3,maxPage) %}
+                    <li class="page-item {% if i == page %}active{% endif %}">
+                        <a class="page-link" href="{{ path('blog-index', {'page': i}) }}">{{ i }}</a>
+                    </li>
+                {% endfor %}
+                <li class="page-item {% if page == maxPage %}disabled{% endif %}">
+                    <a class="page-link" href="{{ path('blog-index', {'page': page+1}) }}">Next</a>
+                </li>
+            </lu>
+        </nav>
+        <div class="col-lg-6">Result
+            {{ (page-1) * nbPostPerPage }}
+            -
+            {{ min(page * nbPostPerPage,nbPost) }}
+            from
+            {{ nbPost }}
+            blogPost</div>
+    </div>
 {% endblock %}
