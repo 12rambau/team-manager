@@ -52,4 +52,18 @@ class ParticipationRepository extends ServiceEntityRepository
         
         return $qb->getQuery()->getResult();
     }
+
+    public function queryAllIn(Event $event)
+    {
+        $qb = $this->createQueryBuilder('p');
+
+        $qb
+            ->select('p')
+            ->where('p.event = :event')
+            ->setParameter('event', $event)
+            ->andWhere('p.value = :value')
+            ->setParameter('value', true);
+
+        return $qb;
+    }
 }

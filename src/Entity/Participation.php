@@ -41,6 +41,11 @@ class Participation
     */
     private $event;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Position", mappedBy="participation", cascade={"persist"})
+     */
+    private $position;
+
     public function __construct()
     {
         $this->lastUpdate = null;
@@ -108,6 +113,18 @@ class Participation
     public function setLastUpdate(?\DateTimeInterface $lastUpdate): self
     {
         $this->lastUpdate = $lastUpdate;
+
+        return $this;
+    }
+
+    public function getPosition(): ?Position
+    {
+        return $this->position;
+    }
+
+    public function setPosition(?Position $position): self
+    {
+        $this->position = $position;
 
         return $this;
     }

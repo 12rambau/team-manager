@@ -20,51 +20,130 @@
             Plannification</h2>
     </div>
 
-    {% for field in event.fields %}
-        <h2>{{ field.name }}</h2>
-        <div id="positionning">
-            <img id="imageFile" class="col-12" src={% if field.image != null %} {{ asset(vich_uploader_asset(field.image, "imageFile")) | imagine_filter('field') }} {% else %} {{ asset('image/default/empty_field.jpg') | imagine_filter('field') }} {% endif %} alt="image {{ field.id }}">
+    {{ form_start(fieldsForm) }}
+    <table class="table">
+        {% for field in event.fields %}
+        {% set fieldNumber = loop.index0 %}
+            <tr>
+                <td class="align-middle">
+                    <a class="btn btn-danger" href="#">
+                        <span class="">
+                            <i class="fas fa-trash-alt"></i>
+                        </span>
+                    </a>
+                </td>
+                <td>
+                    <div id="positionning">
+                        <img id="imageFile" class="col-12" src={% if field.image != null %} {{ asset(vich_uploader_asset(field.image, "imageFile")) | imagine_filter('field') }} {% else %} {{ asset('image/default/empty_field.jpg') | imagine_filter('field') }} {% endif %} alt="image {{ field.id }}">
 
-            {% for position in field.positions %}
-                <div class="card position-card" id="field_positions_{{ loop.index0 }}_card" style="top:{{ position.vertical }}%; left:{{ position.horizontal }}%;">
-                    <img src="{{ asset('image/default/no-position.jpg') | imagine_filter('position') }}" alt="no-position">
-                </div>
-            {% endfor %}
-        </div>
-    {% endfor %}
+                        {% for position in field.positions %}
+                            <div class="card position-card positionned" id="card_event_fields_fields_{{ fieldNumber }}_positions_{{ loop.index0 }}_participation" ondragover="allowDrop(event)" ondragleave="disableDrop(event)" ondrop="drop(event)" style="top:{{ position.vertical }}%; left:{{ position.horizontal }}%;">
+                                {% if position.participation == null %}
+                                    <img src="{{ asset('image/default/no-position.jpg') | imagine_filter('position') }}" alt="no-position" data-image="{{ asset('image/default/no-position.jpg') | imagine_filter('position') }}">
+                                {% else %}
+                                    <img src="{{ asset(vich_uploader_asset(postion.participation.user.profilePic, "imageFile")) | imagine_filter('position') }}" alt="no-position">
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div id="form-{{ loop.index0 }}">
+                        {% for fieldForm in fieldsForm.fields[loop.index0] %}
+                            {% for positionForm in fieldForm %}
+                                {{ form_widget(positionForm) }}
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    {{ form_rest(fieldsForm) }}
+
+    {{ form_end(fieldsForm) }}
+
 
     <div>
         {{ form_start(templateForm) }}
 
-            {{ form_errors(templateForm) }}
+        {{ form_errors(templateForm) }}
 
-            {{ form_label(templateForm.template, 'template name', {'label_attr': {'class': 'control-label'}}) }}
-            {{ form_widget(templateForm.template, {'attr': {'class': 'form-control'}}) }}
+        {{ form_label(templateForm.template, 'template name', {'label_attr': {'class': 'control-label'}}) }}
+        {{ form_widget(templateForm.template, {'attr': {'class': 'form-control'}}) }}
 
-            {{ form_rest(templateForm) }}
-            <hr>
-            <button class="btn btn-block btn-success" type="submit">add field</button>
+        {{ form_rest(templateForm) }}
+        <hr>
+        <button class="btn btn-block btn-success" type="submit">add field</button>
 
         {{ form_end(templateForm) }}
     </div>
 
-{{ dump() }}
-
+    {{ dump() }}
 {% endblock %}
-
 {% block aside %}
     <div class="card">
         <div class="card-header">
             <p class="card-title"><span class="fas fa-users" />
-                List of participating players</p>
+                List of participating players
+            </p>
         </div>
         <div class="card-body">
-            {% for participation in event.participations %}
-                <span id="{{ loop.index0 }}-drag-element" draggable="true" ondragstart="drag(event)" class="badge badge-secondary">{{ participation.user.username }}</span>
-            {% endfor %}
+            <div class="card-columns">
+                {% for participation in event.participations %}
+                    {% if (participation.value == true) and (participation.position == null) %}
+                        <div class="card position-card">
+                            <img id="{{ participation.id }}" src=
+                                {% if participation.user.profilePic != null %}
+                                    "{{ asset(vich_uploader_asset(participation.user.profilePic, "imageFile")) | imagine_filter('position') }}" 
+                                {% else %}
+                                    "{{ asset('image/default/no-profile-pic.jpg') | imagine_filter('position') }}"
+                                {% endif %}
+                                alt="car-img" data-toggle="tooltip" title="{{ participation.user.username }}" draggable="true" ondragstart="drag(event)">
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
         </div>
     </div>
-
 {% endblock %}
-
 {% block chat %}{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script type="text/javascript">
+        function allowDrop(ev) {
+            ev.preventDefault();
+            $(ev.target).addClass('border-primary');
+        }
+
+        function disableDrop(ev){
+            ev.preventDefault();
+            $(ev.target).removeClass('border-primary');
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("src", $(ev.target).attr("src"));
+            ev.dataTransfer.setData("title", $(ev.target).attr("data-original-title"));
+            ev.dataTransfer.setData("id", $(ev.target).attr('id'));
+        }
+
+        function drop(ev) {
+            var src = ev.dataTransfer.getData("src");
+            $(ev.target).children().attr('src', src);
+            var title = ev.dataTransfer.getData("title");
+            $(ev.target).children().attr("title", title);
+            var id = ev.dataTransfer.getData("id");
+            $(ev.target).children().attr("data-id", id);
+
+            $(ev.target).removeClass('border-primary');
+
+            //change the value of the appropriate position
+            var classStart = $(ev.target).attr('id').replace("card_","");
+            alert(classStart);
+            document.getElementById(classStart+"_"+id).checked = true;
+
+        }
+    </script>
+{% endblock %}

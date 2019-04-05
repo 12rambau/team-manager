@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Entity\Participation;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PositionRepository")
@@ -39,6 +40,11 @@ class Position
      * @ORM\JoinColumn(nullable=false)
      */
     private $field;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Participation", inversedBy="position", cascade={"persist"})
+     */
+    private $participation;
 
     public function __construct()
     {
@@ -101,6 +107,24 @@ class Position
     public function setField(?Field $field): self
     {
         $this->field = $field;
+
+        return $this;
+    }
+
+    public function getParticipation(): ?Participation
+    {
+        return $this->participation;
+    }
+
+    public function setParticipation(?Participation $participation): self
+    {
+        $this->participation = $participation;
+
+        // set (or unset) the owning side of the relation if necessary 
+        $newPosition = $participation === null ? null : $this;
+        if ($newPosition !== $participation->getPosition()){
+            $participation->setPosition($newPosition);
+        }
 
         return $this;
     }

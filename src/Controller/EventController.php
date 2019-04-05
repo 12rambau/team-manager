@@ -15,6 +15,7 @@ use App\Form\TemplateSelectType;
 use App\Utils\CalendarBox;
 use App\Entity\Field;
 use App\Entity\Position;
+use App\Form\EventFieldsType;
 
 class EventController extends AbstractController
 {
@@ -212,6 +213,8 @@ class EventController extends AbstractController
     {
         $templateForm = $this->createForm(TemplateSelectType::class);
 
+        $fieldsForm = $this->createForm(EventFieldsType::class, $event);
+
         if ($request->request->has('template_select')); {
             $templateForm->handleRequest($request);
 
@@ -232,6 +235,7 @@ class EventController extends AbstractController
         return $this->render('event/plannification.html.twig', [
             'event' => $event,
             'templateForm' => $templateForm->createView(),
+            'fieldsForm' => $fieldsForm->createView()
         ]);
     }
 }
