@@ -41,14 +41,16 @@ class AppFixtures extends Fixture
             $path->isDir() && !$path->isLink() ? rmdir($path->getPathname()) : unlink($path->getPathname());
 
 
-        //users creator
+        //users creator (me)
         $root = new User();
         $root->setLastName('root');
         $root->setFirstName('root');
         $root->setUserName('root');
         $root->setPassword($this->passwordEncoder->encodePassword($root,'root'));
         $root->setEmail('root@root.com');
-        $image = AppFixtures::manualImage('no-profile-pic.jpg');
+        $root->setGender(true);
+        $image = AppFixtures::manualImage('no-profile-pic-male.jpg');
+
         $root->setProfilePic($image);
 
         $manager->persist($root);
@@ -58,12 +60,19 @@ class AppFixtures extends Fixture
         for ($i=0; $i < $nbUser; $i++)
         {
             $users[$i] = new User();
+            $users[$i]->setGender($faker->boolean());
+            $gender = $users[$i]->getGender() ? 'male':'female';
             $users[$i]->setLastName($faker->lastName());
-            $users[$i]->setFirstName($faker->firstName());
+            $users[$i]->setFirstName($faker->firstName($gender));
             $users[$i]->setUserName($users[$i]->getfirstName().$users[$i]->getLastName());
             $users[$i]->setPassword($this->passwordEncoder->encodePassword($users[$i],'userdemo'.$i));
             $users[$i]->setEmail($users[$i]->getfirstName().".".$users[$i]->getLastName().'@team.com');
-            $image = AppFixtures::manualImage('no-profile-pic.jpg');
+            
+            if ($users[$i]->getGender()){
+                $image = AppFixtures::manualImage('no-profile-pic-male.jpg');
+            } else {
+                $image = AppFixtures::manualImage('no-profile-pic-female.jpg');
+            }
             $users[$i]->setProfilePic($image);
             $manager->persist($users[$i]);
         }

@@ -84,6 +84,13 @@ class User implements UserInterface
     */
     private $profilePic;
 
+    /**
+     * @ORM\Column(type="boolean")
+     * true for male
+     * false for female
+     */
+    private $gender;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
@@ -330,6 +337,18 @@ class User implements UserInterface
     public function setProfilePic(?Image $profilePic): self
     {
         $this->profilePic = $profilePic;
+
+        return $this;
+    }
+
+    public function getGender(): ?bool
+    {
+        return $this->gender;
+    }
+
+    public function setGender(bool $gender): self
+    {
+        $this->gender = $gender;
 
         return $this;
     }
