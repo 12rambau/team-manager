@@ -49,7 +49,7 @@ function addPositionForm(collectionHolder, newLinkLi) {
     var card = $('<div/>',
     {
         id: newFormLi.children(":first").attr('id')+"_card",
-        "class": "card position-card",
+        "class": "card position-card positionned",
         css:{
             "top": "0%",
             "left": "0%",
