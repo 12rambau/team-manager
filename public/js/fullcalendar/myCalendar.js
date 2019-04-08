@@ -19,6 +19,8 @@ $(function() {
 
         events: Routing.generate('event-get'),
 
+        eventColor: 'purple',
+
         eventClick: function(event, jsevent, view){
             window.open(Routing.generate('event-view', {slug: event.url}));
             return false;

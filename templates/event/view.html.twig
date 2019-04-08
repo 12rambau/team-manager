@@ -5,7 +5,7 @@
 {% block content %}
 
     <div class="jumbotron bg-primary-light">
-        <h2><span class="badge badge-primary">{{event.tag.name|slice(0,3)|raw}}.</span>{{ event.name }}</h2>
+        <h2><span class="badge badge-{{ event.tag.color }}">{{event.tag.name|slice(0,3)|raw}}.</span>{{ event.name }}</h2>
     </div>
 
     <div class="card row">
@@ -16,8 +16,10 @@
             </p>
             <p>
                 <span class=""><i class="fas fa-location-arrow"></i></span>
-                {{ event.location.fullAdr }}
+                {{ event.location.value }}
                 <a style="margin-left: 15px" href="#map">map</a>
+                <input class="sr-only" id="event_location_lat" value="{{ event.location.lat }}"></input>
+                <input class="sr-only" id="event_location_lng" value="{{ event.location.lng }}"></input>
             </p>
             <p>
                 <span class=""><i class="fas fa-info"></i></span>
@@ -218,11 +220,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-
-    <script type="text/javascript">
-        var lat = {{ event.location.lat }};
-        var lng = {{ event.location.lng }};
-    </script>
 
     <script type="text/javascript">
         function allowDrop(ev) {

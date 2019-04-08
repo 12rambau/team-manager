@@ -9,7 +9,6 @@ use Cocur\Slugify\Slugify;
 use App\Entity\Location;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Serializer\Annotation\Groups;
-//use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
@@ -78,6 +77,8 @@ class Event
 
     /**
     * @ORM\ManyToOne(targetEntity="App\Entity\EventTag", inversedBy="events", cascade={"persist"})
+    * @SerializedName("tag")
+    * @Groups({"calendar"})
     */
     private $tag;
 

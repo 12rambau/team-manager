@@ -18,8 +18,9 @@
             {% for tag in tags %}
                 <div 
                     id="select_event_tag_{{ tag.id }}" 
-                    class="btn btn-outline-primary" 
+                    class="btn btn-outline-{{ tag.color }}" 
                     onclick="changeCheckValue(this)"
+                    data-color="{{ tag.color }}"
                 >
                     <span class=""><i class="far fa-square"></i></span>
                     {{ tag.name}}
@@ -215,9 +216,12 @@
         function changeCheckValue(item) {
             //unselect all the other item
             $(item).parent().find("i").attr('class', 'far fa-square');
-            $(item).parent().find("div").attr('class', 'btn btn-outline-primary');
+            var divs = $(item).parent().find("div");
+            divs.each(function(){
+                $(this).attr('class', 'btn btn-outline-'+$(this).attr('data-color'));
+            });
             $(item).find('i').attr('class', 'far fa-check-square');
-            $(item).attr('class', 'btn btn-primary')
+            $(item).attr('class', 'btn btn-'+$(item).attr('data-color'))
             var input = document.getElementById(item.id.replace("select_",""));
             input.checked = true;
         }

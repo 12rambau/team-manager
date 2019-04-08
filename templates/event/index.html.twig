@@ -17,104 +17,106 @@
 		<hr/>
 
 		<div class="row">
-			{% for event in events %}
-				<div class="card col-lg-12">
-					<div class="card-header">
-						<a href="{{ path('event-view', {'slug':event.slug}) }}">
-							<h3 class="card-title">
-								<span class="badge badge-primary">{{event.tag.name|slice(0,3)|raw}}.</span> 
-								{{ event.name }}
-							</h3>
-						</a>
-					</div>
-					<div class="card-body">
-						<div class="row">
-							<div class="col-lg-2">
-								<div class="row">
-									{{  event.start|date('D')}}.
-								</div>
-								<div class="row">
-									<h2>{{ event.start|date('j') }}</h2>
-								</div>
-								<div class="row">
-									<h2>
-										{{ event.nbParticipationIn }}
-										{% if event.maxPlayers %}
-											/{{ event.maxPlayers }}
-										{% endif %}
-									</h2>
-								</div>
-							</div>
-							<div class="col-lg-10">
-								<div class="row">
-									<div class="col">
-										<b>{{event.start|date('D h:i') }} - {{ event.finish|date('D h:i') }}</b>
+			<div class="col-12">
+				{% for event in events %}
+					<div class="card">
+						<div class="card-header">
+							<a href="{{ path('event-view', {'slug':event.slug}) }}">
+								<h3 class="card-title">
+									<span class="badge badge-{{ event.tag.color }}">{{event.tag.name|slice(0,3)|raw}}.</span> 
+									{{ event.name }}
+								</h3>
+							</a>
+						</div>
+						<div class="card-body">
+							<div class="row">
+								<div class="col-lg-2">
+									<div class="row">
+										{{  event.start|date('D')}}.
 									</div>
-									<div class="col">
-										<div 
-                        					id="button_list_participation_participations_{{ loop.index0 }}_value_0" 
-                        					class="btn 
-                        						{% if participations[loop.index0].value == 0 %}
-                            						btn-outline-success
-                        						{% else %}
-                            						btn-success
-                        						{% endif %}"
-                        					onclick="changeCheckValue(this)"
-                    					>
-                        					<span class=""><i class="fas fa-thumbs-up"></i></span>
-                        					In
-                    					</div>
-										<div 
-											id="button_list_participation_participations_{{ loop.index0 }}_value_1" 
-											class="btn 
-												{% if participations[loop.index0].value == 0 and participations[loop.index0].lastUpdate != null %}
-													btn-danger
-												{% else %}
-													btn-outline-danger
-												{% endif %}"
-											onclick="changeCheckValue(this)"
-										>
-											<span class=""><i class="fas fa-thumbs-down"></i></span>
-											Out
+									<div class="row">
+										<h2>{{ event.start|date('j') }}</h2>
+									</div>
+									<div class="row">
+										<h2>
+											{{ event.nbParticipationIn }}
+											{% if event.maxPlayers %}
+												/{{ event.maxPlayers }}
+											{% endif %}
+										</h2>
+									</div>
+								</div>
+								<div class="col-lg-10">
+									<div class="row">
+										<div class="col">
+											<b>{{event.start|date('D h:i') }} - {{ event.finish|date('D h:i') }}</b>
 										</div>
-										{{ form_widget(form.participations[loop.index0].value, {'attr': {'class': 'sr-only'}}) }}
-										{{ form_widget(form.participations[loop.index0].comment, {'attr': {'class': 'sr-only'}}) }}
-									</div>
-								</div>
-								<div class="row">
-									<span class=""><i class="fas fa-info"></i></span>
-									{{ event.info }}
-								</div>
-								<ul class="nav nav-tabs row" id="tab" role="tablist">
-									<li class="nav-item">
-										<a class="nav-link active" id="in-tab" data-toggle="tab" href="#in-{{loop.index0 }}" role="tab" aria-controls="in" aria-selected="true">
-											<span class=""><i class="fas fa-thumbs-up"></i></span> In {{ event.nbParticipationIn }}
-										</a>
-									</li>
-									<li class="nav-item">
-										<a class="nav-link" id="out-tab" data-toggle="tab" href="#out-{{ loop.index0 }}" role="tab" aria-controls="out" aria-selected="false">
-											<span class=""><i class="fas fa-thumbs-down"></i></span> Out {{ event.nbParticipationOut }}
-										</a>
-									</li>
-								</ul>
-								<div class="row">
-									<div class="tab-content" id="tabContent">
-										<div class="tab-pane fade show active" id="in-{{ loop.index0 }}" role="tabpanel" aria-labelledby="in-tab">
-											<div>
-												{% for participation in event.participations %}
-													{% if participation.value == 1 %}
-														<span class="badge badge-secondary">{{ participation.user.username }}</span>
-													{% endif %}
-												{% endfor %}
+										<div class="col">
+											<div 
+												id="button_list_participation_participations_{{ loop.index0 }}_value_0" 
+												class="btn 
+													{% if participations[loop.index0].value == 0 %}
+														btn-outline-success
+													{% else %}
+														btn-success
+													{% endif %}"
+												onclick="changeCheckValue(this)"
+											>
+												<span class=""><i class="fas fa-thumbs-up"></i></span>
+												In
 											</div>
+											<div 
+												id="button_list_participation_participations_{{ loop.index0 }}_value_1" 
+												class="btn 
+													{% if participations[loop.index0].value == 0 and participations[loop.index0].lastUpdate != null %}
+														btn-danger
+													{% else %}
+														btn-outline-danger
+													{% endif %}"
+												onclick="changeCheckValue(this)"
+											>
+												<span class=""><i class="fas fa-thumbs-down"></i></span>
+												Out
+											</div>
+											{{ form_widget(form.participations[loop.index0].value, {'attr': {'class': 'sr-only'}}) }}
+											{{ form_widget(form.participations[loop.index0].comment, {'attr': {'class': 'sr-only'}}) }}
 										</div>
-										<div class="tab-pane fade" id="out-{{ loop.index0 }}" role="tabpanel" aria-labelledby="out-tab">
-											<div>
-												{% for participation in event.participations %}
-													{% if participation.value == 0  and participation.lastUpdate != null %}
-														<span class="badge badge-secondary">{{ participation.user.username }}</span>
-													{% endif %}
-												{% endfor %}
+									</div>
+									<div class="row">
+										<span class=""><i class="fas fa-info"></i></span>
+										{{ event.info }}
+									</div>
+									<ul class="nav nav-tabs row" id="tab" role="tablist">
+										<li class="nav-item">
+											<a class="nav-link active" id="in-tab" data-toggle="tab" href="#in-{{loop.index0 }}" role="tab" aria-controls="in" aria-selected="true">
+												<span class=""><i class="fas fa-thumbs-up"></i></span> In {{ event.nbParticipationIn }}
+											</a>
+										</li>
+										<li class="nav-item">
+											<a class="nav-link" id="out-tab" data-toggle="tab" href="#out-{{ loop.index0 }}" role="tab" aria-controls="out" aria-selected="false">
+												<span class=""><i class="fas fa-thumbs-down"></i></span> Out {{ event.nbParticipationOut }}
+											</a>
+										</li>
+									</ul>
+									<div class="row">
+										<div class="tab-content" id="tabContent">
+											<div class="tab-pane fade show active" id="in-{{ loop.index0 }}" role="tabpanel" aria-labelledby="in-tab">
+												<div>
+													{% for participation in event.participations %}
+														{% if participation.value == 1 %}
+															<span class="badge badge-secondary">{{ participation.user.username }}</span>
+														{% endif %}
+													{% endfor %}
+												</div>
+											</div>
+											<div class="tab-pane fade" id="out-{{ loop.index0 }}" role="tabpanel" aria-labelledby="out-tab">
+												<div>
+													{% for participation in event.participations %}
+														{% if participation.value == 0  and participation.lastUpdate != null %}
+															<span class="badge badge-secondary">{{ participation.user.username }}</span>
+														{% endif %}
+													{% endfor %}
+												</div>
 											</div>
 										</div>
 									</div>
@@ -122,8 +124,8 @@
 							</div>
 						</div>
 					</div>
-				</div>
-			{% endfor %}
+				{% endfor %}
+			</div>
 		</div>
 
 		{{ form_rest(form) }}

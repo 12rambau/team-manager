@@ -111,14 +111,17 @@ class AppFixtures extends Fixture
         $tags = array(3);
         $tag[1] = new EventTag();
         $tag[1]->setName('trainning');
+        $tag[1]->setColor('success');
         $manager->persist($tag[1]);
 
         $tag[2] = new EventTag();
         $tag[2]->setName('Race');
+        $tag[2]->setColor('primary');
         $manager->persist($tag[2]);
 
         $tag[0] = new EventTag();
         $tag[0]->setName('other');
+        $tag[0]->setColor('warning');
         $manager->persist($tag[0]);
 
         //event creator

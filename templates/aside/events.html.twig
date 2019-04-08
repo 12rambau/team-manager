@@ -9,7 +9,7 @@
         {% for event in events %}
             <tr {% if event == currentEvent %}class="table-active"{% endif %}>
                 <td>
-                    <span class="badge badge-primary">
+                    <span class="badge badge-{{ event.tag.color }}">
                         {{event.tag.name }}
                     </span>
                 </td>
