@@ -3,6 +3,8 @@
 parameters:
     locale: 'en'
     path_image: image/upload
+    algolia_place_app_id: '%env(ALGOLIA_PLACE_APP_ID)%'
+    algolia_place_api_id: '%env(ALGOLIA_PLACE_API_ID)%'
 
 
 services:

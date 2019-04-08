@@ -139,7 +139,7 @@ class AppFixtures extends Fixture
             $events[$i]->setActive(true);
 
             $location = new Location();
-            $location->setFullAdr($faker->address());
+            $location->setValue($faker->address());
             $location->setLat($faker->latitude($min = -90, $max = 90));
             $location->setLng($faker->longitude($min = -180, $max = 180));
 

@@ -13,15 +13,18 @@ class LocationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('numStreet', HiddenType::class)
-            ->add('street', HiddenType::class)
-            ->add('zipcode', HiddenType::class)
+            ->add('type', HiddenType::class)
+            ->add('name', HiddenType::class)
             ->add('city', HiddenType::class)
-            ->add('region', HiddenType::class)
             ->add('country', HiddenType::class)
-            ->add('lat')
-            ->add('lng')
-            ->add('fullAdr')
+            ->add('countryCode', HiddenType::class)
+            ->add('administrative', HiddenType::class)
+            ->add('county', HiddenType::class)
+            ->add('suburb', HiddenType::class)
+            ->add('lat', HiddenType::class)
+            ->add('lng', HiddenType::class)
+            ->add('postcode', HiddenType::class)
+            ->add('value')
         ;
     }
 

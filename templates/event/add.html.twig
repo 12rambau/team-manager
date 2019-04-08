@@ -31,13 +31,6 @@
 
     {{ form_widget(form.tag, {'attr': {'class':'sr-only'}}) }}
 
-    {# <div class="form-group row">
-        {{ form_label(form.tag, "tag:", {'label_attr': {'class': 'col-lg-2 col-form-label'}}) }}
-        <div class="col-lg-10">
-            {{ form_widget(form.tag, {'attr': {'class': 'form-check form-check-inline'}}) }}
-        </div>
-    </div> #}
-
     <div class="form-group row">
         {{ form_label(form.name, "event name: ", {'label_attr': {'class':'col-lg-2 col-form-label'}}) }}
         <div class="col-lg-10">
@@ -99,32 +92,27 @@
         </div>
     </div>
 
-    <div class="form-group row">
-        {{ form_label(form.location.fullAdr, "location: ", {'label_attr': {'class': 'col-lg-2 col-form-label'}}) }}
-        <div class="col-lg-10">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">
-                        <i class="fas fa-location-arrow"></i>
-                    </span>
-                </div>
-                {{ form_widget(form.location.fullAdr, {'attr': {'class': 'form-control'}}) }}
-            </div>
-        </div>
-    </div>
+    <div id="map"></div>
 
     <div class="form-group row">
-        <div class="col-lg-2 col-form-label">
-            GPS:
-        </div>
-        <div class="col-lg-10 row">
-            {{ form_label(form.location.lat, "lat: ", {'label_attr': {'class': 'col-lg-1 col-form-label'}}) }}
-            {{ form_widget(form.location.lat, {'attr': { 'class': 'form-control col-lg-2 lat', 'readonly': 'true', 'value':'40.710358'}}) }}
-            {{ form_label(form.location.lng, "lng: ", {'label_attr': {'class': 'col-lg-1 col-form-label'}}) }}
-            {{ form_widget(form.location.lng, {'attr': { 'class': 'form-control col-lg-2 lng', 'readonly': 'true', 'value':'-73.983748'}}) }}
+        {{ form_label(form.location.value, "location: ", {'label_attr': {'class': 'col-lg-2 col-form-label'}}) }}
+        <div class="col-lg-10">
+            {{ form_widget(form.location.value, {'attr': {'class': 'form-control'}}) }}
         </div>
     </div>
-    <div id="map"></div>
+    
+    {{ form_row(form.location.type) }}
+    {{ form_row(form.location.name) }}
+    {{ form_row(form.location.city) }}
+    {{ form_row(form.location.country) }}
+    {{ form_row(form.location.countryCode) }}
+    {{ form_row(form.location.administrative) }}
+    {{ form_row(form.location.county) }}
+    {{ form_row(form.location.suburb) }}
+    {{ form_row(form.location.lat) }}
+    {{ form_row(form.location.lng) }}
+    {{ form_row(form.location.postcode) }}
+    {{ form_row(form.location.value) }}
 
     <hr/>
 
@@ -185,14 +173,42 @@
 {% block javascripts %}
     {{ parent() }}
 
-    <script type="text/javascript">
-        var lat = document.getElementById('event_location_lat').value;
-        var lng = document.getElementById('event_location_lng').value;
-    </script>
-
 	 <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==" crossorigin=""></script>
     <script src="{{ asset('js/event/datepicker.js') }}"></script>
     <script src="{{ asset('js/event/leaferMap.js') }}"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/places.js/1.16.3/places.min.js"></script>
+
+    <script type="text/javascript">
+        const fixedOptions = {
+            appId: '{{ algolia_place_app_id }}',
+            apiKey: '{{ algolia_place_api_id }}',
+            container: document.querySelector('#event_location_value'),
+        };
+
+        const reconfigurableOptions = {
+            language: '{{ app.request.locale }}', // Receives results in local language
+            aroundLatLngViaIP: true //unable the extra search/boost around the source IP
+        };
+        const placesInstance = places(fixedOptions).configure(reconfigurableOptions);
+
+        placesInstance.on('change', function resultSelected(e) {
+            $("#event_location_type").val(e.suggestion.type || '');
+            $("#event_location_name").val(e.suggestion.name || '');
+            $("#event_location_city").val(e.suggestion.city || '');
+            $("#event_location_country").val(e.suggestion.country || '');
+            $("#event_location_countryCode").val(e.suggestion.countryCode || '');
+            $("#event_location_administrative").val(e.suggestion.administrative || '');
+            $("#event_location_county").val(e.suggestion.county || '');
+            $("#event_location_suburb").val(e.suggestion.suburb || '');
+            $("#event_location_lat").val(e.suggestion.latlng["lat"] || '');
+            $("#event_location_lng").val(e.suggestion.latlng["lng"] || '');
+            $("#event_location_postcode").val(e.suggestion.postcode || '');
+
+            moveMarker();
+
+        });
+    </script>
 
     <script type="text/javascript">
         //function to change the radio button according to nicer link designed with bootstrap

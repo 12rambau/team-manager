@@ -19,17 +19,12 @@ class Location
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $numStreet;
+    private $type;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $street;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $zipcode;
+    private $name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -39,12 +34,27 @@ class Location
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $region;
+    private $country;
+
+    /**
+     * @ORM\Column(type="string", length=2, nullable=true)
+     */
+    private $countryCode;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $country;
+    private $administrative;
+
+    /**
+    * @ORM\Column(type="string",length=255, nullable=true)
+    */
+    private $county;
+
+    /**
+    * @ORM\Column(type="string", length=255, nullable=true)
+    */
+    private $suburb;
 
     /**
      * @ORM\Column(type="string", length=50)
@@ -55,49 +65,42 @@ class Location
      * @ORM\Column(type="string", length=50)
      */
     private $lng;
+    
+    /**
+    * @ORM\Column(type="string", length=255, nullable=true)
+    */
+    private $postcode;
 
     /**
     * @ORM\Column(type="string", length=255, nullable=true)
     */
-    private $fullAdr;
+    private $value;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getNumStreet(): ?string
+    public function getType(): ?string
     {
-        return $this->numStreet;
+        return $this->type;
     }
 
-    public function setNumStreet(?string $numStreet): self
+    public function setType(?string $type): self
     {
-        $this->numStreet = $numStreet;
+        $this->type = $type;
 
         return $this;
     }
 
-    public function getStreet(): ?string
+    public function getName(): ?string
     {
-        return $this->street;
+        return $this->name;
     }
 
-    public function setStreet(?string $street): self
+    public function setName(?string $name): self
     {
-        $this->street = $street;
-
-        return $this;
-    }
-
-    public function getZipcode(): ?string
-    {
-        return $this->zipcode;
-    }
-
-    public function setZipcode(?string $zipcode): self
-    {
-        $this->zipcode = $zipcode;
+        $this->name = $name;
 
         return $this;
     }
@@ -114,18 +117,6 @@ class Location
         return $this;
     }
 
-    public function getRegion(): ?string
-    {
-        return $this->region;
-    }
-
-    public function setRegion(?string $region): self
-    {
-        $this->region = $region;
-
-        return $this;
-    }
-
     public function getCountry(): ?string
     {
         return $this->country;
@@ -134,6 +125,54 @@ class Location
     public function setCountry(?string $country): self
     {
         $this->country = $country;
+
+        return $this;
+    }
+
+    public function getCountryCode(): ?string
+    {
+        return $this->countryCode;
+    }
+
+    public function setCountryCode(?string $countryCode): self
+    {
+        $this->countryCode = $countryCode;
+
+        return $this;
+    }
+
+    public function getAdministrative(): ?string
+    {
+        return $this->administrative;
+    }
+
+    public function setAdministrative(?string $administrative): self
+    {
+        $this->administrative = $administrative;
+
+        return $this;
+    }
+
+    public function getCounty(): ?string
+    {
+        return $this->county;
+    }
+
+    public function setCounty(?string $county): self
+    {
+        $this->county = $county;
+
+        return $this;
+    }
+
+    public function getSuburb(): ?string
+    {
+        return $this->suburb;
+    }
+
+    public function setSuburb(?string $suburb): self
+    {
+        $this->suburb = $suburb;
 
         return $this;
     }
@@ -162,14 +201,26 @@ class Location
         return $this;
     }
 
-    public function getFullAdr(): ?string
+    public function getPostcode(): ?string
     {
-        return $this->fullAdr;
+        return $this->postcode;
     }
 
-    public function setFullAdr(?string $fullAdr): self
+    public function setPostcode(string $postcode): self
     {
-        $this->fullAdr = $fullAdr;
+        $this->postcode = $postcode;
+
+        return $this;
+    }
+
+    public function getValue(): ?string
+    {
+        return $this->value;
+    }
+
+    public function setValue(?string $value): self
+    {
+        $this->value = $value;
 
         return $this;
     }
