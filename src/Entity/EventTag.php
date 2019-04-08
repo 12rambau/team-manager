@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\entity\Event;
+use App\Entity\Event;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -16,14 +16,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class EventTag
 {
     const COLORS = [
-        "primary", 
-        "secondary", 
-        "success", 
-        "danger", 
-        "warning", 
-        "info", 
-        "light", 
-        "dark"
+        "primary"=>"primary", 
+        "secondary"=>"secondary", 
+        "success"=> "success", 
+        "danger"=>"danger", 
+        "warning"=>"warning", 
+        "info"=>"info", 
+        "light"=>"light", 
+        "dark"=>"dark"
     ];
 
     const HEX_COLORS = [
@@ -50,7 +50,7 @@ class EventTag
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\entity\Event", mappedBy="tag", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Event", mappedBy="tag", cascade={"persist"})
      */
     private $events;
 
