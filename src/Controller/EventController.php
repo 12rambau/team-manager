@@ -16,6 +16,7 @@ use App\Utils\CalendarBox;
 use App\Entity\Field;
 use App\Entity\Position;
 use App\Form\EventFieldsType;
+use App\Entity\EventTag;
 
 class EventController extends AbstractController
 {
@@ -85,11 +86,13 @@ class EventController extends AbstractController
     {
         $event = new Event();
 
+        $em = $this->getDoctrine()->getEntityManager();
+        $tags = $em->getRepository(EventTag::class)->findAll();
+
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-                $em = $this->getDoctrine()->getEntityManager();
 
                 $em->persist($event);
                 $em->flush();
@@ -104,7 +107,9 @@ class EventController extends AbstractController
             }
 
         return $this->render('event/add.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'event' => $event,
+            'tags' => $tags
         ]);
     }
 

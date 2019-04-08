@@ -2,162 +2,190 @@
 
 {% block title %}add a new event{% endblock %}
 
-{% block stylesheets %}
-    {{ parent()}}
-
-{% endblock %}
-
 {% block content %}
 
     <div class="jumbotron text-center">
-	    <h1>add a new event</h1>
+        <h1>add a new event</h1>
     </div>
 
     {{ form_start(form) }}
-	
-        {{ form_errors(form) }}
 
-        <div class="form-group row">
-            {{ form_label(form.tag, "tag:", {'label_attr': {'class': 'col-lg-2 col-form-label'}}) }}
-            <div class="col-lg-10">
-                {{ form_widget(form.tag, {'attr': {'class': 'form-check form-check-inline'}}) }}
-            </div>
-        </div>
+    {{ form_errors(form) }}
 
-        <div class="form-group row">
-	        {{ form_label(form.name, "event name: ", {'label_attr': {'class':'col-lg-2 col-form-label'}}) }}
-            <div class="col-lg-10">
-	            {{ form_widget(form.name, {'attr': {'class': 'form-control', 'placeholder':'name...'}}) }}
-            </div>
-        </div>
-
-        <hr/>
-
-        <div class="form-group row">
-            {{ form_label(form.start, "start at: ", {'label_attr': {'class':'col-lg-2 col-form-label'}}) }}
-            <div class="col-lg-10 row">
-                <div class="col-auto">
-                    <div class="input-group date" id="datepicker1" data-target-input="nearest">
-                        <div class="input-group-prepend" data-target="#datepicker1" data-toggle="datetimepicker">
-                            <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
-                        </div>
-                        {{ form_widget(form.start.date, {'attr': {'class': 'form-control datetimepicker-input', 'placeholder':'--/--/----', 'data-target':'#datepicker1'}}) }}
-                    </div>
+    <div class="form-group row">
+        {{ form_label(form.tag, "tag:", {'label_attr': {'class': 'col-lg-2 col-form-label'}}) }}
+        <div class="col-10 row">
+            {% for tag in tags %}
+                <div 
+                    id="select_event_tag_{{ tag.id }}" 
+                    class="btn btn-outline-primary" 
+                    onclick="changeCheckValue(this)"
+                >
+                    <span class=""><i class="far fa-square"></i></span>
+                    {{ tag.name}}
                 </div>
-                <div class="col-auto">
-                    <div class="input-group date" id="timepicker1" data-target-input="nearest">
-                        <div class="input-group-prepend" data-target="#timepicker1" data-toggle="datetimepicker">
-                            <span class="input-group-text"><i class="fas fa-clock"></i></span>
-                        </div>
-                        {{ form_widget(form.start.time, {'attr': {'class': 'form-control datetimepicker-input', 'placeholder':'--:--', 'data-target':'#timepicker1'}}) }}
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
+    </div>
 
-        <div class="form-group row">
-            {{ form_label(form.finish, "finish at: ", {'label_attr': {'class':'col-lg-2 col-form-label'}}) }}
-            <div class="col-lg-10 row">
-                <div class="col-auto">
-                    <div class="input-group date" id="datepicker2" data-target-input="nearest">
-                        <div class="input-group-prepend" data-target="#datepicker2" data-toggle="datetimepicker">
-                            <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
-                        </div>
-                        {{ form_widget(form.finish.date, {'attr': {'class': 'form-control datetimepicker-input', 'placeholder':'--/--/----', 'data-target':'#datepicker2'}}) }}
+
+    {{ form_widget(form.tag, {'attr': {'class':'sr-only'}}) }}
+
+    {# <div class="form-group row">
+        {{ form_label(form.tag, "tag:", {'label_attr': {'class': 'col-lg-2 col-form-label'}}) }}
+        <div class="col-lg-10">
+            {{ form_widget(form.tag, {'attr': {'class': 'form-check form-check-inline'}}) }}
+        </div>
+    </div> #}
+
+    <div class="form-group row">
+        {{ form_label(form.name, "event name: ", {'label_attr': {'class':'col-lg-2 col-form-label'}}) }}
+        <div class="col-lg-10">
+            {{ form_widget(form.name, {'attr': {'class': 'form-control', 'placeholder':'name...'}}) }}
+        </div>
+    </div>
+
+    <hr/>
+
+    <div class="form-group row">
+        {{ form_label(form.start, "start at: ", {'label_attr': {'class':'col-lg-2 col-form-label'}}) }}
+        <div class="col-lg-10 row">
+            <div class="col-auto">
+                <div class="input-group date" data-target-input="nearest" id="datepicker1">
+                    <div class="input-group-prepend" data-target="#datepicker1" data-toggle="datetimepicker">
+                        <span class="input-group-text">
+                            <i class="fas fa-calendar-alt"></i>
+                        </span>
                     </div>
-                </div>
-                <div class="col-auto">
-                    <div class="input-group date" id="timepicker2" data-target-input="nearest">
-                        <div class="input-group-prepend" data-target="#timepicker2" data-toggle="datetimepicker">
-                            <span class="input-group-text"><i class="fas fa-clock"></i></span>
-                        </div>
-                        {{ form_widget(form.finish.time, {'attr': {'class': 'form-control datetimepicker-input', 'placeholder':'--:--', 'data-target':'#timepicker2'}}) }}
-                    </div>
+                    {{ form_widget(form.start.date, {'attr': {'class': 'form-control datetimepicker-input', 'placeholder':'--/--/----', 'data-target':'#datepicker1'}}) }}
                 </div>
             </div>
-        </div>
-
-        <div class="form-group row">
-            {{ form_label(form.location.fullAdr, "location: ", {'label_attr': {'class': 'col-lg-2 col-form-label'}}) }}
-            <div class="col-lg-10">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fas fa-location-arrow"></i></span>
+            <div class="col-auto">
+                <div class="input-group date" data-target-input="nearest" id="timepicker1">
+                    <div class="input-group-prepend" data-target="#timepicker1" data-toggle="datetimepicker">
+                        <span class="input-group-text">
+                            <i class="fas fa-clock"></i>
+                        </span>
                     </div>
-                    {{ form_widget(form.location.fullAdr, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_widget(form.start.time, {'attr': {'class': 'form-control datetimepicker-input', 'placeholder':'--:--', 'data-target':'#timepicker1'}}) }}
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="form-group row">
-            <div class="col-lg-2 col-form-label">
-                GPS: 
+    <div class="form-group row">
+        {{ form_label(form.finish, "finish at: ", {'label_attr': {'class':'col-lg-2 col-form-label'}}) }}
+        <div class="col-lg-10 row">
+            <div class="col-auto">
+                <div class="input-group date" data-target-input="nearest" id="datepicker2">
+                    <div class="input-group-prepend" data-target="#datepicker2" data-toggle="datetimepicker">
+                        <span class="input-group-text">
+                            <i class="fas fa-calendar-alt"></i>
+                        </span>
+                    </div>
+                    {{ form_widget(form.finish.date, {'attr': {'class': 'form-control datetimepicker-input', 'placeholder':'--/--/----', 'data-target':'#datepicker2'}}) }}
+                </div>
             </div>
-            <div class="col-lg-10 row">
-                {{ form_label(form.location.lat, "lat: ", {'label_attr': {'class': 'col-lg-1 col-form-label'}}) }}
-                {{ form_widget(form.location.lat, {'attr': { 'class': 'form-control col-lg-2 lat', 'readonly': 'true', 'value':'40.710358'}}) }}
-                {{ form_label(form.location.lng, "lng: ", {'label_attr': {'class': 'col-lg-1 col-form-label'}}) }}
-                {{ form_widget(form.location.lng, {'attr': { 'class': 'form-control col-lg-2 lng', 'readonly': 'true', 'value':'-73.983748'}}) }}
+            <div class="col-auto">
+                <div class="input-group date" data-target-input="nearest" id="timepicker2">
+                    <div class="input-group-prepend" data-target="#timepicker2" data-toggle="datetimepicker">
+                        <span class="input-group-text">
+                            <i class="fas fa-clock"></i>
+                        </span>
+                    </div>
+                    {{ form_widget(form.finish.time, {'attr': {'class': 'form-control datetimepicker-input', 'placeholder':'--:--', 'data-target':'#timepicker2'}}) }}
+                </div>
             </div>
         </div>
-        <div id="map"></div>
+    </div>
 
-        <hr/>
-
-        <div class="form-group row">
-            {{form_label(form.info, "infos: ", {'label_attr': {'class':'col-lg-2 col-form-label'}}) }}
-            <div class="col-lg-10">
-                {{form_widget(form.info, {'attr':{'class':'form-control'}}) }}
+    <div class="form-group row">
+        {{ form_label(form.location.fullAdr, "location: ", {'label_attr': {'class': 'col-lg-2 col-form-label'}}) }}
+        <div class="col-lg-10">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        <i class="fas fa-location-arrow"></i>
+                    </span>
+                </div>
+                {{ form_widget(form.location.fullAdr, {'attr': {'class': 'form-control'}}) }}
             </div>
         </div>
+    </div>
 
-        <div class="card">
-            <div class="card-body bg-light">
-                <h5 class="card-title">Optionnal</h5>
-                <div class="form-group row">
-                    {{ form_label(form.registerFinish, "last register at: ", {'label_attr': {'class':'col-lg-2 col-form-label'}}) }}
-                    <div class="col-lg-10 row">
-                        <div class="col-auto">
-                            <div class="input-group date" id="datepicker3" data-target-input="nearest">
-                                <div class="input-group-prepend" data-target="#datepicker3" data-toggle="datetimepicker">
-                                    <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
-                                </div>
-                                {{ form_widget(form.registerFinish.date, {'attr': {'class': 'form-control datetimepicker-input', 'placeholder':'--/--/----', 'data-target':'#datepicker3'}}) }}
+    <div class="form-group row">
+        <div class="col-lg-2 col-form-label">
+            GPS:
+        </div>
+        <div class="col-lg-10 row">
+            {{ form_label(form.location.lat, "lat: ", {'label_attr': {'class': 'col-lg-1 col-form-label'}}) }}
+            {{ form_widget(form.location.lat, {'attr': { 'class': 'form-control col-lg-2 lat', 'readonly': 'true', 'value':'40.710358'}}) }}
+            {{ form_label(form.location.lng, "lng: ", {'label_attr': {'class': 'col-lg-1 col-form-label'}}) }}
+            {{ form_widget(form.location.lng, {'attr': { 'class': 'form-control col-lg-2 lng', 'readonly': 'true', 'value':'-73.983748'}}) }}
+        </div>
+    </div>
+    <div id="map"></div>
+
+    <hr/>
+
+    <div class="form-group row">
+        {{form_label(form.info, "infos: ", {'label_attr': {'class':'col-lg-2 col-form-label'}}) }}
+        <div class="col-lg-10">
+            {{form_widget(form.info, {'attr':{'class':'form-control'}}) }}
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body bg-light">
+            <h5 class="card-title">Optionnal</h5>
+            <div class="form-group row">
+                {{ form_label(form.registerFinish, "last register at: ", {'label_attr': {'class':'col-lg-2 col-form-label'}}) }}
+                <div class="col-lg-10 row">
+                    <div class="col-auto">
+                        <div class="input-group date" data-target-input="nearest" id="datepicker3">
+                            <div class="input-group-prepend" data-target="#datepicker3" data-toggle="datetimepicker">
+                                <span class="input-group-text">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </span>
                             </div>
+                            {{ form_widget(form.registerFinish.date, {'attr': {'class': 'form-control datetimepicker-input', 'placeholder':'--/--/----', 'data-target':'#datepicker3'}}) }}
                         </div>
-                        <div class="col-auto">
-                            <div class="input-group date" id="timepicker3" data-target-input="nearest">
-                                <div class="input-group-prepend" data-target="#timepicker3" data-toggle="datetimepicker">
-                                    <span class="input-group-text"><i class="fas fa-clock"></i></span>
-                                </div>
-                                {{ form_widget(form.registerFinish.time, {'attr': {'class': 'form-control datetimepicker-input', 'placeholder':'--/--/----', 'data-target':'#timepicker3'}}) }}
+                    </div>
+                    <div class="col-auto">
+                        <div class="input-group date" data-target-input="nearest" id="timepicker3">
+                            <div class="input-group-prepend" data-target="#timepicker3" data-toggle="datetimepicker">
+                                <span class="input-group-text">
+                                    <i class="fas fa-clock"></i>
+                                </span>
                             </div>
+                            {{ form_widget(form.registerFinish.time, {'attr': {'class': 'form-control datetimepicker-input', 'placeholder':'--/--/----', 'data-target':'#timepicker3'}}) }}
                         </div>
                     </div>
                 </div>
-            
-                <div class="form-group row" >
-                    {{ form_label(form.maxPlayers, "Max players: ", {'label_attr': {'class': 'col-lg-2 col-form-label'}} )}}
-                    <div class="col-lg-2">
-                        {{ form_widget(form.maxPlayers, {'attr': {'class': 'form-control'}}) }}
-                    </div>
-                </div>
+            </div>
 
+            <div class="form-group row">
+                {{ form_label(form.maxPlayers, "Max players: ", {'label_attr': {'class': 'col-lg-2 col-form-label'}}
+                )}}
+                <div class="col-lg-2">
+                    {{ form_widget(form.maxPlayers, {'attr': {'class': 'form-control'}}) }}
+                </div>
             </div>
         </div>
+    </div>
 
-	    {{ form_rest(form) }}
-	    <hr>
-	    <button type="submit" name="event-add" class="btn btn-primary btn-block">add new event</button>
-	
-	{{ form_end(form) }}
+    {{ form_rest(form) }}
+    <hr>
+    <button class="btn btn-primary btn-block" name="event-add" type="submit">add new event</button>
+
+    {{ form_end(form) }}
 
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
 
-    <<script type="text/javascript">
+    <script type="text/javascript">
         var lat = document.getElementById('event_location_lat').value;
         var lng = document.getElementById('event_location_lng').value;
     </script>
@@ -165,4 +193,17 @@
 	 <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==" crossorigin=""></script>
     <script src="{{ asset('js/event/datepicker.js') }}"></script>
     <script src="{{ asset('js/event/leaferMap.js') }}"></script>
+
+    <script type="text/javascript">
+        //function to change the radio button according to nicer link designed with bootstrap
+        function changeCheckValue(item) {
+            //unselect all the other item
+            $(item).parent().find("i").attr('class', 'far fa-square');
+            $(item).parent().find("div").attr('class', 'btn btn-outline-primary');
+            $(item).find('i').attr('class', 'far fa-check-square');
+            $(item).attr('class', 'btn btn-primary')
+            var input = document.getElementById(item.id.replace("select_",""));
+            input.checked = true;
+        }
+    </script>
 {% endblock %}
