@@ -5,61 +5,135 @@
         <h1>My Profile</h1>
     </div>
 
-    {{ form_start(form) }} 
+    {{ form_start(form) }}
     <div class="card">
         <div class="card-body">
             <div class="row">
                 <div class="col-lg-3">
-                    {% if user.profilePic != null %}
-                        <img src="{{ asset(vich_uploader_asset(user.profilePic, "imageFile")) | imagine_filter('profile_pic') }}" class="img-rounded col-lg-12" alt="profile-pic">
-                    {% else %}
-                        <img src="{{ asset('image/default/no-profile-pic.jpg') | imagine_filter('profile_pic') }}" class="img-rounded col-lg-12" alt="profile-pic">
-                    {% endif %}
-                    {{ form_widget(form.profilePic, {'attr': {'required':false}}) }}
+                    <div id="previewAlert" class="alert alert-warning sr-only">
+                        <small>this is a preview, save for final rendering</small>
+                    </div>
+                    <img id="imageFile" src="{{ asset(vich_uploader_asset(user.profilePic, "imageFile")) | imagine_filter('profile_pic') }}" class="img-rounded col-lg-12" alt="profile-pic">
+                    <div class="custom-file">
+                        {{ form_widget(form.profilePic.imageFile, {'attr': {'class': 'custom-file-input', 'required':false}}) }}
+                        {{ form_label(form.profilePic.imageFile, "imageFile : ", {'label_attr': {'class':'custom-file-label', }}) }}
+                    </div>
                 </div>
                 <div class="col">
+
+
+                    {{ form_errors(form) }}
+
+                    <div class="form-group row">
+                        {{ form_label(form.username, 'Username: ', {'label_attr': {'class': 'col-lg-2 col-form-label'}}) }}
+                        <div class="col-lg-10">
+                            {{ form_widget(form.username, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        {{ form_label(form.firstName, 'First name: ', {'label_attr': {'class': 'col-lg-2 col-form-label'}}) }}
+                        <div class="col-lg-10">
+                            {{ form_widget(form.firstName, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        {{ form_label(form.lastName, 'Last name: ', {'label_attr': {'class': 'col-lg-2 col-form-label'}}) }}
+                        <div class="col-lg-10">
+                            {{ form_widget(form.lastName, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        {{ form_label(form.email, 'Email: ', {'label_attr': {'class': 'col-lg-2 col-form-label'}}) }}
+                        <div class="col-lg-10">
+                            {% set invalid = form_errors(form.email)? ' is-invalid':'' %}
+                            {{ form_widget(form.email, {'attr': {'class': 'form-control'~invalid }}) }}
+                            <div class="invalid-feedback">
+                                {{ form_errors(form.email) }}
+                            </div>
+                        </div>
+                    </div>
+
                     
-
-                        {{ form_errors(form) }} 
-
-                        <div class="form-group row">
-                            {{ form_label(form.username, 'Username: ', {'label_attr': {'class': 'col-lg-2 col-form-label'}}) }}
-                            <div class="col-lg-10">
-                                {{ form_widget(form.username, {'attr': {'class': 'form-control'}}) }}
+                    <div class="form-group row">
+                        {{ form_label(form.phoneNumber, 'Phone Number: ', {'label_attr': {'class': 'col-lg-2 col-form-label'}}) }}
+                        <div class="col-lg-10">
+                            {% set invalid = form_errors(form.phoneNumber)? ' is-invalid':'' %}
+                            {{ form_widget(form.phoneNumber, {'attr': {'class': 'form-control'~invalid }}) }}
+                            <div class="invalid-feedback">
+                                {{ form_errors(form.phoneNumber) }}
                             </div>
                         </div>
+                    </div>
 
-                        <div class="form-group row">
-                            {{ form_label(form.firstName, 'First name: ', {'label_attr': {'class': 'col-lg-2 col-form-label'}}) }}
-                            <div class="col-lg-10">
-                                {{ form_widget(form.firstName, {'attr': {'class': 'form-control'}}) }}
+                    <div class="form-group row">
+                        {{ form_label(form.gender, 'Gender: ', {'label_attr': {'class': 'col-lg-2 col-form-label'}}) }}
+                        <div class="col-lg-10">
+                            {{ form_widget(form.gender, {'attr': {'class': 'form-control sr-only'}}) }}
+                            <div class="btn
+                                {% if app.user.gender == 0 %}
+                                    btn-outline-primary
+                                {% else %}
+                                    btn-primary
+                                {% endif %}" 
+                                id="button_user_gender_1" onclick="changeCheckValue(this)"
+                            >
+                                <span class="">
+                                    <i class="fas fa-male"></i>
+                                </span>
+                                Male
+                            </div>
+                            <div class="btn
+                                {% if app.user.gender == 0 %}
+                                    btn-primary
+                                {% else %}
+                                    btn-outline-primary
+                                {% endif %}" 
+                                id="button_user_gender_0" 
+                                onclick="changeCheckValue(this)"
+                            >
+                                <span class="">
+                                    <i class="fas fa-female"></i>
+                                </span>
+                                Female
                             </div>
                         </div>
+                    </div>
 
-                        <div class="form-group row">
-                            {{ form_label(form.lastName, 'Last name: ', {'label_attr': {'class': 'col-lg-2 col-form-label'}}) }}
-                            <div class="col-lg-10">
-                                {{ form_widget(form.lastName, {'attr': {'class': 'form-control'}}) }}
-                            </div>
-                        </div>
+                    <a href="#">Change the pasword</a>
 
-                        <div class="form-group row">
-                            {{ form_label(form.email, 'Email: ', {'label_attr': {'class': 'col-lg-2 col-form-label'}}) }}
-                            <div class="col-lg-10">
-                                {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
-                            </div>
-                        </div> 
+                    {{ form_rest(form) }}
 
-                        <a href="#">Change the pasword</a>
+                    <hr>
+                    <button class="btn btn-primary btn-block" name="user-edit" type="submit">save modification</button>
 
-                        {{ form_rest(form) }}  
-                        
-                        <hr>
-                        <button type="submit" name="user-edit" class="btn btn-primary btn-block">save modification</button>
-
-                    {{ form_end(form) }}    
+                    {{ form_end(form) }}
                 </div>
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+
+        function changeCheckValue(item){
+
+            var value = (item.id.slice(-1) == "1");
+            
+            $(item).attr('class', 'btn btn-primary');
+            noItem = $("#" + item.id.slice(0,-1) + (!value | 0) );
+            noItem.attr('class', 'btn btn-outline-primary');
+    
+            var input = document.getElementById('user_gender');
+            input.checked = value ? true: false;
+        }
+    </script>
+
+    <script src="{{ asset('js/field/readUrl.js') }}"></script>
+    
 {% endblock %}

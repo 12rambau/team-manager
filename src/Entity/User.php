@@ -9,6 +9,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use App\Entity\BlogPost;
 use App\Entity\Comment;
 use App\Entity\Image;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -50,6 +51,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
+     * @Assert\Email()
      */
     private $email;
 
@@ -90,6 +92,12 @@ class User implements UserInterface
      * false for female
      */
     private $gender;
+
+    /**
+     * @ORM\Column(type="string", length=15, nullable=true)
+     * @Assert\Regex(pattern="/^\+?[1-9]\d{1,14}$/", message="this is not a phone number")
+     */
+    private $phoneNumber;
 
     public function __construct()
     {
@@ -349,6 +357,18 @@ class User implements UserInterface
     public function setGender(bool $gender): self
     {
         $this->gender = $gender;
+
+        return $this;
+    }
+
+    public function getPhoneNumber(): ?string
+    {
+        return $this->phoneNumber;
+    }
+
+    public function setPhoneNumber(?string $phoneNumber): self
+    {
+        $this->phoneNumber = $phoneNumber;
 
         return $this;
     }

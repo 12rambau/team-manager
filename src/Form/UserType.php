@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Form\ImageType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 
 class UserType extends AbstractType
 {
@@ -18,6 +19,9 @@ class UserType extends AbstractType
             ->add('lastName')
             ->add('firstName')
             ->add('email')
+            ->add('phoneNumber', TelType::class, [
+                'required'=>false
+            ])
             ->add('profilePic', ImageType::class, [
                 'required' => false
             ])

@@ -2,10 +2,12 @@ function readURL(input) {
     if (input.files && input.files[0]) {
       var reader = new FileReader();
       reader.onload = function (e) {
-            $('#imageFile')
+            var img = $('#imageFile');
+
+              img
               .attr('src', e.target.result)
-              .width(150)
-              .height(200);
+              .width(img.width())
+              .height(img.height());
       };
       reader.readAsDataURL(input.files[0]);
       $('#previewAlert').attr('class', $('#previewAlert').attr('class').replace('sr-only', ''));
