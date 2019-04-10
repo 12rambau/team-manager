@@ -1,3 +1,7 @@
 profile-edit:
     path: /user/{username}/edit
     controller: App\Controller\UserController::edit
+
+profile-view:
+    path: /user/{username}/view
+    controller: App\Controller\UserController::view

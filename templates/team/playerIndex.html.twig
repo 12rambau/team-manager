@@ -20,7 +20,9 @@
         <div class="card">
             <div class="card-body row">
                 <div class="col-2">
-                    <img src="{{ asset(vich_uploader_asset(player.profilePic, "imageFile"))| imagine_filter('profile_pic')}}" class="img-rounded col-lg-12" alt="profile-pic">
+                    <a href="{{ path('profile-view', {'username': player.username}) }}">
+                        <img src="{{ asset(vich_uploader_asset(player.profilePic, "imageFile"))| imagine_filter('profile_pic')}}" class="img-rounded col-lg-12" alt="profile-pic">
+                    </a>
                 </div>
                 <div class="col">
                     <div class="row">

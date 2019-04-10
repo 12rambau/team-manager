@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use App\Entity\User;
 use App\Form\UserType;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,6 +31,17 @@ class UserController extends AbstractController
 
         return $this->render('user/edit.html.twig', [
             'form' => $form->createView(),
+            'user' => $user
+        ]);
+    }
+
+    public function view(User $user):Response
+    {
+        //redirect to edit if it's the current user 
+        if ($user === $this->getUser())
+            return new RedirectResponse($this->generateUrl('profile-edit', ['username' => $user->getUsername()]));
+
+        return $this->render('user\view.html.twig', [
             'user' => $user
         ]);
     }

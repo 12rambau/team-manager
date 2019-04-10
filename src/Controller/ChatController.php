@@ -8,7 +8,6 @@ use App\Entity\ChatMessage;
 use App\Form\ChatMessageType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-//use Symfony\Component\Routing\Generator\UrlGenerator;
 
 class ChatController extends AbstractController
 {

@@ -1,0 +1,79 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    {{ user.username }} Profile
+{% endblock %}
+
+{% block content %}
+    <div class="jumbotron">
+        <h1>{{ user.username }} Profile</h1>
+    </div>
+
+    <div class="card">
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-lg-3">
+                    <img id="imageFile" src="{{ asset(vich_uploader_asset(user.profilePic, "imageFile")) | imagine_filter('profile_pic') }}" class="img-rounded col-lg-12" alt="profile-pic">
+                </div>
+
+                <div class="col">
+
+                    <div class="form-group row">
+                        <div class="col-form-label col-3">Username: </div>
+                        <div class="col-lg-9 form-control">
+                            {{ user.username }}
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-form-label col-3">First name: </div>
+                        <div class="form-control col-lg-9">
+                            {{ user.firstName }}
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-form-label col-3">Last name: </div>
+                        <div class="form-control col-lg-9">
+                            {{ user.lastName }}
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-form-label col-3">Email: </div>
+                        <div class="form-control col-lg-9">
+                            {{ user.email }}
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-form-label col-3">Phone Number: </div>
+                        <div class=" form-control col-lg-9">
+                            {{ user.phoneNumber }}
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-form-label col-3">Gender: </div>
+                        <div class="col-lg-9">
+                            <div class="btn btn-primary">
+                                {% if user.gender == 0 %}
+                                    <span><i class="fas fa-female"></i></span> Female
+                                {% else %}
+                                    <span><i class="fas fa-male"></i></span> Male
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    
+    </div>
+{% endblock %}
