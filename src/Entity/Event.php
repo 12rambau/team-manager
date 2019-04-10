@@ -9,6 +9,7 @@ use Cocur\Slugify\Slugify;
 use App\Entity\Location;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
@@ -77,7 +78,6 @@ class Event
 
     /**
     * @ORM\ManyToOne(targetEntity="App\Entity\EventTag", inversedBy="events", cascade={"persist"})
-    * @SerializedName("tag")
     * @Groups({"calendar"})
     */
     private $tag;
@@ -97,6 +97,15 @@ class Event
      * @ORM\OneToMany(targetEntity="App\Entity\Field", mappedBy="event", cascade={"persist"}, orphanRemoval=true)
      */
     private $fields;
+
+    /**
+     * @ORM\Column(type="string", length=7)
+     * @Assert\Regex(pattern="/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/", message="this is not a color")
+     * @SerializedName("color")
+     * @Groups({"calendar"})
+     * not necessary if I understand how to serialize the Tag color
+     */
+    private $color;
     
     public function __construct()
     {
@@ -330,6 +339,18 @@ class Event
                 $field->setEvent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(): self
+    {
+        $this->color = $this->tag->getHexColor();
 
         return $this;
     }

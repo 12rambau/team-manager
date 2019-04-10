@@ -61,9 +61,8 @@ class EventTag
     private $color;
 
     /**
-    * @ORM\Column(type="string", length=255)
-    * @SerializedName("color")
-    * @Groups({"calendar"})
+    * @ORM\Column(type="string", length=7)
+    * @Assert\Regex(pattern="/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/", message="this is not a color")
     */
     private $hexColor;
 

@@ -49,6 +49,7 @@ class AppFixtures extends Fixture
         $root->setPassword($this->passwordEncoder->encodePassword($root,'root'));
         $root->setEmail('root@root.com');
         $root->setGender(true);
+        $root->setPhoneNumber($faker->e164PhoneNumber());
         $image = AppFixtures::manualImage('no-profile-pic-male.jpg');
 
         $root->setProfilePic($image);
@@ -74,6 +75,7 @@ class AppFixtures extends Fixture
                 $image = AppFixtures::manualImage('no-profile-pic-female.jpg');
             }
             $users[$i]->setProfilePic($image);
+            $users[$i]->setPhoneNumber($faker->e164PhoneNumber());
             $manager->persist($users[$i]);
         }
 
