@@ -37,13 +37,28 @@
 									<div class="row">
 										<h2>{{ event.start|date('j') }}</h2>
 									</div>
-									<div class="row">
+									<div class="">
 										<h2>
 											{{ event.nbParticipationIn }}
 											{% if event.maxPlayers %}
 												/{{ event.maxPlayers }}
 											{% endif %}
 										</h2>
+
+										{% if event.maxPlayers %}
+											<div class="progress">
+												{% if event.nbParticipationIn >= event.maxPlayers %}
+													{% set participant = event.maxPlayers*100/event.nbParticipationIn %}
+													{% set outbounds = (event.nbParticipationIn-event.maxPlayers)*100/event.nbParticipationIn %}
+													<div class="progress-bar bg-success" style="width: {{ participant|number_format(0) }}%"></div>
+  													<div class="progress-bar bg-danger" style="width: {{ outbounds|number_format(0) }}%"></div>
+												{% else %}
+													{% set participant = event.nbParticipationIn*100/event.maxPlayers %}
+													<div class="progress-bar bg-warning" style="width: {{ participant|number_format(0) }}%"></div>
+												{% endif %}
+											</div>
+										{% endif %}
+										
 									</div>
 								</div>
 								<div class="col-lg-10">
