@@ -1,4 +1,5 @@
-{% extends 'admin.layout.html.twig' %}
+{% extends (app.token.providerKey == 'admin') ? 'admin.layout.html.twig': 'layout.html.twig' %}
+
 
 {% block title %}edit post - {{ post.slug }}{% endblock %}
 

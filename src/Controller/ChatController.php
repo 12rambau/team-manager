@@ -13,7 +13,7 @@ class ChatController extends AbstractController
 {
     public function Index($page): Response
     {				
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $messages = $em->getRepository(ChatMessage::class)->findSome(($page-1)*40,40);
             
         return $this->render('chat/index.html.twig', [
@@ -32,7 +32,7 @@ class ChatController extends AbstractController
         {
             $message->setAuthor($this->getUser());
 
-            $em = $this->getDoctrine()->getEntityManager();            
+            $em = $this->getDoctrine()->getManager();            
             $em->persist($message);
             $em->flush();
 
@@ -48,7 +48,7 @@ class ChatController extends AbstractController
 
     public function delete(ChatMessage $message, Request $request):Response
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $em->remove($message);
         $em->flush();
 
@@ -61,7 +61,7 @@ class ChatController extends AbstractController
 
     public function list():Response
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $messages = $em->getRepository(ChatMessage::class)->findSome(0, 30);
 
         return $this->render('chat/list.html.twig', [

@@ -7,6 +7,13 @@
         <div><h1>{{ post.title }}</h1></div>
         <div>{{ post.short }}</div>
     </div>
+    {% if post.active == false %}
+        <div class="alert alert-warning text-center"> The Post is not yet activated</div>
+    {% endif %}
+    {% if app.user is same as(post.author) %}
+        <a href="{{ path('blog-edit', {'slug':post.slug}) }}" class="btn btn-primary btn-block">Edit my Post</a>
+    {% endif %}
+ 
     <div class="container">
         <p class="text-right"> by {{ post.author.username }}, on {{ post.publishDate|date('d/m/Y') }} </p>
         <div class="card">
@@ -39,11 +46,6 @@
             {{ form_rest(form)}}
             <button typ="submit" name="comment-add" class="btn btn-primary btn-block">submit</button>
         {{ form_end(form) }}
-
-        {% if post.active == false %}
-            <hr/>
-            <div class="alert alert-danger text-center"> The Post is not yet activated</div>
-        {% endif %}
 
         <hr/>
         <div class="container text-center">

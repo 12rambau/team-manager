@@ -17,7 +17,7 @@ class BlogController extends AbstractController
     public function index($page): Response
     {	
         $nbPostPerPage = 12;			
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $posts = $em->getRepository(BlogPost::class)->findSome(($page-1)*$nbPostPerPage, $nbPostPerPage);
         $nbPost = $em->getRepository(BlogPost::class)->countAll();
             
@@ -42,7 +42,7 @@ class BlogController extends AbstractController
             $comment->setAuthor($this->getUser());
             $post->addComment($comment);
 
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $em->persist($comment);
             $em->persist($post);
             $em->flush();
@@ -71,7 +71,7 @@ class BlogController extends AbstractController
         {
             $post->setAuthor($this->getUser());
 
-            $em = $this->getDoctrine()->getEntityManager();            
+            $em = $this->getDoctrine()->getManager();            
             $em->persist($post);
             $em->flush();
 
@@ -97,7 +97,7 @@ class BlogController extends AbstractController
             $post->setEditDate(new \DateTime());
             $post->setActive(false);
 
-            $em = $this->getDoctrine()->getEntityManager();            
+            $em = $this->getDoctrine()->getManager();            
             $em->persist($post);
             $em->flush();
 
@@ -118,7 +118,7 @@ class BlogController extends AbstractController
 
     public function delete(BlogPost $post, Request $request):Response
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $em->remove($post);
         $em->flush();
 
@@ -132,7 +132,7 @@ class BlogController extends AbstractController
     {
 
         //TODO shouldn't be allowed to anyone 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $post->setActive(!$post->getActive());
 
@@ -147,7 +147,7 @@ class BlogController extends AbstractController
 
     public function adminIndex($page): Response
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $posts = $em->getRepository(BlogPost::class)->findSome(($page-1)*30, 30);
             
         return $this->render('blog/adminIndex.html.twig', [
@@ -165,7 +165,7 @@ class BlogController extends AbstractController
 
     public function commentAdmin($page): Response
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $comments = $em->getRepository(Comment::class)->findSome(($page-1)*30,30);
 
         return $this->render('comment/adminIndex.html.twig', [
@@ -175,7 +175,7 @@ class BlogController extends AbstractController
 
     public function commentDelete(Comment $comment, Request $request):Response
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $em->remove($comment);
         $em->flush();
 

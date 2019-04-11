@@ -25,7 +25,7 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $em->flush();
         }
 

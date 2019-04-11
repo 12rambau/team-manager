@@ -18,7 +18,7 @@ class TagController extends AbstractController
         $form = $this->createForm(TagType::class, $tag);
         $form->handleRequest($request);
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -38,7 +38,7 @@ class TagController extends AbstractController
 
     public function delete(EventTag $tag, Request $request): RedirectResponse
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $em->remove($tag);
         $em->flush();
 

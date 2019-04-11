@@ -10,7 +10,7 @@ class TeamController extends AbstractController
 {
     public function playerIndex(): Response
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $players = $em->getRepository(User::class)->findAll();
 
         return $this->render('team/playerIndex.html.twig', [

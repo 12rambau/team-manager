@@ -14,7 +14,7 @@ class ImageController extends AbstractController
 {
     public function index($page): Response
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $images = $em->getRepository(Image::class)->findAll();
         
         return $this->render('image/index.html.twig', [
@@ -31,7 +31,7 @@ class ImageController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $em->persist($image);
             $em->flush();
 
@@ -53,7 +53,7 @@ class ImageController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $em->flush();
 
             $request->getSession()->getFlashBag()->add('success', 'The image : '.$image->getFileName().' has been edited.');
@@ -68,7 +68,7 @@ class ImageController extends AbstractController
 
     public function delete(Image $image, Request $request):Response
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $em->remove($image);
         $em->flush();
 

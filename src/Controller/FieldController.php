@@ -14,7 +14,7 @@ class FieldController extends AbstractController
 {
     public function index($page): Response
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $templates = $em->getRepository(Field::class)->findAllTemplate();
         
         return $this->render('field/index.html.twig', [
@@ -32,7 +32,7 @@ class FieldController extends AbstractController
         if ($form->isSubmitted() && $form->isValid())
         {
             $template->setName("template_".$template->getName());
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $em->persist($template);
             $em->flush();
 
@@ -55,7 +55,7 @@ class FieldController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $em->flush();
 
             $request->getSession()->getFlashBag()->add('success', 'The template : '.$template->getSlug().' has been edited.');
@@ -71,7 +71,7 @@ class FieldController extends AbstractController
 
     public function delete(Field $template, Request $request):RedirectResponse
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $em->remove($template);
         $em->remove($template->getImage());
         $em->flush();

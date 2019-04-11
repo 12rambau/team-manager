@@ -12,7 +12,7 @@ class AsideController extends AbstractController
     {
         $nbEvents = 2;
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $events = $em->getRepository(Event::class)->findAround($nbEvents, $event);
                 
         return $this->render('aside/events.html.twig',[

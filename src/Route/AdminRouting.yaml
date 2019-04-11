@@ -2,10 +2,6 @@ admin-login:
     path: /login
     controller: App\Controller\AdminController::login
 
-admin-index:
-    path: /index
-    controller: App\Controller\AdminController::index
-
 admin-blog-index:
     path: /blog/index/{page}
     controller: App\Controller\BlogController::adminIndex

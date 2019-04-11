@@ -4,7 +4,6 @@
 
     {{ parent() }}
 
-    <link rel="stylesheet" href="{{ asset('css/theme/admin.css') }}" type="text/css"/>
     <link rel="stylesheet" href="{{ asset('css/admin/style.css') }}" type="text/css"/>
 {% endblock %}
 
@@ -17,26 +16,45 @@
             <li class="list-group-item"><a href="{{ path('admin-blog-index') }}">Blog Posts</a></li>
             <li class="list-group-item"><a href="{{ path('admin-chat-index') }}">Chat messages</a></li>
             <li class="list-group-item"><a href="{{ path('admin-comment-index') }}">Comments</a></li>
+            <li class="list-group-item"><a href="#">Tags</a></li>
+            <li class="list-group-item"><a href="#">users</a></li>
+            <li class="list-group-item"><a href="#">Field templates</a></li>
+            <li class="list-group-item"><a href="#">Sport templates</a></li>
+            <li class="list-group-item"><a href="#">Teams</a></li>
         </ul>
     </nav>
 {% endblock %}
         
 {% block navbar %}
-    <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-info">
-        <button type="button" id="sidebarCollapse" class="btn btn-secondary">
-            <i class="fas fa-align-left"></i>
-            <span>Toggle Sidebar</span>
-        </button>
-        <a class="navbar-brand" href="#">TeamManager</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav mr-auto">
-                <a class="nav-item nav-link" href="#">Home</a>
+    
+    <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-primary">
+    <a class="navbar-brand" href="{{ path('home') }}">TeamManager</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <button type="button" id="sidebarCollapse" class="btn btn-secondary">
+                    <i class="fas fa-align-left"></i>
+                    <span>Toggle Sidebar</span>
+                </button>
+            </li>
+        </ul>
+        <div class="navbar-nav">
+            <div class=" nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="{{ path('profile-edit', {'username':app.user.username}) }}" id="DropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="caret">{{ app.user.username }}</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="DropdownProfile">
+                    <a class="dropdown-item" href="{{ path('profile-edit', {'username':app.user.username}) }}">Profile</a>
+                    <hr/>
+                    <a class="dropdown-item" href="{{ path('logout') }}"><span class="fas fa-off"/>logout</a>
+                </div>
             </div>
         </div>
-    </nav>
+    <div>
+</nav>
 {% endblock %}
 
 {% block javascripts %}

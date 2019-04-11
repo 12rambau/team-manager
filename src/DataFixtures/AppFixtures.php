@@ -51,8 +51,8 @@ class AppFixtures extends Fixture
         $root->setGender(true);
         $root->setPhoneNumber($faker->e164PhoneNumber());
         $image = AppFixtures::manualImage('no-profile-pic-male.jpg');
-
         $root->setProfilePic($image);
+        $root->setRoles(["ROLE_ADMIN"]);
 
         $manager->persist($root);
 

@@ -25,7 +25,7 @@ class EventController extends AbstractController
     {
         $nbEventPerPage = 10;
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $events = $em->getRepository(Event::class)->findTenByUser(($page - 1) * $nbEventPerPage, $nbEventPerPage, $this->getUser());
         $nbEvent = $em->getRepository(Event::class)->countUserEvent($this->getuser());
 
@@ -51,7 +51,7 @@ class EventController extends AbstractController
 
     public function view(Event $event, Request $request): Response
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $participations = $event->getParticipations();
         $myParticipation = $em->getRepository(Participation::class)->FindByEventAndUsername($event, $this->getUser());
@@ -86,7 +86,7 @@ class EventController extends AbstractController
     {
         $event = new Event();
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $tags = $em->getRepository(EventTag::class)->findAll();
 
         $form = $this->createForm(EventType::class, $event);
@@ -119,7 +119,7 @@ class EventController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-                $em = $this->getDoctrine()->getEntityManager();
+                $em = $this->getDoctrine()->getManager();
                 $em->persist($event);
                 $em->flush();
 
@@ -155,7 +155,7 @@ class EventController extends AbstractController
 
         $event->setActive(true);
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $em->persist($event);
         $em->flush();
 
@@ -170,7 +170,7 @@ class EventController extends AbstractController
 
         $event->setActive(false);
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $em->persist($event);
         $em->flush();
 
@@ -188,7 +188,7 @@ class EventController extends AbstractController
         $targetMonday->setTime(0, 0, 0);
 
         //getting all the event concerning this period
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $events = $em->getRepository(Event::class)->findWeeklyEvent($targetMonday);
 
         //separate them for each day of the week 
@@ -206,7 +206,7 @@ class EventController extends AbstractController
         $start = new \DateTime($request->query->get('start')); //change start into DateTime
         $end = new \DateTime($request->query->get('end')); //change end into dateTime
 
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $events = $em->getRepository(Event::class)->findbyDateInterval($start, $end);
 
         $data = $this->get('serializer')->serialize($events, 'json', ['groups' => ['calendar']]);
@@ -224,7 +224,7 @@ class EventController extends AbstractController
             $templateForm->handleRequest($request);
 
             if ($templateForm->isSubmitted() && $templateForm->isValid()) {
-                    $em = $this->getDoctrine()->getEntityManager();
+                    $em = $this->getDoctrine()->getManager();
 
                     $template = $em->getRepository(Field::class)->findOneById($request->get('template_select')['template']);
 
@@ -242,7 +242,7 @@ class EventController extends AbstractController
 
             if ($fieldsForm->isSubmitted() && $fieldsForm->isValid()){
 
-                $em = $this->getDoctrine()->getEntityManager();
+                $em = $this->getDoctrine()->getManager();
                 $em->flush();
 
                 $request->getSession()->getFlashBag()->add('success', 'The event plannification : ' . $event->getSlug() . ' has been updated.');
