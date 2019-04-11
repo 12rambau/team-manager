@@ -46,4 +46,17 @@ class TagController extends AbstractController
 
         return $this->redirect($_SERVER['HTTP_REFERER']);
     }
+
+    public function activate(EventTag $tag, Request $request): RedirectResponse
+    {
+        $tag->setActive(!$tag->getActive());
+
+        $em = $this->getDoctrine()->getManager();
+        $em->flush();
+
+        $request->getSession()->getFlashBag()->add('warning', 'The tag : ' . $tag->getName() . ' has been '.(($tag->getActive())?"activated":"deactivated"));
+
+        return $this->redirect($_SERVER['HTTP_REFERER']);
+
+    }
 }

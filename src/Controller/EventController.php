@@ -35,8 +35,8 @@ class EventController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-                $em->flush();
-            }
+            $em->flush();
+        }
 
         return $this->render('event/index.html.twig', [
             'events' => $events,
@@ -60,18 +60,18 @@ class EventController extends AbstractController
         $formsInOut = $this->createForm(ListParticipationType::class, ['participations' => $participations]);
 
         if ($request->request->has('list_participation')) {
-                $formsInOut->handleRequest($request);
+            $formsInOut->handleRequest($request);
 
-                if ($formsInOut->isSubmitted() && $formsInOut->isValid())
-                    $em->flush();
-            }
+            if ($formsInOut->isSubmitted() && $formsInOut->isValid())
+                $em->flush();
+        }
 
         if ($request->request->has('participation')) {
-                $myFormInOut->handleRequest($request);
+            $myFormInOut->handleRequest($request);
 
-                if ($myFormInOut->isSubmitted() && $myFormInOut->isValid())
-                    $em->flush();
-            }
+            if ($myFormInOut->isSubmitted() && $myFormInOut->isValid())
+                $em->flush();
+        }
 
         return $this->render('event/view.html.twig', [
             'event' => $event,
@@ -87,24 +87,24 @@ class EventController extends AbstractController
         $event = new Event();
 
         $em = $this->getDoctrine()->getManager();
-        $tags = $em->getRepository(EventTag::class)->findAll();
+        $tags = $em->getRepository(EventTag::class)->findActivated();
 
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-                $em->persist($event);
-                $em->flush();
+            $em->persist($event);
+            $em->flush();
 
-                //TODO email the administrator to validate the new event 
+            //TODO email the administrator to validate the new event 
 
-                $request->getSession()->getFlashBag()->add('success', 'The post : ' . $event->getSlug() . ' has been added.');
+            $request->getSession()->getFlashBag()->add('success', 'The post : ' . $event->getSlug() . ' has been added.');
 
-                return new RedirecResponse($this->generateUrl('event-view', [
-                    'slug' => $event->getSlug()
-                ]));
-            }
+            return new RedirecResponse($this->generateUrl('event-view', [
+                'slug' => $event->getSlug()
+            ]));
+        }
 
         return $this->render('event/add.html.twig', [
             'form' => $form->createView(),
@@ -118,23 +118,27 @@ class EventController extends AbstractController
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
 
+        $em = $this->getDoctrine()->getManager();
+        $tags = $em->getRepository(EventTag::class)->findActivated();
+
         if ($form->isSubmitted() && $form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($event);
-                $em->flush();
 
-                //TODO email the administrator to validate the new event 
+            $em->persist($event);
+            $em->flush();
 
-                $request->getSession()->getFlashBag()->add('success', 'The post : ' . $event->getSlug() . ' has been edited.');
+            //TODO email the administrator to validate the new event 
 
-                return new RedirecResponse($this->generateUrl('event-view', [
-                    'slug' => $event->getSlug()
-                ]));
-            }
+            $request->getSession()->getFlashBag()->add('success', 'The post : ' . $event->getSlug() . ' has been edited.');
+
+            return new RedirecResponse($this->generateUrl('event-view', [
+                'slug' => $event->getSlug()
+            ]));
+        }
 
         return $this->render('event/edit.html.twig', [
             'form' => $form->createView(),
-            'event' => $event
+            'event' => $event,
+            'tags' => $tags
         ]);
     }
 
@@ -220,33 +224,32 @@ class EventController extends AbstractController
 
         $fieldsForm = $this->createForm(EventFieldsType::class, $event);
 
-        if ($request->request->has('template_select')){
+        if ($request->request->has('template_select')) {
             $templateForm->handleRequest($request);
 
             if ($templateForm->isSubmitted() && $templateForm->isValid()) {
-                    $em = $this->getDoctrine()->getManager();
+                $em = $this->getDoctrine()->getManager();
 
-                    $template = $em->getRepository(Field::class)->findOneById($request->get('template_select')['template']);
+                $template = $em->getRepository(Field::class)->findOneById($request->get('template_select')['template']);
 
-                    //copying the template in the new field 
-                    $field = clone $template;
-                    $field->setName($event->getId()."_".$field->getName());
-                    $event->addField($field);
+                //copying the template in the new field 
+                $field = clone $template;
+                $field->setName($event->getId() . "_" . $field->getName());
+                $event->addField($field);
 
-                    $request->getSession()->getFlashBag()->add('success', 'The field : ' . $field->getName() . ' has been added to ' . $event->getName());
-                }
+                $request->getSession()->getFlashBag()->add('success', 'The field : ' . $field->getName() . ' has been added to ' . $event->getName());
+            }
         }
 
-        if ($request->request->has("event_fields")){
+        if ($request->request->has("event_fields")) {
             $fieldsForm->handleRequest($request);
 
-            if ($fieldsForm->isSubmitted() && $fieldsForm->isValid()){
+            if ($fieldsForm->isSubmitted() && $fieldsForm->isValid()) {
 
                 $em = $this->getDoctrine()->getManager();
                 $em->flush();
 
                 $request->getSession()->getFlashBag()->add('success', 'The event plannification : ' . $event->getSlug() . ' has been updated.');
-
             }
         }
 

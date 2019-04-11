@@ -1,4 +1,4 @@
-{% extends 'layout.html.twig' %}
+{% extends 'admin.layout.html.twig' %}
 
 {% block title %}Tag index
 {% endblock %}
@@ -14,13 +14,14 @@
     {{ form_errors(form) }}
 
     <table class="table" data-prototype="
-                                {% filter escape('html_attr') %}
-                                    {% include 'tag/prototype.html.twig' with {'form':form} only %}
-                                {% endfilter %}" id="tag-list">
+        {% filter escape('html_attr') %}
+            {% include 'tag/prototype.html.twig' with {'form':form} only %}
+        {% endfilter %}" id="tag-list">
         <tr>
             <th>Tag name</th>
             <th>color</th>
             <th>calendar view</th>
+            <th>Active</th>
             <th>actions</th>
         </tr>
         {% for tag in listTags %}
@@ -31,11 +32,27 @@
                     <span class="btn btn-{{ tag.color }}">{{ tag.name }}</span>
                 </td>
                 <td>
-                    <a class="btn btn-outline-danger" href="{{ path('tag-delete', {'name':tag.name}) }}">
-                        <span class="">
-                            <i class="fas fa-trash"></i>
-                        </span>
-                    </a>
+                    {{ tag.active ? "ok":"mute" }}
+                <td>
+                    {% if tag.events == null %}
+                        <a class="btn btn-outline-danger" href="{{ path('tag-delete', {'name':tag.name}) }}">
+                            <span class="">
+                                <i class="fas fa-trash"></i>
+                            </span>
+                        </a>
+                    {% elseif tag.active == true %}
+                        <a class="btn btn-outline-warning" href="{{ path('tag-activate', {'name':tag.name}) }}">
+                            <span class="">
+                                <i class="fas fa-times"></i>
+                            </span>
+                        </a>
+                    {% elseif tag.active == false %}
+                        <a class="btn btn-outline-success" href="{{ path('tag-activate', {'name':tag.name}) }}">
+                            <span class="">
+                                <i class="fas fa-check"></i>
+                            </span>
+                        </a>
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}

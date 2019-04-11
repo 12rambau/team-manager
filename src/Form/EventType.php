@@ -11,6 +11,9 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Entity\EventTag;
 use App\Form\LocationType;
+use App\Repository\EventTagRepository;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
 
 class EventType extends AbstractType
 {
@@ -19,6 +22,9 @@ class EventType extends AbstractType
         $builder
             ->add('tag', EntityType::class, [
                 'class' => EventTag::class,
+                'query_builder' => function (EventTagRepository $rep){
+                    return $rep->queryActivated();
+                },
                 'choice_label'=>'name',
                 'expanded'=>true,
                 'multiple'=>false
@@ -51,6 +57,24 @@ class EventType extends AbstractType
             ])
             ->add('location', LocationType::class)
         ;
+
+        // $builder->addEventListener(
+        //     FormEvents::PRE_SET_DATA,
+        //     function (FormEvent $formEvent) {
+        //         $form = $formEvent->getForm();
+        //         $event = $formEvent->getData(); //should be an instance of Event
+
+        //         $form->add('tag', EntityType::class, [
+        //             'class' => EventTag::class,
+        //             'query_builder' => function (EventTagRepository $rep) use($event){
+        //                 return $rep->queryActivatedAndEvent($event);
+        //             },
+        //             'choice_label'=>'name',
+        //             'expanded'=>true,
+        //             'multiple'=>false
+        //         ]);
+        //     }
+        // );
     }
 
     public function configureOptions(OptionsResolver $resolver)

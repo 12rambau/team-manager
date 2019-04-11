@@ -73,3 +73,15 @@ template-edit:
 template-delete:
     path: template/{slug}/delete
     controller: App\Controller\FieldController::delete
+
+tag-index:
+    path: index/
+    controller: App\Controller\TagController::index
+
+tag-delete:
+    path: /{name}/delete
+    controller: App\Controller\TagController::delete
+
+tag-activate:
+    path: /{name}/activate
+    controller: App\Controller\TagController::activate

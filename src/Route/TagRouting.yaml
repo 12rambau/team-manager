@@ -1,7 +1,0 @@
-tag-index:
-    path: index/
-    controller: App\Controller\TagController::index
-
-tag-delete:
-    path: /{name}/delete
-    controller: App\Controller\TagController::delete

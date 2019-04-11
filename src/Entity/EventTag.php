@@ -66,9 +66,15 @@ class EventTag
     */
     private $hexColor;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $active;
+
     public function __construct()
     {
         $this->events = new ArrayCollection();
+        $this->active = true;
     }
 
     public function getId(): ?int
@@ -145,6 +151,18 @@ class EventTag
     public function setHexColor(): self
     {
         $this->hexColor = ($this->color)?$this::HEX_COLORS[$this->color]:'';        
+
+        return $this;
+    }
+
+    public function getActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(bool $active): self
+    {
+        $this->active = $active;
 
         return $this;
     }
