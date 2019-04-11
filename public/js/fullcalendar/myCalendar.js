@@ -2,7 +2,7 @@ $(function() {
 
     // page is now ready, initialize the calendar..
 
-    $('#calendar').fullCalendar({
+    var fullCalendar = $('#calendar').fullCalendar({
         themeSystem: 'bootstrap4',
         header:{
             left: 'month,agendaWeek,agendaDay',
