@@ -53,26 +53,24 @@ function addPositionForm(collectionHolder, newLinkLi) {
         css:{
             "top": "0%",
             "left": "0%",
+            "background": 'url('+phantomUrl+')'
         }
     });
 
-    var phantom = $('<img/>',
-    {
-        src: phantomUrl
-    });
-
     //display the new phantom on the field
-    $("#positionning").append(card.append(phantom));
-
+    $("#positionning").append(card);
 
 }
 
 function removePosition(event){
     //prevent the button from validating the form
     event.preventDefault();
+
+    //prevent the i from launching anything
+    if ($(event.target).is('i')) return;
     
     //get the Id of the position
-    var name = $(event.target).prev().attr('id');
+    var name = $(event.target).parent().attr('id');
     
     //remove the phantom card
     $("#"+name+"_card").remove();
@@ -81,7 +79,7 @@ function removePosition(event){
     $("#"+name+"_namer").remove();
 
     //remove the position form
-    $(event.target).parent().remove();
+    $(event.target).parent().parent().remove();
 }
 
 

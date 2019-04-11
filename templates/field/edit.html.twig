@@ -8,7 +8,7 @@
 	<link rel="stylesheet" href="{{ asset('css/field/field.css') }}" type="text/css"/>
 {% endblock %}
 
-{% block body %}
+{% block content %}
 
 	{{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
 
@@ -51,9 +51,9 @@
 							style="
 								top:{{ position.vertical }}%;
 								left:{{ position.horizontal }}%;
+								background: url('{{ asset('image/default/no-position.jpg') | imagine_filter('position') }}');
 							"
 						>
-							<img src="{{ asset('image/default/no-position.jpg') | imagine_filter('position') }}" alt="no-position">
 						</div>
 					{% endfor %}
 				</div>
