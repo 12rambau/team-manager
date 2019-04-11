@@ -48,7 +48,7 @@ class ImageListener
         if (!$entity instanceof Image) {
             return;
         }
-        $changeSet = $args->getManager()->getUnitOfWork()->getEntityChangeSet($entity);
+        $changeSet = $args->getEntityManager()->getUnitOfWork()->getEntityChangeSet($entity);
  
         if(!array_key_exists("fileName", $changeSet)){ 
         return;

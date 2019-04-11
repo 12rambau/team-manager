@@ -12,7 +12,7 @@ class CreateParticipations
 {
     public function postPersist(LifecycleEventArgs $args)
     {
-        $em = $args->getManager();
+        $em = $args->getEntityManager();
         $event = $args->getObject();
 
         if ($event instanceof Event) { 

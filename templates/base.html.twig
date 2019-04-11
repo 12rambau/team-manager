@@ -20,31 +20,28 @@
 {% endblock %}
 
 <body>
+	<!-- c'est certain il existe une meilleure façon de faire mais pour l'instant la flemme -->
+	<div class="row align-items-center justify-content-center col-12">
+		{% for key in app.session.flashbag.keys %}
+			{% for message in app.session.flashbag.get(key) %}
+				<div class="alert alert-{{ key }} alert-dismissible text-center" role="alert" 	style="z-index: 10000; width: 50%; margin-top: 15px">
+					<button type="button" class="close" data-dismiss="alert" aria-label="close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					{{ message }}
+				</div>
+			{% endfor %}
+		{% endfor %}
+	</div>
 
 {% block body %}
 	
 	<div>
-		{% block sidebar %}
-		{% endblock %}
+		{% block sidebar %}{% endblock %}
 
 		<div id="content">
-			{# On définit ce block, dans lequel vont venir s'insérer les autres vues du bundle #}
-
-			<!-- c'est certain il existe une meilleure façon de faire mais pour l'instant la flemme -->
-			{% for key in app.session.flashbag.keys %}
-				{% for message in app.session.flashbag.get(key) %}
-					<div class="alert alert-{{ key }} alert-dismissible" role="alert" style="z-index: 10">
-						<button type="button" class="close" data-dismiss="alert" aria-label="close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-						{{ message }}
-					</div>
-				{% endfor %}
-			{% endfor %}
-			
-			{% block content %}
-
-			{% endblock content %}
+			{# On définit ce block, dans lequel vont venir s'insérer les autres vues du bundle #}			
+			{% block content %}{% endblock %}
 		</div>
 	</div>
 {% endblock %}
