@@ -85,3 +85,7 @@ tag-delete:
 tag-activate:
     path: /{name}/activate
     controller: App\Controller\TagController::activate
+
+admin-event-edit:
+    path: /{slug}/edit
+    controller: App\Controller\EventController::edit

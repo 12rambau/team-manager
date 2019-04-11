@@ -1,4 +1,4 @@
-{% extends 'layout.html.twig' %}
+{% extends (app.token.providerKey == 'admin') ? 'admin.layout.html.twig': 'layout.html.twig' %}
 
 {% block title %}add a new event{% endblock %}
 
