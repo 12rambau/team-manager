@@ -23,7 +23,7 @@ yarn-error.log
 ###< liip/imagine-bundle ###
 
 ###> images ###
-/public/image/upload/
+/public/image/upload/*
 ###< images ###
 
 ###> phpunit/phpunit ###

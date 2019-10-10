@@ -5,3 +5,7 @@ profile-edit:
 profile-view:
     path: /user/{username}/view
     controller: App\Controller\UserController::view
+
+profile-delete-picture:
+    path: /user/{username}/delete-Picture
+    controller: App\Controller\UserController::resetProfilePic

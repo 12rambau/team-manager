@@ -34,10 +34,13 @@ class AppFixtures extends Fixture
         //language configuration
         $faker = Faker\Factory::create('en_US');
 
-        //empty the upload dir
-        $dirPath = $this->container->get('kernel')->getRootDir().'/../public/image/upload/';
+        //get the root Directory
+        $rootDir = $this->container->get('kernel')->getRootDir().'/..';
     
-        foreach(new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dirPath, \FilesystemIterator::SKIP_DOTS), \RecursiveIteratorIterator::CHILD_FIRST) as $path) 
+        //empty the upload dir
+        $dirPath = $rootDir.'/public/image/upload/';
+
+        foreach(new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dirPath, \FilesystemIterator::SKIP_DOTS), \RecursiveIteratorIterator::CHILD_FIRST) as $path)
             $path->isDir() && !$path->isLink() ? rmdir($path->getPathname()) : unlink($path->getPathname());
 
 
@@ -50,7 +53,7 @@ class AppFixtures extends Fixture
         $root->setEmail('root@root.com');
         $root->setGender(true);
         $root->setPhoneNumber($faker->e164PhoneNumber());
-        $image = AppFixtures::manualImage('no-profile-pic-male.jpg');
+        $image = AppFixtures::manualImage('no-profile-pic-male.jpg', $rootDir);
         $root->setProfilePic($image);
         $root->setRoles(["ROLE_ADMIN"]);
 
@@ -68,12 +71,7 @@ class AppFixtures extends Fixture
             $users[$i]->setUserName($users[$i]->getfirstName().$users[$i]->getLastName());
             $users[$i]->setPassword($this->passwordEncoder->encodePassword($users[$i],'userdemo'.$i));
             $users[$i]->setEmail($users[$i]->getfirstName().".".$users[$i]->getLastName().'@team.com');
-            
-            if ($users[$i]->getGender()){
-                $image = AppFixtures::manualImage('no-profile-pic-male.jpg');
-            } else {
-                $image = AppFixtures::manualImage('no-profile-pic-female.jpg');
-            }
+            $image = AppFixtures::manualImage('no-profile-pic-'.$gender.'.jpg', $rootDir);
             $users[$i]->setProfilePic($image);
             $users[$i]->setPhoneNumber($faker->e164PhoneNumber());
             $manager->persist($users[$i]);
@@ -172,19 +170,19 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
-    public function ManualImage(string $imageName):Image
+    public function ManualImage(string $imageName, string $rootDir):Image
     {
         $image = new Image();
 
         $image->setUpdatedAt(new \DateTime());
 
-        $sourcePath = $this->container->get('kernel')->getRootDir().'/../public/image/default/'.$imageName;
-        
+        $sourcePath = $rootDir.'/public/image/default/'.$imageName;
+
         $name = str_replace('.', '', uniqid('', true));
-        if ($extension = pathinfo($sourcePath, PATHINFO_EXTENSION)) 
+        if ($extension = pathinfo($sourcePath, PATHINFO_EXTENSION))
             $name = sprintf('%s.%s', $name, $extension);
-    
-        $copyPath = $this->container->get('kernel')->getRootDir().'/../public/image/upload/'.$name;
+
+        $copyPath = $rootDir.'/public/image/upload/'.$name;
 
         copy($sourcePath, $copyPath);
         $image->setFileName($name);

@@ -22,6 +22,11 @@
                         {{ form_widget(form.profilePic.imageFile, {'attr': {'class': 'custom-file-input', 'required':false}}) }}
                         {{ form_label(form.profilePic.imageFile, "imageFile : ", {'label_attr': {'class':'custom-file-label', }}) }}
                     </div>
+
+                    <hr>
+
+                    <a class="btn btn-primary btn-block" href="{{ path('profile-delete-picture', {'username':user.username}) }}">Delete Picture</a>
+
                 </div>
                 <div class="col">
 
@@ -60,7 +65,7 @@
                         </div>
                     </div>
 
-                    
+
                     <div class="form-group row">
                         {{ form_label(form.phoneNumber, 'Phone Number: ', {'label_attr': {'class': 'col-lg-2 col-form-label'}}) }}
                         <div class="col-lg-10">
@@ -81,7 +86,7 @@
                                     btn-outline-primary
                                 {% else %}
                                     btn-primary
-                                {% endif %}" 
+                                {% endif %}"
                                 id="button_user_gender_1" onclick="changeCheckValue(this)"
                             >
                                 <span class="">
@@ -94,8 +99,8 @@
                                     btn-primary
                                 {% else %}
                                     btn-outline-primary
-                                {% endif %}" 
-                                id="button_user_gender_0" 
+                                {% endif %}"
+                                id="button_user_gender_0"
                                 onclick="changeCheckValue(this)"
                             >
                                 <span class="">
@@ -128,16 +133,16 @@
         function changeCheckValue(item){
 
             var value = (item.id.slice(-1) == "1");
-            
+
             $(item).attr('class', 'btn btn-primary');
             noItem = $("#" + item.id.slice(0,-1) + (!value | 0) );
             noItem.attr('class', 'btn btn-outline-primary');
-    
+
             var input = document.getElementById('user_gender');
             input.checked = value ? true: false;
         }
     </script>
 
     <script src="{{ asset('js/field/readUrl.js') }}"></script>
-    
+
 {% endblock %}
