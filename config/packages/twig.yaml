@@ -6,3 +6,6 @@ twig:
     globals:
         algolia_place_app_id: "%algolia_place_app_id%"
         algolia_place_api_id: "%algolia_place_api_id%"
+        club_name: "%env(CLUB_NAME)%"
+
+    

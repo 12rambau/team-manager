@@ -1,9 +1,5 @@
-var lat = document.getElementById('event_location_lat').value;
-var lng = document.getElementById('event_location_lng').value; 
-
-
 var mymap = L.map('map').setView(
-    [lat,lng],
+    [lat.value,lng.value],
     13
 );
 
@@ -17,14 +13,11 @@ var mymap = L.map('map').setView(
     }
 ).addTo(mymap);
 
-var marker = L.marker([lat, lng]).addTo(mymap);
+var marker = L.marker([lat.value, lng.value]).addTo(mymap);
 
 function moveMarker(){
 
-    lat = document.getElementById('event_location_lat').value;
-    lng = document.getElementById('event_location_lng').value;
-
-    var latLng = [lat, lng];
+    var latLng = [lat.value, lng.value];
     marker.setLatLng(latLng).update();
     mymap.setView(latLng);
 }

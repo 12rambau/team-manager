@@ -52,3 +52,8 @@ services:
         tags:
             - { name: doctrine.event_listener, event: prePersist }
             - { name: doctrine.event_listener, event: preUpdate }
+    
+    App\Service\EmailService:
+        arguments: 
+            - '@swiftmailer.mailer.default'
+            - '%env(WEBMASTER_MAIL)%'

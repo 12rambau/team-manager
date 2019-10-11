@@ -7,7 +7,7 @@ event-index:
         page: \d+
 
 event-view:
-    path: /{slug}/view
+    path: /view/{slug}/
     controller: App\Controller\EventController::view
     options:
         expose: true
@@ -17,19 +17,19 @@ event-add:
     controller: App\Controller\EventController::add
 
 event-edit:
-    path: /{slug}/edit
+    path: /edit/{slug}
     controller: App\Controller\EventController::edit
 
 event-delete:
-    path: /{slug}/delete
+    path: /delete/{slug}
     controller: App\Controller\EventController::delete
 
 event-activate:
-    path: /{slug}/activate
+    path: /activate/{slug}
     controller: App\Controller\EventController::activate
 
 event-deactivate:
-    path: /{slug}/deactivate
+    path: /deactivate/{slug}
     controller: App\Controller\EventController::deactivate
 
 event-calendar:

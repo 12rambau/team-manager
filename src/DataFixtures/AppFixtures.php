@@ -43,6 +43,14 @@ class AppFixtures extends Fixture
         foreach(new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dirPath, \FilesystemIterator::SKIP_DOTS), \RecursiveIteratorIterator::CHILD_FIRST) as $path)
             $path->isDir() && !$path->isLink() ? rmdir($path->getPathname()) : unlink($path->getPathname());
 
+        //create the contact info 
+        $contact = new Location();
+        $contact->setValue($faker->address());
+        $contact->setLat($faker->latitude($min = -90, $max = 90));
+        $contact->setLng($faker->longitude($min = -180, $max = 180));
+        $contact->setTag('contact');
+
+        $manager->persist($contact);
 
         //users creator (me)
         $root = new User();

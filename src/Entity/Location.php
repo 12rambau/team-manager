@@ -17,6 +17,11 @@ class Location
     private $id;
 
     /**
+    * @ORM\Column(type="string", length=255, nullable=true)
+    */
+    private $tag;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $type;
@@ -221,6 +226,18 @@ class Location
     public function setValue(?string $value): self
     {
         $this->value = $value;
+
+        return $this;
+    }
+
+    public function getTag(): ?string
+    {
+        return $this->tag;
+    }
+
+    public function setTag(?string $tag): self
+    {
+        $this->tag = $tag;
 
         return $this;
     }

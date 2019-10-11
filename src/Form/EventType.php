@@ -55,26 +55,8 @@ class EventType extends AbstractType
             ->add('maxPlayers', null,[
                 'required'=>false
             ])
-            ->add('location', LocationType::class)
+            ->add('location', LocationType::class, ['hidden' => true])
         ;
-
-        // $builder->addEventListener(
-        //     FormEvents::PRE_SET_DATA,
-        //     function (FormEvent $formEvent) {
-        //         $form = $formEvent->getForm();
-        //         $event = $formEvent->getData(); //should be an instance of Event
-
-        //         $form->add('tag', EntityType::class, [
-        //             'class' => EventTag::class,
-        //             'query_builder' => function (EventTagRepository $rep) use($event){
-        //                 return $rep->queryActivatedAndEvent($event);
-        //             },
-        //             'choice_label'=>'name',
-        //             'expanded'=>true,
-        //             'multiple'=>false
-        //         ]);
-        //     }
-        // );
     }
 
     public function configureOptions(OptionsResolver $resolver)

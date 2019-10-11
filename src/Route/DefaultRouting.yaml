@@ -1,3 +1,7 @@
 home:
     path: /
     controller: App\Controller\DefaultController::home
+
+contact:
+    path: /contact-information
+    controller: App\Controller\DefaultController::contact

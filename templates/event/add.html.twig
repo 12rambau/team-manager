@@ -95,25 +95,26 @@
 
     <div id="map"></div>
 
-    <div class="form-group row">
+    <hr>
+
+     <div class="form-group row">
         {{ form_label(form.location.value, "location: ", {'label_attr': {'class': 'col-lg-2 col-form-label'}}) }}
         <div class="col-lg-10">
             {{ form_widget(form.location.value, {'attr': {'class': 'form-control'}}) }}
         </div>
     </div>
     
-    {{ form_row(form.location.type) }}
-    {{ form_row(form.location.name) }}
-    {{ form_row(form.location.city) }}
-    {{ form_row(form.location.country) }}
-    {{ form_row(form.location.countryCode) }}
-    {{ form_row(form.location.administrative) }}
-    {{ form_row(form.location.county) }}
-    {{ form_row(form.location.suburb) }}
-    {{ form_row(form.location.lat) }}
-    {{ form_row(form.location.lng) }}
-    {{ form_row(form.location.postcode) }}
-    {{ form_row(form.location.value) }}
+    {{ form_widget(form.location.type }}
+    {{ form_widget(form.location.name }}
+    {{ form_widget(form.location.city }}
+    {{ form_widget(form.location.country }}
+    {{ form_widget(form.location.countryCode }}
+    {{ form_widget(form.location.administrative }}
+    {{ form_widget(form.location.county }}
+    {{ form_widget(form.location.suburb }}
+    {{ form_widget(form.location.lat }}
+    {{ form_widget(form.location.lng }}
+    {{ form_widget(form.location.postcode }}
 
     <hr/>
 
@@ -173,6 +174,11 @@
 
 {% block javascripts %}
     {{ parent() }}
+
+    <script type="text/javascript">
+        lat = document.getElementById('event_location_lat');
+        lng = document.getElementById('event_location_lng');
+    </script>
 
 	 <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==" crossorigin=""></script>
     <script src="{{ asset('js/event/datepicker.js') }}"></script>

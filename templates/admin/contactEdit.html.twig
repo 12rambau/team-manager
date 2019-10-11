@@ -1,0 +1,156 @@
+{% extends (app.token.providerKey == 'admin') ? 'admin.layout.html.twig': 'layout.html.twig' %}
+
+{% block title %}Edit Contat information{% endblock %}
+
+{% block content %}
+
+    <div class="jumbotron text-center">
+        <h1>Edit Contat information</h1>
+    </div>
+
+    {{ form_start(form) }}
+
+    {{ form_errors(form) }}
+
+    <div class="form-group row">
+        {{ form_label(form.type, "Type: ", {'label_attr': {'class':'col-lg-2 col-form-label'}}) }}
+        <div class="col-lg-10">
+            {{ form_widget(form.type, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+
+    <div class="form-group row">
+        {{ form_label(form.name, "Name: ", {'label_attr': {'class':'col-lg-2 col-form-label'}}) }}
+        <div class="col-lg-10">
+            {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+
+    <div class="form-group row">
+        {{ form_label(form.city, "City: ", {'label_attr': {'class':'col-lg-2 col-form-label'}}) }}
+        <div class="col-lg-10">
+            {{ form_widget(form.city, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+
+    <div class="form-group row">
+        {{ form_label(form.country, "Country: ", {'label_attr': {'class':'col-lg-2 col-form-label'}}) }}
+        <div class="col-lg-10">
+            {{ form_widget(form.country, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+
+    <div class="form-group row">
+        {{ form_label(form.countryCode, "Country Code: ", {'label_attr': {'class':'col-lg-2 col-form-label'}}) }}
+        <div class="col-lg-10">
+            {{ form_widget(form.countryCode, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+
+    <div class="form-group row">
+        {{ form_label(form.administrative, "Administrative: ", {'label_attr': {'class':'col-lg-2 col-form-label'}}) }}
+        <div class="col-lg-10">
+            {{ form_widget(form.administrative, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+
+    <div class="form-group row">
+        {{ form_label(form.county, "County: ", {'label_attr': {'class':'col-lg-2 col-form-label'}}) }}
+        <div class="col-lg-10">
+            {{ form_widget(form.county, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+
+    <div class="form-group row">
+        {{ form_label(form.suburb, "Suburb: ", {'label_attr': {'class':'col-lg-2 col-form-label'}}) }}
+        <div class="col-lg-10">
+            {{ form_widget(form.suburb, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+
+    <div class="form-group row">
+        {{ form_label(form.lat, "Lat: ", {'label_attr': {'id':'location_latprout', 'class':'col-lg-2 col-form-label'}}) }}
+        <div class="col-lg-10">
+            {{ form_widget(form.lat, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+
+    <div class="form-group row">
+        {{ form_label(form.lng, "Lng: ", {'label_attr': {'id':'location_lngprout', 'class':'col-lg-2 col-form-label'}}) }}
+        <div class="col-lg-10">
+            {{ form_widget(form.lng, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+
+    <div class="form-group row">
+        {{ form_label(form.postcode, "Postcode: ", {'label_attr': {'class':'col-lg-2 col-form-label'}}) }}
+        <div class="col-lg-10">
+            {{ form_widget(form.postcode, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+
+    <div id="map"></div> 
+
+    <hr>
+
+    <div class="form-group row">
+        {{ form_label(form.value, "Full adress: ", {'label_attr': {'class':'col-lg-2 col-form-label'}}) }}
+        <div class="col-lg-10">
+            {{ form_widget(form.value, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+
+       
+
+    {{ form_rest(form) }}
+    <hr>
+    <button class="btn btn-primary btn-block" name="contact-edit" type="submit">Edit contact information</button>
+
+    {{ form_end(form) }}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        lat = document.getElementById('location_lat');
+        lng = document.getElementById('location_lng');
+    </script>
+
+	 <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==" crossorigin=""></script>
+    <script src="{{ asset('js/event/leaferMap.js') }}"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/places.js/1.16.3/places.min.js"></script>
+
+    <script type="text/javascript">
+        const fixedOptions = {
+            appId: '{{ algolia_place_app_id }}',
+            apiKey: '{{ algolia_place_api_id }}',
+            container: document.querySelector('#location_value'),
+        };
+
+        const reconfigurableOptions = {
+            language: '{{ app.request.locale }}', // Receives results in local language
+            aroundLatLngViaIP: true //unable the extra search/boost around the source IP
+        };
+        const placesInstance = places(fixedOptions).configure(reconfigurableOptions);
+
+        placesInstance.on('change', function resultSelected(e) {
+            $("#location_type").val(e.suggestion.type || '');
+            $("#location_name").val(e.suggestion.name || '');
+            $("#location_city").val(e.suggestion.city || '');
+            $("#location_country").val(e.suggestion.country || '');
+            $("#location_countryCode").val(e.suggestion.countryCode || '');
+            $("#location_administrative").val(e.suggestion.administrative || '');
+            $("#location_county").val(e.suggestion.county || '');
+            $("#location_suburb").val(e.suggestion.suburb || '');
+            $("#location_lat").val(e.suggestion.latlng["lat"] || '');
+            $("#location_lng").val(e.suggestion.latlng["lng"] || '');
+            $("#location_postcode").val(e.suggestion.postcode || '');
+
+            moveMarker();
+
+        });
+    </script>
+{% endblock %}

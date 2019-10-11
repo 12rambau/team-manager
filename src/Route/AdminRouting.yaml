@@ -51,7 +51,7 @@ admin-comment-index:
         page: \d+
 
 template-index:
-    path: template/index/{page}
+    path: /template/index/{page}
     controller: App\Controller\FieldController::index
     defaults:
         page: 1
@@ -59,33 +59,37 @@ template-index:
         page: \d+
 
 template-view:
-    path: template/{slug}/view
+    path: /template/view/{slug}
     controller: App\Controller\FieldController::view
 
 template-add:
-    path: template/add
+    path: /template/add
     controller: App\Controller\FieldController::add
 
 template-edit:
-    path: template/{slug}/edit
+    path: /template/edit/{slug}
     controller: App\Controller\FieldController::edit
 
 template-delete:
-    path: template/{slug}/delete
+    path: /template/delete/{slug}
     controller: App\Controller\FieldController::delete
 
 tag-index:
-    path: index/
+    path: tag/index/
     controller: App\Controller\TagController::index
 
 tag-delete:
-    path: /{name}/delete
+    path: tag/delete/{name}
     controller: App\Controller\TagController::delete
 
 tag-activate:
-    path: /{name}/activate
+    path: /tag/activate/{name}
     controller: App\Controller\TagController::activate
 
 admin-event-edit:
-    path: /{slug}/edit
+    path: /event/edit/{slug}
     controller: App\Controller\EventController::edit
+
+admin-contact-edit:
+    path: /contact/edit
+    controller: App\Controller\AdminController::EditContact

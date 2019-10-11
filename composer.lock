@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ce3fb50b4d514f2b1eeaa1fcd2afffb2",
+    "content-hash": "7bdb09df51338c2deea6e1d45c631a91",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -1417,16 +1417,16 @@
         },
         {
             "name": "friendsofsymfony/ckeditor-bundle",
-            "version": "2.0.2",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSCKEditorBundle.git",
-                "reference": "ca2b528d9a9939ca068fa01f0cddbce6cebcff13"
+                "reference": "7ba78735ea75b9a6d4de403d7aced6c993a0557a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSCKEditorBundle/zipball/ca2b528d9a9939ca068fa01f0cddbce6cebcff13",
-                "reference": "ca2b528d9a9939ca068fa01f0cddbce6cebcff13",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSCKEditorBundle/zipball/7ba78735ea75b9a6d4de403d7aced6c993a0557a",
+                "reference": "7ba78735ea75b9a6d4de403d7aced6c993a0557a",
                 "shasum": ""
             },
             "require": {
@@ -1491,7 +1491,7 @@
             "keywords": [
                 "CKEditor"
             ],
-            "time": "2019-03-05T21:04:46+00:00"
+            "time": "2019-04-15T16:29:43+00:00"
         },
         {
             "name": "friendsofsymfony/jsrouting-bundle",
