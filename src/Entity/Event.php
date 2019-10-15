@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Cocur\Slugify\Slugify;
 use App\Entity\Location;
+use App\Entity\Result;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -106,6 +107,11 @@ class Event
      * not necessary if I understand how to serialize the Tag color
      */
     private $color;
+
+    /**
+    * @ORM\OneToOne(targetEntity="App\Entity\Result", cascade={"persist"}, orphanRemoval=true)
+    */
+    private $result;
     
     public function __construct()
     {
@@ -114,6 +120,7 @@ class Event
         $this->publishDate = new \DateTime();
         $this->participations = new ArrayCollection();
         $this->fields = new ArrayCollection();
+        $this->result = new Result();
     }
 
     public function getId(): ?int
@@ -351,6 +358,18 @@ class Event
     public function setColor(): self
     {
         $this->color = $this->tag->getHexColor();
+
+        return $this;
+    }
+
+    public function getResult(): ?Result
+    {
+        return $this->result;
+    }
+
+    public function setResult(?Result $result): self
+    {
+        $this->result = $result;
 
         return $this;
     }

@@ -93,3 +93,15 @@ admin-event-edit:
 admin-contact-edit:
     path: /contact/edit
     controller: App\Controller\AdminController::EditContact
+
+stat-tag-index:
+    path: stattag/index/
+    controller: App\Controller\StatTagController::index
+
+stat-tag-delete:
+    path: stattag/delete/{name}
+    controller: App\Controller\StatTagController::delete
+
+stat-tag-activate:
+    path: stattag/activate/{name}
+    controller: App\Controller\StatTagController::activate

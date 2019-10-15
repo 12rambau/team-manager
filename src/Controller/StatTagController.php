@@ -3,19 +3,19 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Entity\EventTag;
+use App\Entity\StatTag;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use App\Form\TagType;
+use App\Form\StatTagType;
 
-class TagController extends AbstractController
+class StatTagController extends AbstractController
 {
 
     public function index(Request $request): Response
     {
-        $tag = new EventTag();
-        $form = $this->createForm(TagType::class, $tag);
+        $tag = new StatTag();
+        $form = $this->createForm(StatTagType::class, $tag);
         $form->handleRequest($request);
 
         $em = $this->getDoctrine()->getManager();
@@ -28,15 +28,15 @@ class TagController extends AbstractController
             $request->getSession()->getFlashBag()->add('success', 'The Tag : ' . $tag->getName() . ' has been added.');
         }
 
-        $listTags = $em->getRepository(EventTag::class)->findAll();
+        $listTags = $em->getRepository(StatTag::class)->findAll();
 
-        return $this->render('tag/index.html.twig', [
+        return $this->render('statTag/index.html.twig', [
             'listTags' => $listTags,
             'form' => $form->createView()
         ]);
     }
 
-    public function delete(EventTag $tag, Request $request): RedirectResponse
+    public function delete(StatTag $tag, Request $request): RedirectResponse
     {
         $em = $this->getDoctrine()->getManager();
         $em->remove($tag);
@@ -47,7 +47,7 @@ class TagController extends AbstractController
         return $this->redirect($_SERVER['HTTP_REFERER']);
     }
 
-    public function activate(EventTag $tag, Request $request): RedirectResponse
+    public function activate(StatTag $tag, Request $request): RedirectResponse
     {
         $tag->setActive(!$tag->getActive());
 

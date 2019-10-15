@@ -1,0 +1,18 @@
+<tr id="form-row">
+    <td>{{ form_widget(form.name, {'attr': {'class': 'form-control', 'placeholder':'tag name'}}) }}</td>
+    <td>{{ form_widget(form.unity, {'attr': {'class': 'form-control'}}) }}</td>
+    <td>
+        <div class="btn-group">
+            <button class="btn btn-outline-success">
+                <span class="">
+                    <i class="fas fa-check"></i>
+                </span>
+            </button>
+            <a id="tag_cancel" class="btn btn-outline-info" href="#">
+                <span class="">
+                    <i class="fas fa-eject"></i>
+                </span>
+            </a>
+        </div>
+    </td>
+</tr>

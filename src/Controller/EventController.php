@@ -259,4 +259,14 @@ class EventController extends AbstractController
             'fieldsForm' => $fieldsForm->createView()
         ]);
     }
+
+    public function viewResult(Event $event):Response
+    {
+        $result = $event->getResult();
+        
+        return $this->render('event/viewResult.html.twig', [
+            'event' => $event,
+            'result' => $result,
+        ]);
+    }
 }

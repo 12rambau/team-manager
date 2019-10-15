@@ -41,7 +41,3 @@ aside:
 field:
     resource: "Route/FieldRouting.yaml"
     prefix: /field/
-
-tag:
-    resource: "Route/TagRouting.yaml"
-    prefix: /tag/

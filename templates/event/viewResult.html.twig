@@ -1,0 +1,44 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}view results{% endblock %}
+
+{% block content %}
+
+	<div class="jumbotron bg-primary-light">
+        <h2><span class="badge badge-{{ event.tag.color }}">{{event.tag.name|slice(0,3)|raw}}.</span>{{ event.name }} - Results</h2>
+    </div>
+
+    <h3>Score</h3>
+    {% if result.score  %}
+        toto
+    {% else %}
+        No score for now !
+    {% endif %}
+    <hr>
+
+    <h3>Result files</h3>
+    {% if result.files %}
+        toto
+    {% else %}
+        No result filesfor now !
+    {% endif %}
+    <hr>
+
+    <h3>My personnal results</h3>
+    <a href="#" class="btn btn-block btn-success"><i class="fas fa-plus-circle"></i> add personnal result</a>
+
+	
+
+{% endblock %}
+
+{% block aside %}
+	<div class="card">
+		<div class="card-header">
+			<p class="card-title"><span class="fas fa-filter"/>Filter events</p>
+		</div>
+		<div class="card-body">
+			plein de filtres
+		</div>
+	</div>
+	
+{% endblock %}

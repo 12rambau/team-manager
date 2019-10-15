@@ -48,3 +48,6 @@ event-plannification:
     path: /{slug}/plannification
     controller: App\Controller\EventController:plannification
     
+result-view:
+    path: /{slug}/view/result
+    controller: App\Controller\EventController:viewResult

@@ -23,6 +23,12 @@ class Image implements \Serializable
      */
     private $id;
 
+    /**
+    * @ORM\ManyToOne(targetEntity="App\Entity\Gallery", inversedBy="Images", cascade={"persist"})
+    * @ORM\JoinColumn(nullable=true)
+    */
+    private $gallery;
+
      /** 
      * @Vich\UploadableField(mapping="picture", fileNameProperty="fileName")
      * @Assert\File(
@@ -122,5 +128,17 @@ class Image implements \Serializable
     {
         $this->imageFile = base64_decode($this->imageFile);
 
+    }
+
+    public function getGallery(): ?Gallery
+    {
+        return $this->gallery;
+    }
+
+    public function setGallery(?Gallery $gallery): self
+    {
+        $this->gallery = $gallery;
+
+        return $this;
     }
 }
