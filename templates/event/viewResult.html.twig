@@ -10,7 +10,14 @@
 
     <h3>Score</h3>
     {% if result.score  %}
-        toto
+        <h3 class="text-center">
+            <span style="margin-right:2em">{{ club_name }}</span>
+            <span>{{ result.score.our }} - {{ result.score.their }}</span>  
+            <span style="margin-left:2em">{{ result.score.opponent }}</span>
+            <span style="margin-left:2em">
+                <i class="fas fa-{{ (result.score.win)?'trophy':'sad-tear' }}"></i>
+            </span>
+        </h3>
     {% else %}
         No score for now !
     {% endif %}

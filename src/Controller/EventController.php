@@ -19,7 +19,11 @@ use App\Form\EventFieldsType;
 use App\Entity\EventTag;
 use App\Entity\PersonnalStat;
 use App\Form\PersonnalStatType;
-use Proxies\__CG__\App\Entity\Result;
+use App\Form\ScoreType;
+use App\Entity\Score;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+
+
 
 class EventController extends AbstractController
 {
@@ -104,7 +108,7 @@ class EventController extends AbstractController
 
             $request->getSession()->getFlashBag()->add('success', 'The post : ' . $event->getSlug() . ' has been added.');
 
-            return new RedirecResponse($this->generateUrl('event-view', [
+            return new RedirectResponse($this->generateUrl('event-view', [
                 'slug' => $event->getSlug()
             ]));
         }
@@ -133,7 +137,7 @@ class EventController extends AbstractController
 
             $request->getSession()->getFlashBag()->add('success', 'The post : ' . $event->getSlug() . ' has been edited.');
 
-            return new RedirecResponse($this->generateUrl('event-view', [
+            return new RedirectResponse($this->generateUrl('event-view', [
                 'slug' => $event->getSlug()
             ]));
         }
@@ -156,34 +160,21 @@ class EventController extends AbstractController
         return $this->redirect($request->headers->get('referer'));
     }
 
-    public function activate(Event $event, Request $request): Response
+    public function activate(Event $event, Request $request) : Response
     {
-        //TODO shouldn't be allowed to anyone
 
-        $event->setActive(true);
-
+        //TODO shouldn't be allowed to anyone 
         $em = $this->getDoctrine()->getManager();
+
+        $event->setActive(!$event->getActive());
+
         $em->persist($event);
         $em->flush();
 
-        $request->getSession()->getFlashBag()->add('success', 'The post : ' . $event->getSlug() . ' has been activated.');
+        $request->getSession()->getFlashBag()->add('success', 'The event: '.$event->getSlug().' has change visibility.');
 
-        return $this->redirect($request->headers->get('referer'));
-    }
+        return $this->redirect($_SERVER['HTTP_REFERER']);
 
-    public function deactivate(Event $event, Request $request): Response
-    {
-        //TODO shouldn't be allowed to anyone
-
-        $event->setActive(false);
-
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($event);
-        $em->flush();
-
-        $request->getSession()->getFlashBag()->add('success', 'The post : ' . $event->getSlug() . ' has been deactivated.');
-
-        return $this->redirect($request->headers->get('referer'));
     }
 
     public function showCalendar(int $timestamp = null): Response
@@ -300,5 +291,48 @@ class EventController extends AbstractController
         $request->getSession()->getFlashBag()->add('success', 'The stat : '.$stat->getTag()->getName().' has been removed.');
 
         return $this->redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function adminIndex($page): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        //$events = $em->getRepository(Event::class)->findSome(($page-1)*30, 30);
+        $events = $em->getRepository(Event::class)->findby([],[],30,($page-1)*30);
+            
+        return $this->render('event/adminIndex.html.twig', [
+            'events' => $events
+        ]);
+    }
+
+    public function addResult(Event $event, Request $request):Response
+    {
+        if($event->getResult()->getScore())
+        {
+            $score = $event->getResult()->getScore();
+        } else {
+            $score = new Score();
+            $event->getResult()->setScore($score);
+        }
+
+        $em = $this->getDoctrine()->getManager();
+
+        $scoreForm = $this->createForm(ScoreType::class, $score);
+        $scoreForm->handleRequest($request);
+
+        if ($scoreForm->isSubmitted() && $scoreForm->isValid()) {
+            
+            $em->persist($score);
+            $em->flush(); 
+
+            $request->getSession()->getFlashBag()->add('success', 'The score of: ' . $event->getSlug() . ' has been added.');
+
+            return new RedirectResponse($this->generateUrl('result-view', [
+                'slug' => $event->getSlug()
+            ]));
+        }
+        return $this->render('event/addResult.html.twig', [
+            'event' => $event, 
+            'form' => $scoreForm->createView()
+        ]);
     }
 }

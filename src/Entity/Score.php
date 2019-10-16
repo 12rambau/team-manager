@@ -71,4 +71,9 @@ class Score
 
         return $this;
     }
+
+    public function isWin(): bool
+    {
+        return ($this->our > $this->their);
+    }
 }

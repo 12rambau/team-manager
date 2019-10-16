@@ -105,3 +105,31 @@ stat-tag-delete:
 stat-tag-activate:
     path: stattag/activate/{name}
     controller: App\Controller\StatTagController::activate
+
+admin-event-index:
+    path: event/index
+    controller: App\Controller\EventController::adminIndex
+    defaults:
+        page: 1
+    requirements:
+        page: \d+
+
+event-delete:
+    path: event/delete/{slug}
+    controller: App\Controller\EventController::delete
+
+event-activate:
+    path: event/activate/{slug}
+    controller: App\Controller\EventController::activate
+
+event-edit:
+    path: event/edit/{slug}
+    controller: App\Controller\EventController::edit
+
+admin-event-view:
+    path: event/view/{slug}
+    controller: App\Controller\EventController::view
+
+event-add-results:
+    path: event/results/add/{slug}
+    controller: App\Controller\EventController::addResult

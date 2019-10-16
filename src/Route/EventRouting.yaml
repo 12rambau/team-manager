@@ -16,22 +16,6 @@ event-add:
     path: /add
     controller: App\Controller\EventController::add
 
-event-edit:
-    path: /edit/{slug}
-    controller: App\Controller\EventController::edit
-
-event-delete:
-    path: /delete/{slug}
-    controller: App\Controller\EventController::delete
-
-event-activate:
-    path: /activate/{slug}
-    controller: App\Controller\EventController::activate
-
-event-deactivate:
-    path: /deactivate/{slug}
-    controller: App\Controller\EventController::deactivate
-
 event-calendar:
     path: /calendar/{timestamp}
     controller: App\Controller\EventController::showCalendar

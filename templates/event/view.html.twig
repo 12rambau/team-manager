@@ -1,4 +1,4 @@
-{% extends 'layout.html.twig' %}
+{% extends (app.token.providerKey == 'admin') ? 'admin.layout.html.twig': 'layout.html.twig' %}
 
 {% block title %}{{ event.slug }}{% endblock %}
 
@@ -205,19 +205,19 @@
 
 {% endblock %}
 
-{% block aside %}
-	<div class="card">
-		<div class="card-header">
-			<p class="card-title"><span class="fas fa-filter"/>Other events</p>
-		</div>
-		<div class="card-body">
-			{{ render(controller('App\\Controller\\AsideController::event', {'slug': event.slug})) }}
-            <p><a href="{{ path('event-index', {}) }}">All other events</a></p>
-		</div>
-        
-	</div>
-	
-{% endblock %}
+{% if app.token.providerKey != 'admin' %}
+    {% block aside %}
+        <div class="card">
+            <div class="card-header">
+                <p class="card-title"><span class="fas fa-filter"/>Other events</p>
+            </div>
+            <div class="card-body">
+                {{ render(controller('App\\Controller\\AsideController::event', {'slug': event.slug})) }}
+                <p><a href="{{ path('event-index', {}) }}">All other events</a></p>
+            </div>   
+        </div>
+    {% endblock %}
+{% endif %}
 
 {% block javascripts %}
     {{ parent() }}
