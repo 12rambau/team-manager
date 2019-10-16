@@ -27,7 +27,7 @@ class PersonnalStat
     private $time;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=true)
      */
     private $timer;
 
@@ -36,6 +36,18 @@ class PersonnalStat
     * @ORM\Joincolumn(nullable=false)
     */
     private $tag;
+
+    /**
+    * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="stats", cascade={"persist"})
+    * @ORM\Joincolumn(nullable=false)
+    */
+    private $player;
+
+    /**
+    * @ORM\ManyToOne(targetEntity="App\Entity\Event", inversedBy="stats", cascade={"persist"})
+    * @ORM\Joincolumn(nullable=false)
+    */
+    private $event;
 
     public function getId(): ?int
     {
@@ -86,6 +98,30 @@ class PersonnalStat
     public function setTag(?StatTag $tag): self
     {
         $this->tag = $tag;
+
+        return $this;
+    }
+
+    public function getPlayer(): ?User
+    {
+        return $this->player;
+    }
+
+    public function setPlayer(?User $player): self
+    {
+        $this->player = $player;
+
+        return $this;
+    }
+
+    public function getEvent(): ?Event
+    {
+        return $this->event;
+    }
+
+    public function setEvent(?Event $event): self
+    {
+        $this->event = $event;
 
         return $this;
     }

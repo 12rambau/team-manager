@@ -51,3 +51,7 @@ event-plannification:
 result-view:
     path: /{slug}/view/result
     controller: App\Controller\EventController:viewResult
+
+result-delete:
+    path: /delete/stat/{id}
+    controller: App\Controller\EventController:deleteResult

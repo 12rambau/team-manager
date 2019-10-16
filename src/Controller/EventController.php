@@ -17,6 +17,9 @@ use App\Entity\Field;
 use App\Entity\Position;
 use App\Form\EventFieldsType;
 use App\Entity\EventTag;
+use App\Entity\PersonnalStat;
+use App\Form\PersonnalStatType;
+use Proxies\__CG__\App\Entity\Result;
 
 class EventController extends AbstractController
 {
@@ -123,7 +126,7 @@ class EventController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $em->persist($event);
+            //$em->persist($event); //pas besoin de persister les evenements déjà en place
             $em->flush();
 
             //TODO email the administrator to validate the new event 
@@ -260,13 +263,42 @@ class EventController extends AbstractController
         ]);
     }
 
-    public function viewResult(Event $event):Response
+    public function viewResult(Event $event, Request $request):Response
     {
+        $em = $this->getDoctrine()->getManager();
+
+        $personnalStat = new PersonnalStat();
+        $form = $this->createForm(PersonnalStatType::class, $personnalStat,['inEvent'=>true]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            ($personnalStat->getTimer())? $personnalStat->setValue(null):$personnalStat->setTime(null);
+            $personnalStat->setEvent($event)->setPlayer($this->getUser());
+            $em->persist($personnalStat);
+            $em->flush();
+        }
+
         $result = $event->getResult();
+
+        $stats = $em->getRepository(PersonnalStat::class)->FindMyByEvent($event, $this->getUser());
         
         return $this->render('event/viewResult.html.twig', [
             'event' => $event,
+            'stats' => $stats,
             'result' => $result,
+            'form' => $form->createView()
         ]);
+    }
+
+    public function deleteResult(PersonnalStat $stat, Request $request):Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($stat);
+        $em->flush();
+
+        $request->getSession()->getFlashBag()->add('success', 'The stat : '.$stat->getTag()->getName().' has been removed.');
+
+        return $this->redirect($_SERVER['HTTP_REFERER']);
     }
 }

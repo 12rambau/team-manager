@@ -19,32 +19,15 @@ class StatTagRepository extends ServiceEntityRepository
         parent::__construct($registry, StatTag::class);
     }
 
-    // /**
-    //  * @return StatTag[] Returns an array of StatTag objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function queryActivated()
     {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $qb = $this->createQueryBuilder('t');
 
-    /*
-    public function findOneBySomeField($value): ?StatTag
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $qb
+            ->select('t')
+            ->where('t.active = :active')
+            ->setParameter('active', true);
+
+        return $qb;
     }
-    */
 }

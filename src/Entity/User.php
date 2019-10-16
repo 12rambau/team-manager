@@ -99,12 +99,18 @@ class User implements UserInterface
      */
     private $phoneNumber;
 
+    /**
+    * @ORM\OneToMany(targetEntity="App\Entity\PersonnalStat", mappedBy="player", cascade={"persist"}, orphanRemoval=true)
+    */
+    private $stats;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
         $this->messages = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->participations = new ArrayCollection();
+        $this->stats = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -369,6 +375,37 @@ class User implements UserInterface
     public function setPhoneNumber(?string $phoneNumber): self
     {
         $this->phoneNumber = $phoneNumber;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PersonnaStat[]
+     */
+    public function getStats(): Collection
+    {
+        return $this->stats;
+    }
+
+    public function addStat(PersonnalStat $stat): self
+    {
+        if (!$this->stats->contains($stat)) {
+            $this->stats[] = $stat;
+            $stat->setPlayer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStat(PersonnalStat $stat): self
+    {
+        if ($this->stats->contains($stat)) {
+            $this->stats->removeElement($stat);
+            // set the owning side to null (unless already changed)
+            if ($stat->getPlayer() === $this) {
+                $stat->setPlayer(null);
+            }
+        }
 
         return $this;
     }

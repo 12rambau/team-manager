@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\PersonnalStat;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use App\Entity\Event;
+use App\Entity\User;
 
 /**
  * @method PersonnalStat|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,32 +21,21 @@ class PersonnalStatRepository extends ServiceEntityRepository
         parent::__construct($registry, PersonnalStat::class);
     }
 
-    // /**
-    //  * @return PersonnalStat[] Returns an array of PersonnalStat objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function FindMyByEvent(Event $event, User $player)
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $qb = $this->createQueryBuilder('s');
 
-    /*
-    public function findOneBySomeField($value): ?PersonnalStat
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
+        $qb->select('s','p','e')
+            ->leftJoin('s.player','p')
+            ->where('p = :player')
+            ->setParameter('player', $player)
+            ->leftJoin('s.event', 'e')
+            ->andWhere('e = :event')
+            ->setParameter('event', $event)
         ;
+
+        return $qb->getQuery()->getResult();
+        
     }
-    */
+
 }
