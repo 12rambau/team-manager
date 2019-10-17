@@ -41,3 +41,7 @@ aside:
 field:
     resource: "Route/FieldRouting.yaml"
     prefix: /field/
+
+gallery:
+    resource: "Route/GalleryRouting.yaml"
+    prefix: /gallery/

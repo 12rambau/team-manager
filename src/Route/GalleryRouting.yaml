@@ -1,0 +1,19 @@
+gallery-index:
+    path: /index/{page}
+    controller: App\Controller\GalleryController::index
+    defaults:
+        page: 1
+    requirements:
+        page: \d+
+
+gallery-add:
+    path: /add
+    controller: App\Controller\GalleryController::add
+
+gallery-edit:
+    path: /edit/{name}
+    controller: App\Controller\GalleryController::add
+
+gallery-view:
+    path: /view/{name}
+    controller: App\Controller\GalleryController::view

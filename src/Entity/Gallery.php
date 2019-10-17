@@ -20,6 +20,11 @@ class Gallery
     private $id;
 
     /**
+    * @ORM\Column(type="string", length=40, nullable=false)
+    */
+    private $name;
+
+    /**
     * @ORM\OneToMany(targetEntity="App\entity\Image", mappedBy="gallery", cascade={"persist"}, orphanRemoval=true)
     * @ORM\JoinColumn(nullable=true)
     */
@@ -62,6 +67,18 @@ class Gallery
                 $image->setGallery(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
 
         return $this;
     }

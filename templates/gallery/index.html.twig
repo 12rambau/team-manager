@@ -1,0 +1,28 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Gallery index{% endblock %}
+
+{% block content %}
+
+	<div class="jumbotron">
+		<h2>Gallery index</h2>
+	</div>
+
+    <div class="row row-flex">
+    {% for gallery in galleries %}
+        <div class="card col-4">
+            <!-- <img class="card-img-top" src=".../100px180/" alt="Card image cap"> -->
+            <div class="card-body">
+                <h5 class="card-title"><a href="{{ path('gallery-view', {'name':gallery.name}) }}">{{ gallery.name }}</a></h5>
+            </div>
+        </div>
+    {% else %}
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title">no gallery (yet!)</h2>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

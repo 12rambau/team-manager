@@ -45,3 +45,10 @@ liip_imagine :
                     size: [50, 65]
                     mode: outbound
 
+        gallery:
+            quality: 50
+            filters:
+                thumbnail:
+                    size: [200, 200]
+                    mode: outbond
+

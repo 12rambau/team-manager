@@ -1,0 +1,33 @@
+{% extends (app.token.providerKey == 'admin') ? 'admin.layout.html.twig': 'layout.html.twig' %}
+
+{% block title %}add a new gallery{% endblock %}
+
+{% block content %}
+
+    <div class="jumbotron text-center">
+        <h1>add a new gallery</h1>
+    </div>
+
+    {{ form_start(form) }}
+
+        {{ form_errors(form) }}
+
+        {{ form_label(form.name, 'Name:', {'label_attr': {'class': 'control-label'}}) }}
+        {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+
+        {#<div class="custom-file">
+            {{ form_widget(form.files, {'attr': {'class': 'custom-file-input'}}) }}
+            {{ form_label(form.files, "Files : ", {'label_attr': {'class':'custom-file-label', }}) }}
+		</div>#} {#apparently don't support multiple file upload consider refactoring myself #}
+
+        {{ form_rest(form) }}
+
+        <hr>
+		<button type="submit" name="gallery-add" class="btn btn-primary btn-block">submit</button>
+
+    {{ form_end(form) }}
+
+    {{ dump() }}
+
+{% endblock %}
+
