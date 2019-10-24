@@ -24,7 +24,7 @@ class Image implements \Serializable
     private $id;
 
     /**
-    * @ORM\ManyToOne(targetEntity="App\Entity\Gallery", inversedBy="Images", cascade={"persist"})
+    * @ORM\ManyToOne(targetEntity="App\Entity\Gallery", inversedBy="images", cascade={"persist"})
     * @ORM\JoinColumn(nullable=true)
     */
     private $gallery;
