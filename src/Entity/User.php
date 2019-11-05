@@ -87,7 +87,7 @@ class User implements UserInterface
     private $profilePic;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=false)
      * true for male
      * false for female
      */
@@ -112,6 +112,13 @@ class User implements UserInterface
         $this->participations = new ArrayCollection();
         $this->stats = new ArrayCollection();
     }
+
+    public function __toString()
+   {
+       $str = $this->getFirstName()." ".$this->getLastName();
+      
+       return $str;
+   }
 
     public function getId(): ?int
     {

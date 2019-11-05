@@ -119,6 +119,19 @@ class Field
         return $this;
     }
 
+    public function setToto($file): self
+    {
+        $this->setImage(new Image);
+        $this->getImage()->setImageFile($file);
+
+        return $this;
+    }
+
+    public function getToto()
+    {
+        return ($this->getImage())?$this->getImage():null;
+    }
+
     /**
      * @return Collection|Position[]
      */

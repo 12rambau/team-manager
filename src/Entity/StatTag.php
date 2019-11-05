@@ -29,7 +29,7 @@ class StatTag
     private $unity;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\PersonnalStat", mappedBy="tag", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\PersonnalStat", mappedBy="tag")
      */
     private $stats;
 
@@ -42,6 +42,11 @@ class StatTag
     {
         $this->stats = new ArrayCollection();
         $this->active = true;
+    }
+
+    public function __toString()
+    {
+        return $this->getName();
     }
 
     public function getId(): ?int

@@ -58,6 +58,7 @@ class BlogPost
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="posts", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
      */
     private $author;
 
@@ -71,6 +72,11 @@ class BlogPost
         $this->publishDate = new \DateTime();
         $this->active = false;
         $this->comments = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return substr($this->getTitle(), 0, 20);
     }
 
     public function getId(): ?int

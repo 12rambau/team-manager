@@ -15,6 +15,7 @@ class EventListener
         if ($entity instanceof Event)
         {
             $entity->setColor();
+            $entity->getResult()->getFiles()->setName("result_".$entity->getSlug());
         }
 
         return;
@@ -27,6 +28,7 @@ class EventListener
         if($entity instanceof Event)
         {
             $entity->setColor();
+            $entity->getResult()->getFiles()->setName("result_".$entity->getSlug());
         }
     }
 }

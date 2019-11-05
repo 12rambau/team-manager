@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Score;
+use App\Entity\Gallery;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ResultRepository")
@@ -26,6 +28,12 @@ class Result
     * @ORM\OneToOne(targetEntity="App\Entity\Gallery", cascade={"persist"}, orphanRemoval=true)
     */
     private $files;
+
+    public function __construct()
+    {
+        $this->setScore(new Score());
+        $this->setFiles(new Gallery());
+    }
 
     public function getId(): ?int
     {

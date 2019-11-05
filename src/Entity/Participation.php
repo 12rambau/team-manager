@@ -53,6 +53,11 @@ class Participation
         $this->value = null;
     }
 
+    public function __toString()
+    {
+        return $this->getEvent()->getName();
+    }
+
     public function getId(): ?int
     {
         return $this->id;

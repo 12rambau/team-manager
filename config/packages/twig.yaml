@@ -2,6 +2,9 @@ twig:
     default_path: '%kernel.project_dir%/templates'
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    form_themes:
+        - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
+        - 'form/fields.html.twig'
 
     globals:
         algolia_place_app_id: "%algolia_place_app_id%"

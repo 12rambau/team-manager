@@ -129,6 +129,12 @@ class Event
         $this->stats = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        $date = ($this->start)?date_format($this->start, "Y-m-d"):"";
+        return $this->name." ".$date;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

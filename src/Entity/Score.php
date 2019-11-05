@@ -9,6 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Score
 {
+
+    const HOME_TEAM = "My Team"; //need to inject this name from parameters
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -17,23 +19,33 @@ class Score
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $opponent;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $their;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $our;
+
+    public function __toString()
+    {
+        return $this::HOME_TEAM. "  ".$this->getOur()." - ".$this->getTheir()."  ".$this->getOpponent();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getHome(): string
+    {
+        return $this::HOME_TEAM;
     }
 
     public function getOpponent(): ?string

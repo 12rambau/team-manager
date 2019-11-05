@@ -38,6 +38,11 @@ class ChatMessage
         $this->date = new \DateTime();
     }
 
+    public function __toString()
+    {
+        return date_format($this->getDate(), "Y-m-d H:i:s");
+    }
+
     public function getId(): ?int
     {
         return $this->id;

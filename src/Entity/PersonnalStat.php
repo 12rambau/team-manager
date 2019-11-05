@@ -32,22 +32,29 @@ class PersonnalStat
     private $timer;
 
     /**
-    * @ORM\ManyToOne(targetEntity="App\Entity\StatTag", inversedBy="stats", cascade={"persist"})
+    * @ORM\ManyToOne(targetEntity="App\Entity\StatTag", inversedBy="stats")
     * @ORM\Joincolumn(nullable=false)
     */
     private $tag;
 
     /**
-    * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="stats", cascade={"persist"})
+    * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="stats")
     * @ORM\Joincolumn(nullable=false)
     */
     private $player;
 
     /**
-    * @ORM\ManyToOne(targetEntity="App\Entity\Event", inversedBy="stats", cascade={"persist"})
+    * @ORM\ManyToOne(targetEntity="App\Entity\Event", inversedBy="stats")
     * @ORM\Joincolumn(nullable=false)
     */
     private $event;
+
+    public function __toString()
+    {
+        $name = $this->getPlayer()->__toString();
+        $date = $date = ($this->getEvent()->getStart())?date_format($this->getEvent()->getStart(), "Y-m-d"):"";
+        return $name." ".$date;
+    }
 
     public function getId(): ?int
     {

@@ -1,0 +1,311 @@
+easy_admin:
+    site_name: '<h1>%club_name%</h1>'
+    user:
+        name_property_path: 'username'
+        # no capacity to handle Vich_uploader //avatar_property_path: 'profilePic.fileName'
+    design:            
+        form_theme: 
+            - '@EasyAdmin/form/bootstrap_4.html.twig'
+            - 'form/fields.html.twig'
+            - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
+        menu:
+             - { label: 'Public Homepage', route: 'home', icon: 'home', target: '_blank'}
+             - { label: 'Dashboard', icon: 'dashboard', route: 'home' } #change the route when the dashboard is ready
+             - { label: 'Content' }
+             - label: 'News'
+               icon: 'rss'
+               children:
+                - { icon: 'file', entity: 'News' }
+                - { icon: 'comments', entity: 'Comment' }
+             - label: 'Event'
+               icon: 'calendar'
+               children:
+                - { icon: 'calendar-alt', entity: 'Event' }
+                - { icon: 'tag', entity: 'EventTag' }
+                - { icon: 'campground', entity: 'Field' }
+                - { icon: 'trophy', entity: 'Result' }
+             - { icon: 'images', entity: 'Gallery' }
+             - label: 'User'
+               icon: 'user'
+               children:
+                - { icon: 'user', entity: 'User' }
+                - { icon: 'poll', entity: 'PersonnalStat' }
+                - { icon: 'tag', entity: 'StatTag'}
+             - {icon: 'comments', entity: 'ChatMessage' }
+             - { label: 'Admin database'}
+             - { icon: 'image', entity: 'Image' }
+             - { icon: 'map-marked-alt', entity: 'Location', label: 'Event location' }
+             - { icon: 'user', entity: 'Participation', label: 'Participation in events' }
+             - { icon: 'street-view', entity: 'Position', label: 'Position on fields' }
+
+
+        assets:
+            favicon: '/image/default/favicon_admin.png'
+            css: 
+                - css/admin/syle-easy-admin.css
+    list:
+        batch_actions: ['delete']
+        title: 'List of %%entity_label%%'
+        max_results: 30
+        actions:
+            - 'edit'
+            - 'new'
+            - 'search'
+            - 'show'
+            - 'delete'
+    show:
+        title: '%%entity_label%% #%%entity_id%%'
+    edit:
+        title: 'Edit %%entity_label%%'
+    new:
+        title: 'Add %%entity_label%%'
+    entities:
+        News:
+            class: App\Entity\BlogPost
+            label: 'Blog post'
+            form:
+                fields:
+                    - { type: 'group', label: 'Basic information', icon: 'pencil-alt', columns: 8  }
+                    - 'title'
+                    - 'short'
+                    - { property: 'content', type: 'fos_ckeditor' }
+                    - { type: 'group', label: 'Details', columns: 4 , help: 'for administration only'}
+                    - 'active'
+                    - 'author'
+            edit:
+                fields:
+                    - { type: 'group', label: 'Comments', icon: 'comments', columns: 12, help: 'Do not add new comments to the list, they are not supposed to be linked to several news' }
+                    - 'comments'
+            show: 
+                fields: ['title', 'short', { property: 'content', type: 'raw' }, 'active', 'publishDate', 'editDate', 'author', 'comments']
+            list:
+                fields: [ 'id', 'title', 'publishDate', 'active', 'author', 'comments']
+        ChatMessage:
+            class: App\Entity\ChatMessage
+            disabled_actions: ['new']
+            show:
+                fields: ['content', 'date', 'author']
+            form:
+                fields:
+                    - { type: 'group', label: 'Content', icon: 'pencil-alt', columns: 8 }
+                    - 'content'
+                    - { type: 'group', label: 'Details', columns: 4, help: 'for administration only'}
+                    - 'author'
+                    - 'date'
+        Comment:
+            class: App\Entity\Comment
+            disabled_actions: ['new']
+            form:
+                fields:
+                    - { type: 'group', label: 'Content', icon: 'pencil-alt', columns: 8 }
+                    - 'content'
+                    - { type: 'group', label: 'Details', columns: 4, help: 'for administration only'}
+                    - 'author'
+                    - 'publishDate'
+            show:
+                fields: ['content', 'publishDate', 'author', 'post']
+        EventTag:
+            class: App\Entity\EventTag
+            help: 'Do not delete tags that are used in several events, just deactivate them. The delete function is available in Edit view.'
+            list:
+                actions: ['-delete']
+                batch_actions: ['-delete']
+            form:
+                fields:
+                    - { type: 'group', label: 'Content', icon: 'pencil-alt', columns: 8 }
+                    - 'name'
+                    - { property: 'color', help: 'Need to be an official bootstrap color without cap.'}
+                    #- { property: 'color', type: 'choice', type_options: { expanded: false, multiple: false, choices: colors} } en attente d'une réponse sur stack
+                    - { type: 'group', label: 'Details', columns: 4, help: 'For administration only'}
+                    - 'active'
+            edit:
+                fields:
+                     - { type: 'group', label: 'Events', icon: 'calendar', columns: 12, help: 'Do not add new events to the list, they are not supposed to be linked to several tags. ' }
+                     - 'events'
+            show:
+                fields:
+                    - { property: 'name', template: 'admin/field_tag.html.twig' }
+                    - 'active'
+                    - 'events'
+        Event:
+            class: App\Entity\Event
+            templates: 
+                edit: admin/event_edit_custom.html.twig
+                new: admin/event_new_custom.html.twig
+            list:
+                fields: [id, tag, name, start, finish, { property: NbParticipationIn, label: Participations }, maxPlayers, active ]
+            form: 
+                fields:
+                    - { type: tab, label: Information, icon: info-circle }
+                    - { type: group, label: Descripsion, icon: pencil-alt, columns: 6 }
+                    - { property: tag, help: Use exclusively activated tags. }
+                    - name
+                    - info
+                    - { type: group, label: Schedule, icon: calendar, columns: 6}
+                    - start
+                    - finish
+                    - { type: tab, label: Location, icon: search-location }
+                    - { type: group, label: map, icon: map, columns: 8, help: We're still unable to display the leaflet map.}
+                    - { property: location.value, type: text, label: Full adress, type_options: { block_prefix: 'map_picker'} }
+                    - { type: group, columns: 4, label: Autocomplete, icon: magic }
+                    - { property: location.type, type: text, label: Type, type_options: { attr: {readonly: true}} }
+                    - { property: location.name, type: text, label: Name, type_options: { attr: {readonly: true}} }
+                    - { property: location.city, type: text, label: City, type_options: { attr: {readonly: true}} }
+                    - { property: location.country, type: text, label: Country, type_options: { attr: {readonly: true}} }
+                    - { property: location.countryCode, type: text, label: Country code, type_options: { attr: {readonly: true}} }
+                    - { property: location.administrative, type: text, label: Administrative, type_options: { attr: {readonly: true}} }
+                    - { property: location.county, type: text, label: County, type_options: { attr: {readonly: true}} }
+                    - { property: location.suburb, type: text, label: Suburb, type_options: { attr: {readonly: true}} }
+                    - { property: location.lat, type: text, label: lat, type_options: { attr: {readonly: true}} }
+                    - { property: location.lng, type: text, label: lng, type_options: { attr: {readonly: true}} }
+                    - { property: location.postcode, type: text, label: Postcode, type_options: { attr: {readonly: true}} }
+                    - { type: tab, label: Optionnal}
+                    - { type: group, label: End Register, icon: clock }
+                    - registerFinish
+                    - { type: group, label: Max players, icon: users }
+                    - maxPlayers
+            show:
+                fields:
+                    - name
+                    - active
+                    - RegisterFinish
+                    - start
+                    - finish
+                    - maxPlayers
+                    - tag
+                    - location
+                    - participations
+                    - fields
+                    - result
+                    - stats
+                    - publishDate
+        Field:
+            class: App\Entity\Field
+            form: 
+                fields: 
+                    - { type: tab, label: initial information, icon: pencil-alt, help: Before placing the positions on the field you need to add a field picture. Then in the edit view you'll have the possibility to add them. }
+                    - name
+            new:
+                fields:
+                    - { property: toto, type: file }
+            edit: 
+                fields:
+                    - { type: tab, label: placement, icon: users }
+        Gallery:
+            class: App\Entity\Gallery
+        Image:
+            class: App\Entity\Image
+        Location:
+            class: App\Entity\Location
+        Participation:
+            class: App\Entity\Participation
+        PersonnalStat:
+            help: A stat cannot have a time and a value at the same time.
+            label: Personnal stats
+            class: App\Entity\PersonnalStat
+            list: 
+                fields: [id, value, time, { property: tag.unity, label: Unity }, tag, player, event]
+            form:
+                fields:
+                    - tag
+                    - { type: group, label: Value, icon: pencil-alt, columns: 6 }
+                    - value
+                    - { type: group, label: Time, icon: clock, columns: 6}
+                    - timer
+                    - time
+                    - { type: group, label: Details, icon: user, columns: 12}
+                    - player
+                    - event
+
+        Position:
+            class: App\Entity\Position
+        Result:
+            class: App\Entity\Result
+            help: For the moment each event create an empty result entity. As such they mustn't be removed. the result are as such in Read-only and both the gallery and the score must be changed independantely.
+            disabled_actions: [delete, new]
+            form:
+                fields:
+                    - {type: group, columns: 6, label: Score, icon: trophy }
+                    - { property: score.home,  label: My team, type: text, type_options: { disabled: true}}
+                    - { property: score.our, label: Our score,  type: integer }
+                    - { property: score.their, label: Their score, type: integer }
+                    - { property: score.opponent, label: Opponent, type: text }
+                    - { type: group, columns: 6, label: Results Files, icon: files }
+                    - {property: files, type_options: { disabled: true} } #TODO find how to add multiple files
+
+        Score:
+            class: App\Entity\Score
+            disabled_actions: [delete, new, edit, show, list]
+        StatTag:
+            class: App\Entity\StatTag
+            label: Stats tag
+            help: 'Do not delete tags that are used in several stats, just deactivate them. The delete function is available in Edit view.'
+            list: 
+                actions: [-delete]
+                batch_actions: [-delete]
+            show:
+                fields: [name, unity, active, stats]
+            form:
+                fields:
+                    - { type: 'group', label: 'Content', icon: 'pencil-alt', columns: 8 }
+                    - name
+                    - unity
+                    - { type: 'group', label: 'Details', columns: 4, help: 'For administration only'}
+                    - 'active'
+            edit:
+                fields:
+                     - { type: 'group', label: 'Stats', icon: 'poll', columns: 12, help: 'Do not add new stats to the list, they are not supposed to be linked to several tags. ' }
+                     - 'stats'
+
+        User:
+            class: App\Entity\User
+            disabled_actions: ['new']
+            help: The delete action has been moved to the edit view. Use with caution, all the user data will be lost.
+            list:
+                actions: [-delete]
+                batch_actions: [-delete]
+                max_results: 10
+                fields:
+                    - id
+                    - { property: profilePic.filename, label: Profile pic, type: image, base_path: '%path_image%' }
+                    - username
+                    - email
+            show: 
+                fields:
+                    - { property: profilePic.filename, label: '', type: image, base_path: '%path_image%' }
+                    - username
+                    - firstName
+                    - lastName
+                    - { property: gender, template: admin/field_gender.html.twig }
+                    - roles
+                    - email
+                    - phoneNumber
+                    - posts
+                    - messages
+                    - comments
+                    - participations
+                    - stats
+            form:
+                fields:
+                    - { type: tab, label: General informations }
+                    - { type: group, label: Avatar, icon: camera-retro, columns: 4, help: Cannot display the avatar for the moment }
+                    - { property: 'profilePic.imageFile', label: '', type: 'file' }
+                    - { type: group, label: Identification, columns: 8, icon: user }
+                    - username
+                    - firstName
+                    - lastName
+                    -  { property: gender, type: choice, type_options: { choices: { Male: true, Female: false}, required: true} } #the require option is to remove the "none"
+                    #- roles
+                    - { type: group, icon: phone, label: Contact }
+                    - email
+                    - phoneNumber
+                    - { type: tab, label: Site activities }
+                    - { type: group, label: Messages, icon: comments, columns: 6}
+                    - posts
+                    - { property: messages, label: Chat messages }
+                    - comments
+                    - { type: group, label: Events, icon: calendar, columns: 6 }
+                    - participations
+                    - stats
+
+

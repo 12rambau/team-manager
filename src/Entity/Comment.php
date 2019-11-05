@@ -42,6 +42,12 @@ class Comment
         $this->publishDate = new \DateTime();
     }
 
+    public function __toString()
+   {
+        $text = $this->getAuthor()->getUsername()." ".date_format($this->getPublishDate(), 'Y-m-d');
+        return $text;
+   }
+
     public function getId(): ?int
     {
         return $this->id;
