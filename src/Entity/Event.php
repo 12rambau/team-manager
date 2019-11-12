@@ -95,9 +95,9 @@ class Event
     private $participations;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Field", mappedBy="event", cascade={"persist"}, orphanRemoval=true)
-     */
-    private $fields;
+    * @ORM\OneToOne(targetEntity="App\Entity\Field", cascade={"persist"}, orphanRemoval=true)
+    */
+    private $field;
 
     /**
      * @ORM\Column(type="string", length=7)
@@ -124,9 +124,9 @@ class Event
         $this->location = new Location();
         $this->publishDate = new \DateTime();
         $this->participations = new ArrayCollection();
-        $this->fields = new ArrayCollection();
         $this->result = new Result();
         $this->stats = new ArrayCollection();
+        $this->field = new Field();
     }
 
     public function __toString()
@@ -331,37 +331,6 @@ class Event
         return $this;
     }
 
-    /**
-     * @return Collection|Field[]
-     */
-    public function getFields(): Collection
-    {
-        return $this->fields;
-    }
-
-    public function addField(Field $field): self
-    {
-        if (!$this->fields->contains($field)) {
-            $this->fields[] = $field;
-            $field->setEvent($this);
-        }
-
-        return $this;
-    }
-
-    public function removeField(Field $field): self
-    {
-        if ($this->fields->contains($field)) {
-            $this->fields->removeElement($field);
-            // set the owning side to null (unless already changed)
-            if ($field->getEvent() === $this) {
-                $field->setEvent(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getColor(): ?string
     {
         return $this->color;
@@ -413,6 +382,18 @@ class Event
                 $stat->setEvent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getField(): ?Field
+    {
+        return $this->field;
+    }
+
+    public function setField(?Field $field): self
+    {
+        $this->field = $field;
 
         return $this;
     }

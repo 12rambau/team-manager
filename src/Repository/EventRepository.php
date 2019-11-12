@@ -20,6 +20,8 @@ class EventRepository extends ServiceEntityRepository
         parent::__construct($registry, Event::class);
     }
 
+    //TODO check the utility of all thoses find function (not sure they are usefull)
+
     /**
      * @return events[] Returns an array of 10 events
      */

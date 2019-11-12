@@ -17,3 +17,7 @@ blog-add:
 blog-edit:
     path: /blog/{slug}/edit
     controller: App\Controller\BlogController::edit
+
+blog-comment-delete:
+    path: /comment/{id}/delete
+    controller: App\Controller\BlogController::commentDelete

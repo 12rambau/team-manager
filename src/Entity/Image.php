@@ -57,9 +57,17 @@ class Image implements \Serializable
     */
     private $tmpFile;
 
-    public function __construct()
+    public function __construct(File $file=null)
     {
+        if ($file)
+            $this->setImageFile($file);
+            
         $this->updateAt = new \DateTime();
+    }
+
+    public function __toString()
+    {
+        return 'Image #'.$this->getId();
     }
     
     public function getId(): ?int

@@ -18,7 +18,8 @@ class BlogController extends AbstractController
     {	
         $nbPostPerPage = 12;			
         $em = $this->getDoctrine()->getManager();
-        $posts = $em->getRepository(BlogPost::class)->findSome(($page-1)*$nbPostPerPage, $nbPostPerPage);
+        $posts = $em->getRepository(BlogPost::class)->findBy([], null, $nbPostPerPage, ($page-1)*$nbPostPerPage);
+        
         $nbPost = $em->getRepository(BlogPost::class)->countAll();
             
         return $this->render('blog/index.html.twig', [
@@ -89,6 +90,9 @@ class BlogController extends AbstractController
 
     public function edit(BlogPost $post, Request $request)
     {
+
+        // TODO verify that the author is the authentified user 
+
         $form = $this->createForm(BlogPostType::class, $post);
         $form->handleRequest($request);
 
@@ -116,65 +120,11 @@ class BlogController extends AbstractController
 
     }
 
-    public function delete(BlogPost $post, Request $request):Response
-    {
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($post);
-        $em->flush();
-
-        $request->getSession()->getFlashBag()->add('success', 'The post : '.$post->getSlug().' has been removed.');
-
-        return $this->redirect($_SERVER['HTTP_REFERER']);
-
-    }
-
-    public function activate(BlogPost $post, Request $request) : Response
-    {
-
-        //TODO shouldn't be allowed to anyone 
-        $em = $this->getDoctrine()->getManager();
-
-        $post->setActive(!$post->getActive());
-
-        $em->persist($post);
-        $em->flush();
-
-        $request->getSession()->getFlashBag()->add('success', 'The post : '.$post->getSlug().' has change visibility.');
-
-        return $this->redirect($_SERVER['HTTP_REFERER']);
-
-    }
-
-    public function adminIndex($page): Response
-    {
-        $em = $this->getDoctrine()->getManager();
-        $posts = $em->getRepository(BlogPost::class)->findSome(($page-1)*30, 30);
-            
-        return $this->render('blog/adminIndex.html.twig', [
-            'posts' => $posts
-        ]);
-    }
-
-    public function adminView(BlogPost $post): Response
-    {
-        return $this->render('blog/adminView.html.twig', array(
-            'post' => $post
-        ));
-
-    }
-
-    public function commentAdmin($page): Response
-    {
-        $em = $this->getDoctrine()->getManager();
-        $comments = $em->getRepository(Comment::class)->findSome(($page-1)*30,30);
-
-        return $this->render('comment/adminIndex.html.twig', [
-            'comments' => $comments
-        ]);
-    }
-
     public function commentDelete(Comment $comment, Request $request):Response
     {
+
+        //TODO verify the user identity 
+
         $em = $this->getDoctrine()->getManager();
         $em->remove($comment);
         $em->flush();

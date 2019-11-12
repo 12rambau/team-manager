@@ -21,6 +21,8 @@ class PersonnalStatRepository extends ServiceEntityRepository
         parent::__construct($registry, PersonnalStat::class);
     }
 
+    //TODO check the utility of all thoses find function (not sure they are usefull)
+
     public function FindMyByEvent(Event $event, User $player)
     {
         $qb = $this->createQueryBuilder('s');

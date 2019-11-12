@@ -18,22 +18,4 @@ class CommentRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Comment::class);
     }
-
-    /**
-     * @return comments[] Returns an array of X messages
-     */
-    public function findSome(int $offset, int $number)
-    {
-        $comments = $this->createQueryBuilder('b')
-            ->orderBy('b.publishDate', 'DESC')
-            ->setFirstResult($offset)
-            ->setMaxResults($number)
-            ->getQuery()
-            ->getResult();
-        if ($comments == null)
-            $comments = [];
-
-        return $comments;
-
-    }
 }

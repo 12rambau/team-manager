@@ -20,6 +20,8 @@ class EventTagRepository extends ServiceEntityRepository
         parent::__construct($registry, EventTag::class);
     }
 
+    //TODO check the utility of all thoses find function (not sure they are usefull)
+
     public function queryActivatedAndEvent(Event $event)
     {
         $qb = $this->createQueryBuilder('t');

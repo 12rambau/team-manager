@@ -4,11 +4,12 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Entity\Participation;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PositionRepository")
  */
-class Position
+class PositionCopy
 {
     /**
      * @ORM\Id()
@@ -40,15 +41,22 @@ class Position
      */
     private $fieldTemplate;
 
-    public function __construct(int $horizontal=0, int $vertical=0)
+    /**
+     * @ORM\JoinColumn(nullable=true)
+     * @ORM\OneToOne(targetEntity="App\Entity\Participation", inversedBy="position", cascade={"persist"})
+     */
+    private $participation;
+
+    public function __construct()
     {
-        $this->horizontal = $horizontal;
-        $this->vertical = $vertical;
+        $this->horizontal = 0;
+        $this->vertical = 0;
     }
 
-    public function __toString()
+    public function __clone()
     {
-        return $this->getName();
+        $this->id = null;
+        $this->field = null; //dealt by the field directly
     }
 
     public function getId(): ?int
@@ -88,6 +96,29 @@ class Position
     public function setVertical(int $vertical): self
     {
         $this->vertical = $vertical;
+
+        return $this;
+    }
+
+    public function getParticipation(): ?Participation
+    {
+        return $this->participation;
+    }
+
+    public function setParticipation(?Participation $participation): self
+    {
+        $oldParticipation = $this->participation;
+        $this->participation = $participation;
+
+        // set (or unset) the owning side of the relation if necessary 
+        if ($oldParticipation !== null) {
+            $oldParticipation->setPosition(null);
+        }
+        if ($participation !== null) {
+            if ($this !== $participation->getPosition()) {
+                $participation->setPosition($this);
+            }
+        }
 
         return $this;
     }

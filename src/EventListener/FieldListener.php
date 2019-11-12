@@ -3,6 +3,7 @@
 namespace App\EventListener;
 
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
+use App\Entity\FieldTemplate;
 use App\Entity\Field;
 
 class FieldListener
@@ -12,10 +13,13 @@ class FieldListener
         
         $entity = $args->getObject();
 
+        if ($entity instanceof FieldTemplate)
+        {
+            $entity->setUpdateAt();
+        }
         if ($entity instanceof Field)
         {
             $entity->setUpdateAt();
-            $entity->setSlug();
         }
 
         return;
@@ -25,10 +29,13 @@ class FieldListener
     {
         $entity = $args->getObject();
 
+        if($entity instanceof FieldTemplate)
+        {
+            $entity->setUpdateAt();
+        }
         if($entity instanceof Field)
         {
             $entity->setUpdateAt();
-            $entity->setSlug();
         }
     }
 }

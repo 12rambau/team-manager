@@ -13,10 +13,13 @@ use App\Entity\EventTag;
 use App\Entity\Location;
 use App\Entity\Participation;
 use App\Entity\Comment;
+use App\Entity\FieldTemplate;
 use App\Entity\Image;
+use App\Entity\Position;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class AppFixtures extends Fixture
 {
@@ -173,6 +176,29 @@ class AppFixtures extends Fixture
             $message->setAuthor($users[$faker->numberBetween(0, ($nbUser-1))]);
 
             $manager->persist($message);
+        }
+
+        //template creator
+        $nbTemplate = 1;
+        $templates = array($nbTemplate);
+        for ($i=0; $i < $nbTemplate; $i++)
+        {
+            $templates[$i] = new FieldTemplate();
+            $templates[$i]->setName('template'.$i);
+            $image = AppFixtures::manualImage('empty_field.jpg', $rootDir);
+            $templates[$i]->setImage($image);
+            $nbPosition = $faker->numberBetween(0, 10);
+            for ($pstn=0; $pstn < $nbPosition; $pstn++)
+            {
+                $horizontal = $faker->numberBetween(0,100);
+                $vertical = $faker->numberBetween(0,100);
+                $position = new Position($horizontal,$vertical);
+                $position->setName($faker->word);
+                $templates[$i]->addPosition($position);
+
+            }
+
+            $manager->persist($templates[$i]);
         }
 
         $manager->flush();

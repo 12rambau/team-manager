@@ -11,18 +11,12 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class ChatController extends AbstractController
 {
-    public function Index($page): Response
-    {				
-        $em = $this->getDoctrine()->getManager();
-        $messages = $em->getRepository(ChatMessage::class)->findSome(($page-1)*40,40);
-            
-        return $this->render('chat/index.html.twig', [
-            'messages' => $messages
-        ]);
-    }
 
     public function add(Request $request): Response
     {
+
+        //TODO don't render the chat view but answer an ajax solicitation
+
         $message = new ChatMessage();
 
         $form = $this->createForm(ChatMessageType::class, $message);
@@ -46,23 +40,11 @@ class ChatController extends AbstractController
         ));
     }
 
-    public function delete(ChatMessage $message, Request $request):Response
-    {
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($message);
-        $em->flush();
-
-        $request->getSession()->getFlashBag()->add('success', 'The message : '.$message->getId().' has been removed.');
-
-        // TODO code refactoring
-        return $this->redirect($_SERVER['HTTP_REFERER']);
-
-    }
-
     public function list():Response
     {
         $em = $this->getDoctrine()->getManager();
-        $messages = $em->getRepository(ChatMessage::class)->findSome(0, 30);
+        $messages = $em->getRepository(ChatMessage::class)->findBy([],null,30,0);
+    
 
         return $this->render('chat/list.html.twig', [
             'messages' => $messages

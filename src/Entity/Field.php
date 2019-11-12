@@ -20,79 +20,28 @@ class Field
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $name;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $slug;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $updateAt;
 
     /**
-    * @ORM\ManyToOne(targetEntity="App\Entity\Image", cascade={"persist"})
+    * @ORM\OneToMany(targetEntity="App\Entity\PlayerPosition", mappedBy="field", cascade={"persist"}, orphanRemoval=true)
     */
-    private $image;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Position", mappedBy="field", cascade={"persist"}, orphanRemoval=true)
-     */
     private $positions;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Event", inversedBy="fields")
-     */
-    private $event;
+    * @ORM\ManyToOne(targetEntity="App\Entity\FieldTemplate", inversedBy="fields", cascade={"persist"})
+    */
+    private $template;
 
     public function __construct()
     {
         $this->positions = new ArrayCollection();
     }
 
-    public function __clone()
-    {
-        $this->id = null;
-        $this->setUpdateAt();
-        foreach ($this->positions->getIterator() as $position) {
-            $position = clone $position;
-            $this->addPosition($position);
-        }
-        $this->event = null; //handled by the controller
-    }
-
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function getSlug(): ?string
-    {
-        return $this->slug;
-    }
-
-    public function setSlug(): self
-    {
-        $slugify = new Slugify();
-        $this->slug = $slugify->slugify($this->name);
-
-        return $this;
     }
 
     public function getUpdateAt(): ?\DateTimeInterface
@@ -107,40 +56,27 @@ class Field
         return $this;
     }
 
-    public function getImage(): ?Image
+    public function getEvent(): ?Event
     {
-        return $this->image;
+        return $this->event;
     }
 
-    public function setImage(?Image $image): self
+    public function setEvent(?Event $event): self
     {
-        $this->image = $image;
+        $this->event = $event;
 
         return $this;
-    }
-
-    public function setToto($file): self
-    {
-        $this->setImage(new Image);
-        $this->getImage()->setImageFile($file);
-
-        return $this;
-    }
-
-    public function getToto()
-    {
-        return ($this->getImage())?$this->getImage():null;
     }
 
     /**
-     * @return Collection|Position[]
+     * @return Collection|PlayerPosition[]
      */
     public function getPositions(): Collection
     {
         return $this->positions;
     }
 
-    public function addPosition(Position $position): self
+    public function addPosition(PlayerPosition $position): self
     {
         if (!$this->positions->contains($position)) {
             $this->positions[] = $position;
@@ -150,7 +86,7 @@ class Field
         return $this;
     }
 
-    public function removePosition(Position $position): self
+    public function removePosition(PlayerPosition $position): self
     {
         if ($this->positions->contains($position)) {
             $this->positions->removeElement($position);
@@ -163,14 +99,18 @@ class Field
         return $this;
     }
 
-    public function getEvent(): ?Event
+    public function getTemplate(): ?FieldTemplate
     {
-        return $this->event;
+        return $this->template;
     }
 
-    public function setEvent(?Event $event): self
+    public function setTemplate(?FieldTemplate $template): self
     {
-        $this->event = $event;
+        $this->template = $template;
+
+        //create the player positions 
+        foreach ($template->getPositions() as $position) 
+            $this->addPosition(new PlayerPosition());
 
         return $this;
     }

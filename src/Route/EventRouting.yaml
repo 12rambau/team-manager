@@ -16,6 +16,10 @@ event-add:
     path: /add
     controller: App\Controller\EventController::add
 
+event-edit:
+    path: event/edit/{slug}
+    controller: App\Controller\EventController::edit
+
 event-calendar:
     path: /calendar/{timestamp}
     controller: App\Controller\EventController::showCalendar
@@ -35,7 +39,3 @@ event-plannification:
 result-view:
     path: /{slug}/view/result
     controller: App\Controller\EventController:viewResult
-
-result-delete:
-    path: /delete/stat/{id}
-    controller: App\Controller\EventController:deleteResult

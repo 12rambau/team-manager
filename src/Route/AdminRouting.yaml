@@ -2,54 +2,6 @@ admin-login:
     path: /login
     controller: App\Controller\AdminController::login
 
-admin-blog-index:
-    path: /blog/index/{page}
-    controller: App\Controller\BlogController::adminIndex
-    defaults:
-        page: 1
-    requirements:
-        page: \d+
-
-admin-blog-delete:
-    path: /blog/{slug}/delete
-    controller: App\Controller\BlogController::delete
-
-admin-blog-edit:
-    path: /blog/{slug}/edit
-    controller: App\Controller\BlogController::edit
-
-admin-blog-activate:
-    path: /blog/{slug}/activate
-    controller: App\Controller\BlogController::activate
-
-admin-blog-view:
-    path: /blog/{slug}/view
-    controller: App\Controller\BlogController::adminView
-
-admin-chat-index:
-    path: /chat/index/{page}
-    controller: App\Controller\ChatController::Index
-    defaults:
-        page: 1
-    requirements:
-        page: \d+
-
-admin-chat-delete:
-    path: /chat/{id}/delete
-    controller: App\Controller\ChatController::delete
-
-admin-comment-delete:
-    path: /comment/{id}/delete
-    controller: App\Controller\BlogController::commentDelete
-
-admin-comment-index:
-    path: /comment/index/{page}
-    controller: App\Controller\BlogController::commentAdmin
-    defaults:
-        page: 1
-    requirements:
-        page: \d+
-
 template-index:
     path: /template/index/{page}
     controller: App\Controller\FieldController::index
@@ -74,62 +26,6 @@ template-delete:
     path: /template/delete/{slug}
     controller: App\Controller\FieldController::delete
 
-tag-index:
-    path: tag/index/
-    controller: App\Controller\TagController::index
-
-tag-delete:
-    path: tag/delete/{name}
-    controller: App\Controller\TagController::delete
-
-tag-activate:
-    path: /tag/activate/{name}
-    controller: App\Controller\TagController::activate
-
-admin-event-edit:
-    path: /event/edit/{slug}
-    controller: App\Controller\EventController::edit
-
 admin-contact-edit:
     path: /contact/edit
     controller: App\Controller\AdminController::EditContact
-
-stat-tag-index:
-    path: stattag/index/
-    controller: App\Controller\StatTagController::index
-
-stat-tag-delete:
-    path: stattag/delete/{name}
-    controller: App\Controller\StatTagController::delete
-
-stat-tag-activate:
-    path: stattag/activate/{name}
-    controller: App\Controller\StatTagController::activate
-
-admin-event-index:
-    path: event/index
-    controller: App\Controller\EventController::adminIndex
-    defaults:
-        page: 1
-    requirements:
-        page: \d+
-
-event-delete:
-    path: event/delete/{slug}
-    controller: App\Controller\EventController::delete
-
-event-activate:
-    path: event/activate/{slug}
-    controller: App\Controller\EventController::activate
-
-event-edit:
-    path: event/edit/{slug}
-    controller: App\Controller\EventController::edit
-
-admin-event-view:
-    path: event/view/{slug}
-    controller: App\Controller\EventController::view
-
-event-add-results:
-    path: event/results/add/{slug}
-    controller: App\Controller\EventController::addResult

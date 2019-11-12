@@ -122,6 +122,9 @@ class EventController extends AbstractController
 
     public function edit(Event $event, Request $request): Response
     {
+
+        // TODO check if the user is the author of the event
+
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
 
@@ -147,34 +150,6 @@ class EventController extends AbstractController
             'event' => $event,
             'tags' => $tags
         ]);
-    }
-
-    public function delete(Event $event, Request $request): Response
-    {
-        $em = $this->getDoctrine()->getEntitymanager();
-        $em->remove($event);
-        $em->flush();
-
-        $request->getSession()->getFlashBag()->add('success', 'The post : ' . $event->getSlug() . ' has been deleted.');
-
-        return $this->redirect($request->headers->get('referer'));
-    }
-
-    public function activate(Event $event, Request $request) : Response
-    {
-
-        //TODO shouldn't be allowed to anyone 
-        $em = $this->getDoctrine()->getManager();
-
-        $event->setActive(!$event->getActive());
-
-        $em->persist($event);
-        $em->flush();
-
-        $request->getSession()->getFlashBag()->add('success', 'The event: '.$event->getSlug().' has change visibility.');
-
-        return $this->redirect($_SERVER['HTTP_REFERER']);
-
     }
 
     public function showCalendar(int $timestamp = null): Response
@@ -254,17 +229,16 @@ class EventController extends AbstractController
         ]);
     }
 
-    public function viewResult(Event $event, Request $request):Response
+    public function viewResult(Event $event, Request $request): Response
     {
         $em = $this->getDoctrine()->getManager();
 
         $personnalStat = new PersonnalStat();
-        $form = $this->createForm(PersonnalStatType::class, $personnalStat,['inEvent'=>true]);
+        $form = $this->createForm(PersonnalStatType::class, $personnalStat, ['inEvent' => true]);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
-        {
-            ($personnalStat->getTimer())? $personnalStat->setValue(null):$personnalStat->setTime(null);
+        if ($form->isSubmitted() && $form->isValid()) {
+            ($personnalStat->getTimer()) ? $personnalStat->setValue(null) : $personnalStat->setTime(null);
             $personnalStat->setEvent($event)->setPlayer($this->getUser());
             $em->persist($personnalStat);
             $em->flush();
@@ -273,66 +247,12 @@ class EventController extends AbstractController
         $result = $event->getResult();
 
         $stats = $em->getRepository(PersonnalStat::class)->FindMyByEvent($event, $this->getUser());
-        
+
         return $this->render('event/viewResult.html.twig', [
             'event' => $event,
             'stats' => $stats,
             'result' => $result,
             'form' => $form->createView()
-        ]);
-    }
-
-    public function deleteResult(PersonnalStat $stat, Request $request):Response
-    {
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($stat);
-        $em->flush();
-
-        $request->getSession()->getFlashBag()->add('success', 'The stat : '.$stat->getTag()->getName().' has been removed.');
-
-        return $this->redirect($_SERVER['HTTP_REFERER']);
-    }
-
-    public function adminIndex($page): Response
-    {
-        $em = $this->getDoctrine()->getManager();
-        //$events = $em->getRepository(Event::class)->findSome(($page-1)*30, 30);
-        $events = $em->getRepository(Event::class)->findby([],[],30,($page-1)*30);
-            
-        return $this->render('event/adminIndex.html.twig', [
-            'events' => $events
-        ]);
-    }
-
-    public function addResult(Event $event, Request $request):Response
-    {
-        if($event->getResult()->getScore())
-        {
-            $score = $event->getResult()->getScore();
-        } else {
-            $score = new Score();
-            $event->getResult()->setScore($score);
-        }
-
-        $em = $this->getDoctrine()->getManager();
-
-        $scoreForm = $this->createForm(ScoreType::class, $score);
-        $scoreForm->handleRequest($request);
-
-        if ($scoreForm->isSubmitted() && $scoreForm->isValid()) {
-            
-            $em->persist($score);
-            $em->flush(); 
-
-            $request->getSession()->getFlashBag()->add('success', 'The score of: ' . $event->getSlug() . ' has been added.');
-
-            return new RedirectResponse($this->generateUrl('result-view', [
-                'slug' => $event->getSlug()
-            ]));
-        }
-        return $this->render('event/addResult.html.twig', [
-            'event' => $event, 
-            'form' => $scoreForm->createView()
         ]);
     }
 }
