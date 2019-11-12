@@ -1,53 +1,71 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Log in!
+{% endblock %}
 
 {% block stylesheets %}
-{{ parent() }}
-<link rel="stylesheet" href="{{asset('css/security/form.css') }}" type="text/css"/>
+	{{ parent() }}
+	<link rel="stylesheet" href="{{asset('css/security/form.css') }}" type="text/css"/>
 
-<style type="text/css">
-body {
-    background: transparent url('{{ asset('image/default/login.jpg') }}')  no-repeat center fixed;
-    background-size: cover;
-}
-</style>
+	<style type="text/css">
+		body {
+			background: transparent url('{{ asset('image/default/login.jpg') }}') no-repeat center fixed;
+			background-size: cover;
+		}
+	</style>
 {% endblock %}
 
 
 {% block body %}
+	<div id="form" class="col-4">
+		<form method="post" class="form">
+			{% if error %}
+				<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+			{% endif %}
 
-<form method="post" class="form">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+			<h2 class="form-heading">
+				Please sign in</h2>
+			<div class="form-group">
+				<label class="sr-only" for="inputUsername">Username</label>
+				<input class="form-control" type="text" name="username" id="inputUsername" placeholder="Username" required autofocus>
+			</div>
+			<div class="form-group">
+				<label class="sr-only" for="inputPassword">Password</label>
+				<input class="form-control" type="password" name="password" id="inputPassword" placeholder="Password" required>
+			</div>
+			<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-    <h2 class="form-heading"> Please sign in</h2>
-    <div class="form-group">
-        <label class="sr-only" for="inputUsername">Username</label>
-        <input class="form-control" type="text" name="username" id="inputUsername" placeholder="Username" required autofocus>
-    </div>
-    <div class="form-group">
-        <label class="sr-only" for="inputPassword" >Password</label>
-        <input class="form-control" type="password" name="password" id="inputPassword"  placeholder="Password" required>
-    </div>
-    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+			<div class="control-label">
+				<label>
+					<input type="checkbox" name="_remember_me">
+					Remember me
+				</label>
+			</div>
 
-        <div class="control-label">
-            <label>
-                <input type="checkbox" name="_remember_me"> Remember me
-            </label>
-        </div>
+			<button class="btn btn-lg btn-primary btn-block" type="submit">
+				Sign in
+			</button>
 
-    <button class="btn btn-lg btn-primary btn-block" type="submit"> Sign in </button>
+			<div class="text-center">
+				<a class="text-center small" href="{{path('register') }}">Not registered yet !</a>
+			</div>
 
-    <div>
-        <a href="{{path('register') }}">Not registered yet !</a>
-    </div>
+			<div class="text-center">
+				<a class="small" href="{{ path('forgotten_password') }}">
+					forgotten password</a>
+			</div>
+		</form>
+		<hr>
 
-    <div>
-        <a href="{{ path('forgotten_password') }}"> forgotten password</a>
-    </div>
-</form>
+		<button id="facebook" class="btn btn-block button">
+			<span><i class="fab fa-facebook-f"></i> login with Facebook</span>
+		</button>
+        <div id="google" class="btn btn-block button">
+			<span><i class="fab fa-google"></i> login with Google</span>
+		</div>
+        <div id="apple" class="btn btn-block button">
+			<span><i class="fab fa-apple"></i> login with Apple</span>
+		</div>
+	</div>
 
 {% endblock %}

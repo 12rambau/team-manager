@@ -5,14 +5,14 @@ body
     background-color: #eee;
  }
   
-  .form 
+  #form 
   {
-    max-width: 330px;
+    /*max-width: 330px;*/
     padding: 15px;
     margin: 0 auto;
     position: absolute;
     top: 50%;
-    left:70%;
+    left:75%;
     transform: translate(-50%,-50%);
   }
 
@@ -49,4 +49,25 @@ body
     margin-bottom: 10px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
+  }
+
+  #facebook {
+    background-color: #4267B2;
+  }
+
+  #google {
+    background-color: #DB4437;
+  }
+
+  #apple {
+    background-color: black;
+  }
+
+  .button {
+    color: white;
+    font-size: 80%;
+    letter-spacing: .1rem;
+    font-weight: bold;
+    padding: 1rem;
+    transition: all 0.2s;
   }
