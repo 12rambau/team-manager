@@ -123,7 +123,8 @@ class EventController extends AbstractController
     public function edit(Event $event, Request $request): Response
     {
 
-        // TODO check if the user is the author of the event
+        if ($this->getUser() != $event->getAuthor()) 
+            throw new AccessDeniedException('Not your Event');
 
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
@@ -133,7 +134,6 @@ class EventController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            //$em->persist($event); //pas besoin de persister les evenements déjà en place
             $em->flush();
 
             //TODO email the administrator to validate the new event 

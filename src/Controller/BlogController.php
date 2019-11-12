@@ -90,8 +90,8 @@ class BlogController extends AbstractController
 
     public function edit(BlogPost $post, Request $request)
     {
-
-        // TODO verify that the author is the authentified user 
+        if ($this->getUser() != $post->getAuthor()) 
+            throw new AccessDeniedException('Not your Blog Post');
 
         $form = $this->createForm(BlogPostType::class, $post);
         $form->handleRequest($request);
@@ -123,7 +123,8 @@ class BlogController extends AbstractController
     public function commentDelete(Comment $comment, Request $request):Response
     {
 
-        //TODO verify the user identity 
+        if ($this->getUser() != $comment->getAuthor()) 
+            throw new AccessDeniedException('Not your Comment');
 
         $em = $this->getDoctrine()->getManager();
         $em->remove($comment);

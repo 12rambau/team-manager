@@ -14,12 +14,8 @@ class UserController extends AbstractController
 {
     public function edit(User $user, Request $request):Response
     {
-
-        //double chek user identity
-        if ($user != $this->getUser())
-        {
-            // TODO throw an error
-        }
+        if ($this->getUser() != $user) 
+            throw new AccessDeniedException('Not your user profile');
 
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
