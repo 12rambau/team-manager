@@ -52,3 +52,10 @@ liip_imagine :
                     size: [200, 200]
                     mode: outbond
 
+        team-landing:
+            quality: 50
+            filters:
+                thumbnail:
+                    size: [500,500]
+                    mode: outbond
+

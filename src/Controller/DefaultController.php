@@ -14,8 +14,11 @@ class DefaultController extends AbstractController
 {
     public function home()
     {
+        $em = $this->getDoctrine()->getManager();
+        $contact = $em->getRepository(Location::class)->findOneByTag('contact');
+
         return $this->render('default/home.html.twig', [
-            'controller_name' => 'DefaultController',
+            'contact' => $contact,
         ]);
     }
 

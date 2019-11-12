@@ -1,25 +1,187 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{% endblock %}
+{% block title %}
+	{{ club_name }}
+{% endblock %}
 
 {% block stylesheets %}
-{{ parent() }}
+	{{ parent() }}
 
-<link rel="stylesheet" href="{{ asset('css/Default/home.css') }}" type="text/css"/>
+	<link rel="stylesheet" href="{{ asset('css/Default/home.css') }}" type="text/css"/>
 
-<style type="text/css">
-body {
-    background: transparent url('{{ asset('image/default/home.png') }}')  no-repeat center fixed;
-    background-size: cover;
-}
-</style>
+{% endblock %}
+
+{% block navbar %}
+	<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+		<div class="container">
+			<a class="navbar-brand js-scroll-trigger" href="#page-top">{{ club_name }}</a>
+			<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+				Menu
+				<i class="fas fa-bars"></i>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarResponsive">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item">
+						<a class="nav-link js-scroll-trigger" href="#project">Project</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link js-scroll-trigger" href="#teams">Teams</a>
+					</li>
+                    <li class="nav-item">
+						<a class="nav-link js-scroll-trigger" href="#signup">Signup</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
 {% endblock %}
 
 {% block body %}
-<h1 id="teamName" class="text-primary"> Welcome on the XX team website ! </h1>
 
-<a id="logIn" class="btn btn-lg btn-primary" href="{{ path('login') }}">Log In !</a>
-<a href="{{ path('blog-index', {}) }}" class="btn btn-lg btn-success">Wall</a>
+	<!-- Header -->
+	<header class="masthead">
+		<div class="container d-flex h-100 align-items-center">
+			<div class="mx-auto text-center">
+				<h1 class="mx-auto my-0 text-uppercase">My awesome Team !</h1>
+				<h2 class="text-white-50 mx-auto mt-2 mb-5">A free, responsive an creative team-manager created with symfony and bootstrap.</h2>
+				{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+					<a href="{{ path('blog-index', {}) }}" class="btn btn-success js-scroll-trigger">Get Started</a>
+				{% else %}
+					<a href="{{ path('login') }}" class="btn btn-primary js-scroll-trigger">Log in</a>
+				{% endif %}
+			</div>
+		</div>
+	</header>
+
+	<!-- About Section -->
+	<section id="project" class="about-section text-center">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 mx-auto">
+					<h2 class="text-white mb-4">Built with Bootstrap 4</h2>
+					<p class="text-white-50">
+						Team Manager is a free responsive team manager website skeleton that can be used for any sport activity and entirely customizable. It can be yours right now, simply follow the instructions on our
+						<a href="https://github.com/12rambau/team-manager">github project</a>. It is open source and you can use it for any purpose, personal or commercial.
+					</p>
+				</div>
+			</div>
+			<img src="{{ asset('image/default/project-landing.png') }}" class="img-fluid" alt="">
+		</div>
+	</section>
+
+	<!-- Projects Section -->
+	<section id="teams" class="projects-section bg-light">
+		<div
+			class="container">
+
+			<!-- Featured Project Row -->
+			<div class="row align-items-center no-gutters mb-4 mb-lg-5">
+				<div class="col-xl-8 col-lg-7">
+					<a href="{{ path('team-player-index') }}"><img class="img-fluid mb-3 mb-lg-0" src="{{ asset('image/default/no-logo-team-wide.png')|imagine_filter('gallery') }}" alt=""></a>
+				</div>
+				<div class="col-xl-4 col-lg-5">
+					<div class="featured-text text-center text-lg-left">
+						<h4>Shoreline</h4>
+						<p class="text-black-50 mb-0">It can help you manage several team such as this one ! (and many more)</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Signup Section -->
+		<section id="signup" class="signup-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-10 col-lg-8 mx-auto text-center">
+
+						<i class="far fa-paper-plane fa-2x mb-2 text-white"></i>
+						<h2 class="text-white mb-5">Subscribe to receive updates!</h2>
+
+						<form class="form-inline d-flex">
+							<input type="email" class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0" id="inputEmail" placeholder="Enter email address...">
+							<button type="submit" class="btn btn-primary mx-auto">Subscribe</button>
+						</form>
+
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Contact Section -->
+		<section id="contact" class="contact-section bg-black">
+			<div class="container">
+
+				<div class="row">
+
+					<div class="col-md-4 mb-3 mb-md-0">
+						<div class="card py-4 h-100">
+							<div class="card-body text-center">
+								<i class="fas fa-map-marked-alt text-primary mb-2"></i>
+								<h4 class="text-uppercase m-0">Address</h4>
+								<hr class="my-4">
+								<div class="small text-black-50">{{ contact.city }},
+									{{ contact.county}},
+									{{ contact.postcode }}<br>
+									{{ contact.country }}<br></div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-4 mb-3 mb-md-0">
+						<div class="card py-4 h-100">
+							<div class="card-body text-center">
+								<i class="fas fa-envelope text-primary mb-2"></i>
+								<h4 class="text-uppercase m-0">Email</h4>
+								<hr class="my-4">
+								<div class="small text-black-50">
+									<a href="{{ path('contact') }}">email form</a>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-4 mb-3 mb-md-0">
+						<div class="card py-4 h-100">
+							<div class="card-body text-center">
+								<i class="fas fa-mobile-alt text-primary mb-2"></i>
+								<h4 class="text-uppercase m-0">Phone</h4>
+								<hr class="my-4">
+								<div class="small text-black-50">no phone fonctionality</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="social d-flex justify-content-center">
+					<a href="#" class="mx-2">
+						<i class="fab fa-twitter"></i>
+					</a>
+					<a href="#" class="mx-2">
+						<i class="fab fa-facebook-f"></i>
+					</a>
+					<a href="https://github.com/12rambau/team-manager" class="mx-2">
+						<i class="fab fa-github"></i>
+					</a>
+				</div>
+
+			</div>
+		</section>
+
+		<!-- Footer -->
+		<footer class="bg-black small text-center text-white-50">
+			<div class="container">
+				Copyright &copy; Your Website 2019
+			</div>
+		</footer>
 
 
-{% endblock %}
+	{% endblock %}
+
+	{% block javascripts %}
+		{{ parent() }}
+
+		<script src="{{ asset('js/default/home.js') }}"></script>
+	{% endblock %}

@@ -230,8 +230,25 @@ easy_admin:
                 fields:
                     - { property: 'imageFile', type: 'file' }
         Location:
-
             class: App\Entity\Location
+            templates: 
+                edit: admin/location_edit_custom.html.twig
+            form:
+                fields:
+                    - { type: group, label: map, icon: map, columns: 8, help: We're still unable to display the leaflet map.}
+                    - { property: value, type: text, label: Full adress, type_options: { block_prefix: 'map_picker'} }
+                    - { type: group, columns: 4, label: Autocomplete, icon: magic }
+                    - { property: type, type: text, label: Type, type_options: { attr: {readonly: true}} }
+                    - { property: name, type: text, label: Name, type_options: { attr: {readonly: true}} }
+                    - { property: city, type: text, label: City, type_options: { attr: {readonly: true}} }
+                    - { property: country, type: text, label: Country, type_options: { attr: {readonly: true}} }
+                    - { property: countryCode, type: text, label: Country code, type_options: { attr: {readonly: true}} }
+                    - { property: administrative, type: text, label: Administrative, type_options: { attr: {readonly: true}} }
+                    - { property: county, type: text, label: County, type_options: { attr: {readonly: true}} }
+                    - { property: suburb, type: text, label: Suburb, type_options: { attr: {readonly: true}} }
+                    - { property: lat, type: text, label: lat, type_options: { attr: {readonly: true}} }
+                    - { property: lng, type: text, label: lng, type_options: { attr: {readonly: true}} }
+                    - { property: postcode, type: text, label: Postcode, type_options: { attr: {readonly: true}} }
         Participation:
             class: App\Entity\Participation
         PersonnalStat:
