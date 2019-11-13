@@ -46,7 +46,7 @@ liip_imagine :
                     mode: outbound
 
         gallery:
-            quality: 50
+            quality: 100
             filters:
                 thumbnail:
                     size: [200, 200]
@@ -57,5 +57,19 @@ liip_imagine :
             filters:
                 thumbnail:
                     size: [500,500]
+                    mode: outbond
+
+        navbar:
+            quality: 100
+            filters:
+                thumbnail:
+                    size: [200,200]
+                    mode: outbond
+
+        userNavbar:
+            quality: 100
+            filters:
+                thumbnail:
+                    size: [40, 40]
                     mode: outbond
 

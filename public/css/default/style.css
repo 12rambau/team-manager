@@ -3,10 +3,14 @@
     height: 10em;
 }
 
-body{
+body {
     padding-top: 70px;
 }
 
 #map {
     height: 300px;
+}
+
+.with-logo{
+    margin-left: 300px;
 }
