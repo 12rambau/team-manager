@@ -2,11 +2,11 @@
 
 {% block title %}view results{% endblock %}
 
-{% block content %}
+{% block page_title %}
+    <h1><span class="badge badge-{{ event.tag.color }}">{{event.tag.name|slice(0,3)|raw}}.</span> {{ event.name }} - Results</h1>
+{% endblock %}
 
-	<div class="jumbotron bg-primary-light">
-        <h2><span class="badge badge-{{ event.tag.color }}">{{event.tag.name|slice(0,3)|raw}}.</span>{{ event.name }} - Results</h2>
-    </div>
+{% block content %}
 
     <h3>Score</h3>
     {% if result.score  %}

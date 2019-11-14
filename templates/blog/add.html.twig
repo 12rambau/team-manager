@@ -2,11 +2,11 @@
 
 {% block title %}add a new post{% endblock %}
 
-{% block content %}
+{% block page_title %}
+	<h1>Add a new post</h1>
+{% endblock %}
 
-	<div class="jumbotron">
-		<h2>Add a new post</h2>
-	</div>
+{% block content %}
 	
 	{{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
 		{{ form_errors(form) }}

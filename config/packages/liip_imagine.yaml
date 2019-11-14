@@ -64,7 +64,7 @@ liip_imagine :
             filters:
                 thumbnail:
                     size: [200,200]
-                    mode: outbond
+                    mode: inset
 
         userNavbar:
             quality: 100

@@ -12,10 +12,9 @@
 			<a href="{{ path('home') }}"><img class="img-fluid mb-3 mb-lg-0" src="{{ asset('image/default/no-logo.png')|imagine_filter('navbar') }}" alt=""></a>
 		</div>
 		<div class="jumbotron col-8">
-			<h1>
-				{% block page_title %}Page title
-				{% endblock %}
-			</h1>
+			{% block page_title %}
+				<h1>Page title</h1>
+			{% endblock %}
 		</div>
 	</div>
 	<nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
