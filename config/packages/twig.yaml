@@ -10,5 +10,6 @@ twig:
         algolia_place_app_id: "%algolia_place_app_id%"
         algolia_place_api_id: "%algolia_place_api_id%"
         club_name: "%club_name%"
+        chat_update_interval: "%chat_update_interval%"
 
     

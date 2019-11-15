@@ -35,15 +35,7 @@
 	</div>
 
 {% block body %}
-	
-	<div>
-		{% block sidebar %}{% endblock %}
-
-		<div id="content">
-			{# On définit ce block, dans lequel vont venir s'insérer les autres vues du bundle #}			
-			{% block content %}{% endblock %}
-		</div>
-	</div>
+	{# all the views will be included in this block #}			
 {% endblock %}
 
 {% block javascripts %}

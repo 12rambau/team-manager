@@ -1,24 +1,38 @@
-<div class="card">
-	<div class="card-header">
-		<p class="panel-title"><span class="fas fa-comment"/> Chat</p>
+<small>
+	<div id="chat" class="card border-primary">
+		<div class="card-header text-primary" id="accordion">
+			<div class="card-title clearfix">
+				<span class="fas fa-comment"> Chat</span>
+				<a class="float-right" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+					<span class="fas fa-chevron-up"/>
+				</a>
+			</div>
+		</div>
+		<div class="collapse" id="collapseOne">
+			<div id="chatwindow" class="card-body">
+				{{ render(controller('App\\Controller\\ChatController::list')) }}
+			</div>
+			<div class="card-footer">
+				{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+					<form id="chatForm" action="#" method="post">
+						<div class="input-group">
+							<input type="text" name="message" id="chatMessage" class="form-control" placeholder="your message..."/>
+							<span class="input-group-btn">
+								<input class="btn btn-success" type="submit" value="send" />
+							</span>
+						</div>
+					</form>
+				{% else %}
+					<div class="container text-center">
+						<a href="{{path('login') }}" class="btn btn-primary">login</a>
+					</div>
+				{% endif %}
+			</div>
+		<div>
 	</div>
-	<div class="card-body">
-		{% render(controller('App\Controller\ChatController:Chat:list')) %}
-	</div>
-	<div class="card-footer"
-		<form id="chatForm" action="{{ path('bds_chat_post', {'channel': channel}) }}" method="post">
-    		<div class="input-group">
-    			<input type="text" name="message" id="chatMessage" class="form-control" placeholder="votre message..."/>
-    			<span class="input-group-btn">
-   	    			<input class="btn btn-success" type="submit" value="poster" />
-   	    		</span>
-    		</div>
-		</form>
-	</div>
-<div>
-
+</small>
 
 <script type="text/javascript">
-	var updateInterval = {{ updateInterval }};
+	var updateInterval = {{ chat_update_interval }};
 	
 </script>

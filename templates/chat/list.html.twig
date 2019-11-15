@@ -1,19 +1,39 @@
-<ul id="chat" class="list-unstyled">
+<ul class="list-unstyled">
 {% for message in messages %}
-    <li>
-        <div class="author">
-        	<div class="col-lg-6">
-        		<strong>{{ message.author.username }}</strong>
-        	</div> 
-        	<div class="date col-lg-6">
-        		<small class="text-muted text-right">
-        			<span class="fas fa-time"/>
-        			{{ message.date|date('d/m H:i') }}
-        		</small>
-        	</div>
-        </div>
-        <div class="message">{{ message.content }}</div>
-    </li>
-    <hr>
+	{% if message.author == app.user %}
+		<li class="right clearfix">
+			<span class"float-right">
+				<img class="rounded-circle" src="{{ asset(vich_uploader_asset(message.author.profilePic, "imageFile")|imagine_filter('userNavbar')) }}">
+			</span>
+			<div class="chat-body clearfix">
+				<div class="header">
+					<strong>{{ message.author.username }}</strong>
+					<small class="float-left text-muted">
+						<span class="far fa-clock"/> {{ message.date|date('d/m H:i') }}
+					</small>
+				</div>
+				<p>
+					{{ message.content }}
+				</p>
+			</div>
+		</li>
+	{% else %}
+		<li class="left clearfix">
+			<span class"float-left">
+				<img class="rounded-circle" src="{{ asset(vich_uploader_asset(message.author.profilePic, "imageFile")|imagine_filter('userNavbar')) }}">
+			</span>
+			<div class="chat-body clearfix">
+				<div class="header">
+					<strong>{{ message.author.username }}</strong>
+					<small class="float-right text-muted">
+						<span class="far fa-clock"/> {{ message.date|date('d/m H:i') }}
+					</small>
+				</div>
+				<p>
+					{{ message.content }}
+				</p>
+			</div>
+		</li>
+	{% endif %}
 {% endfor %}
 </ul>

@@ -18,7 +18,7 @@
 		</div>
 	</div>
 	<nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
-		<a class="navbar-brand sr-only col-3 text-center" href="{{ path('home') }}">TeamManager</a>
+		<a class="navbar-brand sr-only col-3 text-center" href="{{ path('home') }}">{{ club_name }}</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
@@ -103,40 +103,12 @@
 							</div>
 						</div>
 					{% endblock %}
-					{% block chat %}
-						<div class="card">
-							<div class="card-header">
-								<p class="card-title"><span class="fas fa-comment"/>
-									Chat</p>
-							</div>
-							{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-								<div id="chatwindow" class="card-body">
-									{{ render(controller('App\\Controller\\ChatController::list')) }}
-								</div>
-								<div class="card-footer">
-									<form id="chatForm" action="{{ path('chat-add') }}" method="post">
-										<div class="input-group">
-											<input type="text" name="message" id="chatMessage" class="form-control" placeholder="votre message..."/>
-											<span class="input-group-btn">
-												<input class="btn btn-success" type="submit" value="poster"/>
-											</span>
-										</div>
-									</form>
-								</div>
-							{% else %}
-								<div class="card-body">
-									<p class="text-center">Authentification is required to access the Chat</p>
-								</div>
-								<div class="footer">
-									<div class="container text-center">
-										<a href="{{path('login') }}" class="btn btn-primary">login</a>
-									</div>
-								</div>
-							{% endif %}
-						</div>
-					{% endblock %}
 				</div>
 			</div>
+
+			{% block chat %}
+				{% include 'chat/show.html.twig' %}
+			{% endblock %}
 		{% endblock %}
 
 		{% block javascripts %}

@@ -6,6 +6,7 @@ parameters:
     algolia_place_app_id: '%env(ALGOLIA_PLACE_APP_ID)%'
     algolia_place_api_id: '%env(ALGOLIA_PLACE_API_ID)%'
     club_name: '%env(CLUB_NAME)%'
+    chat_update_interval: 10000
 
 
 services:
