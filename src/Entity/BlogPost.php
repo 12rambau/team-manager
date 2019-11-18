@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Entity\User;
 use Cocur\Slugify\Slugify;
 use App\Entity\Comment;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BlogPostRepository")
@@ -26,8 +27,11 @@ class BlogPost
      */
     private $title;
 
+    const MAX_SHORT = 200;
+
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
+     * @Assert\Length(max = BlogPost::MAX_SHORT, maxMessage = "Your short descripsion is too long")
      */
     private $short;
 

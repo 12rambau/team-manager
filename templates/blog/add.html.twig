@@ -10,21 +10,23 @@
 	
 	{{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
 		{{ form_errors(form) }}
-	
-		{{ form_label(form.title, "title : ", {'label_attr': {'class':'control-label'}}) }}
-		{{ form_widget(form.title, {'attr': {'class': 'form-control', 'placeholder':'title...'}}) }}
-		
-		{{ form_label(form.short, "short descripsion : ", {'label_attr': {'class':'control-label'}}) }}
-		{{ form_widget(form.short, {'attr': {'class': 'form-control', 'placeholder':'a short descripsion...'}}) }}
 
-		{{ form_label(form.content, "content : ", {'label_attr': {'class':'control-label'}}) }}
-		{{ form_widget(form.content) }}
-	
-		{{ form_rest(form) }}
+		{{ form_row(form.title) }}
+		{{ form_row(form.short) }}
+		{{ form_row(form.content) }}
+		
 		<hr>
-		<button type="submit" name="blog-add" class="btn btn-primary btn-block">add new post</button>
+		{{ form_row(form.save) }}
+
+		{{ form_rest(form) }}
 	
 	{{ form_end(form) }}
 
 
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+
+	<script src="{{ asset('js/default/news.js') }}"></script>
 {% endblock %}
