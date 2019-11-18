@@ -2,16 +2,17 @@
 
 function displayDetails(e) {
 
+    //prevent the default behaviour
     e.preventDefault();
-    var slug = e.target.id.replace('-button', '');
 
-    if ($(e.target).attr('class') == "fa fa-chevron-down") {
-        $("#" + slug + "-details").slideDown(200);
-        $(e.target).removeClass("fa-chevron-down");
-        $(e.target).addClass("fa-chevron-up");
-    } else if ($(e.target).attr('class') == "fa fa-chevron-up") {
-        $("#" + slug + "-details").slideUp(200);
-        $(e.target).removeClass("fa-chevron-up");
-        $(e.target).addClass("fa-chevron-down");
-    }
+    //identify the dom elements
+    var slug = e.target.id.replace('-button', '');
+    var details = $("#" + slug + "-details");
+
+    //change visibility
+    (details.is(':visible'))?details.slideUp(200):details.slideDown(200);
+
+    //change the chevron orientation
+    $(e.target).toogleClass("fa-chevron-down");
+    $(e.target).tooglelass("fa-chevron-up");
 }

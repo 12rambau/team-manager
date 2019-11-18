@@ -4,6 +4,8 @@ function scrollToBottom() {
 }
 
 $(document).on("click", "#chevron", function (e) {
+    e.target.classList.toggle('fa-chevron-up');
+    e.target.classList.toggle('fa-chevron-down');
     scrollToBottom();
 });
 
