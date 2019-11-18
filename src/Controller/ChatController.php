@@ -20,8 +20,6 @@ class ChatController extends AbstractController
     public function add(Request $request, SerializerInterface $serializer, LoggerInterface $logger, UploaderHelper $helper, CacheManager $cm): JsonResponse
     {
 
-        //TODO don't render the chat view but answer an ajax solicitation
-
         $message = new ChatMessage();
 
         $form = $this->createForm(ChatMessageType::class, $message);
@@ -44,7 +42,6 @@ class ChatController extends AbstractController
 
 
         return new JsonResponse($data);
-            //$serializer->serialize($data, 'json');
         
     }
 

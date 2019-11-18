@@ -61,3 +61,14 @@ body {
 .loader{
     display: none;
 }
+
+#mini-calendar .fc-center h2{
+    font-size: 14pt;
+    margin-top: 1em;
+    font-weight: bolder;
+}
+
+#aside-calendar{
+    overflow-y: auto;
+    max-height: 30em;   
+}
