@@ -7,17 +7,14 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Entity\ChatMessage;
 use App\Form\ChatMessageType;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Psr\Log\LoggerInterface;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 
 class ChatController extends AbstractController
 {
 
-    public function add(Request $request, SerializerInterface $serializer, LoggerInterface $logger, UploaderHelper $helper, CacheManager $cm): JsonResponse
+    public function add(Request $request, UploaderHelper $helper, CacheManager $cm): JsonResponse
     {
 
         $message = new ChatMessage();

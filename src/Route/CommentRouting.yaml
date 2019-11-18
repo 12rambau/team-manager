@@ -1,0 +1,11 @@
+comment-add:
+    path: /add/{id}
+    controller: App\Controller\CommentController::add
+    options:
+        expose: true
+
+comment-delete:
+    path: /{id}/delete
+    controller: App\Controller\CommentController::delete
+    options:
+        expose: true

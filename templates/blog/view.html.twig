@@ -8,7 +8,18 @@
 	<div>
 		<h1>{{ post.title }}</h1>
 	</div>
-	<div>{{ post.short }}</div>
+	<div>
+		<span class="text-primary">by
+			{{ post.author.name }}</span>
+		<span class="text-muted ml-1">
+			on
+			{{ post.publishDate|date('d/m/Y') }}</span>
+	</div>
+	<div class="row">
+		<a href="#" class="btn btn-primary m-1">XX galleries</a>
+		<a id="nb-comment" href="#comment-section" class="btn btn-primary m-1">{{post.comments|length }}
+			comments</a>
+	</div>
 {% endblock %}
 
 {% block content %}
@@ -16,53 +27,65 @@
 		<div class="alert alert-warning text-center">
 			The Post is not yet activated</div>
 	{% endif %}
-	{% if app.user is same as(post.author) %}
-		<a href="{{ path('blog-edit', {'slug':post.slug}) }}" class="btn btn-primary btn-block">Edit my Post</a>
+	{% if (app.user is same as(post.author))  or is_granted('ROLE_ADMIN') %}
+		<a href="{{ path('blog-edit', {'slug':post.slug}) }}" class="btn btn-primary btn-block">Edit Post</a>
 	{% endif %}
 
 	<div class="container">
-		<p class="text-right">
-			by
-			{{ post.author.username }}, on
-			{{ post.publishDate|date('d/m/Y') }}
-		</p>
-		<div class="card">
-			<div class="card-body">
-				<div class="card-text">
-					{{ post.content }}
-				</div>
-			</div>
+		<div>
+			{{ post.content }}
 		</div>
 
-		{% if comments %}
-			<div class="container">
-				<h3>Comments</h3>
-				<table class="table-striped">
-					<tbody>
-						{% for comment in comments %}
-							<tr>
-								<p>
-									<a href="#">{{comment.author.username}}:
-									</a>
-									{{ comment.content }}</p>
-								<p class="text-muted">{{ comment.publishDate|date('h:i:s') }}</p>
-							</tr>
-						{% endfor %}
-					</tbody>
-				</table>
-			</div>
-		{% endif %}
+		<hr>
+		<h3 id="comment-section">{{post.comments|length }}
+			comments</h3>
+		{{ form_start(form) }}
 
-		{{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
-		{{ form_errors(form.content) }}
-		{{form_widget(form.content, {'attr': {'class':'form-control', 'placeholder':'Your comment...'}}) }}
+		<div class="input-group mb-4">
+			{{ form_widget(form.content) }}
+			<span class="input-group-btn">
+				{{ form_widget(form.send) }}
+			</span>
+		</div>
+
 		{{ form_rest(form)}}
-		<button typ="submit" name="comment-add" class="btn btn-primary btn-block">submit</button>
+
 		{{ form_end(form) }}
+
+		<div>
+			<img id="loading" class="loader" src="{{ asset('image/default/loading.svg') }}" alt="loading">
+			<ul id="comments-list" class="list-unstyled">
+				{% for comment in comments|reverse %}
+					<li class="clearfix">
+						<span class="float-left mr-3">
+							<img class="rounded-circle" src="{{ asset(vich_uploader_asset(comment.author.profilePic, "imageFile")|imagine_filter('userNavbar')) }}">
+						</span>
+						<div class="text-left clearfix">
+							<div class="header">
+								<strong>{{ comment.author.name }}</strong>
+								<small class="float-right text-muted">
+									<span class="far fa-clock"/>
+									{{ comment.publishDate|date('d/m H:i') }}
+								</small>
+							</div>
+							<p>
+								{{ comment.content }}
+							</p>
+						</div>
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
 
 		<hr/>
 		<div class="container text-center">
 			<a class="btn btn-primary" href={{ path('blog-index') }}>Return to index</a>
 		</div>
 	</div>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+
+	<script src="{{ asset('js/comment/add.js') }}"></script>
 {% endblock %}

@@ -10,6 +10,10 @@ blog:
     resource: "Route/BlogRouting.yaml"
     prefix: /blog/
 
+comment:
+    resource: "Route/CommentRouting.yaml"
+    prefix: /comment/
+
 home:
     resource: "Route/DefaultRouting.yaml"
     prefix: /

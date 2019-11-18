@@ -76,14 +76,14 @@ class User implements UserInterface
     private $comments;
 
     /**
-    * @ORM\OneToMany(targetEntity="App\Entity\Participation", mappedBy="user", cascade={"persist"}, orphanRemoval=true)
-    */
+     * @ORM\OneToMany(targetEntity="App\Entity\Participation", mappedBy="user", cascade={"persist"}, orphanRemoval=true)
+     */
     private $participations;
 
     /**
-    * @ORM\OneToOne(targetEntity="App\Entity\Image", cascade={"persist"}, orphanRemoval=true)
-    * @ORM\JoinColumn(nullable=true)
-    */
+     * @ORM\OneToOne(targetEntity="App\Entity\Image", cascade={"persist"}, orphanRemoval=true)
+     * @ORM\JoinColumn(nullable=true)
+     */
     private $profilePic;
 
     /**
@@ -100,10 +100,11 @@ class User implements UserInterface
     private $phoneNumber;
 
     /**
-    * @ORM\OneToMany(targetEntity="App\Entity\PersonnalStat", mappedBy="player", cascade={"persist"}, orphanRemoval=true)
-    */
+     * @ORM\OneToMany(targetEntity="App\Entity\PersonnalStat", mappedBy="player", cascade={"persist"}, orphanRemoval=true)
+     */
     private $stats;
 
+    //magic function
     public function __construct()
     {
         $this->posts = new ArrayCollection();
@@ -114,11 +115,17 @@ class User implements UserInterface
     }
 
     public function __toString()
-   {
-       $str = $this->getFirstName()." ".$this->getLastName();
-      
-       return $str;
-   }
+    {
+        $str = $this->getFirstName() . " " . $this->getLastName();
+
+        return $str;
+    }
+
+    //virtual properties
+    public function getName(): string
+    {
+        return $this->getFirstName()." ".$this->getLastName();
+    }
 
     public function getId(): ?int
     {
