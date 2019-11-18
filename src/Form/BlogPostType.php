@@ -13,6 +13,7 @@ class BlogPostType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $entity = $builder->getData();
         $builder
             ->add('title', null, [
                 'label' => 'Title',
@@ -20,7 +21,7 @@ class BlogPostType extends AbstractType
             ])
             ->add('short', null, [
                 'label' => 'Short',
-                'help' => '0/'.BlogPost::MAX_SHORT,
+                'help' => strlen($entity->getShort()).'/'.BlogPost::MAX_SHORT,
                 'attr' => [
                     'placeholder' => 'Not much than 200 characters...',
                     'rows' => 5,

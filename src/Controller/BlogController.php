@@ -61,37 +61,22 @@ class BlogController extends AbstractController
 
     }
 
-    public function add(Request $request): Response
+    public function edit(BlogPost $post=null, Request $request)
     {
-        $post = new BlogPost();
-
-        $form = $this->createForm(BlogPostType::class, $post);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid())
+        $action = "edit";
+        //create the post
+        if (!$post){
+            $post = new BlogPost(); 
+            $action = "add";
+        //create the post
+        } elseif (
+                $this->getUser() != $post->getAuthor() 
+                && 
+                !$this->container->get('security.authorization_checker')->isGranted('ROLE_ADMIN')
+            ) 
         {
-            $post->setAuthor($this->getUser());
-
-            $em = $this->getDoctrine()->getManager();            
-            $em->persist($post);
-            $em->flush();
-
-            // TODO send an email to the administrator
-
-            return new RedirectResponse($this->generateUrl('blog-view', array(
-                'slug' => $post->getSlug()
-            )));
-        }
-
-        return $this->render('blog/add.html.twig', array(
-            'form' => $form->createView()
-        ));
-    }
-
-    public function edit(BlogPost $post, Request $request)
-    {
-        if ($this->getUser() != $post->getAuthor()) 
             throw new AccessDeniedException('Not your Blog Post');
+        }
 
         $form = $this->createForm(BlogPostType::class, $post);
         $form->handleRequest($request);
@@ -115,7 +100,8 @@ class BlogController extends AbstractController
 
         return $this->render('blog/edit.html.twig', [
             'form' => $form->createView(),
-            'post' => $post
+            'post' => $post,
+            'action' => $action
         ]);
 
     }

@@ -12,10 +12,10 @@ blog-view:
 
 blog-add:
     path: /add
-    controller: App\Controller\BlogController::add
+    controller: App\Controller\BlogController::edit
 
 blog-edit:
-    path: /blog/{slug}/edit
+    path: /{slug}/edit
     controller: App\Controller\BlogController::edit
 
 blog-comment-delete:
