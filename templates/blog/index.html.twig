@@ -9,7 +9,50 @@
 
 {% block content %}
 
-	<div class="row row-flex">
+	<div class="container">
+		{% for post in posts %}
+			<div class="news">
+				<div class="card">
+					<div class="row">
+						<div class="col-4">
+							<img src="{{ asset('image/default/no-image-news.jpg')|imagine_filter('news') }}" class="w-100 h-100">
+						</div>
+						<div class="card-block">
+							<div class="card-title">
+								<h4>{{ post.title }}</h4>
+							</div>
+							<div class="card-text">
+								<strong class="text-primary">
+									By {{ post.author.firstName }} {{ post.author.lastName }}
+								</strong>
+								<span class="text-muted ml-1">
+									on {{ post.publishDate|date('d/m/Y') }} 
+									<a class="ml-1 text-danger" href="#" onClick="displayDetails(event)">
+										<span id="{{ post.slug }}-button" class="fa fa-chevron-down"/>
+									</a>
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="{{ post.slug }}-details" class="container detail col-11 clearfix">
+					<div class="mr-2 card-text">
+						{{ post.short|slice(0,150)|raw}}
+					</div>
+					<div class="float-right">
+						<a href="{{ path('blog-view', { 'slug':post.slug }) }}" class="btn btn-primary">Learn more</a>
+					</div>
+				</div>
+			</div>
+		{% else %}
+			<div class="card">
+				<div class="card-body">
+					<h2 class="card-title">no Post to display (yet!)</h2>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+	{#<div class="row row-flex">
 		{% for post in posts %}
 			<div
 				class="card col-4">
@@ -37,7 +80,7 @@
 				</div>
 			</div>
 		{% endfor %}
-	</div>
+	</div>#}
 
 	<hr/>
 
@@ -65,4 +108,11 @@
 			{{ nbPost }}
 			blogPost</div>
 	</div>
+{% endblock %}
+
+
+{% block javascripts %}
+	{{ parent() }}
+
+	<script src="{{ asset('js/default/news.js') }}"></script>
 {% endblock %}

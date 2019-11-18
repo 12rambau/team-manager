@@ -72,4 +72,11 @@ liip_imagine :
                 thumbnail:
                     size: [40, 40]
                     mode: outbond
+        
+        news:
+            quality: 100
+            filters:
+                thumbnail:
+                    size: [240, 90]
+                    mode: inset
 
