@@ -12,7 +12,9 @@ class ChatMessageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('content')
+            ->add('content', null, [
+                'attr'=> ['placeholder' => "your message..."]
+            ])
         ;
     }
 

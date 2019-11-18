@@ -8,11 +8,16 @@ use App\Entity\ChatMessage;
 use App\Form\ChatMessageType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Psr\Log\LoggerInterface;
+use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
+use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 
 class ChatController extends AbstractController
 {
 
-    public function add(Request $request): Response
+    public function add(Request $request, SerializerInterface $serializer, LoggerInterface $logger, UploaderHelper $helper, CacheManager $cm): JsonResponse
     {
 
         //TODO don't render the chat view but answer an ajax solicitation
@@ -20,35 +25,51 @@ class ChatController extends AbstractController
         $message = new ChatMessage();
 
         $form = $this->createForm(ChatMessageType::class, $message);
+
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             $message->setAuthor($this->getUser());
 
-            $em = $this->getDoctrine()->getManager();            
+            $em = $this->getDoctrine()->getManager();
             $em->persist($message);
             $em->flush();
-
-            return new RedirectResponse($this->generateUrl('chat-view', [
-                'id' => $message->getId()
-            ]));
         }
 
-        return $this->render('chat/add.html.twig', array(
-            'form' => $form->createView()
-        ));
+        $data = array();
+        $data['content'] = $message->getContent();
+        $data['username'] = $message->getAuthor()->getUsername();
+        $data['date'] = date_format($message->getDate(), 'd/m h:i');
+        $data['profilePicUrl'] = $cm->getBrowserPath($helper->asset($message->getAuthor()->getProfilePic(), 'imageFile'), 'userNavbar');
+
+
+        return new JsonResponse($data);
+            //$serializer->serialize($data, 'json');
+        
     }
 
-    public function list():Response
+    public function list(int $nbMessage = 30): Response
     {
+
         $em = $this->getDoctrine()->getManager();
-        $messages = $em->getRepository(ChatMessage::class)->findBy([],null,30,0);
-    
+        $totalMessage = $em->getRepository(ChatMessage::class)->countAll();
+        $messages = $em->getRepository(ChatMessage::class)->findBy([], null, $nbMessage, $totalMessage-$nbMessage);
+
 
         return $this->render('chat/list.html.twig', [
-            'messages' => $messages
+            'messages' => $messages,
+            'nbMessage' => $nbMessage
         ]);
     }
 
+    public function show(): Response
+    {
+        $message = new ChatMessage();
+
+        $form = $this->createForm(ChatMessageType::class, $message);
+
+        return $this->render('chat/show.html.twig', [ 
+        'form' => $form->createView(), 
+        ]);
+    }
 }

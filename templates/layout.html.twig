@@ -107,7 +107,7 @@
 			</div>
 
 			{% block chat %}
-				{% include 'chat/show.html.twig' %}
+				{{ render(controller('App\\Controller\\ChatController::show')) }}
 			{% endblock %}
 		{% endblock %}
 
@@ -118,6 +118,7 @@
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.js"></script>
 			<script src="{{ asset('js/fullcalendar/miniCalendar.js') }}"></script>
 			<script src="{{ asset('js/default/default.js') }}"></script>
+			<script src="{{ asset('js/chat/chat.js') }}"></script>
 
 			<script type="text/javascript">
 				$(document).ready(function () {

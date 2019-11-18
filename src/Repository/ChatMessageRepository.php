@@ -18,4 +18,12 @@ class ChatMessageRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, ChatMessage::class);
     }
+
+    public function countAll()
+    {
+        return $this->createQueryBuilder('m')
+            ->select('count(m.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }
