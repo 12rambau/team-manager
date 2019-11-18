@@ -1,19 +1,13 @@
 (function($) {
     "use strict"; // Start of use strict
   
-    var headerHeight = 270;//$("#mainNav").height()*2+$('#logo').height();
+    var headerHeight = $('#logo').height()+2; //2px padding top of the body element
     // Collapse Navbar
     var navbarCollapse = function() {
       if ($(window).scrollTop() > headerHeight) {
-        $("#mainNav").addClass("fixed-top");
-        $("#mainNav").addClass("bg-primary");
-        $('.navbar-brand').removeClass("sr-only");
-        $('#firstLi').removeClass("with-logo")
+        $('#secondNav').slideDown(200);
       } else {
-        $("#mainNav").removeClass("fixed-top");
-        $("#mainNav").removeClass("bg-primary");
-        $('.navbar-brand').addClass("sr-only");
-        $('#firstLi').addClass("with-logo")
+        $('#secondNav').slideUp(200);
       }
     };
     // Collapse now if page is not at top
