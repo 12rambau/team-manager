@@ -98,7 +98,7 @@ class AppFixtures extends Fixture
             $posts[$i] = new BlogPost();
             $posts[$i]->setTitle($faker->words(4, true));
             $posts[$i]->setShort($faker->sentence(30, true));
-            $posts[$i]->setContent($faker->text(500));
+            $posts[$i]->setContent($faker->paragraphs(5,true));
             $posts[$i]->setActive(true);
             $posts[$i]->setAuthor($users[$faker->numberBetween(0, ($nbUser-1))]);
 
