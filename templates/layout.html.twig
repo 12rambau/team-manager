@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block navbar %}
-	<div class="row">
+	<div class="row bg-white">
 		<div id="logo" class="col-3 text-center">
 			<a href="{{ path('home') }}"><img class="img-fluid mb-3 mb-lg-0" src="{{ asset('image/default/no-logo.png')|imagine_filter('navbar') }}" alt=""></a>
 		</div>
@@ -22,7 +22,7 @@
 {% endblock %}
 
 		{% block body %}
-			<div class="container-fluid row">
+			<div class="container-fluid row mt-2">
 				<div class="col-9">
 					{% block content %}{% endblock %}
 				</div>
@@ -60,6 +60,7 @@
 			<script type="text/javascript">
 				$(document).ready(function () {
 					$('[data-toggle="tooltip"]').tooltip();
+  					$('[data-toggle="popover"]').popover();
 				});
 			</script>
 		{% endblock %}

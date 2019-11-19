@@ -13,8 +13,8 @@ function displayDetails(e) {
     (details.is(':visible'))?details.slideUp(200):details.slideDown(200);
 
     //change the chevron orientation
-    $(e.target).toogleClass("fa-chevron-down");
-    $(e.target).tooglelass("fa-chevron-up");
+    $(e.target).toggleClass("fa-chevron-down");
+    $(e.target).toggleClass("fa-chevron-up");
 }
 
 function shortHelper(element){

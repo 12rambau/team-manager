@@ -23,13 +23,31 @@
 {% endblock %}
 
 {% block content %}
-	{% if post.active == false %}
-		<div class="alert alert-warning text-center">
-			The Post is not yet activated</div>
-	{% endif %}
-	{% if (app.user is same as(post.author))  or is_granted('ROLE_ADMIN') %}
-		<a href="{{ path('blog-edit', {'slug':post.slug}) }}" class="btn btn-primary btn-block">Edit Post</a>
-	{% endif %}
+	<div class="clearfix">
+		{% if post.active == false %}
+			<div class="alert alert-warning text-center">
+				The Post is not yet activated
+			</div>
+		{% endif %}
+		{# ToDO align the breadcum with the pecil #}
+		<ol class="breadcrumb bg-transparent">
+			<li class="breadcrumb-item">
+				<a href="{{ path('blog-index') }}">News</a>
+			</li>
+			<li class="breadcrumb-item active" aria-current="page">{{ post.title }}</li>
+		</ol>
+		{% if (app.user is same as(post.author))  or is_granted('ROLE_ADMIN') %}
+			{# TODO for prod remove the ROLE_ADMIN #}
+			<span
+				class="float-right">
+				{# TODO put this pencil on the right #}
+				<button class="btn btn-link text-muted" data-toggle="popover" data-html="true" data-content='<a href="{{ path('blog-edit', {'slug':post.slug}) }}">edit</a>'><span class="fa fa-pencil-alt"/></button>
+			</span>
+
+		{% endif %}
+	</div>
+
+	<hr>
 
 	<div class="container">
 		<div>
@@ -75,11 +93,6 @@
 					</li>
 				{% endfor %}
 			</ul>
-		</div>
-
-		<hr/>
-		<div class="container text-center">
-			<a class="btn btn-primary" href={{ path('blog-index') }}>Return to index</a>
 		</div>
 	</div>
 {% endblock %}

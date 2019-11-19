@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
+use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 
 class CommentController extends AbstractController
 {
@@ -61,5 +62,12 @@ class CommentController extends AbstractController
         $data['status'] = "done";
 
         return new JsonResponse($data);
+    }
+
+
+    public function edit(Comment $comment)
+    {
+        //do an edit function
+        return -1;
     }
 }
