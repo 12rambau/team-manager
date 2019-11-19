@@ -164,13 +164,16 @@ class EventController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $events = $em->getRepository(Event::class)->findWeeklyEvent($targetMonday);
 
+        $tags = $em->getRepository(EventTag::class)->findBy(['active' => true]);
+
         //separate them for each day of the week 
         $weeklyEvents = CalendarBox::getWeeklyBoxes($targetMonday, $events);
 
         return $this->render('event/calendar.html.twig', [
             'targetMonday' => $targetMonday,
             'events' => $events,
-            'weeklyEvents' => $weeklyEvents
+            'weeklyEvents' => $weeklyEvents,
+            'tags' => $tags
         ]);
     }
 
