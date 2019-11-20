@@ -145,7 +145,7 @@ easy_admin:
                     - start
                     - finish
                     - { type: tab, label: Location, icon: search-location }
-                    - { type: group, label: map, icon: map, columns: 8, help: We're still unable to display the leaflet map.}
+                    - { type: group, label: map, icon: map, columns: 8, help: click two time on location to display the map.}
                     - { property: location.value, type: text, label: Full adress, type_options: { block_prefix: 'map_picker'} }
                     - { type: group, columns: 4, label: Autocomplete, icon: magic }
                     - { property: location.type, type: text, label: Type, type_options: { attr: {readonly: true}} }

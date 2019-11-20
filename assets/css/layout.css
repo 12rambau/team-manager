@@ -55,11 +55,6 @@ body {
     color: #777777;
 }
 
-.panel .slidedown .glyphicon, .chat .glyphicon
-{
-    margin-right: 5px;
-}
-
 .loader{
     display: none;
 }

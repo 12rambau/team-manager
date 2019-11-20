@@ -12,7 +12,7 @@ import L from 'leaflet';
 }
 
 //lat and lng are set directly by twi (global variable)
-var mymap = L.map('map').setView(
+export const mymap = L.map('map').setView(
     [lat.value, lng.value],
     13
 );

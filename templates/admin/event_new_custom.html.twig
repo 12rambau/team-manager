@@ -1,49 +1,21 @@
 {% extends '@EasyAdmin/default/new.html.twig' %}
 
-{% block body_javascript %}
+{% block head_custom_stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('admin') }}
+{% endblock %}
+
+{% block body_custom_javascript %}
     {{ parent() }}
 
     <script type="text/javascript">
-        lat = document.getElementById('event_location_lat');
-        lng = document.getElementById('event_location_lng');
+        var lat = document.getElementById('event_location_lat');
+        var lng = document.getElementById('event_location_lng');
+        var locale = "{{ app.request.locale }}";
+		var algolia_place_app_id = "{{ algolia_place_app_id }}";
+		var algolia_place_api_id = "{{ algolia_place_api_id }}";
     </script>
 
-    {#<script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==" crossorigin=""></script>
-    <script src="{{ asset('js/event/leaferMap.js') }}"></script>
-    
-    TODO add the map #}
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/places.js/1.16.3/places.min.js"></script>
-
-    <script type="text/javascript">
-        const fixedOptions = {
-            appId: '{{ algolia_place_app_id }}',
-            apiKey: '{{ algolia_place_api_id }}',
-            container: document.querySelector('#event_location_value')
-        };
-
-        const reconfigurableOptions = {
-            language: '{{ app.request.locale }}', // Receives results in local language
-            aroundLatLngViaIP: true // unable the extra search/boost around the source IP
-        };
-        const placesInstance = places(fixedOptions).configure(reconfigurableOptions);
-
-        placesInstance.on('change', function resultSelected(e) {
-            $("#event_location_type").val(e.suggestion.type || '');
-            $("#event_location_name").val(e.suggestion.name || '');
-            $("#event_location_city").val(e.suggestion.city || '');
-            $("#event_location_country").val(e.suggestion.country || '');
-            $("#event_location_countryCode").val(e.suggestion.countryCode || '');
-            $("#event_location_administrative").val(e.suggestion.administrative || '');
-            $("#event_location_county").val(e.suggestion.county || '');
-            $("#event_location_suburb").val(e.suggestion.suburb || '');
-            $("#event_location_lat").val(e.suggestion.latlng["lat"] || '');
-            $("#event_location_lng").val(e.suggestion.latlng["lng"] || '');
-            $("#event_location_postcode").val(e.suggestion.postcode || '');
-
-            //moveMarker();
-
-        });
-    </script>
+    {{ encore_entry_script_tags('admin') }}
 
 {% endblock %}
