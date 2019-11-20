@@ -79,4 +79,11 @@ liip_imagine :
                 thumbnail:
                     size: [240, 90]
                     mode: inset
+        
+        favicon:
+            quality: 50
+            filters:
+                thumbnail:
+                    size: [64, 64]
+                    mode: inset
 
