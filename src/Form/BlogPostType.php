@@ -25,8 +25,7 @@ class BlogPostType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Not much than 200 characters...',
                     'rows' => 5,
-                    'data-max' => BlogPost::MAX_SHORT,
-                    'onkeyup' => 'shortHelper(this)'
+                    'data-max' => BlogPost::MAX_SHORT
                 ]
             ])
             ->add('content', CKEditorType::Class)

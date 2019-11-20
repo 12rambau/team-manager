@@ -2,8 +2,7 @@
 
 {% block stylesheets %}
 	{{ parent() }}
-	<link rel="stylesheet" href="{{asset('css/default/style.css') }}" type="text/css"/>
-	<link rel='stylesheet' href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.css"/>
+	{{ encore_entry_link_tags('layout') }}
 {% endblock %}
 
 {% block navbar %}
@@ -52,15 +51,6 @@
 
 			{{ parent() }}
 
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.js"></script>
-			<script src="{{ asset('js/fullcalendar/miniCalendar.js') }}"></script>
-			<script src="{{ asset('js/default/default.js') }}"></script>
-			<script src="{{ asset('js/chat/chat.js') }}"></script>
+			{{ encore_entry_script_tags('layout') }}
 
-			<script type="text/javascript">
-				$(document).ready(function () {
-					$('[data-toggle="tooltip"]').tooltip();
-  					$('[data-toggle="popover"]').popover();
-				});
-			</script>
 		{% endblock %}

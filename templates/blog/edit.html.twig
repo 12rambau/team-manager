@@ -28,5 +28,5 @@
 {% block javascripts %}
 	{{ parent() }}
 
-	<script src="{{ asset('js/default/news.js') }}"></script>
+	{{ encore_entry_script_tags('blog') }}
 {% endblock %}

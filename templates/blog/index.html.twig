@@ -27,7 +27,7 @@
 								</strong>
 								<span class="text-muted ml-1">
 									on {{ post.publishDate|date('d/m/Y') }} 
-									<a class="ml-1 text-danger" href="#" onClick="displayDetails(event)">
+									<a class="chevron-display ml-1 text-danger" href="#" onClick="displayDetails(event)">
 										<span id="{{ post.slug }}-button" class="fa fa-chevron-down"/>
 									</a>
 								</span>
@@ -114,5 +114,5 @@
 {% block javascripts %}
 	{{ parent() }}
 
-	<script src="{{ asset('js/default/news.js') }}"></script>
+	{{ encore_entry_script_tags('blog') }}
 {% endblock %}

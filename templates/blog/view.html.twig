@@ -100,5 +100,5 @@
 {% block javascripts %}
 	{{ parent() }}
 
-	<script src="{{ asset('js/comment/add.js') }}"></script>
+	{{ encore_entry_script_tags('blog') }}
 {% endblock %}

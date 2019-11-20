@@ -1,0 +1,101 @@
+@import '~fullcalendar/dist/fullcalendar.css';
+
+#chatwindow {
+    overflow-y: auto;
+    height: 30em;
+}
+
+body {
+    padding-top: 1em;
+}
+
+#map {
+    height: 300px;
+}
+
+.with-logo{
+    margin-left: 300px;
+}
+
+#chat{
+    width: 20em;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin-right: 1em;
+    z-index:3;
+}
+#chat-messages
+{
+    margin: 0;
+    padding: 0;
+}
+
+#chat-messages li
+{
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px dotted #B3A9A9;
+}
+
+#chat-messages li.left .chat-body
+{
+    margin-right: 60px;
+}
+
+#chat-messages li.right .chat-body
+{
+    margin-left: 60px;
+}
+
+
+#chat-messages li .chat-body p
+{
+    margin: 0;
+    color: #777777;
+}
+
+.panel .slidedown .glyphicon, .chat .glyphicon
+{
+    margin-right: 5px;
+}
+
+.loader{
+    display: none;
+}
+
+#mini-calendar .fc-center h2{
+    font-size: 14pt;
+    margin-top: 1em;
+    font-weight: bolder;
+}
+
+#aside-calendar{
+    overflow-y: auto;
+    max-height: 30em;   
+}
+
+.news{
+    margin: 2em;
+}
+
+.news .card{
+    border-radius: 1em;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    max-height: 6em;
+}
+
+.news .card img{
+    border-radius: 1em 0 0 1em;
+}
+
+.news .detail{
+    display: none;
+    border: 1px solid;
+    border-color: #ddd;
+    border-top: none;
+    border-radius: 2px;
+    padding-bottom: 1em;
+    padding-top: 1em;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
