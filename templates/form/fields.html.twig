@@ -1,6 +1,24 @@
 {% block map_picker_widget %}
-    <div id="map"></div>
-    <hr>
-    {{ form_widget(form) }}
-    
+	<div id="map"></div>
+	<hr>
+	{{ form_widget(form) }}
+
+{% endblock %}
+
+{% block field_to_fill_widget %}
+	<div id="img-field" class="col-11 text-center w-100">
+		<img class="w-100" src="{{ vich_uploader_asset(value, "imageFile") | imagine_filter('field') }}">
+	</div>
+{% endblock %}
+
+{% block field_template_position_widget %}
+	<div class="accordion" id="positions-list" data-prototype="
+            {% filter escape('html_attr') %}
+                {% include 'form/prototype_position.html.twig' with {form: form.vars.prototype, positionId: "__name__"} only %}
+            {% endfilter %}
+        " data-index="{{form|length}}">
+		{% for position in form %}
+			{% include 'form/prototype_position.html.twig' with {form: position, positionId: loop.index0} %}
+		{% endfor %}
+	</div>
 {% endblock %}

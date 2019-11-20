@@ -8,6 +8,9 @@ easy_admin:
             - '@EasyAdmin/form/bootstrap_4.html.twig'
             - 'form/fields.html.twig'
             - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
+        templates: 
+                edit: admin/edit_custom.html.twig
+                new: admin/new_custom.html.twig
         menu:
              - { label: 'Public Homepage', route: 'home', icon: 'home', target: '_blank'}
              - { label: 'Dashboard', icon: 'dashboard', route: 'home' } #change the route when the dashboard is ready
@@ -129,9 +132,6 @@ easy_admin:
                     - 'events'
         Event:
             class: App\Entity\Event
-            templates: 
-                edit: admin/event_edit_custom.html.twig
-                new: admin/event_new_custom.html.twig
             list:
                 fields: [id, tag, name, start, finish, { property: NbParticipationIn, label: Participations }, maxPlayers, active ]
             form: 
@@ -145,7 +145,7 @@ easy_admin:
                     - start
                     - finish
                     - { type: tab, label: Location, icon: search-location }
-                    - { type: group, label: map, icon: map, columns: 8, help: click two time on location to display the map.}
+                    - { type: group, label: map, icon: map, columns: 8}
                     - { property: location.value, type: text, label: Full adress, type_options: { block_prefix: 'map_picker'} }
                     - { type: group, columns: 4, label: Autocomplete, icon: magic }
                     - { property: location.type, type: text, label: Type, type_options: { attr: {readonly: true}} }
@@ -208,7 +208,10 @@ easy_admin:
             edit: 
                 fields:
                     - { type: tab, label: placement, icon: users }
-                    - {property: positions, type: collection, type_options: { by_reference: false, entry_type: App\Form\PositionType}}
+                    - { type: group, label: field, icon: images, columns: 7}
+                    - { property: imageToFill, type_options: { block_prefix: 'field_to_fill'} }
+                    - {type: group, label: positions, columns: 5}
+                    - {property: positions, label: '', type: collection, type_options: { by_reference: false, entry_type: App\Form\PositionType, block_prefix: field_template_position}}
         Gallery:
             class: App\Entity\Gallery
         Image:

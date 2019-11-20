@@ -1,0 +1,23 @@
+<div id="card-position-{{ positionId }}" class="card" data-id="{{ positionId }}">
+	<div class="card-header row" id="heading-{{ positionId }}">
+	<div class="col-10">
+    {{ form_widget(form.name, {'attr': {'data-toggle': 'collapse', 'data-target': "#collapse-"~positionId, 'aria-control': 'collapse-'~positionId }}) }}
+	</div>
+	<a href="#" data-id="{{ positionId}}" id="position-delete-{{positionId}}"><span class="fa fa-times text-primary"/></a>
+	</div>
+
+	<div id="collapse-{{ positionId }}" class="collapse" aria-labelledby="heading-{{ positionId }}" data-parent="#positions-list">
+		<div class="card-body">
+			<div data-id="{{ positionId }}" class="form-group">
+				{{ form_label(form.vertical) }}
+                {{ form_widget(form.vertical, {'attr': {'data-direction': 0, 'class':'range-vertical col-9'}}) }}
+				<input data-direction="0" type="number" min="0" max="100" step="1" class="form-control col-2 ml-2 range-text">
+			</div>
+			<div data-id="{{ positionId }}" class="form-group">
+				{{ form_label(form.horizontal) }}
+                {{ form_widget(form.horizontal, {'attr': {'data-direction': 1, 'class':'range-horizontal col-9'}}) }}
+				<input data-direction="1" type="number" min="0" max="100" step="1" class="form-control col-2 ml-2 range-text">
+			</div>
+		</div>
+	</div>
+</div>

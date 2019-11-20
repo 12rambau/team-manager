@@ -35,8 +35,8 @@ class FieldTemplate
     private $updateAt;
 
     /**
-    * @ORM\ManyToOne(targetEntity="App\Entity\Image", cascade={"persist"})
-    */
+     * @ORM\ManyToOne(targetEntity="App\Entity\Image", cascade={"persist"})
+     */
     private $image;
 
     /**
@@ -45,8 +45,8 @@ class FieldTemplate
     private $positions;
 
     /**
-    * @ORM\OneToMany(targetEntity="App\Entity\Field", mappedBy="template", cascade={"persist"}, orphanRemoval=true)
-    */
+     * @ORM\OneToMany(targetEntity="App\Entity\Field", mappedBy="template", cascade={"persist"}, orphanRemoval=true)
+     */
     private $fields;
 
     public function __construct()
@@ -176,6 +176,19 @@ class FieldTemplate
             }
         }
 
+        return $this;
+    }
+
+    //virtual functions to display the image of the fieldTemplate in easyadminbundle
+    
+    public function getImageToFill()
+    {
+        return $this->getImage();
+    }
+
+    public function setImageToFill()
+    {
+        //do nothing
         return $this;
     }
 }
