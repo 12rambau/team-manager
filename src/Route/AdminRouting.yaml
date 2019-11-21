@@ -2,30 +2,6 @@ admin-login:
     path: /login
     controller: App\Controller\AdminController::login
 
-template-index:
-    path: /template/index/{page}
-    controller: App\Controller\FieldController::index
-    defaults:
-        page: 1
-    requirements:
-        page: \d+
-
-template-view:
-    path: /template/view/{slug}
-    controller: App\Controller\FieldController::view
-
-template-add:
-    path: /template/add
-    controller: App\Controller\FieldController::add
-
-template-edit:
-    path: /template/edit/{slug}
-    controller: App\Controller\FieldController::edit
-
-template-delete:
-    path: /template/delete/{slug}
-    controller: App\Controller\FieldController::delete
-
 admin-contact-edit:
     path: /contact/edit
     controller: App\Controller\AdminController::EditContact
