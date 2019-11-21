@@ -18,7 +18,8 @@ class Position
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=20)
+     * @Assert\Regex(pattern="/\w/", message="name must be one word")
      */
     private $name;
 
