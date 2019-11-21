@@ -14,7 +14,8 @@ easy_admin:
         menu:
              - { label: 'Public Homepage', route: 'home', icon: 'home', target: '_blank'}
              - { label: 'Dashboard', icon: 'dashboard', route: 'home' } #change the route when the dashboard is ready
-             - { label: 'Club adress', entity: Location ,icon: 'address-card'}
+             - { label: 'Club adress', entity: Location ,icon: 'address-card', params: {
+                 action: search, query: contact}}
              - { label: 'Content' }
              - label: 'News'
                icon: 'rss'
@@ -239,6 +240,7 @@ easy_admin:
                     - value
                     - lat
                     - lng
+                    - tag
             form:
                 fields:
                     - { type: group, label: map, icon: map, columns: 8}

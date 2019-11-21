@@ -80,6 +80,10 @@ services:
             - { name: doctrine.event_listener, event: prePersist }
             - { name: doctrine.event_listener, event: preUpdate }
 
+    App\EventListener\LocationListener:
+        tags:
+            - { name: doctrine.event_listener, event: preRemove }
+
     App\Service\EmailService:
         arguments: 
             - '@swiftmailer.mailer.default'
