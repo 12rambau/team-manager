@@ -81,6 +81,12 @@ class Location
     */
     private $value;
 
+    public function __contruct(){
+        //Olympus coordinate (because it's cool)
+        $this->setLat('37.650130');
+        $this->setLng('21.626230');
+    }
+
     public function getId(): ?int
     {
         return $this->id;

@@ -14,6 +14,7 @@ easy_admin:
         menu:
              - { label: 'Public Homepage', route: 'home', icon: 'home', target: '_blank'}
              - { label: 'Dashboard', icon: 'dashboard', route: 'home' } #change the route when the dashboard is ready
+             - { label: 'Club adress', entity: Location ,icon: 'address-card'}
              - { label: 'Content' }
              - label: 'News'
                icon: 'rss'
@@ -44,8 +45,6 @@ easy_admin:
 
         assets:
             favicon: '/image/default/favicon_admin.png'
-            css: 
-                - css/admin/syle-easy-admin.css
     list:
         batch_actions: ['delete']
         title: 'List of %%entity_label%%'
@@ -234,11 +233,15 @@ easy_admin:
                     - { property: 'imageFile', type: 'file' }
         Location:
             class: App\Entity\Location
-            templates: 
-                edit: admin/location_edit_custom.html.twig
+            list:
+                fields:
+                    - id
+                    - value
+                    - lat
+                    - lng
             form:
                 fields:
-                    - { type: group, label: map, icon: map, columns: 8, help: We're still unable to display the leaflet map.}
+                    - { type: group, label: map, icon: map, columns: 8}
                     - { property: value, type: text, label: Full adress, type_options: { block_prefix: 'map_picker'} }
                     - { type: group, columns: 4, label: Autocomplete, icon: magic }
                     - { property: type, type: text, label: Type, type_options: { attr: {readonly: true}} }

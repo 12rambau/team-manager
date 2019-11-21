@@ -9,8 +9,8 @@
     {{ parent() }}
 
     <script type="text/javascript">
-        var lat = document.getElementById('event_location_lat');
-        var lng = document.getElementById('event_location_lng');
+        var lat = document.querySelector("[id$='location_lat']");    
+        var lng = document.querySelector("[id$='location_lng']");
         var locale = "{{ app.request.locale }}";
 		var algolia_place_app_id = "{{ algolia_place_app_id }}";
 		var algolia_place_api_id = "{{ algolia_place_api_id }}";
