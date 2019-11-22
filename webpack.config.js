@@ -24,6 +24,7 @@ Encore
     .addEntry('event', './assets/js/event.js')
     .addEntry('admin', './assets/js/admin.js')
     .addEntry('login', './assets/js/login.js')
+    .addEntry('event-view', './assets/js/event-view.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

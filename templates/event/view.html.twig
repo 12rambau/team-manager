@@ -1,243 +1,353 @@
 {% extends (app.token.providerKey == 'admin') ? 'admin.layout.html.twig': 'layout.html.twig' %}
 
-{% block title %}{{ event.slug }}{% endblock %}
+{% block title %}
+	{{ event.slug }}
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	{{ encore_entry_link_tags('event-view') }}
+{% endblock %}
 
 {% block page_title %}
-    <h1><span class="badge badge-{{ event.tag.color }}">{{event.tag.name|slice(0,3)|raw}}.</span> {{ event.name }}</h1>
+	<h1>
+		<span class="badge badge-{{ event.tag.color }}">{{event.tag.name|slice(0,3)|raw}}.</span>
+		{{ event.name }}</h1>
 {% endblock %}
 
 {% block content %}
 
-    <div class="card row">
-        <div class="card-body">
-            <p>
-                <span><i class="fas fa-calendar"></i></span> 
+	<div class="card">
+		<div class="card-body">
+			<p>
+				<span class="fas fa-calendar mr-1"/>
                 {{ event.start|date('d/m/Y h:i:s') }}
-            </p>
-            <p>
-                <span class=""><i class="fas fa-location-arrow"></i></span>
+			</p>
+			<p>
+				<span class="fas fa-location-arrow mr-1"/>
                 {{ event.location.value }}
-                <a style="margin-left: 15px" href="#map">map</a>
-                <input class="sr-only" id="event_location_lat" value="{{ event.location.lat }}"></input>
-                <input class="sr-only" id="event_location_lng" value="{{ event.location.lng }}"></input>
-            </p>
-            <p>
-                <span class=""><i class="fas fa-info"></i></span>
-                {{  event.info }}
-            </p>
-            <p>
-                <a href="{{ path('event-plannification', {'slug':event.slug}) }}">Prepare the match plan</a><br>
-                <a href="{{ path('result-view', {'slug':event.slug}) }}">See results</a>
-            </p>
-        </div>
-    </div>        
-    
-    <div class="card row">
-        <div class="card-body">
-            <h2 class="card-title">My Participation</h2>
+				<a class="ml-3" href="#map">
+					<span class="text-default mr-1">
+						Go to map
+					</span>
+					<span class="fa fa-arrow-right"/>
+				</a>
+				<input class="sr-only" id="event_location_lat" value="{{ event.location.lat }}"/>
+				<input class="sr-only" id="event_location_lng" value="{{ event.location.lng }}"/>
+			</p>
+			<p>
+				<span class="fas fa-info"/>
+				<span class="ml-1">
+					{{  event.info }}
+				</span>
+			</p>
+			<p>
+				<a href="{{ path('event-plannification', {'slug':event.slug}) }}" class="btn btn-sm btn-primary">
+					Prepare the match plan
+				</a>
+				<a href="{{ path('result-view', {'slug':event.slug}) }}" class="btn btn-sm btn-primary">
+					See results
+				</a>
+			</p>
 
-            {{ form_start(myFormInOut) }}
-                
-                {{ form_errors(myFormInOut) }} 
+			<hr>
 
-                <div class="form-group row">
-                    <div 
-                        id="button_participation_value_0" 
-                        class="btn 
-                        {% if myParticipation.value == 0 %}
-                            btn-outline-success
-                        {% else %}
-                            btn-success
-                        {% endif %}"
-                        onclick="changeCheckValue(this)"
+			<h2 class="card-title">My Participation</h2>
+
+			{{ form_start(myFormInOut) }}
+
+			{{ form_errors(myFormInOut) }}
+
+			<div class="form-group row">
+                <div>
+                    <img id="loading" class="loader" src="{{ asset('image/default/loading.svg') }}" alt="loading">
+                    <button 
+                        type="button" 
+                        id="my-radio-in" 
+                        data-radio-id="participation_value_0" 
+                        data-color="success" 
+                        class="
+                            custom-radio
+                            btn
+                            btn-{{ (not myParticipation.value)? 'outline-' }}success
+                        "
                     >
-                        <span class=""><i class="fas fa-thumbs-up"></i></span>
+                        <span class="fas fa-thumbs-up mr-1"/>
                         In
-                    </div>
-                    <div 
-                        id="button_participation_value_1" 
-                        class="btn 
-                        {% if myParticipation.value == 0 and myParticipation.lastUpdate != null %}
-                            btn-danger
-                        {% else %}
-                            btn-outline-danger
-                        {% endif %}"
-                        onclick="changeCheckValue(this)"
+                    </button>
+                    <button 
+                        type="button"
+                        id="my-radio-out"
+                        data-radio-id="participation_value_1" 
+                        data-color="danger"  
+                        class="
+                            custom-radio
+                            btn
+                            btn-{{ (myParticipation.value or not myParticipation.lastUpdate)? 'outline-' }}danger
+                        "
                     >
-                        <span class=""><i class="fas fa-thumbs-down"></i></span>
+                        <span class="fas fa-thumbs-down mr-1"/>
                         Out
-                    </div>
-                    {{ form_widget(myFormInOut.value, {'attr': {'class': 'form-check-inline'}}) }}
-                    {{ form_widget(myFormInOut.comment, {'attr': {'class': 'form-control col-7'}}) }}
-                    <button type="submit" name="particpation-update" class="btn btn-secondary">comment</button>
+                    </button>
                 </div>
+				{{ form_widget(myFormInOut.value, {'attr': {'class': 'form-check-inline'}}) }}
+				{{ form_widget(myFormInOut.comment, {'attr': {'class': 'form-control col-7'}}) }}
+				<button 
+                    type="submit" 
+                    name="particpation-update" 
+                    class="btn btn-secondary"
+                >
+					comment
+				</button>
+			</div>
 
-                {{ form_rest(myFormInOut) }}
+			{{ form_rest(myFormInOut) }}
 
-            {{ form_end(myFormInOut) }}    
-        </div>
-    </div>
+			{{ form_end(myFormInOut) }}
 
-    <hr/>
+		</div>
+	</div>
+
+	<hr>
 
     {{ form_start(formsInOut) }}
+    
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+		<li class="nav-item">
+			<a 
+                class="nav-link active" 
+                id="drag-tab" 
+                data-toggle="tab" 
+                href="#drag" 
+                role="tab" 
+                aria-controls="drag" 
+                aria-selected="true"
+            >
+                drag N Drop
+            </a>
+		</li>
+		<li class="nav-item">
+			<a 
+                class="nav-link" 
+                id="list-tab" 
+                data-toggle="tab" 
+                href="#list" 
+                role="tab" 
+                aria-controls="list" 
+                aria-selected="false"
+            >
+                List of players
+            </a>
+		</li>
+	</ul>
 
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" id="drag-tab" data-toggle="tab" href="#drag" role="tab" aria-controls="drag" aria-selected="true">drag N Drop</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="list-tab" data-toggle="tab" href="#list" role="tab" aria-controls="list" aria-selected="false">List of players</a>
-            </li>
+	<div class="tab-content" id="myTabContent">
+		<button type="submit" name="listParticpation-update" class="btn btn-block btn-success">
+            save changes
+        </button>
+        
+        <hr>
+        
+        <div class="tab-pane fade" id="list" role="tabpanel" aria-labelledby="list-tab">
 
-        </ul>
-        <div class="tab-content" id="myTabContent">
-            <button type="submit" name="listParticpation-update" class="btn btn-block btn-success">save changes</button>
-            <hr/>
-            <div class="tab-pane fade" id="list" role="tabpanel" aria-labelledby="list-tab">        
+			{{ form_errors(formsInOut) }}
 
-                {{ form_errors(formsInOut) }}
+			<table class="table">
+				<thead>
+					<tr>
+						<th>name</th>
+						<th>In/Out</th>
+						<th>Comment</th>
+						<th>
+							<span class="fas fa-clock"/>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for formInOut in formsInOut.participations %}
+						<tr>
+							<td>{{participations[loop.index0].user.username }}</td>
+							<td>
+								<button 
+                                    type="button"
+                                    id="button-participation-in-{{ loop.index0 }}"
+                                    data-radio-id="list_participation_participations_{{ loop.index0 }}_value_0" 
+                                    data-color="success" 
+                                    class="
+                                        custom-radio
+                                        btn
+                                        btn-{{ (not participations[loop.index0].value)? 'outline-' }}success
+									"
+                                >
+								    <span class="fas fa-thumbs-up"/>
+								</button>
+								<button
+                                    type="button"
+                                    id="button-participation-out-{{ loop.index0 }}" 
+                                    data-color="danger"
+                                    data-radio-id="list_participation_participations_{{ loop.index0 }}_value_1" 
+                                    class="
+                                        custom-radio
+                                        btn
+                                        btn-{{ (participations[loop.index0].value or not participations[loop.index0].lastUpdate)? 'outline-' }}danger
+									"
+                                >
+                                    <span class="fas fa-thumbs-down"/>
+								</button>
+                                <img id="loading" class="loader" src="{{ asset('image/default/loading.svg') }}" alt="loading">
+								{{ form_widget(formInOut.value, {'attr': {'class': 'form-chek-inline'}}) }}
 
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>name</th>
-                            <th>In/Out</th>
-                            <th>Comment</th>
-                            <th><span class=""><i class="fas fa-clock"></i></span></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for formInOut in formsInOut.participations %}
-                            <tr>
-                                <td>{{participations[loop.index0].user.username }}</td>
-                                <td>
-                                    <div 
-                                        id="button_list_participation_participations_{{ loop.index0 }}_value_0" 
-                                        class="btn 
-                                            {% if participations[loop.index0].value == 0 %}
-                                                btn-outline-success
-                                            {% else %}
-                                                btn-success
-                                            {% endif %}"
-                                        onclick="changeCheckValue(this)"
-                                    >
-                                        <span class=""><i class="fas fa-thumbs-up"></i></span>
-                                    </div>
-                                    <div 
-                                        id="button_list_participation_participations_{{ loop.index0 }}_value_1" 
-                                        class="btn 
-                                            {% if participations[loop.index0].value == 0 and participations[loop.index0].lastUpdate != null %}
-                                                btn-danger
-                                            {% else %}
-                                                btn-outline-danger
-                                            {% endif %}"
-                                        onclick="changeCheckValue(this)"
-                                    >
-                                        <span class=""><i class="fas fa-thumbs-down"></i></span>
-                                    </div>
-                                    {{ form_widget(formInOut.value, {'attr': {'class': 'form-chek-inline'}}) }}
-                                    
-                                </td>
-                                {% if participations[loop.index0].user == app.user %}
-                                    <td>{{ form_widget(formInOut.comment, {'attr': {'class': 'form-control'}}) }}</td> 
-                                {% else %}
-                                    <td>{{ form_widget(formInOut.comment, {'attr': {'class': 'form-control','readonly': 'true'}}) }}</td>
-                                {% endif %}
-                                <td>
-                                    {% if participations[loop.index0].lastUpdate %} 
-                                        {{participations[loop.index0].lastUpdate|date('d.m') }}
-                                    {% endif %}
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+							</td>
+                            <td>
+                                {{ form_widget(formInOut.comment, {'attr': {'class': 'form-control','readonly': (participations[loop.index0].user == app.user)}}) }}
+                            </td>
+							<td>
+								{% if participations[loop.index0].lastUpdate %}
+									{{participations[loop.index0].lastUpdate|date('d.m') }}
+								{% endif %}
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+
+			{{ form_rest(formsInOut) }}
             
-                {{ form_rest(formsInOut) }}
-
-            </div>
-            
-            <div class="tab-pane fade show active" id="drag" role="tabpanel" aria-labelledby="drag-tab">
-                <div class="alert alert-success" data-color="success">
-                    <h3 class="col-12">Of course I can come !</h3>
-                    <div id="drag-0" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="disableDrop(event)">
-                        <span><i class="fas fa-thumbs-up"></i></span>
-                        {% for participation in participations %}
-                            {% if participation.value == 1 %}
-                                <span id="{{ loop.index0 }}-drag-element" draggable="true" ondragstart="drag(event)" class="badge badge-secondary">{{ participation.user.username }}</span>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                </div>
-                <div class="alert alert-danger" data-color="danger">
-                    <h3 class="col-12">Sorry but not this time !</h3>
-                    <div id="drag-1" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="disableDrop(event)">
-                        <span><i class="fas fa-thumbs-down"></i></span>
-                        {% for participation in participations %}
-                            {% if participation.value == 0  and participation.lastUpdate != null %}
-                                <span id="{{ loop.index0 }}-drag-element" draggable="true" ondragstart="drag(event)" class="badge badge-secondary">{{ participation.user.username }}</span>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                </div>
-                <div class="alert alert-light">
-                    <h3 class="col-12">Not decided yet !</h3>
-                    <div id="drag-2">
-                        <span><i class="fas fa-question-circle"></i></span>
-                        {% for participation in participations %}
-                            {% if participation.lastUpdate == null %}
-                            <span id="{{ loop.index0 }}-drag-element" draggable="true" ondragstart="drag(event)" class="badge badge-secondary">{{ participation.user.username }}</span>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
         </div>
 
-    {{ form_end(formsInOut) }}
+		<div class="tab-pane fade show active" id="drag" role="tabpanel" aria-labelledby="drag-tab">
+			
+            <div class="alert alert-success" data-color="success">
+				<h3 class="col-12">
+                    Of course I can come !
+                </h3>
+				<div 
+                    id="drag-0" 
+                    ondrop="drop(event)" 
+                    ondragover="allowDrop(event)" 
+                    ondragleave="disableDrop(event)"
+                >
+                    <div>
+                        <span class="fas fa-thumbs-up"/>
+                    </div>
+					{% for participation in participations %}
+						{% if participation.value %}
+							<span 
+                                id="{{ loop.index0 }}-drag-element" 
+                                draggable="true" 
+                                ondragstart="drag(event)" 
+                                class="badge badge-secondary"
+                            >
+                                {{ participation.user.username }}
+                            </span>
+						{% endif %}
+					{% endfor %}
+				</div>
+			</div>
 
-    <div class="card row">
-        <div class="card-body">
-            <div id="map"></div>
-        </div>
-    </div>
+			<div class="alert alert-danger" data-color="danger">
+				<h3 class="col-12">
+                    Sorry but not this time !
+                </h3>
+				<div 
+                    id="drag-1" 
+                    ondrop="drop(event)" 
+                    ondragover="allowDrop(event)" 
+                    ondragleave="disableDrop(event)"
+                >
+					<div>
+						<span class="fas fa-thumbs-down"></span>
+					</div>
+					{% for participation in participations %}
+						{% if  not participation.value and participation.lastUpdate %}
+							<span 
+                                id="{{ loop.index0 }}-drag-element" 
+                                draggable="true" 
+                                ondragstart="drag(event)" 
+                                class="badge badge-secondary"
+                            >
+                                {{ participation.user.username }}
+                            </span>
+						{% endif %}
+					{% endfor %}
+				</div>
+			</div>
+			
+            <div class="alert alert-light">
+				<h3 class="col-12">
+                    Not decided yet !
+                </h3>
+				<div id="drag-2">
+					<div>
+						<span class="fas fa-question-circle"/>
+					</div>
+					{% for participation in participations %}
+						{% if not participation.lastUpdate %}
+							<span 
+                                id="{{ loop.index0 }}-drag-element" 
+                                draggable="true" 
+                                ondragstart="drag(event)" 
+                                class="badge badge-secondary"
+                            >
+                                {{ participation.user.username }}
+                            </span>
+						{% endif %}
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
 
+	{{ form_end(formsInOut) }}
+    
+    <div class="card">
+		<div class="card-body">
+			<div id="map"></div>
+		</div>
+	</div>
 {% endblock %}
 
-{% if app.token.providerKey != 'admin' %}
-    {% block aside %}
-        <div class="card">
-            <div class="card-header">
-                <p class="card-title"><span class="fas fa-filter"/>Other events</p>
-            </div>
-            <div class="card-body">
-                {{ render(controller('App\\Controller\\AsideController::event', {'slug': event.slug})) }}
-                <p><a href="{{ path('event-index', {}) }}">All other events</a></p>
-            </div>   
+{% block aside %}
+    <div class="card shadow">
+        <div class="card-header">
+            <p class="card-title">
+                <span class="fas fa-filter mr-1"/>
+                Other events
+            </p>
         </div>
-    {% endblock %}
-{% endif %}
+        <div class="card-body">
+            {{ render(controller('App\\Controller\\AsideController::event', {'slug': event.slug})) }}
+            <p>
+                <a href="{{ path('event-index', {}) }}">All other events</a>
+            </p>
+        </div>
+    </div>
+{% endblock %}
 
 {% block javascripts %}
-    {{ parent() }}
+	<script type="text/javascript">
+		var lat = document.getElementById('event_location_lat');
+        var lng = document.getElementById('event_location_lng');
+	</script>
 
+	{{ parent() }}
+    
+    {{ encore_entry_script_tags('event-view') }}
+    
     <script type="text/javascript">
-        function allowDrop(ev) {
+		function allowDrop(ev) {
             ev.preventDefault();
-            if (ev.target.id.match("drag-[0-2]"))
-            {
+            if (ev.target.id.match("drag-[0-2]")) {
                 var color = $(ev.target).parent().attr('data-color');
-                $(ev.target).parent().addClass("bg-"+color);
+                $(ev.target).parent().addClass("bg-" + color);
             }
         }
 
-        function disableDrop(ev){
+        function disableDrop(ev) {
             ev.preventDefault();
-            if(ev.target.id.match("drag-[0-2]"))
-            {
+            if (ev.target.id.match("drag-[0-2]")) {
                 var color = $(ev.target).parent().attr('data-color');
-                $(ev.target).parent().removeClass("bg-"+color);
+                $(ev.target).parent().removeClass("bg-" + color);
             }
         }
 
@@ -252,14 +362,10 @@
 
             var participationNumber = data.replace("-drag-element", "");
             var value = ev.target.id.replace("drag-", "");
-            document.getElementById("list_participation_participations_"+participationNumber+"_value_"+value).checked = true;
+            document.getElementById("list_participation_participations_" + participationNumber + "_value_" + value).checked = true;
 
             var color = $(ev.target).parent().attr('data-color');
-            $(ev.target).parent().removeClass("bg-"+color);
+            $(ev.target).parent().removeClass("bg-" + color);
         }
-    </script>
-
-    <script src="{{ asset('js/event/changeCheck.js') }}"></script>
-	<script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==" crossorigin=""></script>
-    <script src="{{ asset('js/event/leaferMap.js') }}"></script>
+	</script>
 {% endblock %}
