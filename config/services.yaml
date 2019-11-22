@@ -30,6 +30,7 @@ services:
     App\EventListener\UpdateTime:
         tags:
             - { name: doctrine.event_listener, event: preUpdate }
+            - { name: doctrine.event_listener, event: postUpdate }
 
     App\EventListener\CreateParticipations:
         tags:

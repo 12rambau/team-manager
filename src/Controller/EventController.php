@@ -21,6 +21,7 @@ use App\Entity\PersonnalStat;
 use App\Form\PersonnalStatType;
 use App\Form\ScoreType;
 use App\Entity\Score;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 
@@ -40,12 +41,16 @@ class EventController extends AbstractController
         $participations = $em->getRepository(Participation::class)->findTenByUser(($page - 1) * 10, $this->getUser());
         $form = $this->createForm(ListParticipationType::class, ['participations' => $participations]);
 
+        //Security as the form is managed through ajax
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
         }
 
+        $tags = $em->getRepository(EventTag::class)->findBy(['active' => true]);
+
         return $this->render('event/index.html.twig', [
+            'tags' => $tags,
             'events' => $events,
             'form' => $form->createView(),
             'participations' => $participations,
@@ -54,6 +59,34 @@ class EventController extends AbstractController
             'nbEventPerPage' => $nbEventPerPage,
             'maxPage' => ceil($nbEvent / $nbEventPerPage)
         ]);
+    }
+
+    public function updateIndex (int $page, Request $request) : JsonResponse
+    {
+        $status = false;
+
+        //TODO work only for 10 elements per page 
+        $em = $this->getDoctrine()->getManager();
+
+        // TODO: code enhancement
+        $participations = $em->getRepository(Participation::class)->findTenByUser(($page - 1) * 10, $this->getUser());
+        $form = $this->createForm(ListParticipationType::class, ['participations' => $participations]);
+
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $status = array();
+            foreach ($participations as $participation) {
+
+                $em->persist($participation);
+                //array_push($status, 'done'); //TODO for debug purpose
+            }
+            $em->flush();
+            $status = true; 
+        }
+
+        return new JsonResponse(['status' => $status]);
     }
 
     public function view(Event $event, Request $request): Response

@@ -73,30 +73,30 @@ class Event
     private $slug;
 
     /**
-    * @ORM\Column(type="datetime", nullable=false)
-    */
+     * @ORM\Column(type="datetime", nullable=false)
+     */
     private $publishDate;
 
     /**
-    * @ORM\ManyToOne(targetEntity="App\Entity\EventTag", inversedBy="events", cascade={"persist"})
-    * @Groups({"calendar"})
-    */
+     * @ORM\ManyToOne(targetEntity="App\Entity\EventTag", inversedBy="events", cascade={"persist"})
+     * @Groups({"calendar"})
+     */
     private $tag;
 
     /**
-    * @ORM\OneToOne(targetEntity="App\Entity\Location", cascade={"persist"}, orphanRemoval=true)
-    * @ORM\JoinColumn(nullable=false)
-    */
+     * @ORM\OneToOne(targetEntity="App\Entity\Location", cascade={"persist"}, orphanRemoval=true)
+     * @ORM\JoinColumn(nullable=false)
+     */
     private $location;
 
     /**
-    * @ORM\OneToMany(targetEntity="App\Entity\Participation", mappedBy="event", cascade={"persist"}, orphanRemoval=true)
-    */
+     * @ORM\OneToMany(targetEntity="App\Entity\Participation", mappedBy="event", cascade={"persist"}, orphanRemoval=true)
+     */
     private $participations;
 
     /**
-    * @ORM\OneToOne(targetEntity="App\Entity\Field", cascade={"persist"}, orphanRemoval=true)
-    */
+     * @ORM\OneToOne(targetEntity="App\Entity\Field", cascade={"persist"}, orphanRemoval=true)
+     */
     private $field;
 
     /**
@@ -109,15 +109,15 @@ class Event
     private $color;
 
     /**
-    * @ORM\OneToOne(targetEntity="App\Entity\Result", cascade={"persist"}, orphanRemoval=true)
-    */
+     * @ORM\OneToOne(targetEntity="App\Entity\Result", cascade={"persist"}, orphanRemoval=true)
+     */
     private $result;
 
     /**
-    * @ORM\OneToMany(targetEntity="App\Entity\PersonnalStat", mappedBy="event", cascade={"persist"}, orphanRemoval=true)
-    */
+     * @ORM\OneToMany(targetEntity="App\Entity\PersonnalStat", mappedBy="event", cascade={"persist"}, orphanRemoval=true)
+     */
     private $stats;
-    
+
     public function __construct()
     {
         $this->active = false;
@@ -131,8 +131,74 @@ class Event
 
     public function __toString()
     {
-        $date = ($this->start)?date_format($this->start, "Y-m-d"):"";
-        return $this->name." ".$date;
+        $date = ($this->start) ? date_format($this->start, "Y-m-d") : "";
+        return $this->name . " " . $date;
+    }
+
+    public function getNbParticipationIn(): int
+    {
+        $nbParticipant = 0;
+        foreach ($this->participations as $participation) {
+            if ($participation->getValue() == true)
+                $nbParticipant++;
+        }
+
+        return $nbParticipant;
+    }
+
+    public function getPlayers100(): int
+    {
+        $in = $this->getNbParticipationIn();
+        $max = $this->getMaxPlayers();
+        //TODO add a security if called when no maxPlayers
+        //TODO add explaination about the magicfunction
+        $percentage = 0;
+        if ($in < $max) {
+            $percentage = $in * 100 / $max;
+        }
+
+        return $percentage;
+    }
+
+    public function getOutbonds100(): int
+    {
+        $in = $this->getNbParticipationIn();
+        $max = $this->getMaxPlayers();
+        //TODO add a security if called when no maxPlayers
+        //TODO add explaination about the magicfunction
+        $percentage = 0;
+        if ($in > $max) {
+            $percentage = ($in - $max) * 100 / $in;
+        }
+
+        return $percentage;
+    }
+
+    public function getvalid100(): int
+    {
+        $in = $this->getNbParticipationIn();
+        $max = $this->getMaxPlayers();
+        //TODO add a security if called when no maxPlayers
+        //TODO add explaination about the magicfunction
+        $percentage = 0;
+        if ($in > $max) {
+            $percentage = $max * 100 / $in;
+        } elseif ($in == $max) {
+            $percentage = 100;
+        }
+
+        return $percentage;
+    }
+
+    public function getNbParticipationOut(): int
+    {
+        $nbParticipant = 0;
+        foreach ($this->participations as $participation) {
+            if ($participation->getValue() == false && $participation->getLastUpdate() != null)
+                $nbParticipant++;
+        }
+
+        return $nbParticipant;
     }
 
     public function getId(): ?int
@@ -234,9 +300,9 @@ class Event
     public function setSlug(): self
     {
         $slugify = new Slugify();
-        $date = ($this->start)?date_format($this->start, "Y-m-d"):"";
-        $this->slug = $slugify->slugify($this->name.$date);
-        
+        $date = ($this->start) ? date_format($this->start, "Y-m-d") : "";
+        $this->slug = $slugify->slugify($this->name . $date);
+
         return $this;
     }
 
@@ -294,29 +360,7 @@ class Event
         return $this;
     }
 
-    public function getNbParticipationIn(): int
-    {
-        $nbParticipant = 0;
-        foreach ($this->participations as $participation) 
-        {
-            if($participation->getValue() == true)
-                $nbParticipant++;
-        }
 
-        return $nbParticipant;
-    }
-
-    public function getNbParticipationOut(): int
-    {
-        $nbParticipant = 0;
-        foreach ($this->participations as $participation) 
-        {
-            if($participation->getValue() == false && $participation->getLastUpdate() != null)
-                $nbParticipant++;
-        }
-
-        return $nbParticipant;
-    }
 
     public function removeParticipation(Participation $participation): self
     {

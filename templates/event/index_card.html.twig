@@ -1,0 +1,195 @@
+<div id="card-event-{{ event.id }}" class="card m-3 shadow">
+	<div class="card-header">
+		<a href="{{ path('event-view', {'slug':event.slug}) }}">
+			<h3 class="card-title">
+				<span class="badge badge-{{ event.tag.color }} ml-1">
+                    {{event.tag.name|slice(0,3)|raw}}.
+                </span>
+				{{ event.name }}
+			</h3>
+		</a>
+	</div>
+
+	<div class="card-body">
+		<div class="row">
+			<div class="col-lg-2">
+                <div class="text-center">
+				    <div class="row">
+					    {{  event.start|date('D')}}.
+				    </div>
+				    <div class="row">
+					    <h2>{{ event.start|date('j') }}</h2>
+				    </div>
+                </div>
+				<div>
+					<h2>
+						<span id="nbPlayers-{{ index }}">
+                            {{ event.nbParticipationIn }}
+                        </span>
+						{% if event.maxPlayers %}
+							/
+                            <span id="maxPlayers-{{index}}">
+                                {{ event.maxPlayers }}
+                            </span>
+						{% endif %}
+					</h2>
+
+					{% if event.maxPlayers %}
+						<div id="progress-{{ index }}" class="progress">
+                            <div 
+                                id="progress-valid-{{ index }}" 
+                                class="progress-bar bg-success" 
+                                style="width: {{ event.valid100 }}%"
+                            ></div>
+                            <div 
+                                id="progress-players-{{ index }}" 
+                                class="progress-bar bg-warning" 
+                                style="width: {{ event.players100 }}%"
+                            ></div>
+                            <div 
+                                id="progress-outbonds-{{ index }}" 
+                                class="progress-bar bg-danger" 
+                                style="width: {{ event.outbonds100 }}%"
+                            ></div>
+						</div>
+					{% endif %}
+
+				</div>
+			</div>
+			<div class="col-lg-10">
+				<div class="row">
+					<div class="col">
+						<b>{{event.start|date('D h:i') }}
+							-
+							{{ event.finish|date('D h:i') }}</b>
+					</div>
+					<div class="col">
+						<div>
+							<button 
+                                type="button" 
+                                id="radio-button-in-{{ index }}" data-radio-id="list_participation_participations_{{ index }}_value_0" 
+                                data-color="success" 
+                                data-value="1" 
+                                data-index="{{ index }}" 
+                                data-username="{{ participations[index].user.username }}" 
+                                class=" 
+                                    custom-radio 
+                                    btn
+                                    btn-{{ (not participations[index].value)? 'outline-' }}success
+                                "
+                            >
+                                <span class="fas fa-thumbs-up mr-1"/>
+                                In
+							</button>
+							<button 
+                                type="button" 
+                                id="radio-button-out-{{ index }}" data-radio-id="list_participation_participations_{{ index }}_value_1" 
+                                data-color="danger" 
+                                data-value="0" 
+                                data-index="{{ index }}" 
+                                data-username="{{ participations[index].user.username }}" 
+                                class="
+                                    custom-radio 
+                                    btn
+                                    btn-{{ ( participations[index].value or not participations[index].lastUpdate)? 'outline-' }}danger
+                                "
+                            >
+                                <span class="fas fa-thumbs-down mr-1"/>
+                                Out
+							</button>
+                            <img id="loading-{{ index }}" class="loader" src="{{ asset('image/default/loading.svg') }}" alt="loading">
+						</div>
+
+						{{ form_widget(form.participations[index].value, {'attr': {'class': 'sr-only'}}) }}
+						{{ form_widget(form.participations[index].comment, {'attr': {'class': 'sr-only'}}) }}
+					</div>
+				</div>
+
+				<div class="row">
+					<span class="fas fa-info mr-1"></span>
+                    {{ event.info }}
+				</div>
+
+				<ul class="nav nav-tabs row" id="tab" role="tablist">
+					<li class="nav-item">
+						<a 
+                            class="nav-link active" 
+                            id="in-tab" 
+                            data-toggle="tab" 
+                            href="#tab-1-{{ index }}" 
+                            role="tab" 
+                            aria-controls="in" 
+                            aria-selected="true"
+                        >
+                            <span class="fas fa-thumbs-up mr-1"/>
+                            In
+							<span id="tab-in-{{ index }}" class="ml-1">
+                                {{ event.nbParticipationIn }}
+                            </span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a 
+                            class="nav-link" 
+                            id="out-tab" 
+                            data-toggle="tab" 
+                            href="#tab-0-{{ index }}" 
+                            role="tab" 
+                            aria-controls="out" 
+                            aria-selected="false"
+                        >
+							<span class="fas fa-thumbs-down mr-1"/>
+							Out
+							<span id="tab-out-{{ index }}" class="ml-1">
+                                {{ event.nbParticipationOut }}
+                            </span>
+						</a>
+					</li>
+				</ul>
+
+				<div class="row">
+					<div class="tab-content" id="tabContent">
+						<div 
+                            class="tab-pane fade show active" 
+                            id="tab-1-{{ index }}" 
+                            role="tabpanel" 
+                            aria-labelledby="in-tab"
+                        >
+							<div>
+								{% for participation in event.participations %}
+									{% if participation.value == 1 %}
+										<span 
+                                            id="badge-{{ participation.user.username }}-{{ index }}" 
+                                            class="badge badge-secondary"
+                                        >
+											{{ participation.user.username }}
+										</span>
+									{% endif %}
+								{% endfor %}
+							</div>
+						</div>
+						<div 
+                            class="tab-pane fade" 
+                            id="tab-0-{{ index }}" 
+                            role="tabpanel" 
+                            aria-labelledby="out-tab"
+                        >
+							<div>
+								{% for participation in event.participations %}
+									{% if participation.value == 0 and participation.lastUpdate != null %}
+										<span 
+                                            id="badge-{{ participation.user.username }}-{{ index }}" 
+                                            class="badge badge-secondary"
+                                        >
+											{{ participation.user.username }}
+										</span>
+									{% endif %}
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

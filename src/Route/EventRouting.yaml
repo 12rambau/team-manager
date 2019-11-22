@@ -6,6 +6,16 @@ event-index:
     requirements:
         page: \d+
 
+index-update:
+    path: /index/update/{page}
+    controller: App\Controller\EventController::updateIndex
+    defaults:
+        page: 1
+    requirements:
+        page: \d+
+    options:
+        expose: true
+
 event-view:
     path: /view/{slug}/
     controller: App\Controller\EventController::view

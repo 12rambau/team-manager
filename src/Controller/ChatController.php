@@ -39,7 +39,6 @@ class ChatController extends AbstractController
 
 
         return new JsonResponse($data);
-        
     }
 
     public function list(int $nbMessage = 30): Response
@@ -47,7 +46,7 @@ class ChatController extends AbstractController
 
         $em = $this->getDoctrine()->getManager();
         $totalMessage = $em->getRepository(ChatMessage::class)->countAll();
-        $messages = $em->getRepository(ChatMessage::class)->findBy([], null, $nbMessage, $totalMessage-$nbMessage);
+        $messages = $em->getRepository(ChatMessage::class)->findBy([], null, $nbMessage, $totalMessage - $nbMessage);
 
 
         return $this->render('chat/list.html.twig', [
@@ -62,8 +61,8 @@ class ChatController extends AbstractController
 
         $form = $this->createForm(ChatMessageType::class, $message);
 
-        return $this->render('chat/show.html.twig', [ 
-        'form' => $form->createView(), 
+        return $this->render('chat/show.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 }

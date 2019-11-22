@@ -12,7 +12,7 @@
 	<div class="container">
 		{% for post in posts %}
 			<div class="news">
-				<div class="card">
+				<div class="card shadow">
 					<div class="row">
 						<div class="col-4">
 							<img src="{{ asset('image/default/no-image-news.jpg')|imagine_filter('news') }}" class="w-100 h-100">
@@ -35,7 +35,7 @@
 						</div>
 					</div>
 				</div>
-				<div id="{{ post.slug }}-details" class="container detail col-11 clearfix">
+				<div id="{{ post.slug }}-details" class="container detail col-12 clearfix">
 					<div class="mr-2 card-text">
 						{{ post.short|slice(0,150)|raw}}
 					</div>

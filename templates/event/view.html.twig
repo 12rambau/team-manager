@@ -67,7 +67,7 @@
                         <span class=""><i class="fas fa-thumbs-down"></i></span>
                         Out
                     </div>
-                    {{ form_widget(myFormInOut.value, {'attr': {'class': 'form-check-inline sr-only'}}) }}
+                    {{ form_widget(myFormInOut.value, {'attr': {'class': 'form-check-inline'}}) }}
                     {{ form_widget(myFormInOut.comment, {'attr': {'class': 'form-control col-7'}}) }}
                     <button type="submit" name="particpation-update" class="btn btn-secondary">comment</button>
                 </div>
@@ -136,7 +136,7 @@
                                     >
                                         <span class=""><i class="fas fa-thumbs-down"></i></span>
                                     </div>
-                                    {{ form_widget(formInOut.value, {'attr': {'class': 'form-chek-inline sr-only'}}) }}
+                                    {{ form_widget(formInOut.value, {'attr': {'class': 'form-chek-inline'}}) }}
                                     
                                 </td>
                                 {% if participations[loop.index0].user == app.user %}
