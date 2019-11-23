@@ -170,7 +170,7 @@
 							<td>
 								<button 
                                     type="button"
-                                    id="button-participation-in-{{ loop.index0 }}"
+                                    id="button-participation-0-{{ loop.index0 }}"
                                     data-radio-id="list_participation_participations_{{ loop.index0 }}_value_0" 
                                     data-color="success" 
                                     class="
@@ -183,7 +183,7 @@
 								</button>
 								<button
                                     type="button"
-                                    id="button-participation-out-{{ loop.index0 }}" 
+                                    id="button-participation-1-{{ loop.index0 }}" 
                                     data-color="danger"
                                     data-radio-id="list_participation_participations_{{ loop.index0 }}_value_1" 
                                     class="
@@ -219,24 +219,20 @@
 			
             <div class="alert alert-success" data-color="success">
 				<h3 class="col-12">
+                    <span class="fas fa-thumbs-up mr-1"/>
                     Of course I can come !
                 </h3>
 				<div 
-                    id="drag-0" 
-                    ondrop="drop(event)" 
-                    ondragover="allowDrop(event)" 
-                    ondragleave="disableDrop(event)"
+                    id="drag-0"
+                    data-value="0"
+                    class="dropdown"
                 >
-                    <div>
-                        <span class="fas fa-thumbs-up"/>
-                    </div>
 					{% for participation in participations %}
 						{% if participation.value %}
 							<span 
-                                id="{{ loop.index0 }}-drag-element" 
-                                draggable="true" 
-                                ondragstart="drag(event)" 
-                                class="badge badge-secondary"
+                                id="{{ loop.index0 }}-drag-element"  
+                                data-user-index="{{ loop.index0 }}"
+                                class="badge badge-secondary draggable"
                             >
                                 {{ participation.user.username }}
                             </span>
@@ -247,24 +243,20 @@
 
 			<div class="alert alert-danger" data-color="danger">
 				<h3 class="col-12">
+                    <span class="fas fa-thumbs-down mr-1"/>
                     Sorry but not this time !
                 </h3>
 				<div 
                     id="drag-1" 
-                    ondrop="drop(event)" 
-                    ondragover="allowDrop(event)" 
-                    ondragleave="disableDrop(event)"
+                    data-value="1"
+                    class="dropdown"
                 >
-					<div>
-						<span class="fas fa-thumbs-down"></span>
-					</div>
 					{% for participation in participations %}
 						{% if  not participation.value and participation.lastUpdate %}
 							<span 
                                 id="{{ loop.index0 }}-drag-element" 
-                                draggable="true" 
-                                ondragstart="drag(event)" 
-                                class="badge badge-secondary"
+                                data-user-index="{{ loop.index0 }}"
+                                class="badge badge-secondary draggable"
                             >
                                 {{ participation.user.username }}
                             </span>
@@ -275,19 +267,16 @@
 			
             <div class="alert alert-light">
 				<h3 class="col-12">
+                    <span class="fas fa-question-circle mr-1"/>
                     Not decided yet !
                 </h3>
 				<div id="drag-2">
-					<div>
-						<span class="fas fa-question-circle"/>
-					</div>
 					{% for participation in participations %}
 						{% if not participation.lastUpdate %}
 							<span 
                                 id="{{ loop.index0 }}-drag-element" 
-                                draggable="true" 
-                                ondragstart="drag(event)" 
-                                class="badge badge-secondary"
+                                data-user-index="{{ loop.index0 }}"
+                                class="badge badge-secondary draggable"
                             >
                                 {{ participation.user.username }}
                             </span>
@@ -333,39 +322,4 @@
 	{{ parent() }}
     
     {{ encore_entry_script_tags('event-view') }}
-    
-    <script type="text/javascript">
-		function allowDrop(ev) {
-            ev.preventDefault();
-            if (ev.target.id.match("drag-[0-2]")) {
-                var color = $(ev.target).parent().attr('data-color');
-                $(ev.target).parent().addClass("bg-" + color);
-            }
-        }
-
-        function disableDrop(ev) {
-            ev.preventDefault();
-            if (ev.target.id.match("drag-[0-2]")) {
-                var color = $(ev.target).parent().attr('data-color');
-                $(ev.target).parent().removeClass("bg-" + color);
-            }
-        }
-
-        function drag(ev) {
-            ev.dataTransfer.setData("text", ev.target.id);
-        }
-
-        function drop(ev) {
-            ev.preventDefault();
-            var data = ev.dataTransfer.getData("text");
-            ev.target.appendChild(document.getElementById(data));
-
-            var participationNumber = data.replace("-drag-element", "");
-            var value = ev.target.id.replace("drag-", "");
-            document.getElementById("list_participation_participations_" + participationNumber + "_value_" + value).checked = true;
-
-            var color = $(ev.target).parent().attr('data-color');
-            $(ev.target).parent().removeClass("bg-" + color);
-        }
-	</script>
 {% endblock %}

@@ -5,7 +5,7 @@ import '../css/home.css';
 
 import $ from 'jquery';
 import 'bootstrap';
-import 'webpack-jquery-ui/effects';
+import 'jquery-ui/ui/effect';
 
 
 // Smooth scrolling using jQuery easing
