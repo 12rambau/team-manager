@@ -1,4 +1,5 @@
 //css
+import '../css/blog.css'
 
 //js
 import $ from 'jquery';

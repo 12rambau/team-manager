@@ -70,17 +70,8 @@ body {
     max-height: 30em;   
 }
 
-.news{
-    margin: 2em;
-}
-
 .news .card{
     max-height: 6em;
-    border-radius: 6px 0 0 6px;
-}
-
-.news .card img{
-    border-radius: 6px 0 0 6px;
 }
 
 .news .detail{
