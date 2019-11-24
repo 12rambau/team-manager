@@ -38,16 +38,16 @@ class PersonnalStat
     private $tag;
 
     /**
-    * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="stats")
+    * @ORM\ManyToOne(targetEntity="App\Entity\Participation", inversedBy="stats")
     * @ORM\Joincolumn(nullable=false)
     */
-    private $player;
+    private $participation;
 
-    /**
-    * @ORM\ManyToOne(targetEntity="App\Entity\Event", inversedBy="stats")
-    * @ORM\Joincolumn(nullable=false)
-    */
-    private $event;
+    public function __construct()
+    {
+        $this->setTimer(false);
+    }
+
 
     public function __toString()
     {
@@ -109,26 +109,14 @@ class PersonnalStat
         return $this;
     }
 
-    public function getPlayer(): ?User
+    public function getParticipation(): ?Participation
     {
-        return $this->player;
+        return $this->participation;
     }
 
-    public function setPlayer(?User $player): self
+    public function setParticipation(?Participation $participation): self
     {
-        $this->player = $player;
-
-        return $this;
-    }
-
-    public function getEvent(): ?Event
-    {
-        return $this->event;
-    }
-
-    public function setEvent(?Event $event): self
-    {
-        $this->event = $event;
+        $this->participation = $participation;
 
         return $this;
     }

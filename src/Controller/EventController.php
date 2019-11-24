@@ -21,6 +21,7 @@ use App\Entity\PersonnalStat;
 use App\Form\PersonnalStatType;
 use App\Form\ScoreType;
 use App\Entity\Score;
+use App\Form\ParticipationStatsType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -94,7 +95,7 @@ class EventController extends AbstractController
         $em = $this->getDoctrine()->getManager();
 
         $participations = $event->getParticipations();
-        $myParticipation = $em->getRepository(Participation::class)->FindByEventAndUsername($event, $this->getUser());
+        $myParticipation = $em->getRepository(Participation::class)->FindByEventAndUser($event, $this->getUser());
 
         $myFormInOut = $this->createForm(ParticipationType::class, $myParticipation);
         $formsInOut = $this->createForm(ListParticipationType::class, ['participations' => $participations]);
@@ -269,24 +270,22 @@ class EventController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $personnalStat = new PersonnalStat();
-        $form = $this->createForm(PersonnalStatType::class, $personnalStat, ['inEvent' => true]);
+        $participation = $em->getRepository(Participation::class)->FindByEventAndUser($event,$this->getUser());
+        $form = $this->createForm(ParticipationStatsType::class, $participation);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            ($personnalStat->getTimer()) ? $personnalStat->setValue(null) : $personnalStat->setTime(null);
-            $personnalStat->setEvent($event)->setPlayer($this->getUser());
-            $em->persist($personnalStat);
+            //no need for persist with the cascade in the entity definition
             $em->flush();
         }
 
         $result = $event->getResult();
 
-        $stats = $em->getRepository(PersonnalStat::class)->FindMyByEvent($event, $this->getUser());
+        //$stats = $em->getRepository(PersonnalStat::class)->FindMyByEvent($event, $this->getUser());
 
         return $this->render('event/viewResult.html.twig', [
             'event' => $event,
-            'stats' => $stats,
+            //'stats' => $stats,
             'result' => $result,
             'form' => $form->createView()
         ]);

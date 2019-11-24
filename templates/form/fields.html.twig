@@ -12,13 +12,32 @@
 {% endblock %}
 
 {% block field_template_position_widget %}
-	<div class="accordion" id="positions-list" data-prototype="
-            {% filter escape('html_attr') %}
-                {% include 'form/prototype_position.html.twig' with {form: form.vars.prototype, positionId: "__name__"} only %}
-            {% endfilter %}
-        " data-index="{{form|length}}">
+	<div 
+		class="accordion" 
+		id="positions-list" 
+		data-prototype="
+			{% filter escape('html_attr') %}
+				{% include 'form/prototype_position.html.twig' with {form: form.vars.prototype, positionId: " __name__"} only %}
+			{% endfilter %}
+		" 
+		data-index="{{form|length}}"
+	>
 		{% for position in form %}
 			{% include 'form/prototype_position.html.twig' with {form: position, positionId: loop.index0} %}
 		{% endfor %}
 	</div>
+{% endblock %}
+
+{% block switch_widget %}
+	<label class="switch">
+		<input 
+			type="checkbox"
+			data-index="{{ index }}" 
+			id="{{ form.vars.id }}" 
+			name="{{form.vars.name }}" 
+			value="{{ form.vars.value }}"
+			class="{{ (class)? class }}"
+		>
+		<span class="slider round"></span>
+	</label>
 {% endblock %}

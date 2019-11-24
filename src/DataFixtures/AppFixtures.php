@@ -16,6 +16,7 @@ use App\Entity\Comment;
 use App\Entity\FieldTemplate;
 use App\Entity\Image;
 use App\Entity\Position;
+use App\Entity\StatTag;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\File\File;
@@ -200,6 +201,19 @@ class AppFixtures extends Fixture
 
             $manager->persist($templates[$i]);
         }
+
+        //default resultTag
+        $statlTags = array(2);
+
+        $statlTags[0] = new StatTag();
+        $statlTags[0].setName('distance');
+        $statlTags[0].setUnity("m");
+        $manager->persist($statlTags[0]);
+
+        $statlTags[1] = new StatTag();
+        $statlTags[1].setName('chrono');
+        $statlTags[1].setUnity("");
+        $manager->persist($statlTags[1]);
 
         $manager->flush();
     }

@@ -90,7 +90,7 @@
                         Out
                     </button>
                 </div>
-				{{ form_widget(myFormInOut.value, {'attr': {'class': 'form-check-inline'}}) }}
+				{{ form_widget(myFormInOut.value, {'attr': {'class': 'form-check-inline sr-only'}}) }}
 				{{ form_widget(myFormInOut.comment, {'attr': {'class': 'form-control col-7'}}) }}
 				<button 
                     type="submit" 
@@ -195,11 +195,11 @@
                                     <span class="fas fa-thumbs-down"/>
 								</button>
                                 <img id="loading" class="loader" src="{{ asset('image/default/loading.svg') }}" alt="loading">
-								{{ form_widget(formInOut.value, {'attr': {'class': 'form-chek-inline'}}) }}
+								{{ form_widget(formInOut.value, {'attr': {'class': 'form-chek-inline sr-only'}}) }}
 
 							</td>
                             <td>
-                                {{ form_widget(formInOut.comment, {'attr': {'class': 'form-control','readonly': (participations[loop.index0].user == app.user)}}) }}
+                                {{ form_widget(formInOut.comment, {'attr': {'class': 'form-control','readonly': (participations[loop.index0].user != app.user)}}) }}
                             </td>
 							<td>
 								{% if participations[loop.index0].lastUpdate %}

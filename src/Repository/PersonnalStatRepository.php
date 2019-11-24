@@ -23,6 +23,7 @@ class PersonnalStatRepository extends ServiceEntityRepository
 
     //TODO check the utility of all thoses find function (not sure they are usefull)
 
+    /* obsolete
     public function FindMyByEvent(Event $event, User $player)
     {
         $qb = $this->createQueryBuilder('s');
@@ -38,6 +39,6 @@ class PersonnalStatRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
         
-    }
+    } */
 
 }

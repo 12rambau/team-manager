@@ -22,8 +22,8 @@ class ParticipationRepository extends ServiceEntityRepository
     }
 
     //TODO check the utility of all thoses find function (not sure they are usefull)
-
-    public function FindByEventAndUsername(Event $event, User $user)
+    
+    public function FindByEventAndUser(Event $event, User $user)
     {
         $qb = $this->createQueryBuilder('p');
 

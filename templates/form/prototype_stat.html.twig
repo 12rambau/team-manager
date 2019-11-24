@@ -1,0 +1,35 @@
+<tr>
+	<td>
+		{{ form_widget(form.tag, {'attr': {'class': 'form-control'}}) }}
+	</td>
+	<td>
+		{{ form_widget(form.timer, {'class':'time-value', 'index':index}) }}
+	</td>
+	<td>
+		<div id="time-selector-{{ index }}" class="{{ (form.timer.vars.checked)? 'form-group':"sr-only" }}">
+			<div class="input-group time" data-target-input="nearest" id="timepicker2">
+				<div class="input-group-prepend" data-target="#timepicker2" data-toggle="datetimepicker">
+					<span class="input-group-text">
+						<span class="fas fa-stopwatch"/>
+					</span>
+				</div>
+				{{ form_widget(form.time, {'attr': {'class': 'form-control datetimepicker-input', 'placeholder':'--:--:--', 'data-target':'#timepicker2'}}) }}
+			</div>
+		</div>
+		<div id="value-selector-{{ index }}" class="{{ (not form.timer.vars.checked)? 'form-group':"sr-only" }}">
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text">
+						<span class="fas fa-table"/>
+					</span>
+				</div>
+				{{ form_widget(form.value, {'attr': {'class': 'form-control', 'placeholder':'--'}}) }}
+			</div>
+		</div>
+	</td>
+	<td>
+		<button type="button" class=" btn btn-danger delete-stat">
+			<span class="fas fa-trash"/>
+		</button>
+	</td>
+</tr>

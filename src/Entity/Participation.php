@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -47,10 +49,17 @@ class Participation
      */
     private $position;
 
+    /**
+    * @ORM\OneToMany(targetEntity="App\Entity\PersonnalStat", mappedBy="participation", cascade={"persist"}, orphanRemoval=true)
+    * @ORM\JoinColumn(nullable=true)
+    */
+    private $stats;
+
     public function __construct()
     {
         $this->lastUpdate = null;
         $this->value = null;
+        $this->stats = new ArrayCollection();
     }
 
     public function __toString()
@@ -131,6 +140,37 @@ class Participation
     public function setPosition(?Position $position): self
     {
         $this->position = $position;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PersonnalStat[]
+     */
+    public function getStats(): Collection
+    {
+        return $this->stats;
+    }
+
+    public function addStat(PersonnalStat $stat): self
+    {
+        if (!$this->stats->contains($stat)) {
+            $this->stats[] = $stat;
+            $stat->setParticipation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStat(PersonnalStat $stat): self
+    {
+        if ($this->stats->contains($stat)) {
+            $this->stats->removeElement($stat);
+            // set the owning side to null (unless already changed)
+            if ($stat->getParticipation() === $this) {
+                $stat->setParticipation(null);
+            }
+        }
 
         return $this;
     }

@@ -1,6 +1,11 @@
 import $ from 'jquery';
 
 //function to change the radio button according to nicer link designed with bootstrap
+
+/**
+ * 
+ * @param {HTMLElement} item the element button that has been checked
+ */
 export function changeCheckValue(item) { // unselect all the other item
     $(item).parent().find("i").attr('class', 'far fa-square');
     var divs = $(item).parent().find("div");
@@ -16,6 +21,10 @@ export function changeCheckValue(item) { // unselect all the other item
 
 //TODO reduce code length using jquery
 
+/**
+ * 
+ * @param {HTMLElement} element the check-all  DOM element
+ */
 export function checkAll(element) {
 
     var nbButton = $("#tag-list").data('tags');
@@ -42,6 +51,10 @@ export function checkAll(element) {
     testAllCheck();
 }
 
+/**
+ * 
+ * @param {HTMLElement} element the checked button
+ */
 export function checkButton(element) {
    
     var color = $(element).data('color');

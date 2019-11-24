@@ -1,134 +1,105 @@
 {% extends 'layout.html.twig' %}
 
-{% block title %}view results{% endblock %}
+{% block title %}view results
+{% endblock %}
 
 {% block page_title %}
-    <h1><span class="badge badge-{{ event.tag.color }}">{{event.tag.name|slice(0,3)|raw}}.</span> {{ event.name }} - Results</h1>
+	<h1>
+		<span class="badge badge-{{ event.tag.color }}">{{event.tag.name|slice(0,3)|raw}}.</span>
+		{{ event.name }}
+		- Results
+	</h1>
 {% endblock %}
 
 {% block content %}
 
-    <h3>Score</h3>
-    {% if result.score  %}
-        <h3 class="text-center">
-            <span style="margin-right:2em">{{ club_name }}</span>
-            <span>{{ result.score.our }} - {{ result.score.their }}</span>  
-            <span style="margin-left:2em">{{ result.score.opponent }}</span>
-            <span style="margin-left:2em">
-                <i class="fas fa-{{ (result.score.win)?'trophy':'sad-tear' }}"></i>
-            </span>
-        </h3>
-    {% else %}
-        No score for now !
-    {% endif %}
-    <hr>
+	{# the score to display #}
+	<div class="card shadow mb-2" id="score">
+		<div class="card-body">
+			{% if result.score  %}
+				<h3 class="text-center">
+					<span style="margin-right:2em">{{ club_name }}</span>
+					<span>{{ result.score.our }}
+						-
+						{{ result.score.their }}</span>
+					<span style="margin-left:2em">{{ result.score.opponent }}</span>
+					<span style="margin-left:2em">
+						<i class="fas fa-{{ (result.score.win)?'trophy':'sad-tear' }}"></i>
+					</span>
+				</h3>
+			{% else %}
+				No score for now !
+			{% endif %}
+		</div>
+	</div>
 
-    <h3>Result files</h3>
-    {% if result.files %}
-        toto
-    {% else %}
-        No result filesfor now !
-    {% endif %}
-    <hr>
+	{# the files that represent the result #}
+	<div class="card shadow mb-2" id="result-file">
+		<div class="card-header">
+			<h4>Result files</h4>
+		</div>
+		<div class="card-body">
+			{% if result.files %}
+				toto
+			{% else %}
+				No result filesfor now !
+			{% endif %}
+		</div>
+	</div>
 
-    <h3>My personnal results</h3>
-    {% if stats %}
-        <table class="table">
-            <tr>
-                <th>name</th>
-                <th>value</th>
-                <th>action</th>
-                {% for stat in stats %}
-                    <tr>
-                        <td>{{ stat.tag.name }}</td>
-                        <td>{{ (stat.timer) ? stat.time|date('H:i:s') : stat.value }} {{ stat.tag.unity }}</td>
-                        <td>
-                            <a class="btn btn-outline-danger" href="{{ path('result-delete', {'id':stat.id}) }}">
-                                <i class="fas fa-trash"></i>
-                            </a>
-                        <td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% endif %}
+	{# my personnal results #}
+	<div class="card shadow mb-2" id="personnal-result">
+		<div class="card-header">
+			<h4>My personnal results</h4>
+		</div>
+		<div class="card-body">
+			{{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
 
-    {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+			<button typ="submit" name="stat-add" class=" btn btn-block btn-primary">
+				submit
+			</button>
 
-    {{ form_errors(form) }}
+			{{ form_errors(form) }}
+			<table 
+				id="table-stat"
+				class="table" 
+				data-index="{{ form.stats|length }}"
+				data-prototype="
+            		{% filter escape('html_attr') %}
+                		{% include 'form/prototype_stat.html.twig' with {'form': form.stats.vars.prototype, 'index':'__name__'} only %}
+					{% endfilter %}
+				"
+			>
+				<tr>
+					<th>name</th>
+					<th>timer</th>
+					<th>value</th>
+					<th>action</th>
+				</tr>
+				{% for stat in form.stats %}
+					{% include 'form/prototype_stat.html.twig'  with {'form': stat, 'index':loop.index0} only %}
+				{% endfor %}
+			</table>
 
-    <div class="form-row align-items-center">
-        
-        <div class="form-group col-auto">
-            {{ form_widget(form.tag, {'attr': {'class': 'form-control'}}) }}
-        </div>
 
-        <div class="form-group col-auto">
-            {{ form_widget(form.timer, {'attr': {'class': 'd-none' }}) }}
-        </div>
+			<a 
+				id="add-stat"
+				href="#" 
+				class="text-primary"
+				data-group="table-stat">
+				<span class="fa fa-plus mr-1"/>
+				Add another stat 
+			</a>
 
-        <div class="form-group">
-            <div id="select_result_type" class="btn btn-outline-primary" onclick="changeCheckValue(this)">
-                <i class="far fa-stopwatch"></i>
-            </div>
-        </div>
+			{{ form_rest(form)}}
 
-        <div id="time-selector" class="d-none">
-                <div class="input-group time" data-target-input="nearest" id="timepicker2">
-                    <div class="input-group-prepend" data-target="#timepicker2" data-toggle="datetimepicker">
-                        <span class="input-group-text">
-                            <i class="fas fa-stopwatch"></i>
-                        </span>
-                    </div>
-                    {{ form_widget(form.time, {'attr': {'class': 'form-control datetimepicker-input', 'placeholder':'--:--:--', 'data-target':'#timepicker2'}}) }}
-                </div>
-            </div>
-        
-        <div id="value-selector" class="form-group col-auto">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fas fa-table"></i></span>
-                </div>
-                {{ form_widget(form.value, {'attr': {'class': 'form-control', 'placeholder':'--'}}) }}
-            </div> 
-        </div>
-
-        {{ form_rest(form)}}
-
-        <button typ="submit" name="stat-add" class=" form-group btn btn-primary">submit</button>
-
-    </div>
-
-    {{ form_end(form) }}
+			{{ form_end(form) }}
+		</div>
+	</div>
 
 {% endblock %}
 
 {% block javascripts %}
-    {{ parent() }}
-
-    <script type="text/javascript">
-        //function to change the radio button according to nicer link designed with bootstrap
-        function changeCheckValue(item) {
-
-            var value = document.getElementById('value-selector');
-            var time = document.getElementById('time-selector')
-
-            if ($(item).attr('data-checked') == 'checked')
-            {
-                $(item).attr('class', 'btn btn-outline-primary');
-                $(item).attr('data-checked', 'unchecked');
-                document.getElementById('personnal_stat_timer').checked = false;
-                $(value).attr('class', 'form-group col-auto');
-                $(time).attr('class', 'd-none');
-            } else {
-                $(item).attr('class', 'btn btn-primary');
-                $(item).attr('data-checked', 'checked');
-                document.getElementById('personnal_stat_timer').checked = true;
-                $(value).attr('class', 'd-none');
-                $(time).attr('class', 'form-group col-auto');
-            }
-        }
-    </script>
-
-    <script src="{{ asset('js/event/timepicker.js') }}"></script>
+	{{ parent() }}
+	{{ encore_entry_script_tags('event-view') }}
 {% endblock %}

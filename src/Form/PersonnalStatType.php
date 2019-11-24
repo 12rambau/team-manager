@@ -29,7 +29,9 @@ class PersonnalStatType extends AbstractType
                     ]
                 )
                 ->add('value')
-                ->add('timer')
+                ->add('timer',null,[
+                    'block_prefix' => 'switch'
+                ])
                 ->add('time', TimeType::class, [
                     'widget' => 'single_text',
                     'required' => false

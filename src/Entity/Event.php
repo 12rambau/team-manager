@@ -113,11 +113,6 @@ class Event
      */
     private $result;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\PersonnalStat", mappedBy="event", cascade={"persist"}, orphanRemoval=true)
-     */
-    private $stats;
-
     public function __construct()
     {
         $this->active = false;
@@ -125,7 +120,6 @@ class Event
         $this->publishDate = new \DateTime();
         $this->participations = new ArrayCollection();
         $this->result = new Result();
-        $this->stats = new ArrayCollection();
         $this->field = new Field();
     }
 
@@ -395,37 +389,6 @@ class Event
     public function setResult(?Result $result): self
     {
         $this->result = $result;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|PersonnaStat[]
-     */
-    public function getStats(): Collection
-    {
-        return $this->stats;
-    }
-
-    public function addStat(PersonnalStat $stat): self
-    {
-        if (!$this->stats->contains($stat)) {
-            $this->stats[] = $stat;
-            $stat->setEvent($this);
-        }
-
-        return $this;
-    }
-
-    public function removeStat(PersonnalStat $stat): self
-    {
-        if ($this->stats->contains($stat)) {
-            $this->stats->removeElement($stat);
-            // set the owning side to null (unless already changed)
-            if ($stat->getEvent() === $this) {
-                $stat->setEvent(null);
-            }
-        }
 
         return $this;
     }
