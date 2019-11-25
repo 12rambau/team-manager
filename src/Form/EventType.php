@@ -22,41 +22,51 @@ class EventType extends AbstractType
         $builder
             ->add('tag', EntityType::class, [
                 'class' => EventTag::class,
-                'query_builder' => function (EventTagRepository $rep){
+                'query_builder' => function (EventTagRepository $rep) {
                     return $rep->queryActivated();
                 },
-                'choice_label'=>'name',
-                'expanded'=>true,
-                'multiple'=>false
+                'choice_label' => 'name',
+                'expanded' => true,
+                'multiple' => false,
+                'block_prefix' => 'tag_choice'
             ])
             ->add('name')
-            ->add('start', DateTimeType::class,[
-                'date_widget'=>'single_text',
-                'time_widget'=>'single_text',
-                'date_format'=>'MM/dd/yyyy h:mm a'
+            ->add(
+                'start',
+                DateTimeType::class,
+                [
+                    'date_widget' => 'single_text',
+                    'time_widget' => 'single_text',
+                    //'date_format' => 'MM/dd/yyyy h:mm a',
+                    'empty_data' => '',
                 ]
             )
-            ->add('finish', DateTimeType::class,[
-                'date_widget'=>'single_text',
-                'time_widget'=>'single_text',
-                'date_format'=>'MM/dd/yyyy h:mm a'
+            ->add(
+                'finish',
+                DateTimeType::class,
+                [
+                    'date_widget' => 'single_text',
+                    'time_widget' => 'single_text',
+                    //'date_format' => 'MM/dd/yyyy h:mm a'
                 ]
             )
-            ->add('registerFinish', DateTimeType::class,[
-                'date_widget'=>'single_text',
-                'time_widget'=>'single_text',
-                'required'=>false,
-                'date_format'=>'MM/dd/yyyy h:mm a'
+            ->add(
+                'registerFinish',
+                DateTimeType::class,
+                [
+                    'date_widget' => 'single_text',
+                    'time_widget' => 'single_text',
+                    'required' => false,
+                    'date_format' => 'MM/dd/yyyy h:mm a'
                 ]
             )
-            ->add('info', null,[
-                'required'=>false
+            ->add('info', null, [
+                'required' => false
             ])
-            ->add('maxPlayers', null,[
-                'required'=>false
+            ->add('maxPlayers', null, [
+                'required' => false
             ])
-            ->add('location', LocationType::class, ['hidden' => true])
-        ;
+            ->add('location', LocationType::class, ['hidden' => true]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

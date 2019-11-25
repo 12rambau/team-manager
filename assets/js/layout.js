@@ -6,7 +6,6 @@ import $ from 'jquery';
 import * as miniCalendar from './calendar/minicalendar';
 import * as navbar from './layout/navbar';
 import * as chat from './layout/chat';
-import * as custom from './layout/customButton';
 
 //display the mini calendar
 $(function () {
@@ -26,9 +25,5 @@ $("#chevron").click(function(e) {
 $("#chat-submit").click(function() {
     chat.submitChat(e);
 });
-
-/*$('.custom-radio').click(function(){
-    custom.checkCustomRadio(this);
-})*/
     
 

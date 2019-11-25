@@ -17,7 +17,7 @@ class TagType extends AbstractType
             ->add('color', ChoiceType::class,[
                 'expanded' => false,
                 'multiple' => false,
-                'choices' => EventTag::COLORS
+                'choices' => EventTag::COLORS,
             ])
         ;
     }

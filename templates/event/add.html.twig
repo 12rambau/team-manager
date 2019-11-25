@@ -19,21 +19,11 @@
 	{{ form_errors(form) }}
 
 	<div class="form-group row">
-		{{ form_label(form.tag, "tag:", {'label_attr': {'class': 'col-lg-2 col-form-label'}}) }}
-		<div class="col-10 row">
-			{% for tag in tags %}
-				<div id="select_event_tag_{{ tag.id }}" class="btn btn-outline-{{ tag.color }}" data-color="{{ tag.color }}">
-					<span class="">
-						<i class="far fa-square"></i>
-					</span>
-					{{ tag.name}}
-				</div>
-			{% endfor %}
+		{{ form_label(form.tag, "Tag: ", {'label_attr': {'class':'col-lg-2 col-form-label'}}) }}
+		<div class="col-lg-10">
+			{{ form_widget(form.tag, {'tags':tags}) }}
 		</div>
 	</div>
-
-
-	{{ form_widget(form.tag, {'attr': {'class':'sr-only'}}) }}
 
 	<div class="form-group row">
 		{{ form_label(form.name, "event name: ", {'label_attr': {'class':'col-lg-2 col-form-label'}}) }}
@@ -167,13 +157,16 @@
 		</div>
 	</div>
 
-	{{ form_rest(form) }}
+
 	<hr>
 	<button class="btn btn-primary btn-block" name="event-add" type="submit">add new event</button>
+
+	{{ form_rest(form) }}
 
 	{{ form_end(form) }}
 
 {% endblock %}
+
 
 {% block javascripts %}
 	{{ parent() }}

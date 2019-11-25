@@ -22,20 +22,19 @@ $(function () {
 });
 
 $(".draggable").draggable({
+    cursor: "move",
     snap: '.dropdown',
     revert: 'invalid'
 });
 
 $(".dropdown").droppable({
     drop: function(event,ui){
-        view.drop(ui.draggable, this);
+        view.drop(ui, this);
     },
     activate: view.changeBg(this),
     deactivate: view.changeBg(this),
 
 });
-
-//add the datetimpicker 
 
 $("#add-stat").click(function(event){
     event.preventDefault();

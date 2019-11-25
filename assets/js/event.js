@@ -11,7 +11,6 @@ import * as tag from './event/tag';
 import * as leaflet from './event/leaferMap';
 import * as autoload from './event/algolia';
 import * as index from './event/index';
-import * as custom from './layout/customButton';
 
 //global function just for tempus-dominus TODO wait for evolution
 global.jQuery = jQuery;
@@ -30,22 +29,7 @@ $("[id$='location_lat']").change(function () {
     leaflet.moveMarker();
 });
 
-$("[id^='select_event_tag_']").click(function () {
-    tag.changeCheckValue(this);
+$('input[id^="list_participation_participations"]').change(function () {
+    index.updateIndex(this);
 });
-
-$("#check-all-tag").click(function () {
-    tag.checkAll(this);
-});
-
-$("[id^='tag-button-']").click(function () {
-    tag.checkButton(this);
-})
-
-$("[id^='radio-button-']").click(function () {
-    if (!$(this).hasClass('validated')) {
-        index.updateIndex(this);
-        custom.checkCustomRadio(this);
-    }
-})
 

@@ -225,14 +225,14 @@
 				<div 
                     id="drag-0"
                     data-value="0"
-                    class="dropdown"
+                    class="dropdown pt-5"
                 >
 					{% for participation in participations %}
 						{% if participation.value %}
 							<span 
                                 id="{{ loop.index0 }}-drag-element"  
                                 data-user-index="{{ loop.index0 }}"
-                                class="badge badge-secondary draggable"
+                                class="badge badge-pill badge-light border draggable"
                             >
                                 {{ participation.user.username }}
                             </span>
@@ -249,14 +249,14 @@
 				<div 
                     id="drag-1" 
                     data-value="1"
-                    class="dropdown"
+                    class="dropdown pt-5"
                 >
 					{% for participation in participations %}
 						{% if  not participation.value and participation.lastUpdate %}
 							<span 
                                 id="{{ loop.index0 }}-drag-element" 
                                 data-user-index="{{ loop.index0 }}"
-                                class="badge badge-secondary draggable"
+                                class="badge badge-pill badge-light border draggable"
                             >
                                 {{ participation.user.username }}
                             </span>
@@ -276,7 +276,7 @@
 							<span 
                                 id="{{ loop.index0 }}-drag-element" 
                                 data-user-index="{{ loop.index0 }}"
-                                class="badge badge-secondary draggable"
+                                class="badge badge-pill badge-light border draggable"
                             >
                                 {{ participation.user.username }}
                             </span>

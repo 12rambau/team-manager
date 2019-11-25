@@ -1,6 +1,7 @@
 import $ from 'jquery';
 
 function moveBadge(index, username, value) {
+
     // check if the badge exist, if not create a new one
     var badge;
     if (!$("#badge-" + username + "-" + index).length) {
@@ -19,6 +20,8 @@ function moveBadge(index, username, value) {
     var tabOut = $("#tab-out-" + index);
     var out = parseInt(tabOut.text(), 10);
 
+    //alert(value);
+    value = parseInt(value, 10);
     if (value) {
         ok++;
         out = (out <= 1) ? 0 : out - 1;
@@ -26,7 +29,6 @@ function moveBadge(index, username, value) {
         ok = (ok <= 1) ? 0 : ok - 1;
         out++;
     }
-
 
     //update numbers in tabs
     tabIn.text(ok);
@@ -37,16 +39,11 @@ function moveBadge(index, username, value) {
 function updateParticipant(index, value, username) {
 
     // set  +value on the number of participant (value should be true or false)
-    var nbPlayers = parseInt($("#nbPlayers-" + index).text(), 10);
-    if (value) {
-        $("#nbPlayers-" + index).text(nbPlayers + 1);
-    } else {
-        if ($("#badge-" + username + "-" + index).length)
-            $("#nbPlayers-" + index).text(nbPlayers - 1);
-    }
+    var tabIn = $("#tab-in-" + index);
+    var nbPlayers = parseInt(tabIn.text(), 10);
+    $('#nbPlayers-' + index).text(nbPlayers)
 
     //check the maximum and change the bar appropriately 
-    nbPlayers = parseInt($("#nbPlayers-" + index).text(), 10);
     var maxPlayers = parseInt($("#maxPlayers-" + index).text(), 10);
 
     var players100 = 0;
@@ -65,20 +62,29 @@ function updateParticipant(index, value, username) {
     $("#progress-valid-" + index).css('width', Math.floor(valid100) + "%");
 }
 
+/**
+ * 
+ * @param {HTMLElement} element the input triggered to change my participation
+ */
 function updateParticipation(element) {
 
-    var index = $(element).data('index');
-    var username = $(element).data('username');
-    var value = $(element).data('value')
+    var index = $(element).parent().parent().data('index');
+    var username = $(element).parent().parent().data('username');
+    var value = $(element).val();
 
-    updateParticipant(index, value, username);
+    //alert(index+' '+username+' '+value);
+
     moveBadge(index, username, value);
-
+    updateParticipant(index, value, username);
 }
 
+/**
+ * 
+ * @param {HTMLElement} element the input triggered to change my participation
+ */
 export function updateIndex(element) {
 
-    var index = $(element).data('index');
+    var index = $(element).parent().parent().data('index');
 
     var form = $("form");
     var page = form.data("page");
@@ -104,7 +110,7 @@ export function updateIndex(element) {
                 // signal to user the action is done
                 $('#loading-' + index).hide();
             }
-            console.log("status ="+data['status']); //TODO for debug purpose
+            console.log("status =" + data['status']); //TODO for debug purpose
         }
     });
 }
