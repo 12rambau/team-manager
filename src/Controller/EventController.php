@@ -198,29 +198,14 @@ class EventController extends AbstractController
 
     public function showCalendar(int $timestamp = null): Response
     {
-
-        // getting the monday corresponding to the given date
-        $targetMonday = ($timestamp) ? new \DateTime('@' . $timestamp) : new \DateTime();
-        $targetMonday->sub(new \DateInterval("P" . (date('N', $targetMonday->getTimestamp()) - 1) . "D"));
-        $targetMonday->setTime(0, 0, 0);
-
-        //getting all the event concerning this period
         $em = $this->getDoctrine()->getManager();
-        $events = $em->getRepository(Event::class)->findWeeklyEvent($targetMonday);
-
         $tags = $em->getRepository(EventTag::class)->findBy(['active' => true]);
 
-        //separate them for each day of the week 
-        $weeklyEvents = CalendarBox::getWeeklyBoxes($targetMonday, $events);
-
         return $this->render('event/calendar.html.twig', [
-            'targetMonday' => $targetMonday,
-            'events' => $events,
-            'weeklyEvents' => $weeklyEvents,
             'tags' => $tags
         ]);
     }
-
+    
     public function getEvents(Request $request): Response
     {
         $start = new \DateTime($request->query->get('start')); //change start into DateTime
@@ -291,11 +276,8 @@ class EventController extends AbstractController
 
         $result = $event->getResult();
 
-        //$stats = $em->getRepository(PersonnalStat::class)->FindMyByEvent($event, $this->getUser());
-
         return $this->render('event/viewResult.html.twig', [
             'event' => $event,
-            //'stats' => $stats,
             'result' => $result,
             'form' => $form->createView()
         ]);
