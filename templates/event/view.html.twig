@@ -21,11 +21,11 @@
 		<div class="card-body">
 			<p>
 				<span class="fas fa-calendar mr-1"/>
-                {{ event.start|date('d/m/Y h:i:s') }}
+				{{ event.start|date('d/m/Y h:i:s') }}
 			</p>
 			<p>
 				<span class="fas fa-location-arrow mr-1"/>
-                {{ event.location.value }}
+				{{ event.location.value }}
 				<a class="ml-3" href="#map">
 					<span class="text-default mr-1">
 						Go to map
@@ -54,101 +54,67 @@
 
 			<h2 class="card-title">My Participation</h2>
 
-			{{ form_start(myFormInOut) }}
+			<div class="form-inline" id="myForm" data-user-index="{{ userIndex }}">
+				<label class="custom-radio">
+					<input type="radio" id="" name="" value="0" {{(myParticipation.value == 0 and myParticipation.lastUpdate)?"checked" }}>
+					<button type="button" class="uncheck btn btn-outline-danger m-1">
+						<span class="fa fa-thumbs-down mr-1"/>
+						out
+					</button>
+					<button type="button" class="check btn btn-danger m-1">
+						<span class="fa fa-thumbs-down mr-1"/>
+						out
+					</button>
+				</label>
 
-			{{ form_errors(myFormInOut) }}
+				<label class="custom-radio">
+					<input type="radio" id="" name="" value="1" {{ (myParticipation.value == 1)?"checked" }}>
+					<button type="button" class="uncheck btn btn-outline-success m-1">
+						<span class="fa fa-thumbs-up mr-1"/>
+						in
+					</button>
+					<button type="button" class="check btn btn-success m-1">
+						<span class="fa fa-thumbs-up mr-1"/>
+						in
+					</button>
+				</label>
 
-			<div class="form-group row">
-                <div>
-                    <img id="loading" class="loader" src="{{ asset('image/default/loading.svg') }}" alt="loading">
-                    <button 
-                        type="button" 
-                        id="my-radio-in" 
-                        data-radio-id="participation_value_0" 
-                        data-color="success" 
-                        class="
-                            custom-radio
-                            btn
-                            btn-{{ (not myParticipation.value)? 'outline-' }}success
-                        "
-                    >
-                        <span class="fas fa-thumbs-up mr-1"/>
-                        In
-                    </button>
-                    <button 
-                        type="button"
-                        id="my-radio-out"
-                        data-radio-id="participation_value_1" 
-                        data-color="danger"  
-                        class="
-                            custom-radio
-                            btn
-                            btn-{{ (myParticipation.value or not myParticipation.lastUpdate)? 'outline-' }}danger
-                        "
-                    >
-                        <span class="fas fa-thumbs-down mr-1"/>
-                        Out
-                    </button>
-                </div>
-				{{ form_widget(myFormInOut.value, {'attr': {'class': 'form-check-inline sr-only'}}) }}
-				{{ form_widget(myFormInOut.comment, {'attr': {'class': 'form-control col-7'}}) }}
-				<button 
-                    type="submit" 
-                    name="particpation-update" 
-                    class="btn btn-secondary"
-                >
+				<input type="text" id="myComment" maxlength="255" class="form-control col-7" value="{{ myParticipation.comment }}">
+
+				<button type="button" id="myParticipation-button" class="btn btn-secondary ml-1">
 					comment
 				</button>
 			</div>
 
-			{{ form_rest(myFormInOut) }}
-
-			{{ form_end(myFormInOut) }}
 
 		</div>
 	</div>
 
 	<hr>
 
-    {{ form_start(formsInOut) }}
-    
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
+	{{ form_start(formsInOut, { 'attr': {'data-slug':event.slug}}) }}
+
+	<ul class="nav nav-tabs" id="myTab" role="tablist">
 		<li class="nav-item">
-			<a 
-                class="nav-link active" 
-                id="drag-tab" 
-                data-toggle="tab" 
-                href="#drag" 
-                role="tab" 
-                aria-controls="drag" 
-                aria-selected="true"
-            >
-                drag N Drop
-            </a>
+			<a class="nav-link active" id="drag-tab" data-toggle="tab" href="#drag" role="tab" aria-controls="drag" aria-selected="true">
+				drag N Drop
+			</a>
 		</li>
 		<li class="nav-item">
-			<a 
-                class="nav-link" 
-                id="list-tab" 
-                data-toggle="tab" 
-                href="#list" 
-                role="tab" 
-                aria-controls="list" 
-                aria-selected="false"
-            >
-                List of players
-            </a>
+			<a class="nav-link" id="list-tab" data-toggle="tab" href="#list" role="tab" aria-controls="list" aria-selected="false">
+				List of players
+			</a>
 		</li>
 	</ul>
-
 	<div class="tab-content" id="myTabContent">
 		<button type="submit" name="listParticpation-update" class="btn btn-block btn-success">
-            save changes
-        </button>
-        
-        <hr>
-        
-        <div class="tab-pane fade" id="list" role="tabpanel" aria-labelledby="list-tab">
+			save changes
+		</button>
+        <img id="loading" class="loader float-right" src="{{ asset('image/default/loading.svg') }}" alt="loading">
+
+		<hr>
+
+		<div class="tab-pane fade" id="list" role="tabpanel" aria-labelledby="list-tab">
 
 			{{ form_errors(formsInOut) }}
 
@@ -166,42 +132,16 @@
 				<tbody>
 					{% for formInOut in formsInOut.participations %}
 						<tr>
-							<td>{{participations[loop.index0].user.username }}</td>
-							<td>
-								<button 
-                                    type="button"
-                                    id="button-participation-0-{{ loop.index0 }}"
-                                    data-radio-id="list_participation_participations_{{ loop.index0 }}_value_0" 
-                                    data-color="success" 
-                                    class="
-                                        custom-radio
-                                        btn
-                                        btn-{{ (not participations[loop.index0].value)? 'outline-' }}success
-									"
-                                >
-								    <span class="fas fa-thumbs-up"/>
-								</button>
-								<button
-                                    type="button"
-                                    id="button-participation-1-{{ loop.index0 }}" 
-                                    data-color="danger"
-                                    data-radio-id="list_participation_participations_{{ loop.index0 }}_value_1" 
-                                    class="
-                                        custom-radio
-                                        btn
-                                        btn-{{ (participations[loop.index0].value or not participations[loop.index0].lastUpdate)? 'outline-' }}danger
-									"
-                                >
-                                    <span class="fas fa-thumbs-down"/>
-								</button>
-                                <img id="loading" class="loader" src="{{ asset('image/default/loading.svg') }}" alt="loading">
-								{{ form_widget(formInOut.value, {'attr': {'class': 'form-chek-inline sr-only'}}) }}
-
+							<td id="username-{{loop.index0}}">
+								{{participations[loop.index0].user.username }}
 							</td>
-                            <td>
-                                {{ form_widget(formInOut.comment, {'attr': {'class': 'form-control','readonly': (participations[loop.index0].user != app.user)}}) }}
-                            </td>
-							<td>
+							<td id="value-{{loop.index0}}">
+								{{ form_widget(formInOut.value, {'index':-1, 'username':participations[loop.index0].user.username}) }}
+							</td>
+							<td id="comment-{{loop.index0}}">
+								{{ form_widget(formInOut.comment, {'attr': {'class': 'form-control','readonly': (participations[loop.index0].user != app.user)}}) }}
+							</td>
+							<td id="update-{{loop.index0}}">
 								{% if participations[loop.index0].lastUpdate %}
 									{{participations[loop.index0].lastUpdate|date('d.m') }}
 								{% endif %}
@@ -212,30 +152,22 @@
 			</table>
 
 			{{ form_rest(formsInOut) }}
-            
-        </div>
+
+		</div>
 
 		<div class="tab-pane fade show active" id="drag" role="tabpanel" aria-labelledby="drag-tab">
-			
-            <div class="alert alert-success" data-color="success">
+
+			<div class="alert alert-success" data-color="success">
 				<h3 class="col-12">
-                    <span class="fas fa-thumbs-up mr-1"/>
-                    Of course I can come !
-                </h3>
-				<div 
-                    id="drag-0"
-                    data-value="0"
-                    class="dropdown pt-5"
-                >
+					<span class="fas fa-thumbs-up mr-1"/>
+					Of course I can come !
+				</h3>
+				<div id="drag-0" data-value="1" class="dropdown pt-5">
 					{% for participation in participations %}
 						{% if participation.value %}
-							<span 
-                                id="{{ loop.index0 }}-drag-element"  
-                                data-user-index="{{ loop.index0 }}"
-                                class="badge badge-pill badge-light border draggable"
-                            >
-                                {{ participation.user.username }}
-                            </span>
+							<span id="{{ loop.index0 }}-drag-element" data-user-index="{{ loop.index0 }}" class="badge badge-pill badge-light border draggable">
+								{{ participation.user.username }}
+							</span>
 						{% endif %}
 					{% endfor %}
 				</div>
@@ -243,83 +175,65 @@
 
 			<div class="alert alert-danger" data-color="danger">
 				<h3 class="col-12">
-                    <span class="fas fa-thumbs-down mr-1"/>
-                    Sorry but not this time !
-                </h3>
-				<div 
-                    id="drag-1" 
-                    data-value="1"
-                    class="dropdown pt-5"
-                >
+					<span class="fas fa-thumbs-down mr-1"/>
+					Sorry but not this time !
+				</h3>
+				<div id="drag-1" data-value="0" class="dropdown pt-5">
 					{% for participation in participations %}
 						{% if  not participation.value and participation.lastUpdate %}
-							<span 
-                                id="{{ loop.index0 }}-drag-element" 
-                                data-user-index="{{ loop.index0 }}"
-                                class="badge badge-pill badge-light border draggable"
-                            >
-                                {{ participation.user.username }}
-                            </span>
+							<span id="{{ loop.index0 }}-drag-element" data-user-index="{{ loop.index0 }}" class="badge badge-pill badge-light border draggable">
+								{{ participation.user.username }}
+							</span>
 						{% endif %}
 					{% endfor %}
 				</div>
 			</div>
-			
-            <div class="alert alert-light">
+
+			<div class="alert alert-light">
 				<h3 class="col-12">
-                    <span class="fas fa-question-circle mr-1"/>
-                    Not decided yet !
-                </h3>
+					<span class="fas fa-question-circle mr-1"/>
+					Not decided yet !
+				</h3>
 				<div id="drag-2">
 					{% for participation in participations %}
 						{% if not participation.lastUpdate %}
-							<span 
-                                id="{{ loop.index0 }}-drag-element" 
-                                data-user-index="{{ loop.index0 }}"
-                                class="badge badge-pill badge-light border draggable"
-                            >
-                                {{ participation.user.username }}
-                            </span>
+							<span id="{{ loop.index0 }}-drag-element" data-user-index="{{ loop.index0 }}" class="badge badge-pill badge-light border draggable">
+								{{ participation.user.username }}
+							</span>
 						{% endif %}
 					{% endfor %}
 				</div>
 			</div>
 		</div>
 	</div>
-
-	{{ form_end(formsInOut) }}
-    
-    <div class="card">
+	{{ form_end(formsInOut) }}<div class="card">
 		<div class="card-body">
 			<div id="map"></div>
 		</div>
 	</div>
 {% endblock %}
-
 {% block aside %}
-    <div class="card shadow">
-        <div class="card-header">
-            <p class="card-title">
-                <span class="fas fa-filter mr-1"/>
-                Other events
-            </p>
-        </div>
-        <div class="card-body">
-            {{ render(controller('App\\Controller\\AsideController::event', {'slug': event.slug})) }}
-            <p>
-                <a href="{{ path('event-index', {}) }}">All other events</a>
-            </p>
-        </div>
-    </div>
+	<div class="card shadow">
+		<div class="card-header">
+			<p class="card-title">
+				<span class="fas fa-filter mr-1"/>
+				Other events
+			</p>
+		</div>
+		<div class="card-body">
+			{{ render(controller('App\\Controller\\AsideController::event', {'slug': event.slug})) }}
+			<p>
+				<a href="{{ path('event-index', {}) }}">All other events</a>
+			</p>
+		</div>
+	</div>
 {% endblock %}
 
 {% block javascripts %}
 	<script type="text/javascript">
 		var lat = document.getElementById('event_location_lat');
-        var lng = document.getElementById('event_location_lng');
+var lng = document.getElementById('event_location_lng');
 	</script>
-
 	{{ parent() }}
-    
-    {{ encore_entry_script_tags('event-view') }}
+	{{ encore_entry_script_tags('event-view') }}
 {% endblock %}

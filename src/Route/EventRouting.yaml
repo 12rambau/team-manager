@@ -16,6 +16,13 @@ index-update:
     options:
         expose: true
 
+participation-update:
+    path: /event/{slug}/update/participation
+    controller: App\Controller\EventController:updateParticipation
+    options:
+        expose: true
+
+
 event-view:
     path: /view/{slug}/
     controller: App\Controller\EventController::view

@@ -99,7 +99,7 @@
 							<div>
 								{% for participation in event.participations %}
 									{% if participation.value == 1 %}
-										<span id="badge-{{ participation.user.username }}-{{ index }}" class="badge badge-secondary">
+										<span id="badge-{{ participation.user.username }}-{{ index }}" class="badge badge-pill badge-light border text-muted">
 											{{ participation.user.username }}
 										</span>
 									{% endif %}
@@ -110,7 +110,7 @@
 							<div>
 								{% for participation in event.participations %}
 									{% if participation.value == 0 and participation.lastUpdate != null %}
-										<span id="badge-{{ participation.user.username }}-{{ index }}" class="badge badge-secondary">
+										<span id="badge-{{ participation.user.username }}-{{ index }}" class="badge badge-pill badge-light border text-muted">
 											{{ participation.user.username }}
 										</span>
 									{% endif %}

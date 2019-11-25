@@ -13,10 +13,10 @@
 
 {% block field_template_position_widget %}
 	<div class="accordion" id="positions-list" data-prototype="
-									{% filter escape('html_attr') %}
-										{% include 'form/prototype_position.html.twig' with {form: form.vars.prototype, positionId: " __name__"} only %}
-									{% endfilter %}
-								" data-index="{{form|length}}">
+											{% filter escape('html_attr') %}
+												{% include 'form/prototype_position.html.twig' with {form: form.vars.prototype, positionId: " __name__"} only %}
+											{% endfilter %}
+										" data-index="{{form|length}}">
 		{% for position in form %}
 			{% include 'form/prototype_position.html.twig' with {form: position, positionId: loop.index0} %}
 		{% endfor %}
@@ -32,18 +32,17 @@
 
 {% block tag_choice_widget %}
 	{% for radio in form %}
-			<label class="custom-radio">
-				<input type="radio" id="{{radio.vars.id}}" name="{{ form.vars.name}}" {{ (radio.vars.required)?"required" }} value="{{radio.vars.value }}" {{ (radio.vars.checked)?"checked" }}>
-				</input>
-				<button type="button" class="uncheck btn btn-outline-{{ tags[loop.index0].color }} m-1">
-					<span class="far fa-square mr-1"/>
-					{{ tags[loop.index0].name }}
-				</button>
-				<button type="button" class="check btn btn-{{ tags[loop.index0].color }} m-1">
-					<span class="far fa-check-square mr-1"/>
-					{{ tags[loop.index0].name }}
-				</button>
-			</label>
+		<label class="custom-radio">
+			<input type="radio" id="{{radio.vars.id}}" name="{{ form.vars.name}}" {{ (radio.vars.required)?"required" }} value="{{radio.vars.value }}" {{ (radio.vars.checked)?"checked" }}>
+			<button type="button" class="uncheck btn btn-outline-{{ tags[loop.index0].color }} m-1">
+				<span class="far fa-square mr-1"/>
+				{{ tags[loop.index0].name }}
+			</button>
+			<button type="button" class="check btn btn-{{ tags[loop.index0].color }} m-1">
+				<span class="far fa-check-square mr-1"/>
+				{{ tags[loop.index0].name }}
+			</button>
+		</label>
 	{% endfor %}
 {% endblock %}
 
@@ -51,27 +50,25 @@
 	<div class="form-group" id="{{ form.vars.id }}" data-index="{{ index }}" data-username="{{ username }}">
 		<label class="custom-radio">
 			<input type="radio" id="{{form[0].vars.id}}" name="{{ form.vars.full_name}}" {{ (form[0].vars.required)?"required" }} value="{{form[0].vars.value }}" {{ (form[0].vars.checked)?"checked" }}>
-			</input>
 			<button type="button" class="uncheck btn btn-outline-danger m-1">
 				<span class="fa fa-thumbs-down mr-1"/>
-				out
+				{{ (text is defined)?"out" }}
 			</button>
 			<button type="button" class="check btn btn-danger m-1">
 				<span class="fa fa-thumbs-down mr-1"/>
-				out
+				{{ (text is defined)?"out" }}
 			</button>
 		</label>
 
 		<label class="custom-radio">
 			<input type="radio" id="{{form[1].vars.id}}" name="{{ form.vars.full_name}}" {{ (form[1].vars.required)?"required" }} value="{{form[1].vars.value }}" {{ (form[1].vars.checked)?"checked" }}>
-			</input>
 			<button type="button" class="uncheck btn btn-outline-success m-1">
 				<span class="fa fa-thumbs-up mr-1"/>
-				in
+				{{ (text is defined)?"in" }}
 			</button>
 			<button type="button" class="check btn btn-success m-1">
 				<span class="fa fa-thumbs-up mr-1"/>
-				in
+				{{ (text is defined)?"in" }}
 			</button>
 		</label>
 	</div>

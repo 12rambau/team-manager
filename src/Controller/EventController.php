@@ -96,31 +96,41 @@ class EventController extends AbstractController
 
         $participations = $event->getParticipations();
         $myParticipation = $em->getRepository(Participation::class)->FindByEventAndUser($event, $this->getUser());
-
-        $myFormInOut = $this->createForm(ParticipationType::class, $myParticipation);
         $formsInOut = $this->createForm(ListParticipationType::class, ['participations' => $participations]);
 
-        if ($request->request->has('list_participation')) {
-            $formsInOut->handleRequest($request);
-
-            if ($formsInOut->isSubmitted() && $formsInOut->isValid())
-                $em->flush();
+        //get the index of the current user 
+        foreach ($participations as $key => $participation ) {
+            if ($participation->getUser() == $this->getUser())
+                $userIndex = $key;
         }
 
-        if ($request->request->has('participation')) {
-            $myFormInOut->handleRequest($request);
+        $formsInOut->handleRequest($request);
 
-            if ($myFormInOut->isSubmitted() && $myFormInOut->isValid())
-                $em->flush();
-        }
+        if ($formsInOut->isSubmitted() && $formsInOut->isValid())
+            $em->flush();
 
         return $this->render('event/view.html.twig', [
             'event' => $event,
-            'myFormInOut' => $myFormInOut->createView(),
             'myParticipation' => $myParticipation,
             'formsInOut' => $formsInOut->createView(),
             'participations' => $participations,
+            'userIndex' => $userIndex
         ]);
+    }
+
+    public function updateParticipation (Event $event, Request $request): JsonResponse
+    {
+        $em = $this->getDoctrine()->getManager();
+        $participations = $event->getParticipations();
+        $formsInOut = $this->createForm(ListParticipationType::class, ['participations' => $participations]);
+
+        $formsInOut->handleRequest($request);
+
+        if ($formsInOut->isSubmitted() && $formsInOut->isValid())
+            $em->flush();
+
+        return new JsonResponse();
+
     }
 
     public function add(Request $request): Response

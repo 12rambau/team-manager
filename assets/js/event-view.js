@@ -30,15 +30,26 @@ $(".draggable").draggable({
 $(".dropdown").droppable({
     drop: function(event,ui){
         view.drop(ui, this);
-    },
-    activate: view.changeBg(this),
-    deactivate: view.changeBg(this),
-
+        $("#myParticipation-button").trigger('click'); //to launch the saving
+    }
 });
 
 $("#add-stat").click(function(event){
     event.preventDefault();
     view.addStat(this);
     view.addListener();
-})
+});
+
+$("#myComment").focusout(function(){
+    view.copyComment($(this).val());
+});
+
+$("[id^='list_participation_participations_']").change(function(){
+    view.updateParticipation();
+});
+
+$("#myParticipation-button").click(function()
+{
+    view.updateParticipation();
+});
 
