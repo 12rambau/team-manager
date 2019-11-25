@@ -102,15 +102,11 @@ export function updateIndex(element) {
         dataType: 'json',
         data: form_data,
         success: function (data) {
+            //update the list
+            updateParticipation(element);
 
-            if (data['status']) {
-                //update the list
-                updateParticipation(element);
-
-                // signal to user the action is done
-                $('#loading-' + index).hide();
-            }
-            console.log("status =" + data['status']); //TODO for debug purpose
+            // signal to user the action is done
+            $('#loading-' + index).hide();
         }
     });
 }

@@ -62,10 +62,8 @@ class EventController extends AbstractController
         ]);
     }
 
-    public function updateIndex (int $page, Request $request) : JsonResponse
+    public function updateIndex(int $page, Request $request): JsonResponse
     {
-        $status = false;
-
         //TODO work only for 10 elements per page 
         $em = $this->getDoctrine()->getManager();
 
@@ -76,18 +74,10 @@ class EventController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $status = array();
-            foreach ($participations as $participation) {
-
-                $em->persist($participation);
-                //array_push($status, 'done'); //TODO for debug purpose
-            }
+        if ($form->isSubmitted() && $form->isValid())
             $em->flush();
-            $status = true; 
-        }
 
-        return new JsonResponse(['status' => $status]);
+        return new JsonResponse();
     }
 
     public function view(Event $event, Request $request): Response
@@ -99,7 +89,7 @@ class EventController extends AbstractController
         $formsInOut = $this->createForm(ListParticipationType::class, ['participations' => $participations]);
 
         //get the index of the current user 
-        foreach ($participations as $key => $participation ) {
+        foreach ($participations as $key => $participation) {
             if ($participation->getUser() == $this->getUser())
                 $userIndex = $key;
         }
@@ -118,7 +108,7 @@ class EventController extends AbstractController
         ]);
     }
 
-    public function updateParticipation (Event $event, Request $request): JsonResponse
+    public function updateParticipation(Event $event, Request $request): JsonResponse
     {
         $em = $this->getDoctrine()->getManager();
         $participations = $event->getParticipations();
@@ -130,7 +120,6 @@ class EventController extends AbstractController
             $em->flush();
 
         return new JsonResponse();
-
     }
 
     public function add(Request $request): Response
@@ -167,7 +156,7 @@ class EventController extends AbstractController
     public function edit(Event $event, Request $request): Response
     {
 
-        if ($this->getUser() != $event->getAuthor()) 
+        if ($this->getUser() != $event->getAuthor())
             throw new AccessDeniedException('Not your Event');
 
         $form = $this->createForm(EventType::class, $event);
@@ -205,7 +194,7 @@ class EventController extends AbstractController
             'tags' => $tags
         ]);
     }
-    
+
     public function getEvents(Request $request): Response
     {
         $start = new \DateTime($request->query->get('start')); //change start into DateTime
@@ -265,7 +254,7 @@ class EventController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $participation = $em->getRepository(Participation::class)->FindByEventAndUser($event,$this->getUser());
+        $participation = $em->getRepository(Participation::class)->FindByEventAndUser($event, $this->getUser());
         $form = $this->createForm(ParticipationStatsType::class, $participation);
         $form->handleRequest($request);
 
