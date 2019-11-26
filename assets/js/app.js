@@ -11,6 +11,9 @@ import bsCustomFileInput from 'bs-custom-file-input';
 $(document).ready(function () {
     bsCustomFileInput.init();
     $('[data-toggle="tooltip"]').tooltip();
-    $('[data-toggle="popover"]').popover();
+    $('[data-toggle="popover"]').popover({
+        trigger: 'focus',
+        html: true
+    });
 
 });

@@ -34,6 +34,11 @@ class Field
     */
     private $template;
 
+    /**
+    * @ORM\ManyToOne(targetEntity="App\Entity\Event", inversedBy="fields")
+    */
+    private $event;
+
     public function __construct()
     {
         $this->positions = new ArrayCollection();

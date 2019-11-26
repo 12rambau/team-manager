@@ -95,9 +95,9 @@ class Event
     private $participations;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Field", cascade={"persist"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Field", mappedBy="event", cascade={"persist"}, orphanRemoval=true)
      */
-    private $field;
+    private $fields;
 
     /**
      * @ORM\Column(type="string", length=7)
@@ -121,6 +121,7 @@ class Event
         $this->participations = new ArrayCollection();
         $this->result = new Result();
         $this->field = new Field();
+        $this->fields = new ArrayCollection();
     }
 
     public function __toString()
@@ -393,14 +394,33 @@ class Event
         return $this;
     }
 
-    public function getField(): ?Field
+    /**
+     * @return Collection|Field[]
+     */
+    public function getFields(): Collection
     {
-        return $this->field;
+        return $this->fields;
     }
 
-    public function setField(?Field $field): self
+    public function addField(Field $field): self
     {
-        $this->field = $field;
+        if (!$this->fields->contains($field)) {
+            $this->fields[] = $field;
+            $field->setEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeField(Field $field): self
+    {
+        if ($this->fields->contains($field)) {
+            $this->fields->removeElement($field);
+            // set the owning side to null (unless already changed)
+            if ($field->getEvent() === $this) {
+                $field->setEvent(null);
+            }
+        }
 
         return $this;
     }

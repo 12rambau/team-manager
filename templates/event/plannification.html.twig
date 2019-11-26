@@ -1,195 +1,128 @@
 {% extends 'layout.html.twig' %}
 
 {% block title %}
-    {{ event.slug }}
-    plannification
+	{{ event.slug }}
+	plannification
 {% endblock %}
 
 {% block page_title %}
-    <h1>{{ event.slug }} plannification</h1>
+	<h2>
+		<span class="badge badge-{{ event.tag.color }} mr-1">
+			{{event.tag.name|slice(0,3)|raw}}.
+		</span>
+		<a class="text-dark" href="{{ path('event-view', {'slug':event.slug}) }}">
+			{{ event.name }}
+		</a>
+		- Plannification
+	</h2>
 {% endblock %}
 
 {% block stylesheets %}
-    {{ parent() }}
+	{{ parent() }}
 
-    <link rel="stylesheet" href="{{ asset('css/field/field.css') }}" type="text/css" />
+	{{ encore_entry_link_tags('plannification') }}
 {% endblock %}
 
 {% block content %}
 
-    <div class="jumbotron bg-primary-light">
-        <h2>
-            <span class="badge badge-primary">{{event.tag.name|slice(0,3)|raw}}.</span>
-            <a href="{{ path('event-view', {'slug':event.slug}) }}">{{ event.name }}</a>
-            Plannification</h2>
-    </div>
+	{#{{ form_start(fieldsForm) }}
+			
+				<button class="btn btn-lg btn-primary btn-block" type="submit">
+					Save Data
+				</button>
+				<hr>
+			
+				<table class="table">
+					{% for field in event.fields %}
+						{% set fieldNumber = loop.index0 %}
+						<tr>
+							<td class="align-middle">
+								<a class="btn btn-danger" href="#">
+									<span class="">
+										<i class="fas fa-trash-alt"></i>
+									</span>
+								</a>
+							</td>
+							<td>
+								<div id="positionning">
+									<img id="imageFile" class="col-12" src={% if field.image != null %} {{ asset(vich_uploader_asset(field.image, "imageFile")) | imagine_filter('field') }} {% else %} {{ asset('image/default/empty_field.jpg') | imagine_filter('field') }} {% endif %} alt="image {{ field.id }}">
+			
+									{% for position in field.positions %}
+										<div class="card position-card positionned" id="card_event_fields_fields_{{ fieldNumber }}_positions_{{ loop.index0 }}_participation" ondragover="allowDrop(event)" ondragleave="disableDrop(event)" ondrop="drop(event)" style="top:{{ position.vertical }}%; left:{{ position.horizontal }}%; background: url('{{ asset('image/default/no-position.jpg') | imagine_filter('position') }}')">
+											{% if position.participation != null %}
+												<img id="{{ position.participation.id }}" src="{{ asset(vich_uploader_asset(position.participation.user.profilePic, "imageFile")) | imagine_filter('position') }}" alt="car-img" data-toggle="tooltip" title="{{ position.participation.user.username }}" draggable="true" ondragstart="drag(event)">
+											{% endif %}
+										</div>
+									{% endfor %}
+								</div>
+								<div id="form-{{ loop.index0 }}" class="sr-only">
+									{% for fieldForm in fieldsForm.fields[loop.index0] %}
+										{% for positionForm in fieldForm %}
+											{{ form_widget(positionForm) }}
+										{% endfor %}
+									{% endfor %}
+								</div>
+							</td>
+						</tr>
+					{% endfor %}
+				</table>
+			
+				{{ form_rest(fieldsForm) }}
+			
+				{{ form_end(fieldsForm) }}#}
 
-    {{ form_start(fieldsForm) }}
+	{{ form_start(templateForm) }}
 
-    <button class="btn btn-lg btn-primary btn-block" type="submit"> Save Data </button>
-    <hr>
+	{{ form_errors(templateForm) }}
 
-    <table class="table">
-        {% for field in event.fields %}
-        {% set fieldNumber = loop.index0 %}
-            <tr>
-                <td class="align-middle">
-                    <a class="btn btn-danger" href="#">
-                        <span class="">
-                            <i class="fas fa-trash-alt"></i>
-                        </span>
-                    </a>
-                </td>
-                <td>
-                    <div id="positionning">
-                        <img id="imageFile" class="col-12" src={% if field.image != null %} {{ asset(vich_uploader_asset(field.image, "imageFile")) | imagine_filter('field') }} {% else %} {{ asset('image/default/empty_field.jpg') | imagine_filter('field') }} {% endif %} alt="image {{ field.id }}">
+	<ul class="list-group list-group-flush" id="field-list" data-index="{{ templateForm.fields|length }}" data-prototype="
+			               {% filter escape('html_attr') %}
+			                    {% include 'form/prototype_field.html.twig' with {'form': templateForm.fields.vars.prototype, index:"__name__"} only %}
+			                {% endfilter %}
+			            ">
+		{% for form in templateForm.fields %}
+			{% include 'form/prototype_field.html.twig'  with {'form': form, 'index': loop.index0} only %}
+		{% endfor %}
+	</ul>
 
-                        {% for position in field.positions %}
-                            <div class="card position-card positionned" id="card_event_fields_fields_{{ fieldNumber }}_positions_{{ loop.index0 }}_participation" ondragover="allowDrop(event)" ondragleave="disableDrop(event)" ondrop="drop(event)" style="top:{{ position.vertical }}%; left:{{ position.horizontal }}%; background: url('{{ asset('image/default/no-position.jpg') | imagine_filter('position') }}')">
-                                {% if position.participation != null %}
-                                    <img id="{{ position.participation.id }}" src=
-                                    "{{ asset(vich_uploader_asset(position.participation.user.profilePic, "imageFile")) | imagine_filter('position') }}"
-                                alt="car-img" data-toggle="tooltip" title="{{ position.participation.user.username }}" draggable="true" ondragstart="drag(event)">
-                                {% endif %}
-                            </div>
-                        {% endfor %}
-                    </div>
-                    <div id="form-{{ loop.index0 }}" class="sr-only">
-                        {% for fieldForm in fieldsForm.fields[loop.index0] %}
-                            {% for positionForm in fieldForm %}
-                                {{ form_widget(positionForm) }}
-                            {% endfor %}
-                        {% endfor %}
-                    </div>
-                </td>
-            </tr>
-        {% endfor %}
-    </table>
+	<a id="add-field" class="text-primary" data-group="field-list">
+		<span class="fa fa-plus mr-1"/>
+		Add a new field
+	</a>
 
-    {{ form_rest(fieldsForm) }}
+	{{ form_rest(templateForm) }}
 
-    {{ form_end(fieldsForm) }}
+	{{ form_end(templateForm) }}
 
-
-    <div>
-        {{ form_start(templateForm) }}
-
-        {{ form_errors(templateForm) }}
-
-        {{ form_label(templateForm.template, 'template name', {'label_attr': {'class': 'control-label'}}) }}
-        {{ form_widget(templateForm.template, {'attr': {'class': 'form-control'}}) }}
-
-        {{ form_rest(templateForm) }}
-        <hr>
-        <button class="btn btn-block btn-success" type="submit">add field</button>
-
-        {{ form_end(templateForm) }}
-    </div>
-
-    {{ dump() }}
+	{{ dump(templateForm) }}
 {% endblock %}
 {% block aside %}
-    <div class="card">
-        <div class="card-header">
-            <p class="card-title"><span class="fas fa-users" />
-                List of participating players
-            </p>
-        </div>
-        <div id="dropback" class="card-body" ondragover="allowDrop(event)" ondragleave="disableDrop(event)" ondrop="dropBack(event)">
-                {% for participation in event.participations %}
-                    {% if (participation.value == true) and (participation.position == null) %}
-                            <img class="position-card" id="{{ participation.id }}" src=
-                                    "{{ asset(vich_uploader_asset(participation.user.profilePic, "imageFile")) | imagine_filter('position') }}"
-                                alt="car-img" data-toggle="tooltip" title="{{ participation.user.username }}" draggable="true" ondragstart="drag(event)">
-                    {% endif %}
-                {% endfor %}
-        </div>
-    </div>
+	<div class="card">
+		<div class="card-header">
+			<p class="card-title">
+				<span class="fas fa-couch mr-1"/>
+				bench
+			</p>
+		</div>
+		<div id="dropback" class="card-body" ondragover="allowDrop(event)" ondragleave="disableDrop(event)" ondrop="dropBack(event)">
+			{% for participation in event.participations %}
+				{% if (participation.value == true) and (participation.position == null) %}
+					<img class="position-card" id="{{ participation.id }}" src="{{ asset(vich_uploader_asset(participation.user.profilePic, "imageFile")) | imagine_filter('position') }}" alt="car-img" data-toggle="tooltip" title="{{ participation.user.username }}" draggable="true" ondragstart="drag(event)">
+				{% endif %}
+			{% endfor %}
+		</div>
+	</div>
+
 {% endblock %}
-{% block chat %}{% endblock %}
+
+
+{% block chat %}
+	{# no chat in this area #}
+{% endblock %}
 
 {% block javascripts %}
 
-    {{ parent() }}
+	{{ parent() }}
 
-    <script type="text/javascript">
-        function allowDrop(ev) {
-            ev.preventDefault();
-            $(ev.target).addClass('bg-primary');
-            $(ev.target).addClass('border-primary');
-
-        }
-
-        function disableDrop(ev){
-            ev.preventDefault();
-            $(ev.target).removeClass('bg-primary');
-            $(ev.target).removeClass('border-primary');
-        }
-
-        function drag(ev) {
-            ev.dataTransfer.setData("id", $(ev.target).attr('id'));
-            ev.dataTransfer.setData("parentId", $(ev.target).parent().attr('id'));
-        }
-
-        function drop(ev) {
-
-            $(ev.target).removeClass('border-primary');
-
-            var data = ev.dataTransfer.getData("id");
-            var parentId = ev.dataTransfer.getData("parentId");
-
-            parent = $("#"+parentId);
-            if ($(ev.target).attr('class').match(parent.attr('class')+".*")){
-                alert("forbidden move");
-                return;
-            }
-
-            if (parentId == $(ev.target).attr('id')) return;
-
-            //replace the old particiation in the aside block
-            if ($(ev.target).children() != null){
-                element =$(ev.target).children();
-                element.attr('class','position-card');
-                parent = $("#"+parentId);
-                parent.append(element);
-            }
-
-            var refParticipation = $(ev.target).attr('id');
-            var participation = refParticipation.replace('card_','')+"_"+data;
-            element = $("#"+data);
-            element.attr('class', '');
-            $(ev.target).empty();
-            $(ev.target).append(element);
-
-            
-
-            //change the value of the appropriate position
-            $("#"+participation).prop('checked', true);
-
-        }
-
-        function dropBack(ev){
-
-            $(ev.target).removeClass('bg-primary');
-
-            var data = ev.dataTransfer.getData("id");
-            var parentId = ev.dataTransfer.getData("parentId");
-
-            if (parentId == $(ev.target).attr('id')) return;
-            
-            element = $("#"+data);
-            element.attr('class', 'position-card');
-            $(ev.target).append(element);
-
-            parent = $("#"+parentId);
-            parent.empty();
-
-            var participation = parentId.replace("card_","")+'_'+data;
-            $("#"+participation).prop('checked',false);
-
-            
-
-
-        }
-    </script>
+	{{ encore_entry_script_tags('plannification') }}
 {% endblock %}

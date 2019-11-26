@@ -210,28 +210,31 @@ class EventController extends AbstractController
 
     public function plannification(Event $event, Request $request): Response
     {
-        $templateForm = $this->createForm(TemplateSelectType::class);
 
-        $fieldsForm = $this->createForm(EventFieldsType::class, $event);
+        //TODO specific status to access this page
+
+        //create the two forms
+        $templateForm = $this->createForm(TemplateSelectType::class, $event);
+        //$fieldsForm = $this->createForm(EventFieldsType::class, $event);
+
+        $em = $this->getDoctrine()->getManager();
 
         if ($request->request->has('template_select')) {
             $templateForm->handleRequest($request);
 
             if ($templateForm->isSubmitted() && $templateForm->isValid()) {
-                $em = $this->getDoctrine()->getManager();
 
-                $template = $em->getRepository(Field::class)->findOneById($request->get('template_select')['template']);
+                $template = $em->getRepository(FieldTemplate::class)->findOneById($request->get('template_select')['template']);
 
                 //copying the template in the new field 
                 $field = clone $template;
                 $field->setName($event->getId() . "_" . $field->getName());
                 $event->addField($field);
 
-                $request->getSession()->getFlashBag()->add('success', 'The field : ' . $field->getName() . ' has been added to ' . $event->getName());
             }
         }
 
-        if ($request->request->has("event_fields")) {
+        /*if ($request->request->has("event_fields")) {
             $fieldsForm->handleRequest($request);
 
             if ($fieldsForm->isSubmitted() && $fieldsForm->isValid()) {
@@ -239,14 +242,13 @@ class EventController extends AbstractController
                 $em = $this->getDoctrine()->getManager();
                 $em->flush();
 
-                $request->getSession()->getFlashBag()->add('success', 'The event plannification : ' . $event->getSlug() . ' has been updated.');
             }
-        }
+        }*/
 
         return $this->render('event/plannification.html.twig', [
             'event' => $event,
             'templateForm' => $templateForm->createView(),
-            'fieldsForm' => $fieldsForm->createView()
+            //'fieldsForm' => $fieldsForm->createView()
         ]);
     }
 
