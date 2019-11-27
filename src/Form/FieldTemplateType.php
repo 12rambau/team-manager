@@ -19,7 +19,6 @@ class FieldTemplateType extends AbstractType
             ->add('template', EntityType::class, [
                 'class'=> FieldTemplate::class,
                 'choice_label' => 'name',
-                //'by_reference' => false
             ])
         ;
     }

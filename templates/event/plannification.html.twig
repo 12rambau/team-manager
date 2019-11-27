@@ -76,12 +76,28 @@
 	{{ form_errors(templateForm) }}
 
 	<ul class="list-group list-group-flush" id="field-list" data-index="{{ templateForm.fields|length }}" data-prototype="
-					               {% filter escape('html_attr') %}
-					                    {% include 'form/prototype_field.html.twig' with {'form': templateForm.fields.vars.prototype, index:" __name__"} only %}
-						                {% endfilter %}
-						            ">
+		{% filter escape('html_attr') %}
+			{% include 'form/prototype_field.html.twig' with {'form': templateForm.fields.vars.prototype, index:" __name__"} only %}
+		{% endfilter %}
+	">
 		{% for form in templateForm.fields %}
-			{% include 'form/prototype_field.html.twig'  with {'form': form, 'index': loop.index0} only %}
+			<li id="li-field-{{ loop.index0 }}" class="list-group-item">
+				{% include 'form/prototype_field.html.twig'  with {'form': form, 'index': loop.index0} only %}
+				<div id="img-field" class="col-11 text-center w-100 mt-3">
+					<img class="w-100" src="{{ vich_uploader_asset(event.fields[loop.index0].template.image, "imageFile") | imagine_filter('field') }}">
+					{% for position in event.fields[loop.index0].template.positions %}
+						<div 
+							class="card position-card positionned" 
+							style="
+								top:{{ position.vertical }}%; 
+								left:{{ position.horizontal }}%; 
+								background: url('{{ asset('image/default/no-position.jpg') | imagine_filter('position') }}')
+							"
+						>
+						</div>
+					{% endfor %}
+				</div>
+			</li>
 		{% endfor %}
 	</ul>
 	<div>

@@ -1,35 +1,39 @@
-<li id="li-field-{{ index }}" class="list-group-item">
-	<div class="form-inline">
-		{{ form_widget(form.template, {'attr':{'class': 'col-8 template-select', 'data-index': index}}) }}
-        <div class="btn-group">
-            <a 
-                class="btn text-muted" 
-                data-toggle="popover" 
-                data-placement="bottom"
-                tabindex="0"
-                data-content='<a href="#"> change template</a>'
-            >
-                <span class="fa fa-pencil-alt"/>
-            </a>
-            <a 
-                class="btn text-muted" 
-                data-toggle="popover" 
-                data-placement="bottom"
-                tabindex="0"
-                data-content='<a href="#">reset positions</a>'
-            >
-                <span class="fa fa-times"/>
-            </a>
-            <a
-                class="btn text-muted" 
-                data-toggle="popover" 
-                data-placement="bottom"
-                tabindex="0"
-                data-index="{{ index }}"
-                data-content='<a href="#" class="remove-template">remove template</a>'
-            >
-                <span class="fa fa-trash"/>
-            </a>
-        </div>
-	</div>
-</li>
+
+<div class="form-inline">
+    {{ form_widget(form.template, {'attr':{'class': 'col-8 template-select', 'data-index': index}}) }}
+    <div class="btn-group">
+        <a 
+            class="btn text-muted" 
+            data-toggle="popover" 
+            data-placement="bottom"
+            tabindex="0"
+            data-html="true"
+            data-index="{{ index }}"
+            data-content='<a href="#" class="change-template"> change template</a>'
+        >
+            <span class="fa fa-pencil-alt"/>
+        </a>
+        <a 
+            class="btn text-muted" 
+            data-toggle="popover" 
+            data-placement="bottom"
+            tabindex="0"
+            data-html="true"
+            data-content='<a href="#">reset positions</a>'
+        >
+            <span class="fa fa-times"/>
+        </a>
+        <a
+            class="btn text-muted" 
+            data-toggle="popover" 
+            data-placement="bottom"
+            tabindex="0"
+            data-html="true"
+            data-index="{{ index }}"
+            data-content='<a href="#" class="remove-template" data-index="{{ index }}">remove template</a>'
+        >
+            <span class="fa fa-trash"/>
+        </a>
+    </div>
+</div>
+

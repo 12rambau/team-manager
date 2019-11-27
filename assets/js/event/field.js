@@ -22,8 +22,11 @@ export function addField(item) {
     // Replace '__name__' in the prototype's HTML
     newForm = newForm.replace(/__name__/g, index);
 
+    var li = $('<li>', {'id': "li-field-"+index, 'class': 'list-group-item'});
+    li.append(newForm);
+
     // Display the form in the page
-    collectionHolder.append(newForm);
+    collectionHolder.append(li);
 
     //add 1 to the starting index 
     collectionHolder.data('index', index + 1);
@@ -32,33 +35,83 @@ export function addField(item) {
 
 export function addListener() {
     //popover for the templatefield buttons
-    $('[data-toggle="popover"]').popover({
-        html: true
-    });
+    $('[data-toggle="popover"]').popover();
 
-    $(".template-select").change(function (event) {
+    /*$(".template-select").change(function (event) {
         updateTemplate();
-    })
+    })*/
 
     $('[data-toggle="popover"]').on('shown.bs.popover', function () {
         var index = $(this).data('index');
 
-        $(".remove-template").data('index', index)
-
-        $(".remove-template").click(function (event) {
-            event.preventDefault();
-            removeLi($(this).data('index'));
-            updateTemplate();
-        });
+        addDeleteTooltip(index);
+        addChangeTooltip(index);
+        addResetTooltip(index);
     });
+}
+
+/**
+ * 
+ * @param {string} index the index of the Li
+ */
+function addDeleteTooltip(index) {
+    //add the delete 
+
+    $(".remove-template").click(function (event) {
+        event.preventDefault();
+
+        //empty all positions 
+
+        //update position form
+
+        removeLi(index);
+
+        updateTemplate();
+    });
+}
+
+/**
+ * 
+ * @param {string} index the index of the Li
+ */
+function addChangeTooltip(index) {
+
+    $(".change-template").click(function () {
+        event.preventDefault();
+        //empty all the position
+
+        //update position form
+
+        updateTemplate();
+
+    })
+}
+
+/**
+ * 
+ * @param {string} index the index of the Li
+ */
+function addResetTooltip(index) {
+
+    $(".reset-template").data('index', index);
+
+    $(".reset-template").click(function () {
+        event.preventDefault();
+
+        //empty all position 
+
+        //update position form
+
+    })
+
 }
 
 /**
  * 
  * @param {string} index the index of the li to remove
  */
-function removeLi(index){
-    $("#li-field-"+index).remove();
+function removeLi(index) {
+    $("#li-field-" + index).remove();
 
     //replace all the positioned personn on the bench
 }
