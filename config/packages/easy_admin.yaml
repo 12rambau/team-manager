@@ -191,6 +191,7 @@ easy_admin:
                     - updateAt
                     - { property: image.filename, type: image, base_path: '%path_image%', label: Image }
                     - positions
+                    - fields
             list:
                 fields:
                     - id
@@ -209,7 +210,7 @@ easy_admin:
                 fields:
                     - { type: tab, label: placement, icon: users }
                     - { type: group, label: field, icon: images, columns: 7}
-                    - { property: imageToFill, type_options: { block_prefix: 'field_to_fill'} }
+                    - { property: toto, type_options: { block_prefix: 'field_to_fill'} }
                     - {type: group, label: positions, columns: 5}
                     - {property: positions, label: '', type: collection, type_options: { by_reference: false, entry_type: App\Form\PositionType, block_prefix: field_template_position}}
         Field:
