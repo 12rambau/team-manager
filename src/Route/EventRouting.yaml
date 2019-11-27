@@ -54,7 +54,7 @@ event-plannification:
     controller: App\Controller\EventController:plannification
 
 template-update:
-    path: /{slug}/update/template
+    path: /{event_id}/update/template/{template_id}
     controller: App\Controller\EventController:updateTemplate
     options:
         expose: true

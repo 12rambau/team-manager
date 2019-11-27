@@ -11,9 +11,13 @@ use App\Entity\Participation;
 use App\Form\ListParticipationType;
 use App\Form\TemplateSelectType;
 use App\Entity\EventTag;
+use App\Entity\FieldTemplate;
 use App\Form\ParticipationStatsType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
+use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 
 
 
@@ -241,7 +245,11 @@ class EventController extends AbstractController
         ]);
     }
 
-    public function updateTemplate(Event $event, Request $request): JsonResponse
+    /**
+     * @Entity("event", expr="repository.find(event_id)")
+     * @Entity("template", expr="repository.find(template_id)")
+     */
+    public function updateTemplate(Event $event, FieldTemplate $template=null, Request $request, UploaderHelper $helper, CacheManager $cm): JsonResponse
     {
         $templateForm = $this->createForm(TemplateSelectType::class, $event);
 
@@ -255,7 +263,22 @@ class EventController extends AbstractController
             $em->flush();
         }
 
-        return new JsonResponse();
+        //return the new field template information
+        //TODO do it with the symfony serializer 
+        $data = array();
+
+        if ($template) {
+            $data['image'] = $cm->getBrowserPath($helper->asset($template->getImage(), 'imageFile'), 'field');
+            $data['positions'] = array();
+            foreach ($template->getPositions() as $key => $position) {
+                $data['positions'][$key] = array();
+                $data['positions'][$key]['vertical'] = $position->getVertical();
+                $data['positions'][$key]['horizontal'] = $position->getHorizontal();
+            }
+        }
+
+
+        return new JsonResponse($data);
     }
 
     public function viewResult(Event $event, Request $request): Response

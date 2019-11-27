@@ -71,7 +71,7 @@
 				
 					{{ form_end(fieldsForm) }}#}
 
-	{{ form_start(templateForm, {'attr': {'data-slug':event.slug}}) }}
+	{{ form_start(templateForm, {'attr': {'data-event-id':event.id}}) }}
 
 	{{ form_errors(templateForm) }}
 
@@ -83,7 +83,7 @@
 		{% for form in templateForm.fields %}
 			<li id="li-field-{{ loop.index0 }}" class="list-group-item">
 				{% include 'form/prototype_field.html.twig'  with {'form': form, 'index': loop.index0} only %}
-				<div id="img-field" class="col-11 text-center w-100 mt-3">
+				<div id="img-field-{{ loop.index0 }}" class="positionning col-11 text-center w-100 mt-3">
 					<img class="w-100" src="{{ vich_uploader_asset(event.fields[loop.index0].template.image, "imageFile") | imagine_filter('field') }}">
 					{% for position in event.fields[loop.index0].template.positions %}
 						<div 
@@ -140,6 +140,10 @@
 {% endblock %}
 
 {% block javascripts %}
+
+	<script type="text/javascript">
+		var ghostUrl = "{{ asset('image/default/no-position.jpg') | imagine_filter('position') }}";	
+	</script>
 
 	{{ parent() }}
 

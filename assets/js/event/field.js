@@ -25,6 +25,10 @@ export function addField(item) {
     var li = $('<li>', {'id': "li-field-"+index, 'class': 'list-group-item'});
     li.append(newForm);
 
+    //add the image-div
+    var img = $('<div>', {'id': "img-field-"+index, 'class': "positionning col-11 text-center w-100 mt-3"});
+    li.append(img);
+
     // Display the form in the page
     collectionHolder.append(li);
 
@@ -43,6 +47,7 @@ export function addListener() {
 
     $('[data-toggle="popover"]').on('shown.bs.popover', function () {
         var index = $(this).data('index');
+        index = parseInt(index,10);
 
         addDeleteTooltip(index);
         addChangeTooltip(index);
@@ -52,7 +57,7 @@ export function addListener() {
 
 /**
  * 
- * @param {string} index the index of the Li
+ * @param {integer} index the index of the Li
  */
 function addDeleteTooltip(index) {
     //add the delete 
@@ -66,34 +71,32 @@ function addDeleteTooltip(index) {
 
         removeLi(index);
 
-        updateTemplate();
+        removeTemplate(index);
     });
 }
 
 /**
  * 
- * @param {string} index the index of the Li
+ * @param {integer} index the index of the Li
  */
 function addChangeTooltip(index) {
 
     $(".change-template").click(function () {
-        event.preventDefault();
+        event.preventDefault(index);
         //empty all the position
 
         //update position form
 
-        updateTemplate();
-
+        updateTemplate(index);
+        
     })
 }
 
 /**
  * 
- * @param {string} index the index of the Li
+ * @param {integer} index the index of the Li
  */
 function addResetTooltip(index) {
-
-    $(".reset-template").data('index', index);
 
     $(".reset-template").click(function () {
         event.preventDefault();
@@ -108,7 +111,7 @@ function addResetTooltip(index) {
 
 /**
  * 
- * @param {string} index the index of the li to remove
+ * @param {integer} index the index of the li to remove
  */
 function removeLi(index) {
     $("#li-field-" + index).remove();
@@ -118,34 +121,44 @@ function removeLi(index) {
 
 /**
  * 
- * @param {string} index the number of the <li> to modify
+ * @param {integer} index the number of the <li> to modify
+ * @param {array} template the template data
+ * @param {ghostUrl} index the url of the ghost position
  */
 export function addVisuel(index, template, ghostUrl) {
 
+    //get the image container
+    var imageContainer = $("#img-field-"+index);
+
+    //empty the container
+    imageContainer.empty();
+
     //create the image from the template 
     var img = $('<img>', { class: 'w-100', src: template['image'] });
-    var imgContainer = $('<div>', { class: "col-12 w-100", id: 'img-field-' + index });
-    imageContainer.append(igm);
+
+    imageContainer.append(img);
 
     //add each position with ghost and ablsolut positionning
     template['positions'].forEach(function (position, pIndex) {
-        var ghost = $('<div>', { class: "card position-card positioned drop-card", id: "field_" + index + "_position_" + pIndex });
-        ghost.css('top', position['vertical']);
-        ghost.css('left', position['horizontal']);
-        ghost.css('background', ghostUrl);
+        var ghost = $('<div>', { class: "card position-card positionned" });
+        ghost.css('top', position['vertical']+"%");
+        ghost.css('left', position['horizontal']+"%");
+        ghost.css('background', 'url('+ghostUrl+')');
 
         imageContainer.append(ghost);
     });
-
-    //insert into the <li>
-    $("#li-field-" + index).append(imageContainer);
 }
 
-
-export function updateTemplate() {
+/**
+ * 
+ * @param {integer} index line number
+ */
+export function updateTemplate(index) {
 
     var form = $("form[name='template_select']");
-    var slug = form.data('slug');
+    var event_id = form.data('event-id');
+    var select = $('select[name="template_select[fields]['+index+'][template]"]');
+    var template_id = parseInt(select.val(),10);
 
     // get the serialized properties and values of the form 
     var form_data = form.serialize();
@@ -155,12 +168,46 @@ export function updateTemplate() {
 
     // the actual ajax request
     $.ajax({
-        url: Routing.generate('template-update', { 'slug': slug }),
+        url: Routing.generate('template-update', { 'event_id': event_id, 'template_id':template_id }),
         type: 'POST',
         dataType: 'json',
         data: form_data,
         success: function (data) {
+            
+            addVisuel(index,data, ghostUrl);
+            // signal to user the action is done
+            $('#loading-add').hide();
+        }
+    });
 
+    return template;
+}
+
+/**
+ * 
+ * @param {integer} index line number
+ */
+export function removeTemplate(index) {
+
+    var form = $("form[name='template_select']");
+    var event_id = form.data('event-id');
+    var select = $('select[name="template_select[fields]['+index+'][template]"]');
+    var template_id = parseInt(select.val(),10);
+
+    // get the serialized properties and values of the form 
+    var form_data = form.serialize();
+
+    // always makes sense to signal user that something is happening
+    $('#loading-add').show();
+
+    // the actual ajax request
+    $.ajax({
+        url: Routing.generate('template-update', { 'event_id': event_id, 'template_id':template_id }),
+        type: 'POST',
+        dataType: 'json',
+        data: form_data,
+        success: function (data) {
+            
             // signal to user the action is done
             $('#loading-add').hide();
         }
