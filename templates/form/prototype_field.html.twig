@@ -6,7 +6,6 @@
                 class="btn text-muted" 
                 data-toggle="popover" 
                 data-placement="bottom"
-                {#data-trigger="focus"#}
                 tabindex="0"
                 data-content='<a href="#"> change template</a>'
             >
@@ -16,19 +15,18 @@
                 class="btn text-muted" 
                 data-toggle="popover" 
                 data-placement="bottom"
-                {#data-trigger="focus"#}
                 tabindex="0"
                 data-content='<a href="#">reset positions</a>'
             >
                 <span class="fa fa-times"/>
             </a>
-            <a 
+            <a
                 class="btn text-muted" 
                 data-toggle="popover" 
                 data-placement="bottom"
-                {#data-trigger="focus"#}
                 tabindex="0"
-                data-content='<a href="#" class="remove-template {{ index }}" data-index="{{ index }}">remove template</a>'
+                data-index="{{ index }}"
+                data-content='<a href="#" class="remove-template">remove template</a>'
             >
                 <span class="fa fa-trash"/>
             </a>

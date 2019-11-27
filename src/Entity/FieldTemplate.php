@@ -181,13 +181,14 @@ class FieldTemplate
 
     //virtual functions to display the image of the fieldTemplate in easyadminbundle
     
-    public function getToto()
+    public function getImageToFill()
     {
         return $this->getImage();
     }
 
-    public function setToto($toto)
+    public function setImageToFill($dummy)
     {
+        //do nothing
         return $this;
     }
 }

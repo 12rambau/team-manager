@@ -34,7 +34,6 @@ export function addListener() {
     //popover for the templatefield buttons
     $('[data-toggle="popover"]').popover({
         html: true
-
     });
 
     $(".template-select").change(function (event) {
@@ -42,14 +41,13 @@ export function addListener() {
     })
 
     $('[data-toggle="popover"]').on('shown.bs.popover', function () {
+        var index = $(this).data('index');
+
+        $(".remove-template").data('index', index)
+
         $(".remove-template").click(function (event) {
             event.preventDefault();
-            // TODO make it work 
-            //var index = $(this).data('index');
-            var index = $(this).attr('class').replace('remove-template ','');
-
-            $("#li-field-"+index).remove();
-            //replace all the positioned personn on the bench
+            removeLi($(this).data('index'));
             updateTemplate();
         });
     });
@@ -57,7 +55,17 @@ export function addListener() {
 
 /**
  * 
- * @param {integer} index the number of the <li> to modify
+ * @param {string} index the index of the li to remove
+ */
+function removeLi(index){
+    $("#li-field-"+index).remove();
+
+    //replace all the positioned personn on the bench
+}
+
+/**
+ * 
+ * @param {string} index the number of the <li> to modify
  */
 export function addVisuel(index, template, ghostUrl) {
 
