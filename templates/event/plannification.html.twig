@@ -26,69 +26,72 @@
 {% block content %}
 
 	{#{{ form_start(fieldsForm) }}
-			
-				<button class="btn btn-lg btn-primary btn-block" type="submit">
-					Save Data
-				</button>
-				<hr>
-			
-				<table class="table">
-					{% for field in event.fields %}
-						{% set fieldNumber = loop.index0 %}
-						<tr>
-							<td class="align-middle">
-								<a class="btn btn-danger" href="#">
-									<span class="">
-										<i class="fas fa-trash-alt"></i>
-									</span>
-								</a>
-							</td>
-							<td>
-								<div id="positionning">
-									<img id="imageFile" class="col-12" src={% if field.image != null %} {{ asset(vich_uploader_asset(field.image, "imageFile")) | imagine_filter('field') }} {% else %} {{ asset('image/default/empty_field.jpg') | imagine_filter('field') }} {% endif %} alt="image {{ field.id }}">
-			
-									{% for position in field.positions %}
-										<div class="card position-card positionned" id="card_event_fields_fields_{{ fieldNumber }}_positions_{{ loop.index0 }}_participation" ondragover="allowDrop(event)" ondragleave="disableDrop(event)" ondrop="drop(event)" style="top:{{ position.vertical }}%; left:{{ position.horizontal }}%; background: url('{{ asset('image/default/no-position.jpg') | imagine_filter('position') }}')">
-											{% if position.participation != null %}
-												<img id="{{ position.participation.id }}" src="{{ asset(vich_uploader_asset(position.participation.user.profilePic, "imageFile")) | imagine_filter('position') }}" alt="car-img" data-toggle="tooltip" title="{{ position.participation.user.username }}" draggable="true" ondragstart="drag(event)">
-											{% endif %}
-										</div>
-									{% endfor %}
-								</div>
-								<div id="form-{{ loop.index0 }}" class="sr-only">
-									{% for fieldForm in fieldsForm.fields[loop.index0] %}
-										{% for positionForm in fieldForm %}
-											{{ form_widget(positionForm) }}
+				
+					<button class="btn btn-lg btn-primary btn-block" type="submit">
+						Save Data
+					</button>
+					<hr>
+				
+					<table class="table">
+						{% for field in event.fields %}
+							{% set fieldNumber = loop.index0 %}
+							<tr>
+								<td class="align-middle">
+									<a class="btn btn-danger" href="#">
+										<span class="">
+											<i class="fas fa-trash-alt"></i>
+										</span>
+									</a>
+								</td>
+								<td>
+									<div id="positionning">
+										<img id="imageFile" class="col-12" src={% if field.image != null %} {{ asset(vich_uploader_asset(field.image, "imageFile")) | imagine_filter('field') }} {% else %} {{ asset('image/default/empty_field.jpg') | imagine_filter('field') }} {% endif %} alt="image {{ field.id }}">
+				
+										{% for position in field.positions %}
+											<div class="card position-card positionned" id="card_event_fields_fields_{{ fieldNumber }}_positions_{{ loop.index0 }}_participation" ondragover="allowDrop(event)" ondragleave="disableDrop(event)" ondrop="drop(event)" style="top:{{ position.vertical }}%; left:{{ position.horizontal }}%; background: url('{{ asset('image/default/no-position.jpg') | imagine_filter('position') }}')">
+												{% if position.participation != null %}
+													<img id="{{ position.participation.id }}" src="{{ asset(vich_uploader_asset(position.participation.user.profilePic, "imageFile")) | imagine_filter('position') }}" alt="car-img" data-toggle="tooltip" title="{{ position.participation.user.username }}" draggable="true" ondragstart="drag(event)">
+												{% endif %}
+											</div>
 										{% endfor %}
-									{% endfor %}
-								</div>
-							</td>
-						</tr>
-					{% endfor %}
-				</table>
-			
-				{{ form_rest(fieldsForm) }}
-			
-				{{ form_end(fieldsForm) }}#}
+									</div>
+									<div id="form-{{ loop.index0 }}" class="sr-only">
+										{% for fieldForm in fieldsForm.fields[loop.index0] %}
+											{% for positionForm in fieldForm %}
+												{{ form_widget(positionForm) }}
+											{% endfor %}
+										{% endfor %}
+									</div>
+								</td>
+							</tr>
+						{% endfor %}
+					</table>
+				
+					{{ form_rest(fieldsForm) }}
+				
+					{{ form_end(fieldsForm) }}#}
 
-	{{ form_start(templateForm) }}
+	{{ form_start(templateForm, {'attr': {'data-slug':event.slug}}) }}
 
 	{{ form_errors(templateForm) }}
 
 	<ul class="list-group list-group-flush" id="field-list" data-index="{{ templateForm.fields|length }}" data-prototype="
-			               {% filter escape('html_attr') %}
-			                    {% include 'form/prototype_field.html.twig' with {'form': templateForm.fields.vars.prototype, index:"__name__"} only %}
-			                {% endfilter %}
-			            ">
+					               {% filter escape('html_attr') %}
+					                    {% include 'form/prototype_field.html.twig' with {'form': templateForm.fields.vars.prototype, index:" __name__"} only %}
+						                {% endfilter %}
+						            ">
 		{% for form in templateForm.fields %}
 			{% include 'form/prototype_field.html.twig'  with {'form': form, 'index': loop.index0} only %}
 		{% endfor %}
 	</ul>
+	<div>
+		<a id="add-field" class="text-primary" data-group="field-list">
+			<span class="fa fa-plus mr-1"/>
+			Add a new field
+		</a>
 
-	<a id="add-field" class="text-primary" data-group="field-list">
-		<span class="fa fa-plus mr-1"/>
-		Add a new field
-	</a>
+		<img id="loading-add" class="loader float-right" src="{{ asset('image/default/loading.svg') }}" alt="loading">
+	</div>
 
 	{{ form_rest(templateForm) }}
 

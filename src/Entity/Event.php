@@ -120,7 +120,6 @@ class Event
         $this->publishDate = new \DateTime();
         $this->participations = new ArrayCollection();
         $this->result = new Result();
-        $this->field = new Field();
         $this->fields = new ArrayCollection();
     }
 

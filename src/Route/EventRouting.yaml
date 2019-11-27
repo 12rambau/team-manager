@@ -52,6 +52,12 @@ event-get:
 event-plannification:
     path: /{slug}/plannification
     controller: App\Controller\EventController:plannification
+
+template-update:
+    path: /{slug}/update/template
+    controller: App\Controller\EventController:updateTemplate
+    options:
+        expose: true
     
 result-view:
     path: /{slug}/view/result

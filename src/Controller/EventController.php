@@ -230,7 +230,6 @@ class EventController extends AbstractController
                 $field = clone $template;
                 $field->setName($event->getId() . "_" . $field->getName());
                 $event->addField($field);
-
             }
         }
 
@@ -250,6 +249,23 @@ class EventController extends AbstractController
             'templateForm' => $templateForm->createView(),
             //'fieldsForm' => $fieldsForm->createView()
         ]);
+    }
+
+    public function updateTemplate(Event $event, Request $request): JsonResponse
+    {
+        $templateForm = $this->createForm(TemplateSelectType::class, $event);
+
+        $em = $this->getDoctrine()->getManager();
+
+        $templateForm->handleRequest($request);
+
+        if ($templateForm->isSubmitted() && $templateForm->isValid()) {
+
+            // TODO see where to update the field (I imagine in the entity )
+            $em->flush();
+        }
+
+        return new JsonResponse();
     }
 
     public function viewResult(Event $event, Request $request): Response

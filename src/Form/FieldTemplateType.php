@@ -2,31 +2,32 @@
 
 namespace App\Form;
 
-use App\Entity\Event;
+use App\Entity\Field;
 use App\Entity\FieldTemplate;
 use Symfony\Component\Form\AbstractType;
+use App\Form\ImageType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use App\Form\FieldTemplateType;
 
-class TemplateSelectType extends AbstractType
+class FieldTemplateType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('fields', CollectionType::class, [
-            'entry_type'=> FieldTemplateType::class,
-            'allow_add' => true,
-            'allow_delete' => true,
-            'by_reference' => false
-        ]);
+        $builder
+            ->add('template', EntityType::class, [
+                'class'=> FieldTemplate::class,
+                'choice_label' => 'name',
+                //'by_reference' => false
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Event::class,
+            'data_class' => Field::class,
         ]);
     }
 }

@@ -13,6 +13,5 @@ $("#add-field").click(function (event) {
     event.preventDefault();
     field.addField(this);
     field.addListener();
-    //add listener for the new buttons
 });
 

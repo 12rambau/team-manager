@@ -165,7 +165,7 @@ easy_admin:
                     - { type: group, label: Max players, icon: users }
                     - maxPlayers
                     - { type: tab, label: Edit field, icon: campground }
-                    - { property: field.template, label: Template, type: entity, type_options: { class: 'App\Entity\FieldTemplate'} }
+                    #- { property: field.template, label: Template, type: entity, type_options: { class: 'App\Entity\FieldTemplate'} }
                     - { type: tab, label: Position players, icon: street-view, help: cannot add positions if the field has'nt been set. changing the field result in destroying all positions }
                     #- field.positions
             show:
@@ -179,7 +179,7 @@ easy_admin:
                     - tag
                     - location
                     - participations
-                    - field
+                    - fields
                     - result
                     - stats
                     - publishDate
@@ -212,6 +212,8 @@ easy_admin:
                     - { property: imageToFill, type_options: { block_prefix: 'field_to_fill'} }
                     - {type: group, label: positions, columns: 5}
                     - {property: positions, label: '', type: collection, type_options: { by_reference: false, entry_type: App\Form\PositionType, block_prefix: field_template_position}}
+        Field:
+            class: App\Entity\Field
         Gallery:
             class: App\Entity\Gallery
         Image:
