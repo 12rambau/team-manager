@@ -1,0 +1,81 @@
+<footer class="jumbotron bg-dark text-muted pt-4 pb-3 mt-4">
+	<small>
+		<div
+			class="row">
+
+			{# club information #}
+			<div class="col-3">
+				<div class="row">
+					<div class="col-4">
+						<img class="img-fluid mb-3 mb-lg-0" src="{{ asset('image/default/no-logo.png')|imagine_filter('navbar') }}" alt="">
+					</div>
+					<div class="col-8">
+						<h5 class="text-primary">{{ club_name }}</h5>
+						{{ render(controller('App\\Controller\\DefaultController::ContactAdress')) }}
+					</div>
+				</div>
+			</div>
+
+			{# contact #}
+			<div class="col-3">
+				<h5 class="text-primary">Follow us</h5>
+				{# TODO let the user create it's own social #}
+				<div class="social-icons">
+					<a href="">
+						<i class="fab fa-youtube"></i>
+					</a>
+					<a href="">
+						<i class="fab fa-instagram"></i>
+					</a>
+					<a href="">
+						<i class="fab fa-strava"></i>
+					</a>
+					<a href="">
+						<i class="fab fa-twitter"></i>
+					</a>
+					<a href="">
+						<i class="fab fa-facebook-f"></i>
+					</a>
+				</div>
+				<h5 class="text-primary mt-2">Contact us</h5>
+				<ul id="contact-footer">
+					<li>
+						<a class="text-muted" href="">Map</a>
+					</li>
+					<li>
+						<a class="text-muted" href="">Contact</a>
+					</li>
+				</ul>
+			</div>
+
+			{# newsletter#}
+			<div class="col-3">
+				<h5 class="text-primary mb-2">SignUp to our newsletter</h5>
+				<input type="email" class="form-control" placeholder="email...">
+			</div>
+
+			{# github project #}
+			<div class="col-3">
+				<p class="text-center">
+					<span class="far fa-copyright mr-1"/>
+					{{ club_name }}, 2019
+				</p>
+				<p>
+					This website is developped through the framework of
+					<strong>team-manager</strong>, an open-source project
+				</p>
+				<div class="row">
+					<div class="col-8">
+						find more on github
+					</div>
+					<div class="social-icons col-4">
+						<a href="https://github.com/12rambau/team-manager">
+							<i class="fab fa-github"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</small>
+</footer>

@@ -22,6 +22,16 @@ class DefaultController extends AbstractController
         ]);
     }
 
+    public function ContactAdress(): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $contact = $em->getRepository(Location::class)->findOneByTag('contact');
+
+        return $this->render('default/contact-adress.html.twig', [
+            'contact' => $contact,
+        ]);
+    }
+
     public function contact(Request $request, EmailService $emailService): Response
     {
         $em = $this->getDoctrine()->getManager();
@@ -29,14 +39,12 @@ class DefaultController extends AbstractController
 
 
         //create the form
-        $form = $this->createForm(ContactType::class ,null);
+        $form = $this->createForm(ContactType::class, null);
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) 
-        {
-            if ($emailService->sendEmail($form->getData())) 
-            {
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($emailService->sendEmail($form->getData())) {
                 $request->getSession()->getFlashBag()->add('success', 'Email send.');
             } else {
                 $request->getSession()->getFlashBag()->add('danger', 'An error occured.');
