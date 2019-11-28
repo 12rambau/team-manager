@@ -20,7 +20,8 @@ easy_admin:
                children:
                 - { label: 'Club adress', entity: Location ,icon: 'address-card', params: {
                  action: search, query: contact}}
-                - { icon: 'handshake', entity: 'Partner'}
+                - { icon: handshake, entity: Partner}
+                - { icon: quidditch, entity: Team}
              - label: 'News'
                icon: 'rss'
                children:
@@ -86,6 +87,24 @@ easy_admin:
                     - name
                     - website
                     - { property: image, type: App\Form\ImageType }
+        Team:
+            class: App\Entity\Team
+            label: Team
+            list:
+                fields:
+                    - id
+                    - name
+                    - { property: image.filename, type: image, base_path: '%path_image%', label: Image }
+            show: 
+                fields:
+                    - name
+                    - { property: image.filename, type: image, base_path: '%path_image%', label: Image }
+                    - { property: descripsion, type: text}
+            form:
+                fields:
+                    - name
+                    - { property: image, type: App\Form\ImageType }
+                    - { property: descripsion, type: text }
         News:
             class: App\Entity\BlogPost
             label: 'Blog post'

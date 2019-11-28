@@ -11,17 +11,15 @@ use App\Entity\Event;
 use App\Entity\ChatMessage;
 use App\Entity\EventTag;
 use App\Entity\Location;
-use App\Entity\Participation;
 use App\Entity\Comment;
 use App\Entity\FieldTemplate;
 use App\Entity\Image;
 use App\Entity\Position;
 use App\Entity\StatTag;
 use App\Entity\Partner;
+use App\Entity\Team;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class AppFixtures extends Fixture
 {
@@ -181,7 +179,7 @@ class AppFixtures extends Fixture
         }
 
         //template creator
-        $nbTemplate = 1;
+        $nbTemplate = 3;
         $templates = array($nbTemplate);
         for ($i=0; $i < $nbTemplate; $i++)
         {
@@ -207,19 +205,19 @@ class AppFixtures extends Fixture
         $statlTags = array(2);
 
         $statlTags[0] = new StatTag();
-        $statlTags[0].setName('distance');
-        $statlTags[0].setUnity("m");
+        $statlTags[0]->setName('distance');
+        $statlTags[0]->setUnity("m");
         $manager->persist($statlTags[0]);
 
         $statlTags[1] = new StatTag();
-        $statlTags[1].setName('chrono');
-        $statlTags[1].setUnity("");
+        $statlTags[1]->setName('chrono');
+        $statlTags[1]->setUnity("");
         $manager->persist($statlTags[1]);
 
 
         //2 default partners
         $nbPartner = 2;
-        $patners = array($nbPartner);
+        $partners = array($nbPartner);
 
         $partners[0] = new Partner();
         $partners[0]->setName("Olympics");
@@ -234,6 +232,19 @@ class AppFixtures extends Fixture
         $image = AppFixtures::manualImage('red_bull.png', $rootDir);
         $partners[1]->setImage($image);
         $manager->persist($partners[1]);
+
+
+        //team creator 
+        $nbTeam = 6;
+        $teams = array($nbTeam);
+        for($i = 0; $i < $nbTeam; $i++){
+            $team[$i] = new Team();
+            $team[$i]->setName('team-'.$i);
+            $image = AppFixtures::manualImage('no-pic-team.jpg', $rootDir);
+            $team[$i]->setImage($image);
+            $team[$i]->setDescripsion($faker->text(200));
+            $manager->persist($team[$i]);
+        }
 
         $manager->flush();
     }

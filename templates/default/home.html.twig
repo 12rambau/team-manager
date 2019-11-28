@@ -79,17 +79,22 @@
 			class="container">
 
 			<!-- Featured Project Row -->
-			<div class="row align-items-center no-gutters mb-4 mb-lg-5">
-				<div class="col-xl-8 col-lg-7">
-					<a href="{{ path('team-player-index') }}"><img class="img-fluid mb-3 mb-lg-0" src="{{ asset('image/default/no-logo-team-wide.png')|imagine_filter('gallery') }}" alt=""></a>
-				</div>
-				<div class="col-xl-4 col-lg-5">
-					<div class="featured-text text-center text-lg-left">
-						<h4>Shoreline</h4>
-						<p class="text-black-50 mb-0">It can help you manage several team such as this one ! (and many more)</p>
+			{% for team in teams %}
+				<div class="row align-items-center no-gutters mb-4 mb-lg-5">
+					<div class="col-xl-8 col-lg-7">
+						<a href="{{ path('team-player-index') }}"><img class="img-fluid mb-3 mb-lg-0" src="{{ asset(vich_uploader_asset(team.image, "imageFile")|imagine_filter('gallery')) }}" alt=""></a>
+					</div>
+					<div class="col-xl-4 col-lg-5">
+						<div class="featured-text text-center text-lg-left">
+							<h4>{{ team.name }}</h4>
+							<p class="text-black-50 mb-0">
+								{{ team.descripsion }}
+							</p>
+						</div>
 					</div>
 				</div>
-			</div>
+			{% endfor %}
+
 		</section>
 
 		<!-- Partners Section -->
@@ -101,28 +106,28 @@
 						Without you nothing could have been possible!
 					</div>
 					<div class="row no-gutters mb-4 mb-lg-5">
-					<div id="carousel-partner" class="carousel slide" data-ride="carousel">
-						<ol class="carousel-indicators">
-							{% for partner in partners %}
-								<li data-target="#carousel-partner" data-slide-to="{{ loop.index0 }}" class="{{ (not loop.index0)?'active' }} bg-primary"></li>
-							{% endfor %}
-						</ol>
-						<div class="carousel-inner">
-							{% for partner in partners %}
-								<div class="carousel-item {{ (not loop.index0)?'active' }}">
-									<img class="d-block w-100" src="{{ asset(vich_uploader_asset(partner.image, "imageFile")|imagine_filter('carousel')) }}">
-								</div>
-							{% endfor %}
+						<div id="carousel-partner" class="carousel slide" data-ride="carousel">
+							<ol class="carousel-indicators">
+								{% for partner in partners %}
+									<li data-target="#carousel-partner" data-slide-to="{{ loop.index0 }}" class="{{ (not loop.index0)?'active' }} bg-primary"></li>
+								{% endfor %}
+							</ol>
+							<div class="carousel-inner">
+								{% for partner in partners %}
+									<div class="carousel-item {{ (not loop.index0)?'active' }}">
+										<img class="d-block w-100" src="{{ asset(vich_uploader_asset(partner.image, "imageFile")|imagine_filter('carousel')) }}">
+									</div>
+								{% endfor %}
+							</div>
+							<a class="carousel-control-prev" href="#carousel-partner" data-slide="prev">
+								<span class="fa fa-angle-left text-primary" aria-hidden="true"></span>
+								<span class="sr-only">Previous</span>
+							</a>
+							<a class="carousel-control-next" href="#carousel-partner" data-slide="next">
+								<span class="fa fa-angle-right text-primary" aria-hidden="true"></span>
+								<span class="sr-only">Next</span>
+							</a>
 						</div>
-						<a class="carousel-control-prev" href="#carousel-partner" data-slide="prev">
-							<span class="fa fa-angle-left text-primary" aria-hidden="true"></span>
-							<span class="sr-only">Previous</span>
-						</a>
-						<a class="carousel-control-next" href="#carousel-partner" data-slide="next">
-							<span class="fa fa-angle-right text-primary" aria-hidden="true"></span>
-							<span class="sr-only">Next</span>
-						</a>
-					</div>
 					</div>
 				</div>
 			</div>

@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Location;
 use App\Entity\Partner;
+use App\Entity\Team;
 use App\Form\ContactType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,10 +20,12 @@ class DefaultController extends AbstractController
 
         $contact = $em->getRepository(Location::class)->findOneByTag('contact');
         $partners = $em->getRepository(Partner::class)->findAll();
+        $teams = $em->getRepository(Team::class)->findAll();
 
         return $this->render('default/home.html.twig', [
             'contact' => $contact,
-            'partners' => $partners
+            'partners' => $partners,
+            'teams' => $teams
         ]);
     }
 
