@@ -20,37 +20,40 @@
 	{% include "default/navBar.html.twig" with { 'navId':'secondNav'} %}
 {% endblock %}
 
-		{% block body %}
-			<div class="container-fluid row mt-2">
-				<div class="col-9">
-					{% block content %}{% endblock %}
-				</div>
-				<div class="col-3">
-					{% block aside %}
-						<div class="card shadow">
-							<div class="card-header">
-								<p class="card-title"><span class="fas fa-calendar"/>
-									Events</p>
-							</div>
-							<div id="aside-calendar" class="card-body">
-								<div class="small">
-									<div id="mini-calendar"></div>
-								</div>
-							</div>
+{% block body %}
+	<div class="container-fluid row mt-2">
+		<div class="col-9">
+			{% block content %}{% endblock %}
+		</div>
+		<div class="col-3">
+			{% block aside %}
+				<div class="card shadow">
+					<div class="card-header">
+						<p class="card-title"><span class="fas fa-calendar"/>
+							Events</p>
+					</div>
+					<div id="aside-calendar" class="card-body">
+						<div class="small">
+							<div id="mini-calendar"></div>
 						</div>
-					{% endblock %}
+					</div>
 				</div>
-			</div>
-
-			{% block chat %}
-				{{ render(controller('App\\Controller\\ChatController::show')) }}
 			{% endblock %}
-		{% endblock %}
+		</div>
+	</div>
 
-		{% block javascripts %}
+	{% include "default/footer.html.twig" %}
+	
+	{% block chat %}
+		{{ render(controller('App\\Controller\\ChatController::show')) }}
+	{% endblock %}
 
-			{{ parent() }}
+{% endblock %}
 
-			{{ encore_entry_script_tags('layout') }}
+{% block javascripts %}
 
-		{% endblock %}
+	{{ parent() }}
+
+	{{ encore_entry_script_tags('layout') }}
+
+{% endblock %}
