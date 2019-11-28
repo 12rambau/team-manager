@@ -86,4 +86,12 @@ liip_imagine :
                 thumbnail:
                     size: [64, 64]
                     mode: inset
+        
+        carousel:
+            quality: 100
+            filters:
+                thumbnail:
+                    size: [500, 500]
+                    mode: outbond
+
 

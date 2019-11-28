@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Location;
+use App\Entity\Partner;
 use App\Form\ContactType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,10 +16,13 @@ class DefaultController extends AbstractController
     public function home()
     {
         $em = $this->getDoctrine()->getManager();
+
         $contact = $em->getRepository(Location::class)->findOneByTag('contact');
+        $partners = $em->getRepository(Partner::class)->findAll();
 
         return $this->render('default/home.html.twig', [
             'contact' => $contact,
+            'partners' => $partners
         ]);
     }
 

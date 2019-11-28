@@ -14,9 +14,13 @@ easy_admin:
         menu:
              - { label: 'Public Homepage', route: 'home', icon: 'home', target: '_blank'}
              - { label: 'Dashboard', icon: 'dashboard', route: 'home' } #change the route when the dashboard is ready
-             - { label: 'Club adress', entity: Location ,icon: 'address-card', params: {
-                 action: search, query: contact}}
              - { label: 'Content' }
+             - label: 'Club'
+               icon: 'users'
+               children:
+                - { label: 'Club adress', entity: Location ,icon: 'address-card', params: {
+                 action: search, query: contact}}
+                - { icon: 'handshake', entity: 'Partner'}
              - label: 'News'
                icon: 'rss'
                children:
@@ -63,6 +67,25 @@ easy_admin:
     new:
         title: 'Add %%entity_label%%'
     entities:
+        Partner:
+            class: App\Entity\Partner
+            label: 'Partner'
+            list:
+                fields:
+                    - id
+                    - name
+                    - { property: image.filename, type: image, base_path: '%path_image%', label: Image }
+                    - website
+            show:
+                fields:
+                    - name
+                    - { property: image.filename, type: image, base_path: '%path_image%', label: Image }
+                    - website
+            form:
+                fields:
+                    - name
+                    - website
+                    - { property: image, type: App\Form\ImageType }
         News:
             class: App\Entity\BlogPost
             label: 'Blog post'

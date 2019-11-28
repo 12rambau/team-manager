@@ -17,6 +17,7 @@ use App\Entity\FieldTemplate;
 use App\Entity\Image;
 use App\Entity\Position;
 use App\Entity\StatTag;
+use App\Entity\Partner;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\File\File;
@@ -214,6 +215,25 @@ class AppFixtures extends Fixture
         $statlTags[1].setName('chrono');
         $statlTags[1].setUnity("");
         $manager->persist($statlTags[1]);
+
+
+        //2 default partners
+        $nbPartner = 2;
+        $patners = array($nbPartner);
+
+        $partners[0] = new Partner();
+        $partners[0]->setName("Olympics");
+        $partners[0]->setWebsite('https://www.olympic.org');
+        $image = AppFixtures::manualImage('olympic.png', $rootDir);
+        $partners[0]->setImage($image);
+        $manager->persist($partners[0]);
+
+        $partners[1] = new Partner();
+        $partners[1]->setName("Red Bull");
+        $partners[1]->setWebsite('https://www.redbull.com');
+        $image = AppFixtures::manualImage('red_bull.png', $rootDir);
+        $partners[1]->setImage($image);
+        $manager->persist($partners[1]);
 
         $manager->flush();
     }
