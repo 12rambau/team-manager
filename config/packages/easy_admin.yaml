@@ -22,6 +22,11 @@ easy_admin:
                  action: search, query: contact}}
                 - { icon: handshake, entity: Partner}
                 - { icon: quidditch, entity: Team}
+             - label: 'Team'
+               icon: quidditch
+               children:
+                - { icon: user, entity: Player }
+                - { icon: tag, entity: PlayerTag }
              - label: 'News'
                icon: 'rss'
                children:
@@ -95,6 +100,7 @@ easy_admin:
                     - id
                     - name
                     - { property: image.filename, type: image, base_path: '%path_image%', label: Image }
+                    - players
             show: 
                 fields:
                     - name
@@ -416,5 +422,9 @@ easy_admin:
         Player:
             class: App\Entity\Player
             label: Player
+
+        PlayerTag:
+            class: App\Entity\PlayerTag
+            label: Player Tag
 
 

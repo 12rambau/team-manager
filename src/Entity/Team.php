@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -30,6 +32,22 @@ class Team
      * @ORM\ManyToOne(targetEntity="App\Entity\Image", cascade={"persist"})
      */
     private $image;
+
+    /**
+    * @ORM\OneToMany(targetEntity="App\Entity\PlayerTag", mappedBy="team", cascade={"persist"}, orphanRemoval=true)
+    */
+    private $tags;
+
+    /**
+    * @ORM\OneToMany(targetEntity="App\Entity\Player", mappedBy="team", cascade={"persist"}, orphanRemoval=true)
+    */
+    private $players;
+
+    public function __construct()
+    {
+        $this->tags = new ArrayCollection();
+        $this->players = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -68,6 +86,68 @@ class Team
     public function setDescripsion(string $descripsion): self
     {
         $this->descripsion = $descripsion;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PlayerTag[]
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function addTag(PlayerTag $tag): self
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags[] = $tag;
+            $tag->setTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTag(PlayerTag $tag): self
+    {
+        if ($this->tags->contains($tag)) {
+            $this->tags->removeElement($tag);
+            // set the owning side to null (unless already changed)
+            if ($tag->getTeam() === $this) {
+                $tag->setTeam(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Player[]
+     */
+    public function getPlayers(): Collection
+    {
+        return $this->players;
+    }
+
+    public function addPlayer(Player $player): self
+    {
+        if (!$this->players->contains($player)) {
+            $this->players[] = $player;
+            $player->setTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlayer(Player $player): self
+    {
+        if ($this->players->contains($player)) {
+            $this->players->removeElement($player);
+            // set the owning side to null (unless already changed)
+            if ($player->getTeam() === $this) {
+                $player->setTeam(null);
+            }
+        }
 
         return $this;
     }

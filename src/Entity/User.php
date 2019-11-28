@@ -99,6 +99,11 @@ class User implements UserInterface
      */
     private $phoneNumber;
 
+    /**
+    * @ORM\OneToMany(targetEntity="App\Entity\Player", mappedBy="user", cascade={"persist"}, orphanRemoval=true)
+    */
+    private $players;
+
     //magic function
     public function __construct()
     {
@@ -106,6 +111,7 @@ class User implements UserInterface
         $this->messages = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->participations = new ArrayCollection();
+        $this->players = new ArrayCollection();
     }
 
     public function __toString()
@@ -383,6 +389,55 @@ class User implements UserInterface
     public function setPhoneNumber(?string $phoneNumber): self
     {
         $this->phoneNumber = $phoneNumber;
+
+        return $this;
+    }
+
+    public function getPlayer(): ?Player
+    {
+        return $this->player;
+    }
+
+    public function setPlayer(?Player $player): self
+    {
+        $this->player = $player;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newUser = null === $player ? null : $this;
+        if ($player->getUser() !== $newUser) {
+            $player->setUser($newUser);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Player[]
+     */
+    public function getPlayers(): Collection
+    {
+        return $this->players;
+    }
+
+    public function addPlayer(Player $player): self
+    {
+        if (!$this->players->contains($player)) {
+            $this->players[] = $player;
+            $player->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlayer(Player $player): self
+    {
+        if ($this->players->contains($player)) {
+            $this->players->removeElement($player);
+            // set the owning side to null (unless already changed)
+            if ($player->getUser() === $this) {
+                $player->setUser(null);
+            }
+        }
 
         return $this;
     }

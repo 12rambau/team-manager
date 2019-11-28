@@ -17,7 +17,9 @@ use App\Entity\Image;
 use App\Entity\Position;
 use App\Entity\StatTag;
 use App\Entity\Partner;
+use App\Entity\Player;
 use App\Entity\Team;
+use App\Entity\PlayerTag;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -147,7 +149,7 @@ class AppFixtures extends Fixture
             $event->setStart($date);
             $event->setFinish($fin->add(new \DateInterval('PT2H')));
             $event->setInfo($faker->sentence(10, true));
-            if ($i%2 == 0) $event->setMaxPlayers($faker->numberBetween(0, $nbUser));
+            if ($faker->boolean) $event->setMaxPlayers($faker->numberBetween(0, $nbUser));
             $event->setName($faker->word());
             $event->setTag($tag[$faker->numberBetween(0, 2)]);
             $event->setActive(true);
@@ -245,6 +247,45 @@ class AppFixtures extends Fixture
             $team->setImage($image);
             $team->setDescripsion($faker->text(200));
             $manager->persist($team);
+        }
+
+        //create somme players tags
+        $nbPlayerTag = 20;
+        $playerTags = range(0, $nbPlayerTag);
+        foreach($playerTags as &$playerTag){
+            $playerTag = new PlayerTag();
+            //TODO set the color of the tag 
+            $playerTag->setName($faker->word);
+            $playerTag->setTeam($teams[$faker->numberBetween(0,$nbTeam-1)]);
+            $manager->persist($playerTag);
+        }
+
+        //create the players 
+        foreach ($users as  &$user) {
+            foreach ($teams as &$team) {
+                if ($faker->boolean){
+                    $player = new Player();
+                    $player->setTeam($team);
+                    $user->addPlayer($player);
+                    $player->setUser($user);
+                    $tags = $player->getTeam()->getTags();
+                    foreach($tags as &$tag){
+                        if ($faker->boolean) $player->addTag($tag);
+                    }
+                }
+            }
+        }
+
+        //set som players for the root user 
+        foreach($teams as &$team){
+            $player = new Player();
+            $player->setTeam($team);
+            $tags = $player->getTeam()->getTags();
+            foreach($tags as &$tag){
+                if ($faker->boolean) $player->addTag($tag);
+            }
+            $player->setUser($root);
+            $manager->persist($player);
         }
 
         $manager->flush();
