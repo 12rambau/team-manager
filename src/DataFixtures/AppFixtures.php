@@ -70,56 +70,56 @@ class AppFixtures extends Fixture
 
         $manager->persist($root);
 
-        $nbUser = 50;
-        $users = array($nbUser);
-        for ($i=0; $i < $nbUser; $i++)
+        $nbUser = 10;
+        $users = range(0,$nbUser);
+        foreach ($users as $i => &$user)
         {
-            $users[$i] = new User();
-            $users[$i]->setGender($faker->boolean());
-            $gender = $users[$i]->getGender() ? 'male':'female';
-            $users[$i]->setLastName($faker->lastName());
-            $users[$i]->setFirstName($faker->firstName($gender));
-            $users[$i]->setUserName($users[$i]->getfirstName().$users[$i]->getLastName());
-            $users[$i]->setPassword($this->passwordEncoder->encodePassword($users[$i],'userdemo'.$i));
-            $users[$i]->setEmail($users[$i]->getfirstName().".".$users[$i]->getLastName().'@team.com');
+            $user = new User();
+            $user->setGender($faker->boolean());
+            $gender = $user->getGender() ? 'male':'female';
+            $user->setLastName($faker->lastName());
+            $user->setFirstName($faker->firstName($gender));
+            $user->setUserName($user->getfirstName().$user->getLastName());
+            $user->setPassword($this->passwordEncoder->encodePassword($user,'userdemo'.$i));
+            $user->setEmail($user->getfirstName().".".$user->getLastName().'@team.com');
             $image = AppFixtures::manualImage('no-profile-pic-'.$gender.'.jpg', $rootDir);
-            $users[$i]->setProfilePic($image);
-            $users[$i]->setPhoneNumber($faker->e164PhoneNumber());
-            $manager->persist($users[$i]);
+            $user->setProfilePic($image);
+            $user->setPhoneNumber($faker->e164PhoneNumber());
+            $manager->persist($user);
         }
 
         $manager->flush();
 
         //post creator
-        $nbPost = 70;
-        $posts = array($nbPost);
-        for ($i=0; $i < $nbPost; $i++)
+        $nbPost = 20;
+        $posts = range(0,$nbPost);
+        foreach ($posts as &$post)
         {
-            $posts[$i] = new BlogPost();
-            $posts[$i]->setTitle($faker->words(4, true));
-            $posts[$i]->setShort($faker->sentence(30, true));
-            $posts[$i]->setContent($faker->paragraphs(5,true));
-            $posts[$i]->setActive(true);
-            $posts[$i]->setAuthor($users[$faker->numberBetween(0, ($nbUser-1))]);
+            $post = new BlogPost();
+            $post->setTitle($faker->words(4, true));
+            $post->setShort($faker->sentence(30, true));
+            $post->setContent($faker->paragraphs(5,true));
+            $post->setActive(true);
+            $post->setAuthor($users[$faker->numberBetween(0, ($nbUser-1))]);
 
-            $manager->persist($posts[$i]);
+            $manager->persist($post);
         }
 
         //commments creator
-        $nbComment = 600;
-        $comments = array($nbComment);
-        for ($i=0; $i < $nbComment; $i++)
+        $nbComment = 40;
+        $comments = range(0,$nbComment);
+        foreach ($comments as &$comment)
         {
-            $comments[$i] = new Comment();
-            $comments[$i]->setContent($faker->text(50));
-            $comments[$i]->setAuthor($users[$faker->numberBetween(0, $nbUser-1)]);
-            $comments[$i]->setPost($posts[$faker->numberBetween(0, $nbPost-1)]);
+            $comment = new Comment();
+            $comment->setContent($faker->text(50));
+            $comment->setAuthor($users[$faker->numberBetween(0, $nbUser-1)]);
+            $comment->setPost($posts[$faker->numberBetween(0, $nbPost-1)]);
 
-            $manager->persist($comments[$i]);
+            $manager->persist($comment);
         }
 
         //default EventTag creator
-        $tags = array(3);
+        $tag = range(0,3);
         $tag[1] = new EventTag();
         $tag[1]->setName('trainning');
         $tag[1]->setColor('success');
@@ -136,36 +136,37 @@ class AppFixtures extends Fixture
         $manager->persist($tag[0]);
 
         //event creator
-        $nbEvent = 100;
-        $events = array($nbEvent);
-        for ($i=0; $i< $nbEvent; $i++)
+        $nbEvent = 30;
+        $events = range(0,$nbEvent);
+        foreach ($events as $i => &$event)
         {
-            $events[$i] = new Event();
+            $event = new Event();
 
             $date = $faker->dateTimeThisMonth($max = 'now', $timezone = null);
             $fin = new \DateTime($date->format('Y-m-d H:i:s'));
-            $events[$i]->setStart($date);
-            $events[$i]->setFinish($fin->add(new \DateInterval('PT2H')));
-            $events[$i]->setInfo($faker->sentence(10, true));
-            if ($i%2 == 0) $events[$i]->setMaxPlayers($faker->numberBetween(0, $nbUser));
-            $events[$i]->setName($faker->word());
-            $events[$i]->setTag($tag[$faker->numberBetween(0, 2)]);
-            $events[$i]->setActive(true);
+            $event->setStart($date);
+            $event->setFinish($fin->add(new \DateInterval('PT2H')));
+            $event->setInfo($faker->sentence(10, true));
+            if ($i%2 == 0) $event->setMaxPlayers($faker->numberBetween(0, $nbUser));
+            $event->setName($faker->word());
+            $event->setTag($tag[$faker->numberBetween(0, 2)]);
+            $event->setActive(true);
 
             $location = new Location();
             $location->setValue($faker->address());
             $location->setLat($faker->latitude($min = -90, $max = 90));
             $location->setLng($faker->longitude($min = -180, $max = 180));
 
-            $events[$i]->setLocation($location);
+            $event->setLocation($location);
 
-            $manager->persist($events[$i]);
+            $manager->persist($event);
 
         }
 
         //message creator
-        $nbMessage = 100;
-        for ($i = 0; $i < $nbMessage; $i++)
+        $nbMessage = 50;
+        $messages = range(0,$nbMessage);
+        foreach ($messages as $i => &$message)
         {
             $message = new ChatMessage();
 
@@ -180,21 +181,21 @@ class AppFixtures extends Fixture
 
         //template creator
         $nbTemplate = 3;
-        $templates = array($nbTemplate);
-        for ($i=0; $i < $nbTemplate; $i++)
+        $templates = range(0,$nbTemplate);
+        foreach ($templates as $i => &$template)
         {
-            $templates[$i] = new FieldTemplate();
-            $templates[$i]->setName('template'.$i);
+            $template = new FieldTemplate();
+            $template->setName('template'.$i);
             $image = AppFixtures::manualImage('empty_field.jpg', $rootDir);
-            $templates[$i]->setImage($image);
+            $template->setImage($image);
             $nbPosition = $faker->numberBetween(0, 10);
-            for ($pstn=0; $pstn < $nbPosition; $pstn++)
+            for ($p=0; $p < $nbPosition; $p++)
             {
                 $horizontal = $faker->numberBetween(0,100);
                 $vertical = $faker->numberBetween(0,100);
                 $position = new Position($horizontal,$vertical);
                 $position->setName($faker->word);
-                $templates[$i]->addPosition($position);
+                $template->addPosition($position);
 
             }
 
@@ -236,14 +237,14 @@ class AppFixtures extends Fixture
 
         //team creator 
         $nbTeam = 6;
-        $teams = array($nbTeam);
-        for($i = 0; $i < $nbTeam; $i++){
-            $team[$i] = new Team();
-            $team[$i]->setName('team-'.$i);
+        $teams = range(0,$nbTeam);
+        foreach ($teams as $key => &$team) {
+            $team = new Team();
+            $team->setName('team-'.$key);
             $image = AppFixtures::manualImage('no-pic-team.jpg', $rootDir);
-            $team[$i]->setImage($image);
-            $team[$i]->setDescripsion($faker->text(200));
-            $manager->persist($team[$i]);
+            $team->setImage($image);
+            $team->setDescripsion($faker->text(200));
+            $manager->persist($team);
         }
 
         $manager->flush();

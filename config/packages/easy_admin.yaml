@@ -412,5 +412,9 @@ easy_admin:
                     - { type: group, label: Events, icon: calendar, columns: 6 }
                     - participations
                     - stats
+        
+        Player:
+            class: App\Entity\Player
+            label: Player
 
 
