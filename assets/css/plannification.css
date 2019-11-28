@@ -4,7 +4,8 @@
 
 .position-card{
 	height:65px;
-	width:50px;
+    width:50px;
+    z-index: 10;
 
 }
 

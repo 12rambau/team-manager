@@ -129,6 +129,16 @@ class Event
         return $this->name . " " . $date;
     }
 
+    public function getParticipationsIn()
+    {
+        $in = array();
+        foreach ($this->getParticipations() as $participation) {
+            if ($participation->getValue() == true) array_push($in,$participation);
+        }
+
+        return $in;
+    }
+
     public function getNbParticipationIn(): int
     {
         $nbParticipant = 0;

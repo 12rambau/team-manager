@@ -22,6 +22,11 @@ participation-update:
     options:
         expose: true
 
+positions-update:
+    path: /event/{id}/update/position/
+    controller: App\Controller\EventController::updatePositions
+    options:
+        expose: true
 
 event-view:
     path: /view/{slug}/
@@ -54,9 +59,21 @@ event-plannification:
     controller: App\Controller\EventController:plannification
 
 template-update:
-    path: /{event_id}/update/template/{template_id}
+    path: /{event_id}/update/field/{index}/template/{template_id}
     controller: App\Controller\EventController:updateTemplate
+    requirements:
+        index: \d+
+        event_id: \d+
+        template_id: \d+
     options:
+        expose: true
+
+template-remove-update:
+    path: /{id}/update/remove/template
+    controller: App\Controller\EventController::removeTemplate
+    requirements:
+        id: \d+
+    options: 
         expose: true
     
 result-view:

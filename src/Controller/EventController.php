@@ -18,8 +18,8 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
-
-
+use App\Form\EventFieldsType;
+use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 
 class EventController extends AbstractController
 {
@@ -209,39 +209,14 @@ class EventController extends AbstractController
 
         //create the two forms
         $templateForm = $this->createForm(TemplateSelectType::class, $event);
-        //$fieldsForm = $this->createForm(EventFieldsType::class, $event);
+        $fieldsForm = $this->createForm(EventFieldsType::class, $event);
 
         $em = $this->getDoctrine()->getManager();
-
-        if ($request->request->has('template_select')) {
-            $templateForm->handleRequest($request);
-
-            if ($templateForm->isSubmitted() && $templateForm->isValid()) {
-
-                $template = $em->getRepository(FieldTemplate::class)->findOneById($request->get('template_select')['template']);
-
-                //copying the template in the new field 
-                $field = clone $template;
-                $field->setName($event->getId() . "_" . $field->getName());
-                $event->addField($field);
-            }
-        }
-
-        /*if ($request->request->has("event_fields")) {
-            $fieldsForm->handleRequest($request);
-
-            if ($fieldsForm->isSubmitted() && $fieldsForm->isValid()) {
-
-                $em = $this->getDoctrine()->getManager();
-                $em->flush();
-
-            }
-        }*/
 
         return $this->render('event/plannification.html.twig', [
             'event' => $event,
             'templateForm' => $templateForm->createView(),
-            //'fieldsForm' => $fieldsForm->createView()
+            'fieldsForm' => $fieldsForm->createView()
         ]);
     }
 
@@ -249,17 +224,14 @@ class EventController extends AbstractController
      * @Entity("event", expr="repository.find(event_id)")
      * @Entity("template", expr="repository.find(template_id)")
      */
-    public function updateTemplate(Event $event, FieldTemplate $template=null, Request $request, UploaderHelper $helper, CacheManager $cm): JsonResponse
+    public function updateTemplate(Event $event, FieldTemplate $template = null, int $index, Request $request, UploaderHelper $helper, CacheManager $cm): JsonResponse
     {
-        $templateForm = $this->createForm(TemplateSelectType::class, $event);
+        $form = $this->createForm(TemplateSelectType::class, $event);
+        $form->handleRequest($request);
 
-        $em = $this->getDoctrine()->getManager();
+        if ($form->isSubmitted() && $form->isValid()) {
 
-        $templateForm->handleRequest($request);
-
-        if ($templateForm->isSubmitted() && $templateForm->isValid()) {
-
-            // TODO see where to update the field (I imagine in the entity )
+            $em = $this->getDoctrine()->getManager();
             $em->flush();
         }
 
@@ -269,9 +241,14 @@ class EventController extends AbstractController
 
         if ($template) {
             $data['image'] = $cm->getBrowserPath($helper->asset($template->getImage(), 'imageFile'), 'field');
+            //get the field with his index in the field list
+            $event = $em->getRepository(Event::class)->find($event->getId());
+            $field = $event->getFields()->get($index);
+            $data['fieldId'] = $field->getId(); //TODO fid an intelligent way to get Id
             $data['positions'] = array();
             foreach ($template->getPositions() as $key => $position) {
                 $data['positions'][$key] = array();
+                $data['positions'][$key]['id'] = $position->getId();
                 $data['positions'][$key]['vertical'] = $position->getVertical();
                 $data['positions'][$key]['horizontal'] = $position->getHorizontal();
             }
@@ -279,6 +256,34 @@ class EventController extends AbstractController
 
 
         return new JsonResponse($data);
+    }
+
+    public function removeTemplate(Event $event, Request $request): JsonResponse
+    {
+        $form = $this->createForm(TemplateSelectType::class, $event);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+        }
+
+
+        return new JsonResponse();
+    }
+
+    public function updatePositions(Event $event, Request $request): JsonResponse
+    {
+        $form = $this->createForm(EventFieldsType::class, $event);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+        }
+
+        return new JsonResponse();
     }
 
     public function viewResult(Event $event, Request $request): Response

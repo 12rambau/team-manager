@@ -42,9 +42,15 @@ class Participation
     * @ORM\ManyToOne(targetEntity="App\Entity\Event", inversedBy="participations", cascade={"persist"})
     */
     private $event;
+    
+    /**
+    * @ORM\ManyToOne(targetEntity="App\Entity\Field", inversedBy="participations", cascade={"persist"})
+    * @ORM\JoinColumn(nullable=true)
+    */
+    private $field;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Position", mappedBy="participation", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Position", inversedBy="participations", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $position;
@@ -171,6 +177,18 @@ class Participation
                 $stat->setParticipation(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getField(): ?Field
+    {
+        return $this->field;
+    }
+
+    public function setField(?Field $field): self
+    {
+        $this->field = $field;
 
         return $this;
     }

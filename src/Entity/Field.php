@@ -25,9 +25,9 @@ class Field
     private $updateAt;
 
     /**
-    * @ORM\OneToMany(targetEntity="App\Entity\PlayerPosition", mappedBy="field", cascade={"persist"}, orphanRemoval=true)
+    * @ORM\OneToMany(targetEntity="App\Entity\Participation", mappedBy="field", cascade={"persist"}, orphanRemoval=true)
     */
-    private $positions;
+    private $participations;
 
     /**
     * @ORM\ManyToOne(targetEntity="App\Entity\FieldTemplate", inversedBy="fields", cascade={"persist"})
@@ -41,7 +41,7 @@ class Field
 
     public function __construct()
     {
-        $this->positions = new ArrayCollection();
+        $this->participations = new ArrayCollection();
     }
 
     public function __toString()
@@ -78,37 +78,6 @@ class Field
         return $this;
     }
 
-    /**
-     * @return Collection|PlayerPosition[]
-     */
-    public function getPositions(): Collection
-    {
-        return $this->positions;
-    }
-
-    public function addPosition(PlayerPosition $position): self
-    {
-        if (!$this->positions->contains($position)) {
-            $this->positions[] = $position;
-            $position->setField($this);
-        }
-
-        return $this;
-    }
-
-    public function removePosition(PlayerPosition $position): self
-    {
-        if ($this->positions->contains($position)) {
-            $this->positions->removeElement($position);
-            // set the owning side to null (unless already changed)
-            if ($position->getField() === $this) {
-                $position->setField(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getTemplate(): ?FieldTemplate
     {
         return $this->template;
@@ -118,9 +87,36 @@ class Field
     {
         $this->template = $template;
 
-        //create the player positions 
-        foreach ($template->getPositions() as $position) 
-            $this->addPosition(new PlayerPosition());
+        return $this;
+    }
+
+    /**
+     * @return Collection|Participation[]
+     */
+    public function getParticipations(): Collection
+    {
+        return $this->participations;
+    }
+
+    public function addParticipation(Participation $participation): self
+    {
+        if (!$this->participations->contains($participation)) {
+            $this->participations[] = $participation;
+            $participation->setField($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParticipation(Participation $participation): self
+    {
+        if ($this->participations->contains($participation)) {
+            $this->participations->removeElement($participation);
+            // set the owning side to null (unless already changed)
+            if ($participation->getField() === $this) {
+                $participation->setField(null);
+            }
+        }
 
         return $this;
     }
