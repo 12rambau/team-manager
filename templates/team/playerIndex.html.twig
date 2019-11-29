@@ -1,41 +1,46 @@
 {% extends 'layout.html.twig' %}
 
 {% block title %}
-    player index    
+	player index
+{% endblock %}
+
+{% block page_title %}
+	<h1>Player index</h1>
 {% endblock %}
 
 {% block content %}
-    <div class="jumbotron">
-        <h1>Player index</h1>
-    </div>
 
-    <div class="row" style="height: 300px;">
-          <img src="{{ asset('image/default/no-pic-team.jpg') }}" class="img-rounded col-lg-12" alt="profile-pic">      
-    </div>
-    <p>
-        The full team
-    </p>
+	<div class="row" style="height: 300px;">
+		<img src="{{ asset('image/default/no-pic-team.jpg') }}" class="img-rounded col-lg-12" alt="profile-pic">
+	</div>
+	<p>
+		The full team
+	</p>
 
-    {% for player in players %}
-        <div class="card">
-            <div class="card-body row">
-                <div class="col-2">
-                    <a href="{{ path('profile-view', {'username': player.username}) }}">
-                        <img src="{{ asset(vich_uploader_asset(player.profilePic, "imageFile"))| imagine_filter('profile_pic')}}" class="img-rounded col-lg-12" alt="profile-pic">
-                    </a>
-                </div>
-                <div class="col">
-                    <div class="row">
-                        <h3>{{ player.firstName }} {{player.LastName}}</h3>
-                        <small class="text-muted"> // {{ player.username }}</small>
-                    </div>
-                    <div class="row">
-                        email: {{player.email}}
-                    </div>
-                </div>
-            </div>
-        </div>
-    {% endfor %}
+	{% for player in players %}
+		<div class="card">
+			<div class="card-body row">
+				<div class="col-2">
+					<a href="{{ path('profile-view', {'username': player.username}) }}">
+						<img src="{{ asset(vich_uploader_asset(player.profilePic, "imageFile"))| imagine_filter('profile_pic')}}" class="img-rounded col-lg-12" alt="profile-pic">
+					</a>
+				</div>
+				<div class="col">
+					<div class="row">
+						<h3>{{ player.firstName }}
+							{{player.LastName}}</h3>
+						<small class="text-muted">
+							//
+							{{ player.username }}</small>
+					</div>
+					<div class="row">
+						email:
+						{{player.email}}
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endfor %}
 {% endblock %}
 
 {% block aside %}

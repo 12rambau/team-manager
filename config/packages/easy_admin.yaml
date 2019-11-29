@@ -388,6 +388,7 @@ easy_admin:
                     - username
                     - firstName
                     - lastName
+                    - birthDate
                     - { property: gender, template: admin/field_gender.html.twig }
                     - roles
                     - email
@@ -396,7 +397,7 @@ easy_admin:
                     - messages
                     - comments
                     - participations
-                    - stats
+                    #- stats
             form:
                 fields:
                     - { type: tab, label: General informations }
@@ -406,6 +407,7 @@ easy_admin:
                     - username
                     - firstName
                     - lastName
+                    - birthDate
                     -  { property: gender, type: choice, type_options: { choices: { Male: true, Female: false}, required: true} } #the require option is to remove the "none"
                     #- roles
                     - { type: group, icon: phone, label: Contact }
@@ -418,7 +420,7 @@ easy_admin:
                     - comments
                     - { type: group, label: Events, icon: calendar, columns: 6 }
                     - participations
-                    - stats
+                    #- stats
         
         Player:
             class: App\Entity\Player

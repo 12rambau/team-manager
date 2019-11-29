@@ -67,6 +67,7 @@ class AppFixtures extends Fixture
         $root->setEmail('root@root.com');
         $root->setGender(true);
         $root->setPhoneNumber($faker->e164PhoneNumber());
+        $root->setBirthDate($faker->dateTimeThisCentury());
         $image = AppFixtures::manualImage('no-profile-pic-male.jpg', $rootDir);
         $root->setProfilePic($image);
         $root->setRoles(["ROLE_ADMIN"]);
@@ -85,6 +86,7 @@ class AppFixtures extends Fixture
             $user->setUserName($user->getfirstName().$user->getLastName());
             $user->setPassword($this->passwordEncoder->encodePassword($user,'userdemo'.$i));
             $user->setEmail($user->getfirstName().".".$user->getLastName().'@team.com');
+            $user->setBirthDate($faker->dateTimeThisCentury());
             $image = AppFixtures::manualImage('no-profile-pic-'.$gender.'.jpg', $rootDir);
             $user->setProfilePic($image);
             $user->setPhoneNumber($faker->e164PhoneNumber());

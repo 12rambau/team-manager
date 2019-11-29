@@ -16,6 +16,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class User implements UserInterface
 {
+
+    // TODO clean the variable order 
+
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -54,6 +58,11 @@ class User implements UserInterface
      * @Assert\Email()
      */
     private $email;
+
+    /**
+    * @ORM\Column(type="datetime", nullable=true)
+    */
+    private $birthDate;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -438,6 +447,18 @@ class User implements UserInterface
                 $player->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getBirthDate(): ?\DateTimeInterface
+    {
+        return $this->birthDate;
+    }
+
+    public function setBirthDate(\DateTimeInterface $birthDate): self
+    {
+        $this->birthDate = $birthDate;
 
         return $this;
     }
