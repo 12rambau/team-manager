@@ -22,85 +22,136 @@
 
 				<div class="col-lg-3">
 					<img id="imageFile" src="{{ asset(vich_uploader_asset(user.profilePic, "imageFile")) | imagine_filter('profile_pic') }}" class="img-rounded col-lg-12" alt="profile-pic">
+
+					{# TODO add an update profile button #}
 				</div>
 
 				<div class="col">
 
-					<fieldset class="border p-2">
-						<legend class="w-auto p-1">
-							<span class="fa fa-info mr-1"/>
-							Personnal info
-						</legend>
+					<ul class="nav nav-tabs" id="myTab" role="tablist">
+						<li class="nav-item">
+							<a class="nav-link active" id="general-tab" data-toggle="tab" href="#general" role="tab" aria-controls="general" aria-selected="true">General</a>
+						</li>
+						{% for player in user.players %}
+							<li class="nav-item">
+								<a class="nav-link" id="{{player.team }}-tab" data-toggle="tab" href="#{{player.team }}" role="tab" aria-controls="{{player.team}}" aria-selected="false">{{ player.team }}</a>
+							</li>
+						{% endfor %}
+					</ul>
+					<div class="tab-content" id="myTabContent">
+						<div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="general-tab">
 
-						<div class="form-group row col">
-							<div class="col-form-label col-3">Username:
-							</div>
-							<div class="col-lg-9 form-control">
-								{{ user.username }}
-							</div>
-						</div>
+							<fieldset class="border p-2">
+								<legend class="w-auto p-1">
+									<span class="fa fa-info mr-1"/>
+									Personnal info
+								</legend>
 
-						<div class="form-group row col">
-							<div class="col-form-label col-3">First name:
-							</div>
-							<div class="form-control col-lg-9">
-								{{ user.firstName }}
-							</div>
-						</div>
-
-						<div class="form-group row col">
-							<div class="col-form-label col-3">Last name:
-							</div>
-							<div class="form-control col-lg-9">
-								{{ user.lastName }}
-							</div>
-						</div>
-
-						<div class="form-group row col">
-							<div class="col-form-label col-3">Birth Date:
-							</div>
-							<div class="form-control col-lg-9">
-								{{ user.birthDate|date("m/d/Y") }}
-							</div>
-						</div>
-
-
-						<div class="form-group row col">
-							<div class="col-form-label col-3">Gender:
-							</div>
-							<div class="col-lg-9">
-								<div class="btn btn-primary">
-									<span class="fas fa-{{ (user.gender)?'male':'female' }} mr-1"/>
-									{{ (user.gender)?'Male':'Female' }}
+								<div class="form-group row col">
+									<div class="col-form-label col-3">Username:
+									</div>
+									<div class="col-lg-9 form-control">
+										{{ user.username }}
+									</div>
 								</div>
-							</div>
+
+								<div class="form-group row col">
+									<div class="col-form-label col-3">First name:
+									</div>
+									<div class="form-control col-lg-9">
+										{{ user.firstName }}
+									</div>
+								</div>
+
+								<div class="form-group row col">
+									<div class="col-form-label col-3">Last name:
+									</div>
+									<div class="form-control col-lg-9">
+										{{ user.lastName }}
+									</div>
+								</div>
+
+								<div class="form-group row col">
+									<div class="col-form-label col-3">Birth Date:
+									</div>
+									<div class="form-control col-lg-9">
+										{{ user.birthDate|date("m/d/Y") }}
+									</div>
+								</div>
+
+
+								<div class="form-group row col">
+									<div class="col-form-label col-3">Gender:
+									</div>
+									<div class="col-lg-9">
+										<div class="btn btn-primary">
+											<span class="fas fa-{{ (user.gender)?'male':'female' }} mr-1"/>
+											{{ (user.gender)?'Male':'Female' }}
+										</div>
+									</div>
+								</div>
+
+							</fieldset>
+
+							<fieldset class="border p-2">
+								<legend class="w-auto p-1">
+									<span class="fa fa-address-book mr-1"/>
+									Contact
+								</legend>
+
+								<div class="form-group row col">
+									<div class="col-form-label col-3">Email:
+									</div>
+									<div class="form-control col-lg-9">
+										{{ user.email }}
+									</div>
+								</div>
+
+								<div class="form-group row col">
+									<div class="col-form-label col-3">Phone Number:
+									</div>
+									<div class=" form-control col-lg-9">
+										{{ user.phoneNumber }}
+									</div>
+								</div>
+
+							</fieldset>
+
 						</div>
+						{% for player in user.players %}
+							<div class="tab-pane fade" id="{{ player.team }}" role="tabpanel" aria-labelledby="{{ player.team }}-tab">
+								<fieldset class="border p-2">
+									<legend class="w-auto p-1">
+										<span class="fa fa-tag mr-1"/>
+										Tags
+									</legend>
 
-					</fieldset>
+									{% for tag in player.tags %}
+										<div class="badge badge-pill badge-{{ tag.color }}">
+											{{ tag.name }}
+										</div>
+									{% endfor %}
+								</fieldset>
 
-					<fieldset class="border p-2">
-						<legend class="w-auto p-1">
-							<span class="fa fa-address-book mr-1"/>
-							Contact
-						</legend>
+								<fieldset class="border p-2">
+									<legend class="w-auto p-1">
+										<span class="fa fa-eye mr-1"/>
+										Features
+									</legend>
 
-						<div class="form-group row col">
-							<div class="col-form-label col-3">Email:
+								</fieldset>
+
+								<fieldset class="border p-2">
+									<legend class="w-auto p-1">
+										<span class="fa fa-chart-bar mr-1"/>
+										Stats
+									</legend>
+
+								</fieldset>
 							</div>
-							<div class="form-control col-lg-9">
-								{{ user.email }}
-							</div>
-						</div>
+						{% endfor %}
+					</div>
 
-						<div class="form-group row col">
-							<div class="col-form-label col-3">Phone Number:
-							</div>
-							<div class=" form-control col-lg-9">
-								{{ user.phoneNumber }}
-							</div>
-						</div>
-
-					</fieldset>
 
 				</div>
 

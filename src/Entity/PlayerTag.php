@@ -49,7 +49,7 @@ class PlayerTag
     private $team;
 
     /**
-    * @ORM\ManyToMany(targetEntity="App\Entity\Player", inversedBy="tags", cascade={"persist"})
+    * @ORM\ManyToMany(targetEntity="App\Entity\Player", mappedBy="tags", cascade={"persist"})
     */
     private $players;
 

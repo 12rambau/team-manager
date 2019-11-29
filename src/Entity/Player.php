@@ -24,7 +24,7 @@ class Player
     private $team;
 
     /**
-    * @ORM\ManyToMany(targetEntity="App\Entity\PlayerTag", mappedBy="players", cascade={"persist"})
+    * @ORM\ManyToMany(targetEntity="App\Entity\PlayerTag", inversedBy="players", cascade={"persist"})
     */
     private $tags;
 

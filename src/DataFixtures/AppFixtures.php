@@ -259,7 +259,7 @@ class AppFixtures extends Fixture
             $playerTag = new PlayerTag();
             //TODO set the color of the tag 
             $playerTag->setName($faker->word);
-            $playerTag->setTeam($teams[$faker->numberBetween(0,$nbTeam-1)]);
+            $teams[$faker->numberBetween(0,$nbTeam-1)]->addTag($playerTag);
             $manager->persist($playerTag);
         }
 
@@ -271,10 +271,10 @@ class AppFixtures extends Fixture
                     $player->setTeam($team);
                     $user->addPlayer($player);
                     $player->setUser($user);
-                    $tags = $player->getTeam()->getTags();
-                    foreach($tags as &$tag){
+                    foreach($team->getTags() as &$tag){
                         if ($faker->boolean) $player->addTag($tag);
                     }
+                    $manager->persist($player);
                 }
             }
         }
