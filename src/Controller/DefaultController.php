@@ -7,6 +7,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Location;
 use App\Entity\Partner;
 use App\Entity\Team;
+use App\Entity\Social;
 use App\Form\ContactType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,12 +22,24 @@ class DefaultController extends AbstractController
         $contact = $em->getRepository(Location::class)->findOneByTag('contact');
         $partners = $em->getRepository(Partner::class)->findAll();
         $teams = $em->getRepository(Team::class)->findAll();
+        $socials = $em->getRepository(Social::class)->findAll();
 
         return $this->render('default/home.html.twig', [
             'contact' => $contact,
             'partners' => $partners,
-            'teams' => $teams
+            'teams' => $teams,
         ]);
+    }
+
+    public function Social(): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $socials = $em->getRepository(Social::class)->findAll();
+
+        return $this->render('default/social.html.twig', [
+            'socials' => $socials,
+        ]);
+
     }
 
     public function ContactAdress(): Response

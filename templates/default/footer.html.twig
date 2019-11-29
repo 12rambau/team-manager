@@ -1,7 +1,6 @@
 <footer class="jumbotron bg-dark text-muted pt-4 pb-3 mt-4 mb-0">
 	<small>
-		<div
-			class="row">
+		<div class="row">
 
 			{# club information #}
 			<div class="col-3">
@@ -21,21 +20,7 @@
 				<h5 class="text-primary">Follow us</h5>
 				{# TODO let the user create it's own social #}
 				<div class="social-icons">
-					<a href="">
-						<i class="fab fa-youtube"></i>
-					</a>
-					<a href="">
-						<i class="fab fa-instagram"></i>
-					</a>
-					<a href="">
-						<i class="fab fa-strava"></i>
-					</a>
-					<a href="">
-						<i class="fab fa-twitter"></i>
-					</a>
-					<a href="">
-						<i class="fab fa-facebook-f"></i>
-					</a>
+					{{ render(controller('App\\Controller\\DefaultController::Social')) }}
 				</div>
 				<h5 class="text-primary mt-2">Contact us</h5>
 				<ul id="contact-footer">

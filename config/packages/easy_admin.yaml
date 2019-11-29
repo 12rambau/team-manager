@@ -19,9 +19,10 @@ easy_admin:
                icon: 'users'
                children:
                 - { label: 'Club adress', entity: Location ,icon: 'address-card', params: {
-                 action: search, query: contact}}
-                - { icon: handshake, entity: Partner}
-                - { icon: quidditch, entity: Team}
+                 action: search, query: contact} }
+                - { icon: handshake, entity: Partner }
+                - { icon: quidditch, entity: Team }
+                - { icon: share-alt, entity: Social }
              - label: 'Team'
                icon: quidditch
                children:
@@ -422,6 +423,16 @@ easy_admin:
         Player:
             class: App\Entity\Player
             label: Player
+            form:
+                fields:
+                    - team
+                    - user
+                    - tags
+            show:
+                fields:
+                    - team
+                    - user
+                    - tags
 
         PlayerTag:
             class: App\Entity\PlayerTag
@@ -437,5 +448,20 @@ easy_admin:
                 fields:
                     - { type: group, columns: 12}
                     - { property: players, type: collection, type_options: { allow_delete: true, allow_add: false } }
+
+        Social:
+            class: App\Entity\Social
+            label: Social Media
+            #TODO customize the display of the brand and the color
+            form:
+                fields:
+                    #TODO customize the icon/color field to preview the icon
+                    - { type: group, columns: 6}
+                    - name
+                    - { property: url, help: "the url of your page on this social network" }
+                    - { type: group, columns: 6}
+                    - { property: icon, help: 'the name of your icon find on the "Font is awesome" website. As a brand it will start with "fab fa-[your_icon]' }
+                    - color
+
 
 

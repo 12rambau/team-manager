@@ -20,6 +20,7 @@ use App\Entity\Partner;
 use App\Entity\Player;
 use App\Entity\Team;
 use App\Entity\PlayerTag;
+use App\Entity\Social;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -287,6 +288,43 @@ class AppFixtures extends Fixture
             $player->setUser($root);
             $manager->persist($player);
         }
+
+        //social media 
+        $socials[0] = new Social();
+        $socials[0]->setName('youtube');
+        $socials[0]->setUrl('https://www.youtube.com/channel/UC9UGYdMSKasjY0mhU1lG4lQ');
+        $socials[0]->setIcon('youtube');
+        $socials[0]->setColor('#c4302b');
+        $manager->persist($socials[0]);
+
+        $socials[1] = new Social();
+        $socials[1]->setName('instagram');
+        $socials[1]->setUrl('https://www.instagram.com/nitrocircus/');
+        $socials[1]->setIcon('instagram');
+        $socials[1]->setColor('#C13584');
+        $manager->persist($socials[1]);
+
+        $socials[2] = new Social();
+        $socials[2]->setName('strava');
+        $socials[2]->setUrl('https://blog.strava.com');
+        $socials[2]->setIcon('strava');
+        $socials[2]->setColor('#fc4c02');
+        $manager->persist($socials[2]);
+
+        $socials[3] = new Social();
+        $socials[3]->setName('twitter');
+        $socials[3]->setUrl('https://twitter.com/NitroCircus');
+        $socials[3]->setIcon('twitter');
+        $socials[3]->setColor('#1da1f2');
+        $manager->persist($socials[3]);
+
+        $socials[4] = new Social();
+        $socials[4]->setName('facebook');
+        $socials[4]->setUrl('https://www.facebook.com/NitroCircus/');
+        $socials[4]->setIcon('facebook-f');
+        $socials[4]->setColor('#3B5998');
+        $manager->persist($socials[4]);
+
 
         $manager->flush();
     }
