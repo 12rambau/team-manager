@@ -426,5 +426,16 @@ easy_admin:
         PlayerTag:
             class: App\Entity\PlayerTag
             label: Player Tag
+            form:
+                fields:
+                    - { type: group, label: Info, icon: pencil-alt, columns: 8 }
+                    - name
+                    - color
+                    - { type: group, label: Team, icon: users, columns: 4}
+                    - team
+            edit:
+                fields:
+                    - { type: group, columns: 12}
+                    - { property: players, type: collection, type_options: { allow_delete: true, allow_add: false } }
 
 

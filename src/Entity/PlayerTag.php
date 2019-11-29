@@ -6,12 +6,25 @@ use App\Entity\Team;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PlayerTagRepository")
  */
 class PlayerTag
 {
+
+    const COLORS = [
+        "primary"=>"primary", 
+        "secondary"=>"secondary", 
+        "success"=> "success", 
+        "danger"=>"danger", 
+        "warning"=>"warning", 
+        "info"=>"info", 
+        "light"=>"light", 
+        "dark"=>"dark"
+    ];
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -26,6 +39,7 @@ class PlayerTag
 
     /**
      * @ORM\Column(type="string", length=255)
+     * * @Assert\Choice(callback="getColors")
      */
     private $color;
 
@@ -44,6 +58,11 @@ class PlayerTag
     {
         $this->color = "primary";
         $this->players = new ArrayCollection();
+    }
+
+    public function getColors()
+    {
+        return $this::COLORS;
     }
 
     public function getId(): ?int

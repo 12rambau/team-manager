@@ -38,6 +38,11 @@ class Player
         $this->tags = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->getUser()->getUsername()." in ".$this->getTeam()->getName();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
