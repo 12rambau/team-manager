@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\DataFixtures\StartFixtures;
 use App\DataFixtures\TeamFixtures;
+use App\Entity\Feature;
 use App\Entity\Player;
 use App\Entity\Team;
 use App\Entity\User;
@@ -81,6 +82,25 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
             }
             $player->setUser($root);
             $manager->persist($player);
+        }
+
+        // add features 
+        $maxFeatures = 5;
+        foreach ($teams as &$team) {
+            $nb = count($team->getFeatures());
+            if ($nb) {
+                foreach ($team->getPlayers() as &$player) {
+                    $nbFeature = $faker->numberBetween(0, $maxFeatures);
+                    for ($i = 0; $i < $nbFeature; $i++) {
+                        $feature = new Feature();
+                        $tag = $team->getFeatures()->get($faker->numberBetween(0, $nb - 1));
+                        $tag->addFeature($feature);
+                        $feature->setValue($faker->word);
+                        $player->addFeature($feature);
+                        $manager->persist($feature);
+                    }
+                }
+            }
         }
 
         $manager->flush();

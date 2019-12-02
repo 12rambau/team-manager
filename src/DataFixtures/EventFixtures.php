@@ -8,6 +8,8 @@ use App\Entity\Event;
 use App\Entity\EventTag;
 use App\Entity\Feature;
 use App\Entity\Location;
+use App\Entity\PersonnalStat;
+use App\Entity\StatTag;
 use App\Entity\Team;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -25,9 +27,12 @@ class EventFixtures extends Fixture implements DependentFixtureInterface
         $tags = $manager->getRepository(EventTag::class)->findAll();
         //$teams = $this->getReference(TeamFixtures::TEAMS_REF);
         $teams = $manager->getRepository(Team::class)->findAll();
+
+        $statTags = $manager->getRepository(StatTag::class)->findAll();
         
         //small computation on external variable
         $nbTag = count($tags);
+        $nbTeam = count($teams);
 
         //event creator
         $nbEvent = 30;
@@ -52,26 +57,38 @@ class EventFixtures extends Fixture implements DependentFixtureInterface
 
             $event->setLocation($location);
 
+            $teams[$faker->numberBetween(0, $nbTeam-1)]->addEvent($event);
+
             $manager->persist($event);
         }
 
-        // add features 
-        //link to events ? 
-        $maxFeatures = 5;
-        foreach ($teams as &$team) {
-            $nb = count($team->getFeatures());
-            if ($nb) {
-                foreach ($team->getPlayers() as &$player) {
-                    $nbFeature = $faker->numberBetween(0, $maxFeatures);
-                    for ($i = 0; $i < $nbFeature; $i++) {
-                        $feature = new Feature();
-                        $tag = $team->getFeatures()->get($faker->numberBetween(0, $nb - 1));
-                        $tag->addFeature($feature);
-                        $feature->setValue($faker->word);
-                        $player->addFeature($feature);
-                        $manager->persist($feature);
-                    }
-                }
+        $manager->flush(); //to automatically create the participations ;-) 
+
+        //add participation 
+        foreach ($events as &$event) {
+            foreach ($event->getParticipations() as &$participation) {
+                if ($faker->boolean) $participation->setValue(true);
+            }
+        }
+
+        //add stats 
+        foreach ($events as &$event) {
+            foreach ($event->getParticipationsIn() as &$participation) {
+                //a distance 
+                $stat = new PersonnalStat();
+                $stat->setTag($statTags[0]);
+                $stat->setParticipation($participation);
+                $stat->setValue($faker->numberBetween(0,100));
+                $manager->persist($stat);
+                
+                // a time 
+                $stat = new PersonnalStat();
+                $stat->setTag($statTags[1]);
+                $stat->setParticipation($participation);
+                $stat->setTimer(true);
+                $stat->setValue($faker->numberBetween(0,30));
+
+                //TODO save time and value in the same way (just change the display for times)
             }
         }
 
@@ -82,7 +99,8 @@ class EventFixtures extends Fixture implements DependentFixtureInterface
     {
         return [
             StartFixtures::class,
-            TeamFixtures::class
+            TeamFixtures::class,
+            UserFixtures::class
         ];
     }
 }

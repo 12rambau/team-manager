@@ -85,11 +85,6 @@ class User implements UserInterface
     private $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Participation", mappedBy="user", cascade={"persist"}, orphanRemoval=true)
-     */
-    private $participations;
-
-    /**
      * @ORM\OneToOne(targetEntity="App\Entity\Image", cascade={"persist"}, orphanRemoval=true)
      * @ORM\JoinColumn(nullable=true)
      */
@@ -119,7 +114,6 @@ class User implements UserInterface
         $this->posts = new ArrayCollection();
         $this->messages = new ArrayCollection();
         $this->comments = new ArrayCollection();
-        $this->participations = new ArrayCollection();
         $this->players = new ArrayCollection();
     }
 
@@ -329,37 +323,6 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($comment->getAuthor() === $this) {
                 $comment->setAuthor(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Participation[]
-     */
-    public function getParticipations(): Collection
-    {
-        return $this->participations;
-    }
-
-    public function addParticipation(Participation $participation): self
-    {
-        if (!$this->participations->contains($participation)) {
-            $this->participations[] = $participation;
-            $participation->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeParticipation(Participation $participation): self
-    {
-        if ($this->participations->contains($participation)) {
-            $this->participations->removeElement($participation);
-            // set the owning side to null (unless already changed)
-            if ($participation->getUser() === $this) {
-                $participation->setUser(null);
             }
         }
 

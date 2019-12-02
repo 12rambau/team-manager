@@ -38,10 +38,16 @@ class Player
     */
     private $features;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Participation", mappedBy="player", cascade={"persist"}, orphanRemoval=true)
+     */
+    private $participations;
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
         $this->features = new ArrayCollection();
+        $this->participations = new ArrayCollection();
     }
 
     public function __toString()
@@ -131,6 +137,37 @@ class Player
             // set the owning side to null (unless already changed)
             if ($feature->getPlayer() === $this) {
                 $feature->setPlayer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Participation[]
+     */
+    public function getParticipations(): Collection
+    {
+        return $this->participations;
+    }
+
+    public function addParticipation(Participation $participation): self
+    {
+        if (!$this->participations->contains($participation)) {
+            $this->participations[] = $participation;
+            $participation->setPlayer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParticipation(Participation $participation): self
+    {
+        if ($this->participations->contains($participation)) {
+            $this->participations->removeElement($participation);
+            // set the owning side to null (unless already changed)
+            if ($participation->getPlayer() === $this) {
+                $participation->setPlayer(null);
             }
         }
 

@@ -113,6 +113,11 @@ class Event
      */
     private $result;
 
+    /**
+    * @ORM\ManyToOne(targetEntity="App\Entity\Team", inversedBy="events", cascade={"persist"})
+    */
+    private $team;
+
     public function __construct()
     {
         $this->active = false;
@@ -430,6 +435,18 @@ class Event
                 $field->setEvent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTeam(): ?Team
+    {
+        return $this->team;
+    }
+
+    public function setTeam(?Team $team): self
+    {
+        $this->team = $team;
 
         return $this;
     }

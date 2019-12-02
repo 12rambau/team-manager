@@ -5,6 +5,7 @@ namespace App\EventListener;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use App\Entity\Participation;
 use App\Entity\Event;
+use App\Entity\Player;
 use App\Entity\User;
 use Doctrine\ORM\EntityManager;
 
@@ -15,16 +16,14 @@ class CreateParticipations
         $em = $args->getEntityManager();
         $event = $args->getObject();
 
-        if ($event instanceof Event) { 
+        if ($event instanceof Event) {
 
-            $users = $em->getRepository(User::class)->findAll();
-            $nbUser = count($users);
-            for ($i=0; $i < $nbUser; $i++)
-            {
-                $participation = new Participation ();
-                $participation->setUser($users[$i]);
-                $participation->setEvent($event);
-                
+            $players = $em->getRepository(Player::class)->findByTeam($event->getTeam());
+            foreach ($players as $player) {
+                $participation = new Participation();
+                $player->addParticipation($participation);
+                $event->addParticipation($participation);
+
                 $em->persist($participation);
             }
 

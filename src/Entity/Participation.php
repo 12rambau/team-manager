@@ -34,9 +34,9 @@ class Participation
     private $lastUpdate;
     
     /**
-    * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="participations", cascade={"persist"})
+    * @ORM\ManyToOne(targetEntity="App\Entity\Player", inversedBy="participations", cascade={"persist"})
     */
-    private $user;
+    private $player;
 
     /**
     * @ORM\ManyToOne(targetEntity="App\Entity\Event", inversedBy="participations", cascade={"persist"})
@@ -90,14 +90,14 @@ class Participation
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getPlayer(): ?Player
     {
-        return $this->user;
+        return $this->player;
     }
 
-    public function setUser(?User $user): self
+    public function setPlayer(?Player $player): self
     {
-        $this->user = $user;
+        $this->player = $player;
 
         return $this;
     }

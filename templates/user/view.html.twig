@@ -12,6 +12,12 @@
 	</h1>
 {% endblock %}
 
+{% block javascripts %}
+	{{ parent() }}
+
+	{{ encore_entry_script_tags('user') }}
+{% endblock %}
+
 {% block content %}
 
 	<div class="card">
@@ -35,7 +41,7 @@
 						</li>
 						{% for player in user.players %}
 							<li class="nav-item">
-								<a class="nav-link" id="{{player.team }}-tab" data-toggle="tab" href="#{{player.team }}" role="tab" aria-controls="{{player.team}}" aria-selected="false">{{ player.team }}</a>
+								<a class="nav-link team-pane" id="{{player.team }}-tab" data-toggle="tab" href="#{{player.team }}" role="tab" aria-controls="{{player.team}}" aria-selected="false">{{ player.team }}</a>
 							</li>
 						{% endfor %}
 					</ul>
@@ -159,6 +165,28 @@
 										<span class="fa fa-chart-bar mr-1"/>
 										Stats
 									</legend>
+
+									<div id="tag-number" data-index="{{ tags|length }}">
+									{% for tag in tags %}
+										<div class="card border-0 tag-card" data-tag="{{ tag }}" data-unity="{{ tag.unity }}">
+											<div class="card-body">
+												{% for participation in player.participations %}
+													{% for stat in participation.stats %}
+														{% if stat.tag == tag %}
+															<span class="d-none x-value">
+																{{ participation.event.start|date('Y-m-d H:i:s')}}
+															</span>
+															<span class="d-none y-value">
+																{{ stat.value }}
+															</span>
+														{% endif %}
+													{% endfor %}
+												{% endfor %}
+											</div>
+											<canvas id="tag-{{ loop.index0 }}" class="graph-canvas" width="400" height="200"></canvas>
+										</div>
+									{% endfor %}
+									</div>
 
 								</fieldset>
 							</div>

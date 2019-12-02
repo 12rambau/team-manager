@@ -9,6 +9,7 @@ use App\Entity\User;
 use App\Form\UserType;
 use Symfony\Component\HttpFoundation\Request;
 use App\DataFixtures\StartFixtures;
+use App\Entity\StatTag;
 use App\Utils\ImageManager;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 
@@ -44,11 +45,16 @@ class UserController extends AbstractController
     public function view(User $user):Response
     {
         //redirect to edit if it's the current user
-        if ($user === $this->getUser())
-            return new RedirectResponse($this->generateUrl('profile-edit', ['username' => $user->getUsername()]));
+        //if ($user === $this->getUser())
+        //    return new RedirectResponse($this->generateUrl('profile-edit', ['username' => $user->getUsername()]));
+        
+        $em = $this->getDoctrine()->getManager();
 
+        $tags = $em->getRepository(StatTag::class)->findAll();
+        
         return $this->render('user\view.html.twig', [
-            'user' => $user
+            'user' => $user,
+            'tags' => $tags
         ]);
     }
 

@@ -82,11 +82,11 @@
 			{% for team in teams %}
 				<div class="row align-items-center no-gutters mb-4 mb-lg-5">
 					<div class="col-xl-8 col-lg-7">
-						<a href="{{ path('team-player-index') }}"><img class="img-fluid mb-3 mb-lg-0" src="{{ asset(vich_uploader_asset(team.image, "imageFile")|imagine_filter('gallery')) }}" alt=""></a>
+						<a href="{{ path('team-player-index', {'name':team}) }}"><img class="img-fluid mb-3 mb-lg-0" src="{{ asset(vich_uploader_asset(team.image, "imageFile")|imagine_filter('gallery')) }}" alt=""></a>
 					</div>
 					<div class="col-xl-4 col-lg-5">
 						<div class="featured-text text-center text-lg-left">
-							<h4>{{ team.name }}</h4>
+							<h4>{{ team }}</h4>
 							<p class="text-black-50 mb-0">
 								{{ team.descripsion }}
 							</p>

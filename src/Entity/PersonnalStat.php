@@ -47,6 +47,7 @@ class PersonnalStat
     {
         $this->setTimer(false);
     }
+    //TODO deal with the timer values and a way to display them
 
 
     public function __toString()
