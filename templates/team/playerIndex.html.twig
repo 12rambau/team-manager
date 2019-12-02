@@ -21,21 +21,21 @@
 		<div class="card">
 			<div class="card-body row">
 				<div class="col-2">
-					<a href="{{ path('profile-view', {'username': player.username}) }}">
-						<img src="{{ asset(vich_uploader_asset(player.profilePic, "imageFile"))| imagine_filter('profile_pic')}}" class="img-rounded col-lg-12" alt="profile-pic">
+					<a href="{{ path('profile-view', {'username': player.user.username}) }}">
+						<img src="{{ asset(vich_uploader_asset(player.user.profilePic, "imageFile"))| imagine_filter('profile_pic')}}" class="img-rounded col-lg-12" alt="profile-pic">
 					</a>
 				</div>
 				<div class="col">
 					<div class="row">
-						<h3>{{ player.firstName }}
-							{{player.LastName}}</h3>
+						<h3>{{ player.user.firstName }}
+							{{player.user.LastName}}</h3>
 						<small class="text-muted">
 							//
-							{{ player.username }}</small>
+							{{ player.user.username }}</small>
 					</div>
 					<div class="row">
 						email:
-						{{player.email}}
+						{{player.user.email}}
 					</div>
 				</div>
 			</div>

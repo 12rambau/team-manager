@@ -10,9 +10,9 @@
 					Teams
 				</a>
 				<div class="dropdown-menu" aria-labelledby="dropdownCalendar">
-					<a class="dropdown-item" href="#">a first team</a>
-					<a class="dropdown-item" href="#">another one</a>
-					<a class="dropdown-item" href="#">the last one</a>
+					{% for team in teams %}
+					<a class="dropdown-item" href="{{ path('team-player-index', { 'name': team.name}) }}">{{ team.name }}</a>
+					{% endfor %}
 				</div>
 			</li>
 			<li class="nav-item dropdown">
@@ -35,13 +35,10 @@
 					<a class="dropdown-item" href="{{ path('event-add') }}">add a new event</a>
 				</div>
 			</li>
-			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="dropdownCalendar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<li class="nav-item">
+				<a class="nav-link" href="#">
 					Team
 				</a>
-				<div class="dropdown-menu" aria-labelledby="dropdownCalendar">
-					<a class="dropdown-item" href="{{ path('team-player-index', {}) }}">Player list</a>
-				</div>
 			</li>
 			<li class="nav-item">
 				<a class="nav-link" href="{{ path('contact', {}) }}">contact</a>

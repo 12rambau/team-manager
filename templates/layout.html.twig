@@ -16,8 +16,8 @@
 			{% endblock %}
 		</div>
 	</div>
-	{% include "default/navBar.html.twig" with { 'navId':'mainNav'} %}
-	{% include "default/navBar.html.twig" with { 'navId':'secondNav'} %}
+	{{ render(controller('App\\Controller\\DefaultController::Nav', {'navId':'mainNav'})) }}
+	{{ render(controller('App\\Controller\\DefaultController::Nav', {'navId':'secondNav'})) }}
 {% endblock %}
 
 {% block body %}

@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Location;
 use App\Entity\Partner;
 use App\Entity\Team;
@@ -74,6 +73,17 @@ class DefaultController extends AbstractController
         return $this->render('default/contact.html.twig', [
             'contact' => $contact,
             'form' => $form->createView()
+        ]);
+    }
+
+    public function nav ($navId): Response
+    {
+        $em = $this->getDoctrine()->getmanager();
+        $teams = $em->getRepository(Team::class)->findAll();
+
+        return $this->render('default/navBar.html.twig', [
+            'teams' => $teams,
+            'navId' => $navId
         ]);
     }
 }

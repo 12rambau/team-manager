@@ -1,3 +1,3 @@
 team-player-index:
-    path: /player/index
+    path: /player/index/{name}
     controller: App\Controller\TeamController::playerIndex
