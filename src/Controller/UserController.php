@@ -9,10 +9,18 @@ use App\Entity\User;
 use App\Form\UserType;
 use Symfony\Component\HttpFoundation\Request;
 use App\DataFixtures\StartFixtures;
+use App\Utils\ImageManager;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 
 class UserController extends AbstractController
 {
+    private $imageManager;
+
+    public function __construct(ImageManager $imageManager)
+    {
+        $this->imageManager = $imageManager;
+    }
+
     public function edit(User $user, Request $request):Response
     {
         if ($this->getUser() != $user) 
@@ -67,7 +75,7 @@ class UserController extends AbstractController
         //$rootDir = $this->container->get('kernel')->getRootDir();
         $gender = $user->getGender()? 'male':'female';
 
-        $image = StartFixtures::manualImage('no-profile-pic-'.$gender.'.jpg', $rootDir);
+        $image = $this->imageManager->manualImage('no-profile-pic-'.$gender.'.jpg');
 
         $user->setProfilePic($image);
 
