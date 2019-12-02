@@ -33,9 +33,15 @@ class Player
     */
     private $user;
 
+    /**
+    * @ORM\OneToMany(targetEntity="App\Entity\Feature", mappedBy="player", cascade={"persist"}, orphanRemoval=true)
+    */
+    private $features;
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
+        $this->features = new ArrayCollection();
     }
 
     public function __toString()
@@ -96,6 +102,37 @@ class Player
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Feature[]
+     */
+    public function getFeatures(): Collection
+    {
+        return $this->features;
+    }
+
+    public function addFeature(Feature $feature): self
+    {
+        if (!$this->features->contains($feature)) {
+            $this->features[] = $feature;
+            $feature->setPlayer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFeature(Feature $feature): self
+    {
+        if ($this->features->contains($feature)) {
+            $this->features->removeElement($feature);
+            // set the owning side to null (unless already changed)
+            if ($feature->getPlayer() === $this) {
+                $feature->setPlayer(null);
+            }
+        }
 
         return $this;
     }

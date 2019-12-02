@@ -3,7 +3,8 @@ easy_admin:
     user:
         name_property_path: 'username'
         # no capacity to handle Vich_uploader //avatar_property_path: 'profilePic.fileName'
-    design:            
+    design:  
+    #TODO remove al the unecessary ''          
         form_theme: 
             - '@EasyAdmin/form/bootstrap_4.html.twig'
             - 'form/fields.html.twig'
@@ -28,6 +29,9 @@ easy_admin:
                children:
                 - { icon: user, entity: Player }
                 - { icon: tag, entity: PlayerTag }
+                - { icon: tag, entity: FeatureTag }
+                #TODO link personnal stat to teams
+                - { icon: tag, entity: StatTag}
              - label: 'News'
                icon: 'rss'
                children:
@@ -44,9 +48,9 @@ easy_admin:
              - label: 'User'
                icon: 'user'
                children:
-                - { icon: 'user', entity: 'User' }
-                - { icon: 'poll', entity: 'PersonnalStat' }
-                - { icon: 'tag', entity: 'StatTag'}
+                - { icon: user, entity: User }
+                - { icon: poll, entity: PersonnalStat }
+                - { icon: info, entity: Feature }
              - {icon: 'comments', entity: 'ChatMessage' }
              - { label: 'Admin database'}
              - { icon: 'image', entity: 'Image' }
@@ -464,6 +468,15 @@ easy_admin:
                     - { type: group, columns: 6}
                     - { property: icon, help: 'the name of your icon find on the "Font is awesome" website. As a brand it will start with "fab fa-[your_icon]' }
                     - color
+        FeatureTag:
+            #TODO customize display
+            class: App\Entity\FeatureTag
+            Label: Feature Tag
+
+        Feature: 
+            # TODO customize display
+            class: App\Entity\Feature
+            label: Feature
 
 
 

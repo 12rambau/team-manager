@@ -43,10 +43,17 @@ class Team
     */
     private $players;
 
+    /**
+    * @ORM\OneToMany(targetEntity="App\Entity\FeatureTag", mappedBy="team", cascade={"persist"}, orphanRemoval=true)
+    */
+    private $features;
+
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
         $this->players = new ArrayCollection();
+        $this->features = new ArrayCollection();
     }
 
     public function __toString()
@@ -151,6 +158,37 @@ class Team
             // set the owning side to null (unless already changed)
             if ($player->getTeam() === $this) {
                 $player->setTeam(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|FeatureTag[]
+     */
+    public function getFeatures(): Collection
+    {
+        return $this->features;
+    }
+
+    public function addFeature(FeatureTag $feature): self
+    {
+        if (!$this->features->contains($feature)) {
+            $this->features[] = $feature;
+            $feature->setTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFeature(FeatureTag $feature): self
+    {
+        if ($this->features->contains($feature)) {
+            $this->features->removeElement($feature);
+            // set the owning side to null (unless already changed)
+            if ($feature->getTeam() === $this) {
+                $feature->setTeam(null);
             }
         }
 

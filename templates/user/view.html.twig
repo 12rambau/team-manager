@@ -21,9 +21,10 @@
 			<div class="row">
 
 				<div class="col-lg-3">
-					<img id="imageFile" src="{{ asset(vich_uploader_asset(user.profilePic, "imageFile")) | imagine_filter('profile_pic') }}" class="img-rounded col-lg-12" alt="profile-pic">
+					<img
+					id="imageFile" src="{{ asset(vich_uploader_asset(user.profilePic, "imageFile")) | imagine_filter('profile_pic') }}" class="img-rounded col-lg-12" alt="profile-pic">
 
-					{# TODO add an update profile button #}
+				{# TODO add an update profile button #}
 				</div>
 
 				<div class="col">
@@ -137,8 +138,19 @@
 								<fieldset class="border p-2">
 									<legend class="w-auto p-1">
 										<span class="fa fa-eye mr-1"/>
-										Features
+										Features:
 									</legend>
+
+									{% for feature in player.features %}
+										<div class="form-group row col">
+											<div class="col-form-label col-3">
+												{{ feature.tag.name }}:
+											</div>
+											<div class=" form-control col-lg-9">
+												{{ feature.value }}
+											</div>
+										</div>
+									{% endfor %}
 
 								</fieldset>
 
