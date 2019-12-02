@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use App\Entity\User;
 use App\Form\UserType;
 use Symfony\Component\HttpFoundation\Request;
-use App\DataFixtures\AppFixtures;
+use App\DataFixtures\StartFixtures;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 
 class UserController extends AbstractController
@@ -67,7 +67,7 @@ class UserController extends AbstractController
         //$rootDir = $this->container->get('kernel')->getRootDir();
         $gender = $user->getGender()? 'male':'female';
 
-        $image = AppFixtures::manualImage('no-profile-pic-'.$gender.'.jpg', $rootDir);
+        $image = StartFixtures::manualImage('no-profile-pic-'.$gender.'.jpg', $rootDir);
 
         $user->setProfilePic($image);
 
