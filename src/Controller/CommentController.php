@@ -10,8 +10,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
-use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpFoundation\Response;
 
 class CommentController extends AbstractController
@@ -45,32 +43,5 @@ class CommentController extends AbstractController
         }
 
         return new JsonResponse($data);
-    }
-
-    public function delete(Comment $comment): JsonResponse
-    {
-
-        //TODO check this function 
-
-
-        //check the user 
-        if ($this->getUser() != $comment->getAuthor())
-            throw new AccessDeniedException('Not your Comment');
-
-        //delete the comment 
-        $em = $this->getDoctrine()->getmanager();
-        $em->remove($comment);
-        $em->flush();
-
-        $data['status'] = "done";
-
-        return new JsonResponse($data);
-    }
-
-
-    public function edit(Comment $comment)
-    {
-        //do an edit function
-        return -1;
     }
 }
