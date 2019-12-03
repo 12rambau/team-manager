@@ -12,6 +12,7 @@ use App\Form\ListParticipationType;
 use App\Form\TemplateSelectType;
 use App\Entity\EventTag;
 use App\Entity\FieldTemplate;
+use App\Entity\Player;
 use App\Form\ParticipationStatsType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -134,18 +135,30 @@ class EventController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
+        //get the current player
+        $player = $em->getRepository(Player::class)->findOneBy([
+            'user' => $this->getUser(),
+            'team' => $event->getTeam()
+        ]);
+
+
         $participations = $event->getParticipations();
-        $myParticipation = $em->getRepository(Participation::class)->FindByEventAndUser($event, $this->getUser());
+        $myParticipation = $em->getRepository(Participation::class)->findOneBy([
+            'player' => $player,
+            'event' => $event
+        ]);
         $formsInOut = $this->createForm(ListParticipationType::class, ['participations' => $participations]);
 
         //get the index of the current user 
         foreach ($participations as $key => $participation) {
-            if ($participation->getUser() == $this->getUser())
+            if ($participation->getPlayer() == $player) {
                 $userIndex = $key;
+                break;
+            }
         }
 
+        //security as the form is ajax handled
         $formsInOut->handleRequest($request);
-
         if ($formsInOut->isSubmitted() && $formsInOut->isValid())
             $em->flush();
 

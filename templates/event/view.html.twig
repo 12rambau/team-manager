@@ -54,9 +54,10 @@
 
 			<h2 class="card-title">My Participation</h2>
 
+			{# TODO make the automatic check work (ajax is already functionnal) #}
 			<div class="form-inline" id="myForm" data-user-index="{{ userIndex }}">
 				<label class="custom-radio">
-					<input type="radio" id="" name="" value="0" {{(myParticipation.value == 0 and myParticipation.lastUpdate)?"checked" }}>
+					<input class="my-participation" name="my-participation" value="0" {{(myParticipation.value == 0 and myParticipation.lastUpdate)?"checked" }}>
 					<button type="button" class="uncheck btn btn-outline-danger m-1">
 						<span class="fa fa-thumbs-down mr-1"/>
 						out
@@ -68,7 +69,7 @@
 				</label>
 
 				<label class="custom-radio">
-					<input type="radio" id="" name="" value="1" {{ (myParticipation.value == 1)?"checked" }}>
+					<input class="my-participation" name="my-participation" type="radio" value="1" {{ (myParticipation.value == 1)?"checked" }}>
 					<button type="button" class="uncheck btn btn-outline-success m-1">
 						<span class="fa fa-thumbs-up mr-1"/>
 						in
@@ -110,7 +111,7 @@
 		<button type="submit" name="listParticpation-update" class="btn btn-block btn-success">
 			save changes
 		</button>
-        <img id="loading" class="loader float-right" src="{{ asset('image/default/loading.svg') }}" alt="loading">
+		<img id="loading" class="loader float-right" src="{{ asset('image/default/loading.svg') }}" alt="loading">
 
 		<hr>
 
@@ -133,13 +134,13 @@
 					{% for formInOut in formsInOut.participations %}
 						<tr>
 							<td id="username-{{loop.index0}}">
-								{{participations[loop.index0].user.username }}
+								{{participations[loop.index0].player.user.username }}
 							</td>
 							<td id="value-{{loop.index0}}">
-								{{ form_widget(formInOut.value, {'index':-1, 'username':participations[loop.index0].user.username}) }}
+								{{ form_widget(formInOut.value, {'index':-1, 'username':participations[loop.index0].player.user.username}) }}
 							</td>
 							<td id="comment-{{loop.index0}}">
-								{{ form_widget(formInOut.comment, {'attr': {'class': 'form-control','readonly': (participations[loop.index0].user != app.user)}}) }}
+								{{ form_widget(formInOut.comment, {'attr': {'class': 'form-control','readonly': (participations[loop.index0].player.user != app.user)}}) }}
 							</td>
 							<td id="update-{{loop.index0}}">
 								{% if participations[loop.index0].lastUpdate %}
@@ -166,7 +167,7 @@
 					{% for participation in participations %}
 						{% if participation.value %}
 							<span id="{{ loop.index0 }}-drag-element" data-user-index="{{ loop.index0 }}" class="badge badge-pill badge-light border draggable">
-								{{ participation.user.username }}
+								{{ participation.player.user.username }}
 							</span>
 						{% endif %}
 					{% endfor %}
@@ -182,7 +183,7 @@
 					{% for participation in participations %}
 						{% if  not participation.value and participation.lastUpdate %}
 							<span id="{{ loop.index0 }}-drag-element" data-user-index="{{ loop.index0 }}" class="badge badge-pill badge-light border draggable">
-								{{ participation.user.username }}
+								{{ participation.player.user.username }}
 							</span>
 						{% endif %}
 					{% endfor %}
@@ -198,7 +199,7 @@
 					{% for participation in participations %}
 						{% if not participation.lastUpdate %}
 							<span id="{{ loop.index0 }}-drag-element" data-user-index="{{ loop.index0 }}" class="badge badge-pill badge-light border draggable">
-								{{ participation.user.username }}
+								{{ participation.player.user.username }}
 							</span>
 						{% endif %}
 					{% endfor %}
@@ -230,10 +231,13 @@
 {% endblock %}
 
 {% block javascripts %}
+	
 	<script type="text/javascript">
 		var lat = document.getElementById('event_location_lat');
-var lng = document.getElementById('event_location_lng');
+		var lng = document.getElementById('event_location_lng');
 	</script>
+
 	{{ parent() }}
+
 	{{ encore_entry_script_tags('event-view') }}
 {% endblock %}

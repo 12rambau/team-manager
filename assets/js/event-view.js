@@ -48,8 +48,10 @@ $("[id^='list_participation_participations_']").change(function(){
     view.updateParticipation();
 });
 
-$("#myParticipation-button").click(function()
+$(".my-participation").click(function()
 {
-    view.updateParticipation();
+    var userIndex = $(this).parent().parent().data('user-index');
+    var value = $(this).val();
+    $("#list_participation_participations_"+userIndex+"_value_"+value).trigger('click');
 });
 
