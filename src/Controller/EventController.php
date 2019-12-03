@@ -21,6 +21,7 @@ use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use App\Form\EventFieldsType;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
+use Symfony\Component\Security\Core\Security;
 
 class EventController extends AbstractController
 {
@@ -273,8 +274,7 @@ class EventController extends AbstractController
 
     public function plannification(Event $event, Request $request): Response
     {
-
-        //TODO specific status to access this page
+        $this->denyAccessUnlessGranted('ROLE_USER', null, 'you cannot access the plannification page without being a team member');
 
         //create the two forms
         $templateForm = $this->createForm(TemplateSelectType::class, $event);

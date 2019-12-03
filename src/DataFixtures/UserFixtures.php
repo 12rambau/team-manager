@@ -54,6 +54,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
             $image = $this->imageManager->manualImage('no-profile-pic-' . $gender . '.jpg');
             $user->setProfilePic($image);
             $user->setPhoneNumber($faker->e164PhoneNumber());
+            $user->setRoles(['ROLE_USER']);
             $manager->persist($user);
         }
 
