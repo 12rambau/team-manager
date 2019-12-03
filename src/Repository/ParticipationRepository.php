@@ -21,40 +21,6 @@ class ParticipationRepository extends ServiceEntityRepository
         parent::__construct($registry, Participation::class);
     }
 
-    //TODO check the utility of all thoses find function (not sure they are usefull)
-    
-    public function FindByEventAndUser(Event $event, User $user)
-    {
-        $qb = $this->createQueryBuilder('p');
-
-        $qb->select('p')
-            ->where('p.user = :user')
-            ->setParameter('user', $user)
-            ->andWhere('p.event = :event')
-            ->setParameter('event', $event)
-            ->getFirstResult()
-        ;
-
-        return $qb->getQuery()->getResult()[0]; //as there is only one result
-        
-    }
-
-    public function findTenByUser(int $offset, User $user)
-    {
-        $qb = $this->createQueryBuilder('p');
-
-        $qb->select(array('p','e'))
-            ->where('p.user = :user')
-            ->leftJoin('p.event', 'e')
-            ->setParameter('user', $user)
-            ->orderBy('e.start', 'DESC')
-            ->setFirstResult($offset)
-            ->setMaxResults(10);
-        ;
-        
-        return $qb->getQuery()->getResult();
-    }
-
     public function queryAllIn(Event $event)
     {
         $qb = $this->createQueryBuilder('p');

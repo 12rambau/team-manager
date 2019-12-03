@@ -20,62 +20,6 @@ class EventRepository extends ServiceEntityRepository
         parent::__construct($registry, Event::class);
     }
 
-    //TODO check the utility of all thoses find function (not sure they are usefull)
-
-    /**
-     * @return events[] Returns an array of 10 events
-     */
-    public function findTen(int $offset, int $nbEvent)
-    {
-        $qb = $this->createQueryBuilder('ev');
-
-        $qb->select(array('ev'))
-            ->orderBy('ev.start', 'DESC')
-            ->setFirstResult($offset)
-            ->setMaxResults($nbEvent);
-
-        return $qb->getQuery()->getResult();
-
-    }
-
-    /**
-     * @return events[] Returns an array of  nbEvent events if the User
-     */
-    public function findTenByUser(int $offset, int $nbEvent, User $user)
-    {
-        $qb = $this->createQueryBuilder('ev');
-
-        $qb->select('ev')
-            ->join('ev.participations', 'p')
-            ->where('p.user = :user')
-            ->setParameter('user', $user)
-            ->orderBy('ev.start', 'DESC')
-            ->setFirstResult($offset)
-            ->setMaxResults($nbEvent);
-
-        return $qb->getQuery()->getResult();
-
-    }
-
-    public function findWeeklyEvent(\DateTime $monday):array
-    {
-        $sunday = new \DateTime('@'.$monday->getTimestamp());
-        $sunday->add(new \DateInterval('P6DT23H59M59S'));
-
-        $qb = $this->createQueryBuilder('ev');
-
-        $qb->select('ev')
-            ->where('ev.start < :sunday')
-            ->andWhere('ev.finish > :monday')
-            ->setParameter('monday', $monday)
-            ->setParameter('sunday', $sunday)
-        ;
-
-        $result = $qb->getQuery()->getResult();
-
-        return ($result)? $result:[];
-    }
-
     public function findbyDateInterval(\DateTime $start, \DateTime $end): array
     {
         $qb = $this->createQueryBuilder('ev');
@@ -92,24 +36,6 @@ class EventRepository extends ServiceEntityRepository
         return ($result)? $result:[];  
     }
 
-    /**
-     * @return int the number of events in the dataBase with this user
-     */
-    public function countUserEvent(User $user)
-    {
-        $qb = $this->createQueryBuilder('ev');
-
-        $qb->select('COUNT(ev)')
-            ->leftJoin('ev.participations', 'p')
-            ->where('p.user = :user')
-            ->setParameter('user', $user);
-
-        $result = $qb->getQuery()->getSingleScalarResult();
-
-        return ($result)?$result:0;
-
-    }
-
     public function countAll()
     {
         $qb = $this->createQueryBuilder('ev');
@@ -122,7 +48,14 @@ class EventRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return array the list of x events around the currentEvent
+     * Find the event around a date 
+     * 
+     * @param int $nbEvents
+     *  the number of events to fetch in each direction
+     * @param Event $currentEvent
+     *  the current event to look around
+     * 
+     * @return array the list of events around the currentEvent
      */
     public function findAround(int $nbEvents, Event $currentEvent):array
     {
