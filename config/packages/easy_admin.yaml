@@ -245,6 +245,7 @@ easy_admin:
                     - { property: image.filename, type: image, base_path: '%path_image%', label: Image }
                     - positions
                     - fields
+                    - enable
             list:
                 fields:
                     - id
@@ -253,6 +254,7 @@ easy_admin:
                     - { property: image.filename, type: image, base_path: '%path_image%', label: Image }
                     - positions
                     - fields
+                    - enable
             form: 
                 fields: 
                     - { type: tab, label: initial information, icon: pencil-alt, help: Before placing the positions on the field you need to add a field picture. Then in the edit view you'll have the possibility to add them. }

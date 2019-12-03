@@ -92,6 +92,11 @@ services:
         tags:
             - { name: doctrine.event_listener, event: preRemove }
 
+    App\EventListener\FieldTemplateListener:
+        tags:
+            - { name: doctrine.event_listener, event: preRemove, priority: 500 }
+            - { name: doctrine.event_listener, event: preUpdate, priority: 500 }
+
     App\Service\EmailService:
         arguments: 
             - '@swiftmailer.mailer.default'

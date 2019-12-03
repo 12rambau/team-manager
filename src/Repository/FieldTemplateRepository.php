@@ -19,6 +19,18 @@ class FieldTemplateRepository extends ServiceEntityRepository
         parent::__construct($registry, FieldTemplate::class);
     }
 
+    public function queryEnabled()
+    {
+        $qb = $this->createQueryBuilder('t');
+
+        $qb
+            ->select('t')
+            ->where('t.enable = :enable')
+            ->setParameter('enable', true);
+
+        return $qb;
+    }
+
     // /**
     //  * @return FieldTemplate[] Returns an array of FieldTemplate objects
     //  */

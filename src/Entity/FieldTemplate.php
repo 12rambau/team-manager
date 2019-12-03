@@ -35,6 +35,11 @@ class FieldTemplate
     private $updateAt;
 
     /**
+    * @ORM\Column(type="boolean")
+    */
+    private $enable;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Image", cascade={"persist"})
      */
     private $image;
@@ -53,6 +58,7 @@ class FieldTemplate
     {
         $this->positions = new ArrayCollection();
         $this->fields = new ArrayCollection();
+        $this->enable = true;
     }
 
     public function __toString()
@@ -189,6 +195,18 @@ class FieldTemplate
     public function setImageToFill($dummy)
     {
         //do nothing
+        return $this;
+    }
+
+    public function getEnable(): ?bool
+    {
+        return $this->enable;
+    }
+
+    public function setEnable(bool $enable): self
+    {
+        $this->enable = $enable;
+
         return $this;
     }
 }
