@@ -5,6 +5,7 @@ import $ from 'jquery';
 import 'bootstrap';
 import moment from 'moment';
 import Chart from 'chart.js';
+import 'chartjs-plugin-annotation';
 
 $('.team-pane').on('shown.bs.tab', function (e) {
     setCharts($(e.target))
@@ -37,6 +38,9 @@ function setCharts(element) {
             });
         }
 
+        //look for the maximum
+
+
         data.sort(keysrt('x'));
 
         //create the chart
@@ -50,6 +54,7 @@ function setCharts(element) {
                 }]
             },
             options: {
+                devicePixelRatio: 2,
                 legend: {
                     display: false
                 },
