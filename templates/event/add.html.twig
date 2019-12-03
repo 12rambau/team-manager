@@ -18,9 +18,17 @@
 
 	{{ form_errors(form) }}
 
+	<div class="col-11 form-group row">
+		{{ form_label(form.team, "Team: ", {'label_attr': {'class':'col-lg-2 col-form-label'}}) }}
+		<div class="col-lg-9">
+			{{ form_widget(form.team, {'attr': {'class': 'custom-select'}}) }}
+		</div>
+		<img id="loading-tags" class="loader float-right" src="{{ asset('image/default/loading.svg') }}" alt="loading">
+	</div>
+
 	<div class="form-group row">
 		{{ form_label(form.tag, "Tag: ", {'label_attr': {'class':'col-lg-2 col-form-label'}}) }}
-		<div class="col-lg-10">
+		<div id="tags-list" class="col-lg-10 form-group">
 			{{ form_widget(form.tag, {'tags':tags}) }}
 		</div>
 	</div>
@@ -173,10 +181,10 @@
 
 	<script type="text/javascript">
 		var lat = document.getElementById('event_location_lat');
-		var lng = document.getElementById('event_location_lng');
-		var locale = "{{ app.request.locale }}";
-		var algolia_place_app_id = "{{ algolia_place_app_id }}";
-		var algolia_place_api_id = "{{ algolia_place_api_id }}";
+var lng = document.getElementById('event_location_lng');
+var locale = "{{ app.request.locale }}";
+var algolia_place_app_id = "{{ algolia_place_app_id }}";
+var algolia_place_api_id = "{{ algolia_place_api_id }}";
 	</script>
 
 	{{ encore_entry_script_tags('event') }}

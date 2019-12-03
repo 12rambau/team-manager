@@ -3,7 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\EventTag;
-use App\Entity\Event;
+use App\Entity\Team;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -20,7 +20,7 @@ class EventTagRepository extends ServiceEntityRepository
         parent::__construct($registry, EventTag::class);
     }
 
-    public function queryActivated()
+    public function queryActivated(Team $team = null)
     {
         $qb = $this->createQueryBuilder('t');
 
@@ -28,6 +28,12 @@ class EventTagRepository extends ServiceEntityRepository
             ->select('t')
             ->where('t.active = :active')
             ->setParameter('active', true);
+
+        //if ($team) {
+            $qb
+                ->andWhere('t.team = :team')
+                ->setParameter('team', $team);
+        //}
 
         return $qb;
     }

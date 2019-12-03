@@ -71,6 +71,11 @@ class EventTag
      */
     private $active;
 
+    /**
+    * @ORM\ManyToOne(targetEntity="App\Entity\Team", inversedBy="$eventTags", cascade={"persist"})
+    */
+    private $team;
+
     public function __construct()
     {
         $this->events = new ArrayCollection();
@@ -168,6 +173,18 @@ class EventTag
     public function setActive(bool $active): self
     {
         $this->active = $active;
+
+        return $this;
+    }
+
+    public function getTeam(): ?Team
+    {
+        return $this->team;
+    }
+
+    public function setTeam(?Team $team): self
+    {
+        $this->team = $team;
 
         return $this;
     }

@@ -13,6 +13,7 @@ use App\Form\TemplateSelectType;
 use App\Entity\EventTag;
 use App\Entity\FieldTemplate;
 use App\Entity\Player;
+use App\Entity\Team;
 use App\Form\ParticipationStatsType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -20,6 +21,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use App\Form\EventFieldsType;
+use PHPUnit\Util\Json;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Security;
 
@@ -386,5 +388,27 @@ class EventController extends AbstractController
             'result' => $result,
             'form' => $form->createView()
         ]);
+    }
+
+    public function updateTag(Team $team):JsonResponse
+    {
+        
+        $em = $this->getDoctrine()->getManager();
+
+        $tagCollection = $em->getRepository(EventTag::class)->findBy([
+            'team' => $team,
+            'active' => true
+        ]);
+
+        //TODO use the Symfony serializer
+        $tags = [];
+        foreach ($tagCollection as $i => $tagItem) {
+            $tags[$i]['name'] = $tagItem->getName();
+            $tags[$i]['id'] = $tagItem->getId();
+            $tags[$i]['color'] = $tagItem->getColor();
+        }
+
+
+        return new JsonResponse($tags);
     }
 }

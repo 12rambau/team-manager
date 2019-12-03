@@ -11,6 +11,7 @@ import * as tag from './event/tag';
 import * as leaflet from './event/leaferMap';
 import * as autoload from './event/algolia';
 import * as index from './event/index';
+import * as add from './event/add'
 
 //global function just for tempus-dominus TODO wait for evolution
 global.jQuery = jQuery;
@@ -31,5 +32,9 @@ $("[id$='location_lat']").change(function () {
 
 $('input[id^="list_participation_participations"]').change(function () {
     index.updateIndex(this);
+});
+
+$("#event_team").change(function(){
+    add.updateTags($(this).val());
 });
 

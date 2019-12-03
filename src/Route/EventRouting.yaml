@@ -79,3 +79,9 @@ template-remove-update:
 result-view:
     path: /{slug}/view/result
     controller: App\Controller\EventController:viewResult
+
+tags-update:
+    path: /tags/update/{id}
+    controller: App\Controller\EventController::updateTag
+    options:
+        expose: true

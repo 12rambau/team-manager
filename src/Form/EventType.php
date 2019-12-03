@@ -10,16 +10,21 @@ use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Entity\EventTag;
+use App\Entity\Team;
 use App\Form\LocationType;
 use App\Repository\EventTagRepository;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormEvent;
 
 class EventType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('team', EntityType::class, [
+                'class' => Team::class,
+                'choice_label' => 'name',
+                'multiple' => false,
+                'expanded' => false
+            ])
             ->add('tag', EntityType::class, [
                 'class' => EventTag::class,
                 'query_builder' => function (EventTagRepository $rep) {

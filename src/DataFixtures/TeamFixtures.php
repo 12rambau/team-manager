@@ -61,7 +61,6 @@ class TeamFixtures extends Fixture
         foreach ($playerTags as &$playerTag) {
             $playerTag = new PlayerTag();
             $playerTag->setColor(PlayerTag::COLORS[$faker->numberBetween(0, count(PlayerTag::COLORS)-1)]);
-            //TODO set the color of the tag 
             $playerTag->setName($faker->word);
             $teams[$faker->numberBetween(0, $nbTeam - 1)]->addTag($playerTag);
             $manager->persist($playerTag);
@@ -83,22 +82,14 @@ class TeamFixtures extends Fixture
 
 
         //default EventTag creator
-        //TODO link to team  and insert the 3 default tag in the team __construct ? 
-        $tags = range(0, 3);
-        $tags[1] = new EventTag();
-        $tags[1]->setName('trainning');
-        $tags[1]->setColor('success');
-        $manager->persist($tags[1]);
+        foreach ($teams as $team) {
+            $tag = new EventTag();
+            $tag->setName($faker->word);
+            $tag->setColor('info'); //cannot get a radom color
+            $team->addEventTag($tag);
 
-        $tags[2] = new EventTag();
-        $tags[2]->setName('Race');
-        $tags[2]->setColor('primary');
-        $manager->persist($tags[2]);
-
-        $tags[0] = new EventTag();
-        $tags[0]->setName('other');
-        $tags[0]->setColor('warning');
-        $manager->persist($tags[0]);
+            $manager->persist($tag);
+        }
 
         //template creator
         //TODO link it to team

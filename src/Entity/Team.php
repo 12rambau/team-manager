@@ -53,6 +53,11 @@ class Team
     */
     private $events;
 
+    /**
+    * @ORM\OneToMany(targetEntity="App\Entity\EventTag", mappedBy="team", cascade={"persist"}, orphanRemoval=true)
+    */
+    private $eventTags;
+
 
     public function __construct()
     {
@@ -60,6 +65,23 @@ class Team
         $this->players = new ArrayCollection();
         $this->features = new ArrayCollection();
         $this->events = new ArrayCollection();
+        $this->eventTags = new ArrayCollection();
+
+        //create the default eventTag
+        $tag = new EventTag();
+        $tag->setName('trainning');
+        $tag->setColor('success');
+        $this->addEventTag($tag);
+
+        $tag = new EventTag();
+        $tag->setName('Race');
+        $tag->setColor('primary');
+        $this->addEventTag($tag);
+
+        $tag = new EventTag();
+        $tag->setName('other');
+        $tag->setColor('warning');
+        $this->addEventTag($tag);
     }
 
     public function __toString()
@@ -226,6 +248,37 @@ class Team
             // set the owning side to null (unless already changed)
             if ($event->getTeam() === $this) {
                 $event->setTeam(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|EventTag[]
+     */
+    public function getEventTags(): Collection
+    {
+        return $this->eventTags;
+    }
+
+    public function addEventTag(EventTag $eventTag): self
+    {
+        if (!$this->eventTags->contains($eventTag)) {
+            $this->eventTags[] = $eventTag;
+            $eventTag->setTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEventTag(EventTag $eventTag): self
+    {
+        if ($this->eventTags->contains($eventTag)) {
+            $this->eventTags->removeElement($eventTag);
+            // set the owning side to null (unless already changed)
+            if ($eventTag->getTeam() === $this) {
+                $eventTag->setTeam(null);
             }
         }
 

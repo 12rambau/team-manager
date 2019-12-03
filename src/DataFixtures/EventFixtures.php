@@ -64,6 +64,14 @@ class EventFixtures extends Fixture implements DependentFixtureInterface
 
         $manager->flush(); //to automatically create the participations ;-) 
 
+        //add team and tags
+        foreach ($events as &$event) {
+            $event->setTeam($teams[$faker->numberBetween(0, $nbTeam-1)]);
+            $EventTags = $event->getTeam()->getEventTags();
+            $nb = count($EventTags);
+            $event->setTag($EventTags[$faker->numberBetween(0, $nb-1)]);
+        }
+
         //add participation 
         foreach ($events as &$event) {
             foreach ($event->getParticipations() as &$participation) {
