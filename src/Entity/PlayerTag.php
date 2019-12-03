@@ -15,14 +15,14 @@ class PlayerTag
 {
 
     const COLORS = [
-        "primary"=>"primary", 
-        "secondary"=>"secondary", 
-        "success"=> "success", 
-        "danger"=>"danger", 
-        "warning"=>"warning", 
-        "info"=>"info", 
-        "light"=>"light", 
-        "dark"=>"dark"
+        "primary", 
+        "secondary", 
+        "success", 
+        "danger", 
+        "warning", 
+        "info", 
+        "light", 
+        "dark"
     ];
 
     /**

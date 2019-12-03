@@ -60,6 +60,7 @@ class TeamFixtures extends Fixture
         $playerTags = range(0, $nbPlayerTag);
         foreach ($playerTags as &$playerTag) {
             $playerTag = new PlayerTag();
+            $playerTag->setColor(PlayerTag::COLORS[$faker->numberBetween(0, count(PlayerTag::COLORS)-1)]);
             //TODO set the color of the tag 
             $playerTag->setName($faker->word);
             $teams[$faker->numberBetween(0, $nbTeam - 1)]->addTag($playerTag);
