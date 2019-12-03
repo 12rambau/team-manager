@@ -27,10 +27,13 @@
 			<div class="row">
 
 				<div class="col-lg-3">
-					<img
-					id="imageFile" src="{{ asset(vich_uploader_asset(user.profilePic, "imageFile")) | imagine_filter('profile_pic') }}" class="img-rounded col-lg-12" alt="profile-pic">
+					<img id="imageFile" src="{{ asset(vich_uploader_asset(user.profilePic, "imageFile")) | imagine_filter('profile_pic') }}" class="img-rounded col-lg-12" alt="profile-pic">
 
-				{# TODO add an update profile button #}
+					{% if app.user == user %}
+						<hr>
+
+						<a class="btn btn-primary btn-block" href="{{ path('profile-edit', {'username':user.username}) }}">Update profile</a>
+					{% endif %}
 				</div>
 
 				<div class="col">
@@ -167,25 +170,25 @@
 									</legend>
 
 									<div id="tag-number" data-index="{{ tags|length }}">
-									{% for tag in tags %}
-										<div class="card border-0 tag-card" data-tag="{{ tag }}" data-unity="{{ tag.unity }}">
-											<div class="card-body">
-												{% for participation in player.participations %}
-													{% for stat in participation.stats %}
-														{% if stat.tag == tag %}
-															<span class="d-none x-value">
-																{{ participation.event.start|date('Y-m-d H:i:s')}}
-															</span>
-															<span class="d-none y-value">
-																{{ stat.value }}
-															</span>
-														{% endif %}
+										{% for tag in tags %}
+											<div class="card border-0 tag-card" data-tag="{{ tag }}" data-unity="{{ tag.unity }}">
+												<div class="card-body">
+													{% for participation in player.participations %}
+														{% for stat in participation.stats %}
+															{% if stat.tag == tag %}
+																<span class="d-none x-value">
+																	{{ participation.event.start|date('Y-m-d H:i:s')}}
+																</span>
+																<span class="d-none y-value">
+																	{{ stat.value }}
+																</span>
+															{% endif %}
+														{% endfor %}
 													{% endfor %}
-												{% endfor %}
+												</div>
+												<canvas id="tag-{{ loop.index0 }}" class="graph-canvas" width="400" height="200"></canvas>
 											</div>
-											<canvas id="tag-{{ loop.index0 }}" class="graph-canvas" width="400" height="200"></canvas>
-										</div>
-									{% endfor %}
+										{% endfor %}
 									</div>
 
 								</fieldset>

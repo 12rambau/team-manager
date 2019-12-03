@@ -43,11 +43,7 @@ class UserController extends AbstractController
     }
 
     public function view(User $user):Response
-    {
-        //redirect to edit if it's the current user
-        //if ($user === $this->getUser())
-        //    return new RedirectResponse($this->generateUrl('profile-edit', ['username' => $user->getUsername()]));
-        
+    {        
         $em = $this->getDoctrine()->getManager();
 
         $tags = $em->getRepository(StatTag::class)->findAll();
