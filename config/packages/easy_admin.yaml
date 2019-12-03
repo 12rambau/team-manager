@@ -1,30 +1,29 @@
 easy_admin:
-    site_name: '<h1>%club_name%</h1>'
+    site_name: <h1>%club_name%</h1>
     user:
-        name_property_path: 'username'
-        # no capacity to handle Vich_uploader //avatar_property_path: 'profilePic.fileName'
-    design:  
-    #TODO remove al the unecessary ''          
+        name_property_path: username
+        # no capacity to handle Vich_uploader //avatar_property_path: profilePic.fileName
+    design:           
         form_theme: 
             - '@EasyAdmin/form/bootstrap_4.html.twig'
-            - 'form/fields.html.twig'
+            - form/fields.html.twig
             - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
         templates: 
                 edit: admin/edit_custom.html.twig
                 new: admin/new_custom.html.twig
         menu:
-             - { label: 'Public Homepage', route: 'home', icon: 'home', target: '_blank'}
-             - { label: 'Dashboard', icon: 'dashboard', route: 'home' } #change the route when the dashboard is ready
-             - { label: 'Content' }
-             - label: 'Club'
-               icon: 'users'
+             - { label: 'Public Homepage', route: home, icon: home, target: _blank}
+             - { label: Dashboard, icon: dashboard, route: home } #change the route when the dashboard is ready
+             - { label: Content }
+             - label: Club
+               icon: users
                children:
-                - { label: 'Club adress', entity: Location ,icon: 'address-card', params: {
+                - { label: 'Club adress', entity: Location ,icon: address-card, params: {
                  action: search, query: contact} }
                 - { icon: handshake, entity: Partner }
                 - { icon: quidditch, entity: Team }
                 - { icon: share-alt, entity: Social }
-             - label: 'Team'
+             - label: Team
                icon: quidditch
                children:
                 - { icon: user, entity: Player }
@@ -32,45 +31,45 @@ easy_admin:
                 - { icon: tag, entity: FeatureTag }
                 #TODO link personnal stat to teams
                 - { icon: tag, entity: StatTag}
-             - label: 'News'
-               icon: 'rss'
+             - label: News
+               icon: rss
                children:
-                - { icon: 'file', entity: 'News' }
-                - { icon: 'comments', entity: 'Comment' }
-             - label: 'Event'
-               icon: 'calendar'
+                - { icon: file, entity: News }
+                - { icon: comments, entity: Comment }
+             - label: Event
+               icon: calendar
                children:
-                - { icon: 'calendar-alt', entity: 'Event' }
-                - { icon: 'tag', entity: 'EventTag' }
-                - { icon: 'campground', entity: 'FieldTemplate' }
-                - { icon: 'trophy', entity: 'Result' }
-             - { icon: 'images', entity: 'Gallery' }
-             - label: 'User'
-               icon: 'user'
+                - { icon: calendar-alt, entity: Event }
+                - { icon: tag, entity: EventTag }
+                - { icon: campground, entity: FieldTemplate }
+                - { icon: trophy, entity: Result }
+             - { icon: images, entity: Gallery }
+             - label: User
+               icon: user
                children:
                 - { icon: user, entity: User }
                 - { icon: poll, entity: PersonnalStat }
                 - { icon: info, entity: Feature }
-             - {icon: 'comments', entity: 'ChatMessage' }
-             - { label: 'Admin database'}
-             - { icon: 'image', entity: 'Image' }
-             - { icon: 'map-marked-alt', entity: 'Location', label: 'Event location' }
-             - { icon: 'user', entity: 'Participation', label: 'Participation in events' }
-             - { icon: 'street-view', entity: 'Position', label: 'Position on fields' }
+             - {icon: comments, entity: ChatMessage }
+             - { label: Admin database}
+             - { icon: image, entity: Image }
+             - { icon: map-marked-alt, entity: Location, label: 'Event location' }
+             - { icon: user, entity: Participation, label: 'Participation in events' }
+             - { icon: street-view, entity: Position, label: 'Position on fields' }
 
 
         assets:
-            favicon: '/image/default/favicon_admin.png'
+            favicon: /image/default/favicon_admin.png
     list:
-        batch_actions: ['delete']
+        batch_actions: [delete]
         title: 'List of %%entity_label%%'
         max_results: 30
         actions:
-            - 'edit'
-            - 'new'
-            - 'search'
-            - 'show'
-            - 'delete'
+            - edit
+            - new
+            - search
+            - show
+            - delete
     show:
         title: '%%entity_label%% #%%entity_id%%'
     edit:
@@ -78,9 +77,13 @@ easy_admin:
     new:
         title: 'Add %%entity_label%%'
     entities:
+
+        #############################################
+        ###               Partner                  ##
+        #############################################
         Partner:
             class: App\Entity\Partner
-            label: 'Partner'
+            label: Partner
             list:
                 fields:
                     - id
@@ -97,6 +100,10 @@ easy_admin:
                     - name
                     - website
                     - { property: image, type: App\Form\ImageType }
+
+        #############################################
+        ###               Team                     ##
+        #############################################
         Team:
             class: App\Entity\Team
             label: Team
@@ -116,73 +123,93 @@ easy_admin:
                     - name
                     - { property: image, type: App\Form\ImageType }
                     - { property: descripsion, type: text }
+        
+        #############################################
+        ###               News                     ##
+        #############################################
         News:
             class: App\Entity\BlogPost
             label: 'Blog post'
             form:
                 fields:
-                    - { type: 'group', label: 'Basic information', icon: 'pencil-alt', columns: 8  }
-                    - 'title'
-                    - 'short'
-                    - { property: 'content', type: 'fos_ckeditor' }
-                    - { type: 'group', label: 'Details', columns: 4 , help: 'for administration only'}
-                    - 'active'
-                    - 'author'
+                    - { type: group, label: 'Basic information', icon: pencil-alt, columns: 8  }
+                    - title
+                    - short
+                    - { property: content, type: fos_ckeditor }
+                    - { type: group, label: Details, columns: 4 , help: 'for administration only'}
+                    - active
+                    - author
             edit:
                 fields:
-                    - { type: 'group', label: 'Comments', icon: 'comments', columns: 12 }
+                    - { type: group, label: Comments, icon: comments, columns: 12 }
                     - {property: comments, type: collection, type_options: { allow_add: false }}
             show: 
-                fields: ['title', 'short', { property: 'content', type: 'raw' }, 'active', 'publishDate', 'editDate', 'author', 'comments']
+                fields: [title, short, { property: content, type: raw }, active, publishDate, editDate, author, comments]
             list:
-                fields: [ 'id', 'title', 'publishDate', 'active', 'author', 'comments']
+                fields: [ id, title, publishDate, active, author, comments]
+
+        #############################################
+        ###           Chat Message                 ##
+        #############################################
         ChatMessage:
             class: App\Entity\ChatMessage
-            disabled_actions: ['new']
+            disabled_actions: [new]
             show:
-                fields: ['content', 'date', 'author']
+                fields: [content, date, author]
             form:
                 fields:
-                    - { type: 'group', label: 'Content', icon: 'pencil-alt', columns: 8 }
-                    - 'content'
-                    - { type: 'group', label: 'Details', columns: 4, help: 'for administration only'}
-                    - 'author'
-                    - 'date'
+                    - { type: group, label: Content, icon: pencil-alt, columns: 8 }
+                    - content
+                    - { type: group, label: Details, columns: 4, help: 'for administration only'}
+                    - author
+                    - date
+
+        #############################################
+        ###               Comment                  ##
+        #############################################
         Comment:
             class: App\Entity\Comment
-            disabled_actions: ['new']
+            disabled_actions: [new]
             form:
                 fields:
-                    - { type: 'group', label: 'Content', icon: 'pencil-alt', columns: 8 }
-                    - 'content'
-                    - { type: 'group', label: 'Details', columns: 4, help: 'for administration only'}
-                    - 'author'
-                    - 'publishDate'
+                    - { type: group, label: Content, icon: pencil-alt, columns: 8 }
+                    - content
+                    - { type: group, label: Details, columns: 4, help: 'for administration only'}
+                    - author
+                    - publishDate
             show:
-                fields: ['content', 'publishDate', 'author', 'post']
+                fields: [content, publishDate, author, post]
+
+        #############################################
+        ###               Event Tag                ##
+        #############################################
         EventTag:
             class: App\Entity\EventTag
             help: 'Do not delete tags that are used in several events, just deactivate them. The delete function is available in Edit view.'
             list:
-                actions: ['-delete']
-                batch_actions: ['-delete']
+                actions: [-delete]
+                batch_actions: [-delete]
             form:
                 fields:
-                    - { type: 'group', label: 'Content', icon: 'pencil-alt', columns: 8 }
-                    - 'name'
-                    - { property: 'color', help: 'Need to be an official bootstrap color without cap.'}
-                    #- { property: 'color', type: 'choice', type_options: { expanded: false, multiple: false, choices: colors} } en attente d'une réponse sur stack
-                    - { type: 'group', label: 'Details', columns: 4, help: 'For administration only'}
-                    - 'active'
+                    - { type: group, label: Content, icon: pencil-alt, columns: 8 }
+                    - name
+                    - { property: color, help: 'Need to be an official bootstrap color without cap.'}
+                    #- { property: color, type: choice, type_options: { expanded: false, multiple: false, choices: colors} } en attente d'une réponse sur stack
+                    - { type: group, label: Details, columns: 4, help: 'For administration only'}
+                    - active
             edit:
                 fields:
-                     - { type: 'group', label: 'Events', icon: 'calendar', columns: 12 }
+                     - { type: group, label: Events, icon: calendar, columns: 12 }
                      - { property: events, type: collection, type_options: { allow_add: false}}
             show:
                 fields:
-                    - { property: 'name', template: 'admin/field_tag.html.twig' }
-                    - 'active'
-                    - 'events'
+                    - { property: name, template: admin/field_tag.html.twig }
+                    - active
+                    - events
+
+        #############################################
+        ###               Event                    ##
+        #############################################
         Event:
             class: App\Entity\Event
             list:
@@ -199,7 +226,7 @@ easy_admin:
                     - finish
                     - { type: tab, label: Location, icon: search-location }
                     - { type: group, label: map, icon: map, columns: 8}
-                    - { property: location.value, type: text, label: Full adress, type_options: { block_prefix: 'map_picker'} }
+                    - { property: location.value, type: text, label: Full adress, type_options: { block_prefix: map_picker} }
                     - { type: group, columns: 4, label: Autocomplete, icon: magic }
                     - { property: location.type, type: text, label: Type, type_options: { attr: {readonly: true}} }
                     - { property: location.name, type: text, label: Name, type_options: { attr: {readonly: true}} }
@@ -218,7 +245,7 @@ easy_admin:
                     - { type: group, label: Max players, icon: users }
                     - maxPlayers
                     - { type: tab, label: Edit field, icon: campground }
-                    #- { property: field.template, label: Template, type: entity, type_options: { class: 'App\Entity\FieldTemplate'} }
+                    #- { property: field.template, label: Template, type: entity, type_options: { class: App\Entity\FieldTemplate} }
                     - { type: tab, label: Position players, icon: street-view, help: cannot add positions if the field has'nt been set. changing the field result in destroying all positions }
                     #- field.positions
             show:
@@ -236,6 +263,10 @@ easy_admin:
                     - result
                     - stats
                     - publishDate
+
+        #############################################
+        ###           Field Template               ##
+        #############################################
         FieldTemplate:
             class: App\Entity\FieldTemplate
             show: 
@@ -265,17 +296,29 @@ easy_admin:
                 fields:
                     - { type: tab, label: placement, icon: users }
                     - { type: group, label: field, icon: images, columns: 7}
-                    - { property: imageToFill, type_options: { block_prefix: 'field_to_fill'} }
+                    - { property: imageToFill, type_options: { block_prefix: field_to_fill} }
                     - {type: group, label: positions, columns: 5}
                     - {property: positions, label: '', type: collection, type_options: { by_reference: false, entry_type: App\Form\PositionType, block_prefix: field_template_position}}
+
+        #############################################
+        ###               Field                    ##
+        #############################################
         Field:
             class: App\Entity\Field
+
+        #############################################
+        ###               Gallery                  ##
+        #############################################
         Gallery:
             class: App\Entity\Gallery
+
+        #############################################
+        ###               Image                    ##
+        #############################################
         Image:
             class: App\Entity\Image
             help: "The Image are for strict administrative purpose delete with caution (only in edit mode)"
-            disabled_actions: ['new']
+            disabled_actions: [new]
             list: 
                 actions: [-delete]
                 fields:
@@ -289,7 +332,11 @@ easy_admin:
                     - updatedAt
             form:
                 fields:
-                    - { property: 'imageFile', type: 'file' }
+                    - { property: imageFile, type: file }
+
+        #############################################
+        ###               Location                 ##
+        #############################################
         Location:
             class: App\Entity\Location
             list:
@@ -302,7 +349,7 @@ easy_admin:
             form:
                 fields:
                     - { type: group, label: map, icon: map, columns: 8}
-                    - { property: value, type: text, label: Full adress, type_options: { block_prefix: 'map_picker'} }
+                    - { property: value, type: text, label: Full adress, type_options: { block_prefix: map_picker} }
                     - { type: group, columns: 4, label: Autocomplete, icon: magic }
                     - { property: type, type: text, label: Type, type_options: { attr: {readonly: true}} }
                     - { property: name, type: text, label: Name, type_options: { attr: {readonly: true}} }
@@ -315,8 +362,16 @@ easy_admin:
                     - { property: lat, type: text, label: lat, type_options: { attr: {readonly: true}} }
                     - { property: lng, type: text, label: lng, type_options: { attr: {readonly: true}} }
                     - { property: postcode, type: text, label: Postcode, type_options: { attr: {readonly: true}} }
+
+        #############################################
+        ###          Participation                 ##
+        #############################################
         Participation:
             class: App\Entity\Participation
+
+        #############################################
+        ###        Personnal Stat                  ##
+        #############################################
         PersonnalStat:
             help: A stat cannot have a time and a value at the same time.
             label: Personnal stats
@@ -335,8 +390,15 @@ easy_admin:
                     - player
                     - event
 
+        #############################################
+        ###               Position                 ##
+        #############################################
         Position:
             class: App\Entity\Position
+
+        #############################################
+        ###               Result                   ##
+        #############################################
         Result:
             class: App\Entity\Result
             help: For the moment each event create an empty result entity. As such they mustn't be removed. the result are as such in Read-only and both the gallery and the score must be changed independantely.
@@ -351,9 +413,16 @@ easy_admin:
                     - { type: group, columns: 6, label: Results Files, icon: files }
                     - {property: files, type_options: { disabled: true} } #TODO find how to add multiple files
 
+        #############################################
+        ###               Score                    ##
+        #############################################
         Score:
             class: App\Entity\Score
             disabled_actions: [delete, new, edit, show, list]
+
+        #############################################
+        ###            Stat tag                    ##
+        #############################################
         StatTag:
             class: App\Entity\StatTag
             label: Stats tag
@@ -365,19 +434,22 @@ easy_admin:
                 fields: [name, unity, active, stats]
             form:
                 fields:
-                    - { type: 'group', label: 'Content', icon: 'pencil-alt', columns: 8 }
+                    - { type: group, label: Content, icon: pencil-alt, columns: 8 }
                     - name
                     - unity
-                    - { type: 'group', label: 'Details', columns: 4, help: 'For administration only'}
-                    - 'active'
+                    - { type: group, label: Details, columns: 4, help: 'For administration only'}
+                    - active
             edit:
                 fields:
-                     - { type: 'group', label: 'Stats', icon: 'poll', columns: 12 }
+                     - { type: group, label: Stats, icon: poll, columns: 12 }
                      - { property: stats, type: collection, type_options: { allow_add: false } }
 
+        #############################################
+        ###               User                     ##
+        #############################################
         User:
             class: App\Entity\User
-            disabled_actions: ['new']
+            disabled_actions: [new]
             help: The delete action has been moved to the edit view. Use with caution, all the user data will be lost.
             list:
                 actions: [-delete]
@@ -408,7 +480,7 @@ easy_admin:
                 fields:
                     - { type: tab, label: General informations }
                     - { type: group, label: Avatar, icon: camera-retro, columns: 4, help: Cannot display the avatar for the moment }
-                    - { property: 'profilePic.imageFile', label: '', type: 'file' }
+                    - { property: profilePic.imageFile, label: '', type: file }
                     - { type: group, label: Identification, columns: 8, icon: user }
                     - username
                     - firstName
@@ -428,6 +500,9 @@ easy_admin:
                     - participations
                     #- stats
         
+        #############################################
+        ###               Player                   ##
+        #############################################
         Player:
             class: App\Entity\Player
             label: Player
@@ -442,6 +517,9 @@ easy_admin:
                     - user
                     - tags
 
+        #############################################
+        ###               Player Tag               ##
+        #############################################
         PlayerTag:
             class: App\Entity\PlayerTag
             label: Player Tag
@@ -457,6 +535,9 @@ easy_admin:
                     - { type: group, columns: 12}
                     - { property: players, type: collection, type_options: { allow_delete: true, allow_add: false } }
 
+        #############################################
+        ###               Social                   ##
+        #############################################
         Social:
             class: App\Entity\Social
             label: Social Media
@@ -470,11 +551,18 @@ easy_admin:
                     - { type: group, columns: 6}
                     - { property: icon, help: 'the name of your icon find on the "Font is awesome" website. As a brand it will start with "fab fa-[your_icon]' }
                     - color
+
+        #############################################
+        ###           Feature Tag                  ##
+        #############################################
         FeatureTag:
             #TODO customize display
             class: App\Entity\FeatureTag
             Label: Feature Tag
 
+        #############################################
+        ###               PFeature                 ##
+        #############################################
         Feature: 
             # TODO customize display
             class: App\Entity\Feature

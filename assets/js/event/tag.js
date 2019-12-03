@@ -18,9 +18,6 @@ export function changeCheckValue(item) { // unselect all the other item
     input.checked = true;
     }
 
-
-//TODO reduce code length using jquery
-
 /**
  * 
  * @param {HTMLElement} element the check-all  DOM element

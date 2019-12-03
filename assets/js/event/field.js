@@ -231,7 +231,7 @@ export function removeTemplate(index) {
     var form = $("form[name='template_select']");
     var event_id = form.data('event-id');
 
-    //TODO insert the removeLi inside the ajax call
+    //outside the ajax call to modify the form
     removeLi(index);
 
     // get the serialized properties and values of the form 
