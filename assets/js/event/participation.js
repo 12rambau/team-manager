@@ -15,8 +15,6 @@ export function drop(ui, drop) {
     var fieldId = $(drop).data('fieldId');
     var positionId = $(drop).data('positionId');
 
-    alert("particpationId : "+participationId+" Field : "+fieldId+" Position : "+positionId);
-
     //append the element in the drop
     $(drop).append(x);
     ui.helper.remove();

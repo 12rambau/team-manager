@@ -20,7 +20,6 @@ function moveBadge(index, username, value) {
     var tabOut = $("#tab-out-" + index);
     var out = parseInt(tabOut.text(), 10);
 
-    //alert(value);
     value = parseInt(value, 10);
     if (value) {
         ok++;
@@ -71,8 +70,6 @@ function updateParticipation(element) {
     var index = $(element).parent().parent().data('index');
     var username = $(element).parent().parent().data('username');
     var value = $(element).val();
-
-    //alert(index+' '+username+' '+value);
 
     moveBadge(index, username, value);
     updateParticipant(index, value, username);

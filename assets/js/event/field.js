@@ -97,7 +97,6 @@ function emptyPosition(index) {
 
     var positions = $("#img-field-" + index);
     var ghosts = positions.children('.position-card');
-    alert(ghosts.length);
 
     ghosts.each(function () {
         var participation = $(this).find('img');
@@ -125,7 +124,6 @@ function addResetTooltip(index) {
     $(".reset-template").click(function () {
         event.preventDefault();
 
-        alert('toto');
         //empty positions 
         emptyPosition(index);
 

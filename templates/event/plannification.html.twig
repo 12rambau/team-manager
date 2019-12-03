@@ -57,9 +57,9 @@
 										class="position-card draggable" 
 										id="{{ participation.id }}" 
 										data-participation-id="{{ loop.index0 }}"
-										src="{{ asset(vich_uploader_asset(participation.user.profilePic, "imageFile")) | imagine_filter('position') }}" 
+										src="{{ asset(vich_uploader_asset(participation.player.user.profilePic, "imageFile")) | imagine_filter('position') }}" 
 										data-toggle="tooltip" 
-										title="{{ participation.user.username }}"
+										title="{{ participation.player.user.username }}"
 									>
 								{% endif %}
 							{% endfor %}
@@ -105,14 +105,16 @@
 						class="position-card draggable" 
 						id="{{ participation.id }}" 
 						data-participation-id="{{ loop.index0 }}"
-						src="{{ asset(vich_uploader_asset(participation.user.profilePic, "imageFile")) | imagine_filter('position') }}" 
+						src="{{ asset(vich_uploader_asset(participation.player.user.profilePic, "imageFile")) | imagine_filter('position') }}" 
 						data-toggle="tooltip" 
-						title="{{ participation.user.username }}"
+						title="{{ participation.player.user.username }}"
 					>
 				{% endif %}
 			{% endfor %}
 		</div>
 	</div>
+
+	{# TODO round the corner of the pictures to fit perfectly the ghosts #}
 
 {% endblock %}
 
