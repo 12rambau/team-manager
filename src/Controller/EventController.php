@@ -29,11 +29,44 @@ class EventController extends AbstractController
         $nbEventPerPage = 10;
 
         $em = $this->getDoctrine()->getManager();
-        $events = $em->getRepository(Event::class)->findTenByUser(($page - 1) * $nbEventPerPage, $nbEventPerPage, $this->getUser());
-        $nbEvent = $em->getRepository(Event::class)->countUserEvent($this->getuser());
+
+        //fetch the events
+        $events = $em->getRepository(Event::class)->findBy(
+            [],
+            ['start' => 'desc'],
+            $nbEventPerPage,
+            ($page - 1) * $nbEventPerPage
+        );
+        $nbEvent = $em->getRepository(Event::class)->countAll();
+
+        //check the user participations 
+        $user = $this->getUser();
+        $participations = [];
+        foreach ($events as $event) {
+            foreach ($user->getPlayers() as $player) {
+                $participation = $em->getRepository(Participation::class)->findOneBy([
+                    'event' => $event,
+                    'player' => $player
+                ]);
+                if ($participation) {
+                    array_push($participations, $participation);
+                    break;
+                } else {
+                    if ($event->getTeam() == $player->getTeam()) {
+
+                        $participation = new Participation();
+                        $participation->setEvent($event);
+                        $participation->setPlayer($player);
+                        $em->persist($participation);
+                        array_push($participations, $participation);
+                        break;
+                    }
+                }
+            }
+        }
+        $em->flush();
 
         // TODO: code enhancement
-        $participations = $em->getRepository(Participation::class)->findTenByUser(($page - 1) * 10, $this->getUser());
         $form = $this->createForm(ListParticipationType::class, ['participations' => $participations]);
 
         //Security as the form is managed through ajax
@@ -59,10 +92,33 @@ class EventController extends AbstractController
     public function updateIndex(int $page, Request $request): JsonResponse
     {
         //TODO work only for 10 elements per page 
+        $nbEventPerPage = 10;
+
         $em = $this->getDoctrine()->getManager();
 
         // TODO: code enhancement
-        $participations = $em->getRepository(Participation::class)->findTenByUser(($page - 1) * 10, $this->getUser());
+        $events = $em->getRepository(Event::class)->findBy(
+            [],
+            ['start' => 'desc'],
+            $nbEventPerPage,
+            ($page - 1) * $nbEventPerPage
+        );
+
+        $user = $this->getUser();
+        $participations = [];
+        foreach ($events as $event) {
+            foreach ($user->getPlayers() as $player) {
+                $participation = $em->getRepository(Participation::class)->findOneBy([
+                    'event' => $event,
+                    'player' => $player
+                ]);
+                if ($participation) {
+                    array_push($participations, $participation);
+                    break;
+                }
+            }
+        }
+
         $form = $this->createForm(ListParticipationType::class, ['participations' => $participations]);
 
 

@@ -1,3 +1,11 @@
+{# look for the index number #}
+{% set index = -1 %}
+{% for participation in participations %}
+	{% if participation.event == event %}
+		{% set index = loop.index0 %}
+	{% endif %}
+{% endfor %}
+
 <div id="card-event-{{ event.id }}" class="card m-3 shadow">
 	<div class="card-header clearfix">
 		<div class="col-10">
@@ -62,8 +70,10 @@
 							{{ event.finish|date('h:i') }}</b>
 					</div>
 					<div class="float-right">
-						{{ form_widget(form.participations[index].value, {'index':index, 'username': app.user.username}) }}
-						{{ form_widget(form.participations[index].comment, {'attr': {'class': 'sr-only'}}) }}
+						{% if index != -1 %}
+							{{ form_widget(form.participations[index].value, {'index':index, 'username': app.user.username}) }}
+							{{ form_widget(form.participations[index].comment, {'attr': {'class': 'sr-only'}}) }}
+						{% endif %}
 					</div>
 				</div>
 
@@ -99,8 +109,8 @@
 							<div>
 								{% for participation in event.participations %}
 									{% if participation.value == 1 %}
-										<span id="badge-{{ participation.user.username }}-{{ index }}" class="badge badge-pill badge-light border text-muted">
-											{{ participation.user.username }}
+										<span id="badge-{{ participation.player.user.username }}-{{ index }}" class="badge badge-pill badge-light border text-muted">
+											{{ participation.player.user.username }}
 										</span>
 									{% endif %}
 								{% endfor %}
@@ -110,8 +120,8 @@
 							<div>
 								{% for participation in event.participations %}
 									{% if participation.value == 0 and participation.lastUpdate != null %}
-										<span id="badge-{{ participation.user.username }}-{{ index }}" class="badge badge-pill badge-light border text-muted">
-											{{ participation.user.username }}
+										<span id="badge-{{ participation.player.user.username }}-{{ index }}" class="badge badge-pill badge-light border text-muted">
+											{{ participation.player.user.username }}
 										</span>
 									{% endif %}
 								{% endfor %}

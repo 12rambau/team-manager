@@ -110,6 +110,17 @@ class EventRepository extends ServiceEntityRepository
 
     }
 
+    public function countAll()
+    {
+        $qb = $this->createQueryBuilder('ev');
+
+        $qb->select('COUNT(ev)');
+
+        $result = $qb->getQuery()->getSingleScalarResult();
+
+        return ($result)?$result:0;
+    }
+
     /**
      * @return array the list of x events around the currentEvent
      */
