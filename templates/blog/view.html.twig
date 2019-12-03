@@ -23,27 +23,28 @@
 {% endblock %}
 
 {% block content %}
-	<div class="clearfix">
-		{% if post.active == false %}
-			<div class="alert alert-warning text-center">
-				The Post is not yet activated
-			</div>
-		{% endif %}
-		{# TODO align the breadcum with the pencil #}
-		<ol class="breadcrumb bg-transparent">
-			<li class="breadcrumb-item">
-				<a href="{{ path('blog-index') }}">News</a>
-			</li>
-			<li class="breadcrumb-item active" aria-current="page">{{ post.title }}</li>
-		</ol>
+	{% if post.active == false %}
+		<div class="alert alert-warning text-center">
+			The Post is not yet activated
+		</div>
+	{% endif %}
+	<div class="col-12 row">
+		<div class="col-10">
+			<ol class="breadcrumb bg-transparent">
+				<li class="breadcrumb-item">
+					<a href="{{ path('blog-index') }}">News</a>
+				</li>
+				<li class="breadcrumb-item active" aria-current="page">{{ post.title }}</li>
+			</ol>
+		</div>
 		{% if (app.user is same as(post.author))  or is_granted('ROLE_ADMIN') %}
 			{# TODO for prod remove the ROLE_ADMIN #}
-			<span
-				class="float-right">
-				{# TODO put this pencil on the right #}
-				<button class="btn btn-link text-muted" data-toggle="popover" data-html="true" data-content='<a href="{{ path('blog-edit', {'slug':post.slug}) }}">edit</a>'><span class="fa fa-pencil-alt"/></button>
-			</span>
-
+			<div
+				class="col-2">
+				<a class="btn float-right text-muted" data-toggle="popover" data-placement="bottom" tabindex="0" data-html="true" data-content='<a href="{{ path('blog-edit', {'slug':post.slug}) }}">edit</a>'>
+					<span class="fa fa-pencil-alt"/>
+				</a>
+			</div>
 		{% endif %}
 	</div>
 

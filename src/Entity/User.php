@@ -16,10 +16,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class User implements UserInterface
 {
-
-    // TODO clean the variable order 
-
-
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
