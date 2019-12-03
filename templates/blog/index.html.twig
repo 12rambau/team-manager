@@ -101,7 +101,7 @@
 							<div class="card-footer clearfix">
 								<small>{{ post.publishDate|date('d/m/Y') }}</small>
 								<div class="btn-group float-right">
-									<button class="btn btn-secondary float-right btn-sm">learn more</button>
+									<a href="{{ path('blog-view', { 'slug':post.slug }) }}" class="btn btn-secondary">Learn more</a>
 								</div>
 
 							</div>

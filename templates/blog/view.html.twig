@@ -59,11 +59,21 @@
 			comments</h3>
 		{{ form_start(form) }}
 
-		<div class="input-group mb-4">
-			{{ form_widget(form.content) }}
-			<span class="input-group-btn">
-				{{ form_widget(form.send) }}
-			</span>
+		<div class="mb-4">
+			<div class="col-12">
+				<small>{{ form_help(form.content) }}</small>
+
+				<div class="form-error">
+					{{ form_errors(form.content) }}
+				</div>
+			</div>
+			<div class="input-group col-12">
+				{{ form_widget(form.content) }}
+
+				<span class="input-group-btn ml-1">
+					{{ form_widget(form.send) }}
+				</span>
+			</div>
 		</div>
 
 		{{ form_rest(form)}}

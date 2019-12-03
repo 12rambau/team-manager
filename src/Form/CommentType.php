@@ -15,6 +15,7 @@ class CommentType extends AbstractType
         $entity = $builder->getData();
         $builder
             ->add('content', null, [
+                'help' => 'Minimum 2 characters',
                 'attr' => ['placeholder' => "yout comment ...",]
             ])
             ->add('send', SubmitType::class, [

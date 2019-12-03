@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\BlogPost;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CommentRepository")
@@ -19,6 +20,7 @@ class Comment
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min = 2, minMessage = "Your comment must be at least {{ limit }} characters long")
      */
     private $content;
 
@@ -33,8 +35,8 @@ class Comment
     private $author;
 
     /** 
-    * @ORM\ManyToOne(targetEntity="App\Entity\BlogPost", inversedBy="comments", cascade={"persist"})
-    */
+     * @ORM\ManyToOne(targetEntity="App\Entity\BlogPost", inversedBy="comments", cascade={"persist"})
+     */
     private $post;
 
     public function __construct()
@@ -43,10 +45,10 @@ class Comment
     }
 
     public function __toString()
-   {
-        $text = $this->getAuthor()->getUsername()." ".date_format($this->getPublishDate(), 'Y-m-d');
+    {
+        $text = $this->getAuthor()->getUsername() . " " . date_format($this->getPublishDate(), 'Y-m-d');
         return $text;
-   }
+    }
 
     public function getId(): ?int
     {

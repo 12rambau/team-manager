@@ -27,10 +27,24 @@ export function sendComment(e) {
             addComment(data);
             updateNbComment();
 
+            $('#comment_content').val('');
+            $(".form-error").empty();
+
             // signal to user the action is done
             $('#loading').hide();
             $('#comment_send').attr("disabled", false);
-            $('#comment_content').val('');
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+
+            var span = $('<span>', { class: "badge badge-pill badge-danger mr-1", text: textStatus });
+            var content = $('<span>', { class: 'text-danger', text: errorThrown });
+            var error = $('<small>');
+            error.append(span).append(content);
+            $(".form-error").append(error);
+
+            // signal to user the action is done
+            $('#loading').hide();
+            $('#comment_send').attr("disabled", false);
         }
     });
 }

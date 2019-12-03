@@ -11,18 +11,20 @@ use Symfony\Component\HttpFoundation\Request;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpFoundation\Response;
 
 class CommentController extends AbstractController
 {
     public function add(BlogPost $post, Request $request, UploaderHelper $helper, CacheManager $cm): JsonResponse
     {
-
-        //TODO check if the request is a null comment and print the error 
         $comment = new Comment();
 
         $form = $this->createForm(CommentType::class, $comment);
 
         $form->handleRequest($request);
+
+        $data = array();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $comment->setAuthor($this->getUser());
@@ -30,16 +32,17 @@ class CommentController extends AbstractController
             $post->addComment($comment);
             $em->persist($post);
             $em->flush();
+
+            //TODO use the symfony serializer
+            $data['content'] = $comment->getContent();
+            $data['username'] = $comment->getAuthor()->getUsername();
+            $data['publishDate'] = date_format($comment->getPublishDate(), 'd/m h:i');
+            $data['profilePicUrl'] = $cm->getBrowserPath($helper->asset($comment->getAuthor()->getProfilePic(), 'imageFile'), 'userNavbar');
+            
+        } else {
+            //TODO return the real error to display it
+            return $this->json($form, Response::HTTP_BAD_REQUEST);
         }
-
-        //TODO use the symfony serializer
-
-        $data = array();
-        $data['content'] = $comment->getContent();
-        $data['username'] = $comment->getAuthor()->getUsername();
-        $data['publishDate'] = date_format($comment->getPublishDate(), 'd/m h:i');
-        $data['profilePicUrl'] = $cm->getBrowserPath($helper->asset($comment->getAuthor()->getProfilePic(), 'imageFile'), 'userNavbar');
-
 
         return new JsonResponse($data);
     }
