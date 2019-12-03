@@ -14,3 +14,8 @@
     margin-top: -32px;  /* set to a negative number 1/2 of your height */
     margin-left: -25px;  /* set to a negative number 1/2 of your width */
 }
+
+.position-card .draggable{
+    border-radius: 3px;
+    border: 1px solid;
+}

@@ -42,7 +42,7 @@
 					{% set field = event.fields[loop.index0] %}
 					{% for position in field.template.positions %}
 						<div 
-							class="card position-card positionned  dropdown"
+							class="card position-card positionned dropdown"
 							data-position-id="{{ position.id }}"
 							data-field-id="{{ field.id }}" 
 							style="
@@ -113,8 +113,6 @@
 			{% endfor %}
 		</div>
 	</div>
-
-	{# TODO round the corner of the pictures to fit perfectly the ghosts #}
 
 {% endblock %}
 
