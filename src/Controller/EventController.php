@@ -190,7 +190,7 @@ class EventController extends AbstractController
         $event = new Event();
 
         $em = $this->getDoctrine()->getManager();
-        $tags = $em->getRepository(EventTag::class)->findActivated();
+        $tags = $em->getRepository(EventTag::class)->findByActive(true);
 
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
@@ -226,7 +226,7 @@ class EventController extends AbstractController
         $form->handleRequest($request);
 
         $em = $this->getDoctrine()->getManager();
-        $tags = $em->getRepository(EventTag::class)->findActivated();
+        $tags = $em->getRepository(EventTag::class)->findByActive(true);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
