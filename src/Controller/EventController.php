@@ -359,14 +359,25 @@ class EventController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $participation = $em->getRepository(Participation::class)->FindByEventAndUser($event, $this->getUser());
-        $form = $this->createForm(ParticipationStatsType::class, $participation);
-        $form->handleRequest($request);
+        //fetch the current player 
+        $player = $em->getRepository(Player::class)->findOneBy([
+            'user' => $this->getUser(),
+            'team' => $event->getTeam()
+        ]);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            //no need for persist with the cascade in the entity definition
+        //fetch the participation
+        $participation = $em->getRepository(Participation::class)->FindOneBy([
+            'event' => $event,
+            'player' => $player
+            ]); 
+
+        
+        $form = $this->createForm(ParticipationStatsType::class, $participation);
+
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid())
             $em->flush();
-        }
 
         $result = $event->getResult();
 
