@@ -155,40 +155,59 @@ class Event
         return $nbParticipant;
     }
 
+    /**
+     * get in % the number of registered players
+     * 
+     * When creating the index progress bar, the player100 function give in % the 
+     * number of players registered to the event when the number of registered is equal or 
+     * superior to maxPlayer
+     * 
+     * @return int
+     */
     public function getPlayers100(): int
     {
         $in = $this->getNbParticipationIn();
         $max = $this->getMaxPlayers();
-        //TODO add a security if called when no maxPlayers
-        //TODO add explaination about the magicfunction
         $percentage = 0;
         if ($in < $max) {
             $percentage = $in * 100 / $max;
         }
 
-        return $percentage;
+        return ($max)?$percentage:0;
     }
 
+    /**
+     * get in % the number of registered players out of bond
+     * 
+     * When creating the index progress bar, the getOutbond100 function give in % the 
+     * number of players registered that outbond the maxplayer limit 
+     * 
+     * @return int
+     */
     public function getOutbonds100(): int
     {
         $in = $this->getNbParticipationIn();
         $max = $this->getMaxPlayers();
-        //TODO add a security if called when no maxPlayers
-        //TODO add explaination about the magicfunction
         $percentage = 0;
         if ($in > $max) {
             $percentage = ($in - $max) * 100 / $in;
         }
 
-        return $percentage;
+        return ($max)?$percentage:0;
     }
 
+    /**
+     * get in % the number of registered players
+     * 
+     * When creating the index progress bar, the valid100 function give in % the 
+     * number of players registered to the event when under maxPlayer limit
+     * 
+     * @return int
+     */
     public function getvalid100(): int
     {
         $in = $this->getNbParticipationIn();
         $max = $this->getMaxPlayers();
-        //TODO add a security if called when no maxPlayers
-        //TODO add explaination about the magicfunction
         $percentage = 0;
         if ($in > $max) {
             $percentage = $max * 100 / $in;
@@ -196,7 +215,7 @@ class Event
             $percentage = 100;
         }
 
-        return $percentage;
+        return ($max)?$percentage:0;
     }
 
     public function getNbParticipationOut(): int
