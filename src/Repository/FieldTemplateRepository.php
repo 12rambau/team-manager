@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\FieldTemplate;
+use App\Entity\Team;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -19,7 +20,7 @@ class FieldTemplateRepository extends ServiceEntityRepository
         parent::__construct($registry, FieldTemplate::class);
     }
 
-    public function queryEnabled()
+    public function queryEnabled(Team $team)
     {
         $qb = $this->createQueryBuilder('t');
 
@@ -27,6 +28,12 @@ class FieldTemplateRepository extends ServiceEntityRepository
             ->select('t')
             ->where('t.enable = :enable')
             ->setParameter('enable', true);
+
+        if ($team) {
+            $qb
+                ->andWhere('t.team = :team')
+                ->setParameter('team', $team);
+        }
 
         return $qb;
     }

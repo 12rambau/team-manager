@@ -73,7 +73,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
             }
         }
 
-        //set some players for the root user 
+        //set all players for the root user 
         foreach ($teams as &$team) {
             $player = new Player();
             $player->setTeam($team);

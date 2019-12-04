@@ -54,6 +54,11 @@ class FieldTemplate
      */
     private $fields;
 
+    /**
+    * @ORM\ManyToOne(targetEntity="App\Entity\Team", inversedBy="fieldTemplates", cascade={"persist"})
+    */
+    private $team;
+
     public function __construct()
     {
         $this->positions = new ArrayCollection();
@@ -206,6 +211,18 @@ class FieldTemplate
     public function setEnable(bool $enable): self
     {
         $this->enable = $enable;
+
+        return $this;
+    }
+
+    public function getTeam(): ?Team
+    {
+        return $this->team;
+    }
+
+    public function setTeam(?Team $team): self
+    {
+        $this->team = $team;
 
         return $this;
     }

@@ -290,7 +290,8 @@ class EventController extends AbstractController
 
     public function plannification(Event $event, Request $request): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_USER', null, 'you cannot access the plannification page without being a team member');
+        //TODO add security in the security.yaml file
+        $this->denyAccessUnlessGranted(['ROLE_USER', 'ROLE_ADMIN'], null, 'you cannot access the plannification page without being a team member');
 
         //create the two forms
         $templateForm = $this->createForm(TemplateSelectType::class, $event);

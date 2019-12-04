@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Field;
 use App\Entity\FieldTemplate;
+use App\Entity\Team;
 use Symfony\Component\Form\AbstractType;
 use App\Repository\FieldTemplateRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -18,8 +19,8 @@ class FieldTemplateType extends AbstractType
             ->add('template', EntityType::class, [
                 'class' => FieldTemplate::class,
                 'choice_label' => 'name',
-                'query_builder' => function (FieldTemplateRepository $rep) {
-                    return $rep->queryEnabled();
+                'query_builder' => function (FieldTemplateRepository $rep) use ($options) {
+                    return $rep->queryEnabled($options['team']);
                 }
             ]);
     }
@@ -28,6 +29,9 @@ class FieldTemplateType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Field::class,
+            'team' => null
         ]);
+
+        $resolver->setAllowedTypes('team', ['null', Team::class]);
     }
 }

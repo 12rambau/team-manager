@@ -63,6 +63,11 @@ class Team
     */
     private $statTags;
 
+    /**
+    * @ORM\OneToMany(targetEntity="App\Entity\FieldTemplate", mappedBy="team", cascade={"persist"}, orphanRemoval=true)
+    */
+    private $fieldTemplates;
+
 
     public function __construct()
     {
@@ -71,6 +76,8 @@ class Team
         $this->features = new ArrayCollection();
         $this->events = new ArrayCollection();
         $this->eventTags = new ArrayCollection();
+        $this->statTags = new ArrayCollection();
+        $this->fieldTemplates = new ArrayCollection();
 
         //create the default eventTag
         $tag = new EventTag();
@@ -87,7 +94,7 @@ class Team
         $tag->setName('other');
         $tag->setColor('warning');
         $this->addEventTag($tag);
-        $this->statTags = new ArrayCollection();
+
     }
 
     public function __toString()
@@ -316,6 +323,37 @@ class Team
             // set the owning side to null (unless already changed)
             if ($statTag->getTeam() === $this) {
                 $statTag->setTeam(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|FieldTemplate[]
+     */
+    public function getFieldTemplates(): Collection
+    {
+        return $this->fieldTemplates;
+    }
+
+    public function addFieldTemplate(FieldTemplate $fieldTemplate): self
+    {
+        if (!$this->fieldTemplates->contains($fieldTemplate)) {
+            $this->fieldTemplates[] = $fieldTemplate;
+            $fieldTemplate->setTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFieldTemplate(FieldTemplate $fieldTemplate): self
+    {
+        if ($this->fieldTemplates->contains($fieldTemplate)) {
+            $this->fieldTemplates->removeElement($fieldTemplate);
+            // set the owning side to null (unless already changed)
+            if ($fieldTemplate->getTeam() === $this) {
+                $fieldTemplate->setTeam(null);
             }
         }
 

@@ -60,7 +60,7 @@ class TeamFixtures extends Fixture
         $playerTags = range(0, $nbPlayerTag);
         foreach ($playerTags as &$playerTag) {
             $playerTag = new PlayerTag();
-            $playerTag->setColor(PlayerTag::COLORS[$faker->numberBetween(0, count(PlayerTag::COLORS)-1)]);
+            $playerTag->setColor(PlayerTag::COLORS[$faker->numberBetween(0, count(PlayerTag::COLORS) - 1)]);
             $playerTag->setName($faker->word);
             $teams[$faker->numberBetween(0, $nbTeam - 1)]->addTag($playerTag);
             $manager->persist($playerTag);
@@ -68,8 +68,8 @@ class TeamFixtures extends Fixture
 
         //default resultTag
         $maxTag = 3;
-        foreach ($teams as $team ) {
-            $tags = range(0,$faker->numberBetween(0,$maxTag));
+        foreach ($teams as $team) {
+            $tags = range(0, $faker->numberBetween(0, $maxTag));
             foreach ($tags as &$tag) {
                 $tag = new StatTag();
                 $tag->setName($faker->word);
@@ -91,25 +91,31 @@ class TeamFixtures extends Fixture
         }
 
         //template creator
-        //TODO link it to team
-        $nbTemplate = 3;
-        $templates = range(0, $nbTemplate);
-        foreach ($templates as $i => &$template) {
-            $template = new FieldTemplate();
-            $template->setName($faker->word);
-            $image = $this->imageManager->manualImage('empty_field.jpg');
-            $template->setImage($image);
-            $nbPosition = $faker->numberBetween(0, 10);
-            for ($p = 0; $p < $nbPosition; $p++) {
-                $horizontal = $faker->numberBetween(0, 100);
-                $vertical = $faker->numberBetween(0, 100);
-                $position = new Position($horizontal, $vertical);
-                $position->setName($faker->word);
-                $template->addPosition($position);
-            }
+        $maxTemplate = 3;
+        foreach ($teams as $team) {
+            $templates = range(0, $maxTemplate);
+            foreach ($templates as &$template) {
 
-            $manager->persist($template);
+                $template = new FieldTemplate();
+                $template->setName($faker->word);
+                $image = $this->imageManager->manualImage('empty_field.jpg');
+                $template->setImage($image);
+                $team->addFieldTemplate($template);
+
+                $nbPosition = $faker->numberBetween(0, 5);
+                for ($p = 0; $p < $nbPosition; $p++) {
+                    $horizontal = $faker->numberBetween(0, 100);
+                    $vertical = $faker->numberBetween(0, 100);
+                    $position = new Position($horizontal, $vertical);
+                    $position->setName($faker->word);
+                    $template->addPosition($position);
+                }
+
+                $manager->persist($template);
+            }
         }
+
+
 
         $manager->flush();
 
