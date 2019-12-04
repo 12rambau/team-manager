@@ -88,12 +88,12 @@ easy_admin:
                     - id
                     - name
                     - { property: image.filename, type: image, base_path: '%path_image%', label: Image }
-                    - website
+                    - { property: website, template: admin/field_url.html.twig }
             show:
                 fields:
                     - name
                     - { property: image.filename, type: image, base_path: '%path_image%', label: Image }
-                    - website
+                    - { property: website, template: admin/field_url.html.twig }
             form:
                 fields:
                     - name
