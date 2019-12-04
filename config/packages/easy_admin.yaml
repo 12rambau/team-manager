@@ -188,12 +188,18 @@ easy_admin:
             list:
                 actions: [-delete]
                 batch_actions: [-delete]
+                fields:
+                    - id 
+                    - { property: name, template: admin/field_tag.html.twig }
+                    - events
+                    - team
+                    - active
             form:
                 fields:
                     - { type: group, label: Content, icon: pencil-alt, columns: 8 }
                     - name
                     - { property: color, help: 'Need to be an official bootstrap color without cap.'}
-                    #- { property: color, type: choice, type_options: { expanded: false, multiple: false, choices: colors} } en attente d'une réponse sur stack
+                    - { property: color, type_options: { block_prefix: bootrap_color} }
                     - { type: group, label: Details, columns: 4, help: 'For administration only'}
                     - active
             edit:
@@ -376,7 +382,7 @@ easy_admin:
             label: Personnal stats
             class: App\Entity\PersonnalStat
             list: 
-                fields: [id, value, time, { property: tag.unity, label: Unity }, tag, player, event]
+                fields: [id, value, time, { property: tag.unity, label: Unity }, tag, participation]
             form:
                 fields:
                     - tag
@@ -386,8 +392,7 @@ easy_admin:
                     - timer
                     - time
                     - { type: group, label: Details, icon: user, columns: 12}
-                    - player
-                    - event
+                    - participation
 
         #############################################
         ###               Position                 ##
@@ -522,11 +527,22 @@ easy_admin:
         PlayerTag:
             class: App\Entity\PlayerTag
             label: Player Tag
+            list:
+                fields:
+                    - id
+                    - { property: name, template: admin/field_tag.html.twig }
+                    - team
+                    - players
+            show:
+                fields:
+                    - { property: name, template: admin/field_tag.html.twig }
+                    - team
+                    - players
             form:
                 fields:
                     - { type: group, label: Info, icon: pencil-alt, columns: 8 }
                     - name
-                    - color
+                    - { property: color, type_options: { block_prefix: bootstrap_color } }
                     - { type: group, label: Team, icon: users, columns: 4}
                     - team
             edit:
@@ -556,7 +572,6 @@ easy_admin:
 
             form:
                 fields:
-                    #TODO customize the icon/color field to preview the icon
                     - { type: group, columns: 6}
                     - name
                     - { property: url, help: "the url of your page on this social network" }
@@ -573,7 +588,7 @@ easy_admin:
             Label: Feature Tag
 
         #############################################
-        ###               PFeature                 ##
+        ###               Feature                 ##
         #############################################
         Feature: 
             # TODO customize display

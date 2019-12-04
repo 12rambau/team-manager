@@ -6,11 +6,11 @@
 {% endblock %}
 
 {% block font_awesome_widget %}
-	<div class="form-group row">
-		{{ form_widget(form, {'attr': {'class': 'col-10'}}) }}
+	<div class="form-group">
+		{{ form_widget(form, {'attr': {'class': 'col-10 icon-input'}}) }}
 		<div class="form-control col-1 ml-2">
 			<span 
-				id="social_icon_preview" 
+				id="{{ form.vars.id }}_preview" 
 				class="fab fa-{{ (form.vars.value)?form.vars.value:'fort-awesome' }}"
 			/>
 		</div>
@@ -18,12 +18,23 @@
 {% endblock %}
 
 {% block color_widget %}
-		<div class="form-group row">
-		{{ form_widget(form, {'attr': {'class': 'col-10'}}) }}
+		<div class="form-group">
+		{{ form_widget(form, {'attr': {'class': 'col-10 color-input'}}) }}
 		<div 
-			id="social_color_preview"
+			id="{{ form.vars.id }}_preview"
 			class="form-control col-1 ml-2"
 			style=" background-color: {{ form.vars.value }}"
+		>
+		</div>
+	</div>
+{% endblock %}
+
+{% block bootstrap_color_widget %}
+		<div class="form-group">
+		{{ form_widget(form, {'attr': {'class': 'col-10 bootstrap-color-input'}}) }}
+		<div 
+			id="{{ form.vars.id }}_preview"
+			class="form-control col-1 ml-2 bg-{{ (form.vars.value)?form.vars.value:'default' }}"
 		>
 		</div>
 	</div>

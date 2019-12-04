@@ -41,12 +41,16 @@ $('#easyadmin-add-collection-item-fieldtemplate_positions').click(function (e) {
     position.bindPositions();
 });
 
-$("#social_icon").change(function () {
-    $("#social_icon_preview").attr('class', "fab fa-" + $(this).val());
+$(".icon-input").change(function () {
+    $("#"+$(this).attr('id')+"_preview").attr('class', "fab fa-" + $(this).val());
 });
 
-$("#social_color").change(function () {
-    $("#social_color_preview").css('background-color', $(this).val());
+$(".color-input").change(function () {
+    $("#"+$(this).attr('id')+"_preview").css('background-color', $(this).val());
+});
+
+$(".bootstrap-color-input").change(function () {
+    $("#"+$(this).attr('id')+"_preview").attr('class', "form-control col-1 ml-2 bg-"+$(this).val());
 });
 
 
