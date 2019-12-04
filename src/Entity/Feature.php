@@ -24,6 +24,7 @@ class Feature
 
     /**
     * @ORM\ManyToOne(targetEntity="App\Entity\FeatureTag", inversedBy="features", cascade={"persist"})
+    * @ORM\JoinColumn(nullable=false)
     */
     private $tag;
 
@@ -31,6 +32,12 @@ class Feature
     * @ORM\ManyToOne(targetEntity="App\Entity\Player", inversedBy="features", cascade={"persist"})
     */
     private $player;
+
+    public function __toString()
+    {
+        $str =  $this->getTag()->getName()." - ".$this->getPlayer()->getUser()->getUsername();
+        return $str;
+    }
 
     public function getId(): ?int
     {

@@ -586,6 +586,20 @@ easy_admin:
             #TODO customize display
             class: App\Entity\FeatureTag
             Label: Feature Tag
+            show:
+                fields:
+                    - name
+                    - team
+                    - features
+            form:
+                fields:
+                    - { type: group }
+                    - name
+                    - team
+            edit:
+                fields:
+                    - {type: group }
+                    - {property: features, type: collection, type_options: { allow_delete: true, allow_add: false } }
 
         #############################################
         ###               Feature                 ##
@@ -594,6 +608,16 @@ easy_admin:
             # TODO customize display
             class: App\Entity\Feature
             label: Feature
+            show:
+                fields:
+                    - value
+                    - tag
+                    - player
+            form:
+                fields:
+                    - value
+                    - tag
+                    - player
 
 
 
