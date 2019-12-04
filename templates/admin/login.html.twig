@@ -30,43 +30,12 @@
 				</div>
 				<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-				<div class="control-label">
-					<label>
-						<input type="checkbox" name="_remember_me">
-						Remember me
-					</label>
-				</div>
-
 				<button class="btn btn-lg btn-primary btn-block" type="submit">
 					Sign in
 				</button>
 
-				<div class="text-center">
-					<a class="text-center small" href="{{path('register') }}">Not registered yet !</a>
-				</div>
-
-				<div class="text-center">
-					<a class="small" href="{{ path('forgotten_password') }}">
-						forgotten password</a>
-				</div>
 			</form>
-			<hr>
 
-			<button id="facebook" class="btn btn-block button">
-				<span>
-					<i class="fab fa-facebook-f"></i>
-					login with Facebook</span>
-			</button>
-			<div id="google" class="btn btn-block button">
-				<span>
-					<i class="fab fa-google"></i>
-					login with Google</span>
-			</div>
-			<div id="apple" class="btn btn-block button">
-				<span>
-					<i class="fab fa-apple"></i>
-					login with Apple</span>
-			</div>
 		</div>
 
 		<div id="club-logo">
