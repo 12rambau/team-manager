@@ -26,31 +26,30 @@ easy_admin:
              - label: Team
                icon: quidditch
                children:
-                - { icon: user, entity: Player }
-                - { icon: tag, entity: PlayerTag }
-                - { icon: tag, entity: FeatureTag }
-                #TODO link personnal stat to teams
-                - { icon: tag, entity: StatTag}
-             - label: News
+                - { icon: user, entity: PlayerTag }
+                - { icon: info, entity: FeatureTag }
+                - { icon: poll, entity: StatTag}
+                - { icon: calendar, entity: EventTag }
+             - label: Blog
                icon: rss
                children:
                 - { icon: file, entity: News }
                 - { icon: comments, entity: Comment }
+                - {icon: comments, entity: ChatMessage }
              - label: Event
                icon: calendar
                children:
                 - { icon: calendar-alt, entity: Event }
-                - { icon: tag, entity: EventTag }
                 - { icon: campground, entity: FieldTemplate }
                 - { icon: trophy, entity: Result }
              - { icon: images, entity: Gallery }
              - label: User
                icon: user
                children:
+                - { icon: quidditch, entity: Player }
                 - { icon: user, entity: User }
                 - { icon: poll, entity: PersonnalStat }
                 - { icon: info, entity: Feature }
-             - {icon: comments, entity: ChatMessage }
              - { label: Admin database}
              - { icon: image, entity: Image }
              - { icon: map-marked-alt, entity: Location, label: 'Event location' }
@@ -541,7 +540,20 @@ easy_admin:
         Social:
             class: App\Entity\Social
             label: Social Media
-            #TODO customize the display of the brand and the color
+            list:
+                fields:
+                    - id
+                    - name
+                    - { property: url, template: admin/field_url.html.twig}
+                    - { property: icon, template: admin/field_brand_icon.html.twig}
+                    - { property: color, template: admin/field_hex_color.html.twig}
+            show:
+                fields:
+                    - name
+                    - { property: url, template: admin/field_url.html.twig}
+                    - { property: icon, template: admin/field_brand_icon.html.twig}
+                    - { property: color, template: admin/field_hex_color.html.twig}
+
             form:
                 fields:
                     #TODO customize the icon/color field to preview the icon
@@ -549,8 +561,8 @@ easy_admin:
                     - name
                     - { property: url, help: "the url of your page on this social network" }
                     - { type: group, columns: 6}
-                    - { property: icon, help: 'the name of your icon find on the "Font is awesome" website. As a brand it will start with "fab fa-[your_icon]' }
-                    - color
+                    - { property: icon, help: "the name of your icon find on the 'Font is awesome' website. As a brand it will start with 'fab fa-[your_icon]'. if nothing appear, your icon doesn't exist.", type_options: { block_prefix: font_awesome} }
+                    - { property: color, help: set the color as an hex color. it will be display when the icon is hovered in the footer. If nothing displays it's not a color, type_options: { block_prefix: color} }
 
         #############################################
         ###           Feature Tag                  ##

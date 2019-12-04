@@ -39,7 +39,15 @@ $('#easyadmin-add-collection-item-fieldtemplate_positions').click(function (e) {
     e.preventDefault();
     position.addPosition();
     position.bindPositions();
-})
+});
+
+$("#social_icon").change(function () {
+    $("#social_icon_preview").attr('class', "fab fa-" + $(this).val());
+});
+
+$("#social_color").change(function () {
+    $("#social_color_preview").css('background-color', $(this).val());
+});
 
 
 
