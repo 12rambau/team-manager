@@ -25,8 +25,13 @@ class FieldTemplateListener
 
         if($entity instanceof FieldTemplate)
         {
-            if(count($entity->getFields()))
+            if(count($entity->getFields())){
+
+                $em = $args->getObjectManager();
+                $em->detach($entity);
+
                 throw new AccessDeniedException('this template has already fields it cannot be removed');
+            }
         }
     }
 }

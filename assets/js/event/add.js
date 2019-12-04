@@ -1,12 +1,9 @@
 import $ from 'jquery';
 
-function createTag(tag) {
-
-    //TODO ger the margin for the span 
-    
+function createTag(tag) {    
     //build unchecked 
-    var span_unchecked = $('<span>', { class: 'far fa-square mr-1' });
-    span_unchecked.append(tag['name']);
+    var text_uncheck = $('<span>', {class:"ml-1", text: tag['name']});
+    var span_unchecked = $('<span>', { class: 'far fa-square' });
     var button_unchecked = $(
         '<button>',
         {
@@ -14,10 +11,11 @@ function createTag(tag) {
             class: 'uncheck btn btn-outline-' + tag['color'] + ' m-1'
         }
     )
-    button_unchecked.append(span_unchecked);
+    button_unchecked.append(span_unchecked).append(text_uncheck);
 
     //build checked 
-    var span_checked = $('<span>', { class: 'far fa-check-square mr-1', text: tag['name'] });
+    var text_check = $('<span>', {class:"ml-1", text: tag['name']});
+    var span_checked = $('<span>', { class: 'far fa-check-square' });
     var button_checked = $(
         '<button>',
         {
@@ -25,7 +23,7 @@ function createTag(tag) {
             class: 'check btn btn-' + tag['color'] + ' m-1'
         }
     )
-    button_checked.append(span_checked);
+    button_checked.append(span_checked).append(text_check);
 
     //build input 
     var input = $('<input>', {
