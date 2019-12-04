@@ -143,16 +143,30 @@ class EventController extends AbstractController
             'user' => $this->getUser(),
             'team' => $event->getTeam()
         ]);
+        if (!$player){
+            return $this->render('event/view-ext.html.twig', [
+                'event' => $event,
+            ]);
+        }
 
 
-        $participations = $event->getParticipations();
         $myParticipation = $em->getRepository(Participation::class)->findOneBy([
             'player' => $player,
             'event' => $event
         ]);
+        if (!$myParticipation){
+            $myParticipation = new Participation();
+            $myParticipation->setPlayer($player);
+            $myParticipation->setEvent($event);
+            $em->persist($myParticipation);
+            $em->flush();
+        }
+
+        $participations = $event->getParticipations();
         $formsInOut = $this->createForm(ListParticipationType::class, ['participations' => $participations]);
 
         //get the index of the current user 
+        $userIndex = -1;
         foreach ($participations as $key => $participation) {
             if ($participation->getPlayer() == $player) {
                 $userIndex = $key;
@@ -371,9 +385,9 @@ class EventController extends AbstractController
         $participation = $em->getRepository(Participation::class)->FindOneBy([
             'event' => $event,
             'player' => $player
-            ]); 
+        ]);
 
-        
+
         $form = $this->createForm(ParticipationStatsType::class, $participation);
 
 
@@ -390,9 +404,9 @@ class EventController extends AbstractController
         ]);
     }
 
-    public function updateTag(Team $team):JsonResponse
+    public function updateTag(Team $team): JsonResponse
     {
-        
+
         $em = $this->getDoctrine()->getManager();
 
         $tagCollection = $em->getRepository(EventTag::class)->findBy([

@@ -58,6 +58,11 @@ class Team
     */
     private $eventTags;
 
+    /**
+    * @ORM\OneToMany(targetEntity="App\Entity\StatTag", mappedBy="team", cascade={"persist"}, orphanRemoval=true)
+    */
+    private $statTags;
+
 
     public function __construct()
     {
@@ -82,6 +87,7 @@ class Team
         $tag->setName('other');
         $tag->setColor('warning');
         $this->addEventTag($tag);
+        $this->statTags = new ArrayCollection();
     }
 
     public function __toString()
@@ -279,6 +285,37 @@ class Team
             // set the owning side to null (unless already changed)
             if ($eventTag->getTeam() === $this) {
                 $eventTag->setTeam(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|StatTag[]
+     */
+    public function getStatTags(): Collection
+    {
+        return $this->statTags;
+    }
+
+    public function addStatTag(StatTag $statTag): self
+    {
+        if (!$this->statTags->contains($statTag)) {
+            $this->statTags[] = $statTag;
+            $statTag->setTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStatTag(StatTag $statTag): self
+    {
+        if ($this->statTags->contains($statTag)) {
+            $this->statTags->removeElement($statTag);
+            // set the owning side to null (unless already changed)
+            if ($statTag->getTeam() === $this) {
+                $statTag->setTeam(null);
             }
         }
 

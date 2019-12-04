@@ -29,7 +29,7 @@ class Player
     private $tags;
 
     /**
-    * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="player", cascade={"persist"})
+    * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="players", cascade={"persist"})
     */
     private $user;
 

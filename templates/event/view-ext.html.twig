@@ -1,0 +1,83 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+	{{ event.slug }}
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	{{ encore_entry_link_tags('event-view') }}
+{% endblock %}
+
+{% block page_title %}
+	<h1>
+		<span class="badge badge-{{ event.tag.color }}">{{event.tag.name|slice(0,3)|raw}}.</span>
+		{{ event.name }}</h1>
+{% endblock %}
+
+{% block content %}
+
+	<div class="card">
+		<div class="card-body">
+			<p>
+				<span class="fas fa-calendar mr-1"/>
+				{{ event.start|date('d/m/Y h:i:s') }}
+			</p>
+			<p>
+				<span class="fas fa-location-arrow mr-1"/>
+				{{ event.location.value }}
+				<a class="ml-3" href="#map">
+					<span class="text-default mr-1">
+						Go to map
+					</span>
+					<span class="fa fa-arrow-right"/>
+				</a>
+				<input class="sr-only" id="event_location_lat" value="{{ event.location.lat }}"/>
+				<input class="sr-only" id="event_location_lng" value="{{ event.location.lng }}"/>
+			</p>
+			<p>
+				<span class="fas fa-info"/>
+				<span class="ml-1">
+					{{  event.info }}
+				</span>
+			</p>
+		</div>
+	</div>
+
+	<hr>
+
+	<div class="card">
+		<div class="card-body">
+			<div id="map"></div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block aside %}
+	<div class="card shadow">
+		<div class="card-header">
+			<p class="card-title">
+				<span class="fas fa-filter mr-1"/>
+				Other events
+			</p>
+		</div>
+		<div class="card-body">
+			{{ render(controller('App\\Controller\\AsideController::event', {'slug': event.slug})) }}
+			<p>
+				<a href="{{ path('event-index', {}) }}">All other events</a>
+			</p>
+		</div>
+	</div>
+{% endblock %}
+
+{% block javascripts %}
+
+	<script type="text/javascript">
+		var lat = document.getElementById('event_location_lat');
+		var lng = document.getElementById('event_location_lng');
+	</script>
+
+	{{ parent() }}
+
+	{{ encore_entry_script_tags('event-view') }}
+{% endblock %}

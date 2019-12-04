@@ -9,6 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use App\Entity\StatTag;
+use App\Entity\Team;
 use App\Repository\StatTagRepository;
 
 
@@ -22,9 +23,9 @@ class PersonnalStatType extends AbstractType
                 ->add('tag', EntityType::class, [
                     'class' => StatTag::class,
                     'choice_label' => 'name',
-                    'query_builder' => function (StatTagRepository $rep)
+                    'query_builder' => function (StatTagRepository $rep) use ($options)
                         {
-                            return $rep->queryActivated();
+                        return $rep->queryActivated($options['team']);
                         }
                     ]
                 )
@@ -53,9 +54,11 @@ class PersonnalStatType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => PersonnalStat::class,
-            'inEvent' => false
+            'inEvent' => false,
+            'team' => null
         ]);
 
         $resolver->setAllowedTypes('inEvent', 'bool');
+        $resolver->setAllowedTypes('team', ['null', Team::class]);
     }
 }

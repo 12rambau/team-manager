@@ -67,19 +67,18 @@ class TeamFixtures extends Fixture
         }
 
         //default resultTag
-        //TODO link it to team
-        $statlTags = [];
+        $maxTag = 3;
+        foreach ($teams as $team ) {
+            $tags = range(0,$faker->numberBetween(0,$maxTag));
+            foreach ($tags as &$tag) {
+                $tag = new StatTag();
+                $tag->setName($faker->word);
+                if ($faker->boolean) $tag->setUnity($faker->randomLetter);
+                $team->addStatTag($tag);
 
-        $statlTags[0] = new StatTag();
-        $statlTags[0]->setName('distance');
-        $statlTags[0]->setUnity("m");
-        $manager->persist($statlTags[0]);
-
-        $statlTags[1] = new StatTag();
-        $statlTags[1]->setName('chrono');
-        $statlTags[1]->setUnity("");
-        $manager->persist($statlTags[1]);
-
+                $manager->persist($tag);
+            }
+        }
 
         //default EventTag creator
         foreach ($teams as $team) {

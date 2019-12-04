@@ -207,12 +207,16 @@
 			</div>
 		</div>
 	</div>
-	{{ form_end(formsInOut) }}<div class="card">
+
+	{{ form_end(formsInOut) }}
+
+	<div class="card">
 		<div class="card-body">
 			<div id="map"></div>
 		</div>
 	</div>
 {% endblock %}
+
 {% block aside %}
 	<div class="card shadow">
 		<div class="card-header">
@@ -231,7 +235,7 @@
 {% endblock %}
 
 {% block javascripts %}
-	
+
 	<script type="text/javascript">
 		var lat = document.getElementById('event_location_lat');
 		var lng = document.getElementById('event_location_lng');

@@ -19,7 +19,7 @@ class StatTagRepository extends ServiceEntityRepository
         parent::__construct($registry, StatTag::class);
     }
 
-    public function queryActivated()
+    public function queryActivated($team = null)
     {
         $qb = $this->createQueryBuilder('t');
 
@@ -27,6 +27,12 @@ class StatTagRepository extends ServiceEntityRepository
             ->select('t')
             ->where('t.active = :active')
             ->setParameter('active', true);
+
+        if ($team) {
+            $qb
+                ->andWhere('t.team = :team')
+                ->setParameter('team', $team);
+        }
 
         return $qb;
     }

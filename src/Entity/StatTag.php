@@ -38,6 +38,11 @@ class StatTag
     */
     private $active;
 
+    /**
+    * @ORM\ManyToOne(targetEntity="App\Entity\Team", inversedBy="statTags", cascade={"persist"})
+    */
+    private $team;
+
     public function __construct()
     {
         $this->stats = new ArrayCollection();
@@ -117,6 +122,18 @@ class StatTag
                 $stat->setTag(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTeam(): ?Team
+    {
+        return $this->team;
+    }
+
+    public function setTeam(?Team $team): self
+    {
+        $this->team = $team;
 
         return $this;
     }

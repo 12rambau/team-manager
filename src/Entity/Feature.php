@@ -23,7 +23,7 @@ class Feature
     private $value;
 
     /**
-    * @ORM\ManyToOne(targetEntity="App\ENtity\FeatureTag", inversedBy="features", cascade={"persist"})
+    * @ORM\ManyToOne(targetEntity="App\Entity\FeatureTag", inversedBy="features", cascade={"persist"})
     */
     private $tag;
 

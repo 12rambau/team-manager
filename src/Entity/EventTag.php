@@ -72,7 +72,7 @@ class EventTag
     private $active;
 
     /**
-    * @ORM\ManyToOne(targetEntity="App\Entity\Team", inversedBy="$eventTags", cascade={"persist"})
+    * @ORM\ManyToOne(targetEntity="App\Entity\Team", inversedBy="eventTags", cascade={"persist"})
     */
     private $team;
 
