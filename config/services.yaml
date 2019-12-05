@@ -84,8 +84,21 @@ services:
     
     App\EventListener\EventTagListener:
         tags:
+            - {name: doctrine.event_listener, event: preRemove}
             - { name: doctrine.event_listener, event: prePersist }
             - { name: doctrine.event_listener, event: preUpdate }
+
+    App\EventListener\PlayerTagListener:
+        tags:
+            - {name: doctrine.event_listener, event: preRemove}
+
+    App\EventListener\FeatureTagListener:
+        tags:
+            - {name: doctrine.event_listener, event: preRemove}
+
+    App\EventListener\StatTagListener:
+        tags:
+            - {name: doctrine.event_listener, event: preRemove}
 
     App\EventListener\LocationListener:
         tags:

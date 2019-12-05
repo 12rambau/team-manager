@@ -184,10 +184,8 @@ easy_admin:
         #############################################
         EventTag:
             class: App\Entity\EventTag
-            help: 'Do not delete tags that are used in several events, just deactivate them. The delete function is available in Edit view.'
+            help: Do not delete tags that are used in several events, just deactivate them.
             list:
-                actions: [-delete]
-                batch_actions: [-delete]
                 fields:
                     - id 
                     - { property: name, template: admin/field_tag.html.twig }
@@ -274,6 +272,8 @@ easy_admin:
         #############################################
         FieldTemplate:
             class: App\Entity\FieldTemplate
+            label: Field template
+            help: Do not delete templates that are used in several fields, just deactivate them.
             show: 
                 fields:
                     - name
@@ -430,10 +430,7 @@ easy_admin:
         StatTag:
             class: App\Entity\StatTag
             label: Stats tag
-            help: 'Do not delete tags that are used in several stats, just deactivate them. The delete function is available in Edit view.'
-            list: 
-                actions: [-delete]
-                batch_actions: [-delete]
+            help: Do not delete tags that are used in several stats, just deactivate them.
             show:
                 fields: [name, unity, active, stats]
             form:
@@ -526,18 +523,21 @@ easy_admin:
         #############################################
         PlayerTag:
             class: App\Entity\PlayerTag
-            label: Player Tag
+            label: Player tag
+            help: Do not delete tags that are used in several players, just deactivate them.
             list:
                 fields:
                     - id
                     - { property: name, template: admin/field_tag.html.twig }
                     - team
                     - players
+                    - active
             show:
                 fields:
                     - { property: name, template: admin/field_tag.html.twig }
                     - team
                     - players
+                    - active
             form:
                 fields:
                     - { type: group, label: Info, icon: pencil-alt, columns: 8 }
@@ -548,6 +548,7 @@ easy_admin:
             edit:
                 fields:
                     - { type: group, columns: 12}
+                    - active
                     - { property: players, type: collection, type_options: { allow_delete: true, allow_add: false } }
 
         #############################################
@@ -585,12 +586,14 @@ easy_admin:
         FeatureTag:
             #TODO customize display
             class: App\Entity\FeatureTag
-            Label: Feature Tag
+            Label: Feature tag
+            help: Do not delete tags that are used in several features, just deactivate them.
             show:
                 fields:
                     - name
                     - team
                     - features
+                    - active
             form:
                 fields:
                     - { type: group }
@@ -599,13 +602,13 @@ easy_admin:
             edit:
                 fields:
                     - {type: group }
+                    - active
                     - {property: features, type: collection, type_options: { allow_delete: true, allow_add: false } }
 
         #############################################
         ###               Feature                 ##
         #############################################
-        Feature: 
-            # TODO customize display
+        Feature:
             class: App\Entity\Feature
             label: Feature
             show:

@@ -35,8 +35,14 @@ class FeatureTag
     */
     private $features;
 
+    /**
+    * @ORM\Column(type="boolean")
+    */
+    private $active;
+
     public function __construct()
     {
+        $this->active = true;
         $this->features = new ArrayCollection();
     }
 
@@ -100,6 +106,18 @@ class FeatureTag
                 $feature->setTag(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(bool $active): self
+    {
+        $this->active = $active;
 
         return $this;
     }

@@ -44,6 +44,11 @@ class PlayerTag
     private $color;
 
     /**
+    * @ORM\Column(type="boolean")
+    */
+    private $active;
+
+    /**
     * @ORM\ManyToOne(targetEntity="App\Entity\Team", inversedBy="tags", cascade={"persist"})
     */
     private $team;
@@ -58,6 +63,7 @@ class PlayerTag
     {
         $this->color = "primary";
         $this->players = new ArrayCollection();
+        $this->active = true;
     }
 
     public function getColors()
@@ -128,6 +134,18 @@ class PlayerTag
         if ($this->players->contains($player)) {
             $this->players->removeElement($player);
         }
+
+        return $this;
+    }
+
+    public function getActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(bool $active): self
+    {
+        $this->active = $active;
 
         return $this;
     }
