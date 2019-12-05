@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\BlogPost;
+use App\Form\GalleryType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -27,6 +28,10 @@ class BlogPostType extends AbstractType
                     'rows' => 5,
                     'data-max' => BlogPost::MAX_SHORT
                 ]
+            ])
+            ->add('gallery', GalleryType::class, [
+                'label' => 'Image Gallery',
+                'help' => 'add the images of the Blog post, multiples files upload is available'
             ])
             ->add('content', CKEditorType::Class)
             ->add('save', SubmitType::class, [

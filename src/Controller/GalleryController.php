@@ -12,20 +12,27 @@ use Symfony\Component\HttpFoundation\Response;
 
 class GalleryController extends AbstractController
 {
-    public function index($page): Response
+    public function index(): Response
     {
-        $limit = 10;
-
         $em = $this->getDoctrine()->getManager();
-        $galleries = $em->getRepository(Gallery::class)->findBy([],[],$limit, ($page-1)*$limit);
+        $galleries = $em->getRepository(Gallery::class)->findAll();
 
+        $filtered_galleries = array();
+        foreach ($galleries as $gallery) {
+            if (!preg_match("/^result_/",$gallery->getName()))
+                array_push($filtered_galleries, $gallery);
+        }
+
+        //TODO add pagination
         return $this->render('gallery/index.html.twig', [
-            'galleries' => $galleries,
+            'galleries' => $filtered_galleries,
         ]);
     }
 
     public function add(Gallery $gallery = null, Request $request): Response
     {
+
+        //TODO improve the image form with modern js and css
         $gallery = ($gallery)?$gallery:new Gallery();
 
         $form = $this->createForm(GalleryType::class, $gallery);
@@ -50,10 +57,6 @@ class GalleryController extends AbstractController
             // TODO send an email to the administrator
 
             $request->getSession()->getFlashBag()->add('success', 'The gallery : '.$gallery->getName().' has been added.');
-
-            //return new RedirectResponse($this->generateUrl('gallery-view', [
-            //    'name' => $gallery->getName()
-            //]));
         }
 
         return $this->render('gallery/add.html.twig', array(

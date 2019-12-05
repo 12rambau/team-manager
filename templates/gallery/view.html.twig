@@ -2,11 +2,11 @@
 
 {% block title %}Gallery - {{ gallery.name }}{% endblock %}
 
-{% block content %}
+{% block page_title %}
+    <h1>Gallery - {{ gallery.name }}</h1>
+{% endblock %}
 
-    <div class="jumbotron bg-primary-light">
-        <h2>Gallery - {{ gallery.name }}</h2>
-    </div>
+{% block content %}
 
     {% for image in gallery.images %}
         <div class="col-lg-3">

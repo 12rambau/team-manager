@@ -55,7 +55,7 @@ class BlogController extends AbstractController
             $post = new BlogPost();
             $action = "add";
             //check the user
-        } elseif ($this->getUser() != $post->getAuthor()) {
+        } elseif ($this->getUser() != $post->getAuthor() &&  !$this->isGranted('ROLE_ADMIN')) {
             throw new AccessDeniedException('Not your Blog Post');
         }
 

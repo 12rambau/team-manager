@@ -291,7 +291,7 @@ class EventController extends AbstractController
     public function plannification(Event $event, Request $request): Response
     {
         //TODO add security in the security.yaml file
-        $this->denyAccessUnlessGranted(['ROLE_USER', 'ROLE_ADMIN'], null, 'you cannot access the plannification page without being a team member');
+        $this->denyAccessUnlessGranted('ROLE_USER', null, 'you cannot access the plannification page without being a team member');
 
         //create the two forms
         $templateForm = $this->createForm(TemplateSelectType::class, $event);
@@ -330,7 +330,7 @@ class EventController extends AbstractController
             //get the field with his index in the field list
             $event = $em->getRepository(Event::class)->find($event->getId());
             $field = $event->getFields()->get($index);
-            $data['fieldId'] = $field->getId(); //TODO fid an intelligent way to get Id
+            $data['fieldId'] = $field->getId(); //TODO find an intelligent way to get Id
             $data['positions'] = array();
             foreach ($template->getPositions() as $key => $position) {
                 $data['positions'][$key] = array();

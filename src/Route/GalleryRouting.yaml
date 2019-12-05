@@ -1,10 +1,6 @@
 gallery-index:
-    path: /index/{page}
+    path: /index
     controller: App\Controller\GalleryController::index
-    defaults:
-        page: 1
-    requirements:
-        page: \d+
 
 gallery-add:
     path: /add

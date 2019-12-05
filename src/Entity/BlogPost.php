@@ -15,6 +15,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class BlogPost
 {
+    const MAX_SHORT = 200;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -26,8 +28,6 @@ class BlogPost
      * @ORM\Column(type="string", length=255)
      */
     private $title;
-
-    const MAX_SHORT = 200;
 
     /**
      * @ORM\Column(type="text")
@@ -70,6 +70,11 @@ class BlogPost
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="post", cascade={"persist"}, orphanRemoval=true)
      */
     private $comments;
+
+    /**
+    * @ORM\OneToOne(targetEntity="App\Entity\Gallery", cascade={"persist"})
+    */
+    private $gallery;
 
     public function __construct()
     {
@@ -213,6 +218,20 @@ class BlogPost
                 $comment->setPost(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getGallery(): ?Gallery
+    {
+        return $this->gallery;
+    }
+
+    public function setGallery(?Gallery $gallery): self
+    {
+        $this->gallery = $gallery;
+
+        $gallery->setName($this->getSlug());
 
         return $this;
     }

@@ -134,6 +134,7 @@ easy_admin:
                     - { type: group, label: 'Basic information', icon: pencil-alt, columns: 8  }
                     - title
                     - short
+                    - gallery
                     - { property: content, type: fos_ckeditor }
                     - { type: group, label: Details, columns: 4 , help: 'for administration only'}
                     - active
@@ -141,9 +142,10 @@ easy_admin:
             edit:
                 fields:
                     - { type: group, label: Comments, icon: comments, columns: 12 }
+                    - gallery
                     - {property: comments, type: collection, type_options: { allow_add: false }}
             show: 
-                fields: [title, short, { property: content, type: raw }, active, publishDate, editDate, author, comments]
+                fields: [title, short, gallery, { property: content, type: raw }, active, publishDate, editDate, author, comments]
             list:
                 fields: [ id, title, publishDate, active, author, comments]
 
@@ -415,7 +417,7 @@ easy_admin:
                     - { property: score.their, label: Their score, type: integer }
                     - { property: score.opponent, label: Opponent, type: text }
                     - { type: group, columns: 6, label: Results Files, icon: files }
-                    - {property: files, type_options: { disabled: true} } #TODO find how to add multiple files
+                    - { property: files, type_options: { disabled: true} } #TODO find how to add multiple files
 
         #############################################
         ###               Score                    ##
