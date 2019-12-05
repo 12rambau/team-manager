@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Entity\User;
 use Cocur\Slugify\Slugify;
 use App\Entity\Comment;
+use App\Entity\Gallery;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -81,6 +82,7 @@ class BlogPost
         $this->publishDate = new \DateTime();
         $this->active = false;
         $this->comments = new ArrayCollection();
+        $this->setGallery(new Gallery);
     }
 
     public function __toString()

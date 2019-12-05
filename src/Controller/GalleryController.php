@@ -19,7 +19,7 @@ class GalleryController extends AbstractController
 
         $filtered_galleries = array();
         foreach ($galleries as $gallery) {
-            if (!preg_match("/^result_/",$gallery->getName()))
+            if (!preg_match("/^result_/",$gallery->getName()) && count($gallery->getImages()))
                 array_push($filtered_galleries, $gallery);
         }
 

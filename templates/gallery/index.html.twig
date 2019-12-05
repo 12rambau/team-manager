@@ -2,15 +2,15 @@
 
 {% block title %}Gallery index{% endblock %}
 
+{% block page_title %}
+    <h1>Gallery index</h1>
+{% endblock %}
+
 {% block content %}
 
-	<div class="jumbotron">
-		<h2>Gallery index</h2>
-	</div>
-
-    <div class="row row-flex">
+    <div class="row">
     {% for gallery in galleries %}
-        <div class="card col-4">
+        <div class="card col-4 m-1 p-0">
             {% if gallery.images is empty %}
                 <img class="card-img-top" src="{{ asset('image/default/empty_gallery.png') }}" alt="Card image cap">
             {% else %}
@@ -19,7 +19,7 @@
                     
                     <ol class="carousel-indicators">
                         {% for image in gallery.images %}
-                            <li data-target="#carousel-{{ carouselNumber }}" data-slide-to="{{ loop.index }}" {{ (loop.index == 1) ? 'class="active"' }}></li>
+                            <li data-target="#carousel-{{ carouselNumber }}" data-slide-to="{{ loop.index }}" class="{{ (loop.index == 1) ? 'active' }} bg-primary"></li>
                         {% endfor %}
                     </ol>
                     <div class="carousel-inner">
@@ -30,17 +30,21 @@
                         {% endfor %}
                     </div>
                     <a class="carousel-control-prev" href="#carousel-{{ carouselNumber }}" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
+                        <span class="h4 fa fa-angle-left text-primary" aria-hidden="true"></span>
+						<span class="sr-only">Previous</span>
                     </a>
                     <a class="carousel-control-next" href="#carousel-{{ carouselNumber }}" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
+                        <span class="h4 fa fa-angle-right text-primary" aria-hidden="true"></span>
+						<span class="sr-only">Next</span>
                     </a>
                 </div>
             {% endif %}
             <div class="card-body">
-                <h5 class="card-title"><a href="{{ path('gallery-view', {'name':gallery.name}) }}">{{ gallery.name }}</a></h5>
+                <h5 class="card-title text-center">
+                    <a class="text-muted" href="{{ path('gallery-view', {'name':gallery.name}) }}">
+                        {{ gallery.name }}
+                    </a>
+                </h5>
             </div>
         </div>
     {% else %}
