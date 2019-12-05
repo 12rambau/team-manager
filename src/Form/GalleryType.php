@@ -13,7 +13,6 @@ class GalleryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
             ->add('files', FileType::class, [
                 'label' => false,
                 'multiple' => true,

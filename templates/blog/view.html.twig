@@ -57,16 +57,17 @@
 		<hr>
 
 		<div id="gallery-section">
-			{% if post.gallery %}
-				<a href="{{ path('gallery-view', {'name':post.gallery}) }}" class=" btn btn-block btn-primary mb-2">
-					access the gallery
-				</a>
-				{% if (app.user is same as(post.author))  or is_granted('ROLE_ADMIN') %}
-					<a href="{{ path('gallery-edit', {'name':post.gallery}) }}" class="btn btn-block btn-warning mb-2">
+
+			<a href="{{ path('gallery-view', {'name':post.gallery}) }}" class=" btn btn-block btn-primary mb-2">
+				access the gallery
+			</a>
+			{% if (app.user is same as(post.author))  or is_granted('ROLE_ADMIN') %}
+				<a href="{{ path('gallery-edit', {'name':post.gallery}) }}" class="btn btn-block btn-warning mb-2">
 					Edit the gallery
 				</a>
-				{% endif %}
+			{% endif %}
 
+			{% if post.gallery.images|length %}
 				<div id="carousel-gallery" class="carousel slide" data-ride="carousel">
 					<ol class="carousel-indicators">
 						{% for image in post.gallery.images %}

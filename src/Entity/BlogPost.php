@@ -189,6 +189,7 @@ class BlogPost
     {
         $slugify = new Slugify();
         $this->slug = $slugify->slugify($this->title);
+        $this->getGallery()->setName($this->getSlug());
 
         return $this;
     }
@@ -232,8 +233,6 @@ class BlogPost
     public function setGallery(?Gallery $gallery): self
     {
         $this->gallery = $gallery;
-
-        $gallery->setName($this->getSlug());
 
         return $this;
     }

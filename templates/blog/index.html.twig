@@ -83,7 +83,13 @@
 				{% for post in posts %}
 					<div class=" col-4 p-2">
 						<div class="card shadow h-100">
-							<img class="card-img-top" src="{{ asset('image/default/no-image-news.jpg')|imagine_filter('news') }}">
+							<img 
+								class="card-img-top" 
+								src="{{ asset(
+										(post.gallery.images|length != 0)?
+											vich_uploader_asset(post.gallery.images[0], "imageFile"):
+											'image/default/no-image-news.jpg'
+									)|imagine_filter('news') }}">
 							<div class="card-body position-relative">
 								<figure class="profile">
 									<img src="{{ asset(vich_uploader_asset(post.author.profilePic, "imageFile")|imagine_filter('userNavbar')) }}" class="profile-avatar" alt="">
