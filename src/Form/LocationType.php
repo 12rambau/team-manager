@@ -8,9 +8,17 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class LocationType extends AbstractType
 {
+    private $ti;
+
+    public function __construct(TranslatorInterface $ti)
+    {
+        $this->ti = $ti;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if ($options['hidden'])

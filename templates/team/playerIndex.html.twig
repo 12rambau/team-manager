@@ -1,11 +1,11 @@
 {% extends 'layout.html.twig' %}
 
 {% block title %}
-	player index
+	{{ 'team.view.index.title'|trans }}
 {% endblock %}
 
 {% block page_title %}
-	<h1>Player index</h1>
+	<h1>{{ 'team.view.index.title'|trans }}</h1>
 {% endblock %}
 
 {% block content %}
@@ -14,7 +14,7 @@
 		<img src="{{ asset('image/default/no-pic-team.jpg') }}" class="img-rounded col-lg-12" alt="profile-pic">
 	</div>
 	<p>
-		The full team
+		{{ 'team.view.index.list'|trans({'%name%': team.name}) }}
 	</p>
 
 	{% for player in players %}
@@ -34,7 +34,7 @@
 							{{ player.user.username }}</small>
 					</div>
 					<div class="row">
-						email:
+						{{ 'team.view.index.email'|trans }}
 						{{player.user.email}}
 					</div>
 				</div>
@@ -46,7 +46,10 @@
 {% block aside %}
 	<div class="card">
 		<div class="card-header">
-			<p class="card-title"><span class="fas fa-filter"/>Filter members</p>
+			<p class="card-title">
+			<span class="fas fa-filter mr-1"/>
+			{{ 'team.view.index.filter'|trans }}
+			</p>
 		</div>
 		<div class="card-body">
 			plein de filtres

@@ -1,10 +1,11 @@
-{% extends (app.token.providerKey == 'admin') ? 'admin.layout.html.twig': 'layout.html.twig' %}
+{% extends 'layout.html.twig' %}
 
-{% block title %}add a new event
+{% block title %}
+	{{ 'event.add.title'|trans }}
 {% endblock %}
 
 {% block page_title %}
-	<h1>add a new event</h1>
+	<h1>{{ 'event.add.title'|trans }}</h1>
 {% endblock %}
 
 {% block stylesheets %}
@@ -18,23 +19,24 @@
 
 	{{ form_errors(form) }}
 
-	<div class="col-11 form-group row">
-		{{ form_label(form.team, "Team: ", {'label_attr': {'class':'col-lg-2 col-form-label'}}) }}
-		<div class="col-lg-9">
+
+	<div class="col-12 form-group row">
+		{{ form_label(form.team, null, {'label_attr': {'class':'col-2 col-form-label'}}) }}
+		<div class="col-9">
 			{{ form_widget(form.team, {'attr': {'class': 'custom-select'}}) }}
 		</div>
 		<img id="loading-tags" class="loader float-right" src="{{ asset('image/default/loading.svg') }}" alt="loading">
 	</div>
 
 	<div class="form-group row">
-		{{ form_label(form.tag, "Tag: ", {'label_attr': {'class':'col-lg-2 col-form-label'}}) }}
-		<div id="tags-list" class="col-lg-10 form-group">
+		{{ form_label(form.tag, null, {'label_attr': {'class':'col-2 col-form-label'}}) }}
+		<div id="tags-list" class="col-10 form-group">
 			{{ form_widget(form.tag, {'tags':tags}) }}
 		</div>
 	</div>
 
 	<div class="form-group row">
-		{{ form_label(form.name, "event name: ", {'label_attr': {'class':'col-lg-2 col-form-label'}}) }}
+		{{ form_label(form.name, null, {'label_attr': {'class':'col-lg-2 col-form-label'}}) }}
 		<div class="col-lg-10">
 			{{ form_widget(form.name, {'attr': {'class': 'form-control', 'placeholder':'name...'}}) }}
 		</div>
@@ -43,7 +45,7 @@
 	<hr/>
 
 	<div class="form-group row">
-		{{ form_label(form.start, "start at: ", {'label_attr': {'class':'col-lg-2 col-form-label'}}) }}
+		{{ form_label(form.start, null, {'label_attr': {'class':'col-lg-2 col-form-label'}}) }}
 		<div class="col-lg-10 row">
 			<div class="col-auto">
 				<div class="input-group date" data-target-input="nearest" id="datepicker1">
@@ -69,7 +71,7 @@
 	</div>
 
 	<div class="form-group row">
-		{{ form_label(form.finish, "finish at: ", {'label_attr': {'class':'col-lg-2 col-form-label'}}) }}
+		{{ form_label(form.finish, null, {'label_attr': {'class':'col-lg-2 col-form-label'}}) }}
 		<div class="col-lg-10 row">
 			<div class="col-auto">
 				<div class="input-group date" data-target-input="nearest" id="datepicker2">
@@ -99,7 +101,7 @@
 	<hr>
 
 	<div class="form-group row">
-		{{ form_label(form.location.value, "location: ", {'label_attr': {'class': 'col-lg-2 col-form-label'}}) }}
+		{{ form_label(form.location, null, {'label_attr': {'class': 'col-lg-2 col-form-label'}}) }}
 		<div class="col-lg-10">
 			{{ form_widget(form.location.value, {'attr': {'class': 'form-control'}}) }}
 		</div>
@@ -120,7 +122,7 @@
 	<hr/>
 
 	<div class="form-group row">
-		{{form_label(form.info, "infos: ", {'label_attr': {'class':'col-lg-2 col-form-label'}}) }}
+		{{form_label(form.info, null, {'label_attr': {'class':'col-lg-2 col-form-label'}}) }}
 		<div class="col-lg-10">
 			{{form_widget(form.info, {'attr':{'class':'form-control'}}) }}
 		</div>
@@ -130,7 +132,7 @@
 		<div class="card-body bg-light">
 			<h5 class="card-title">Optionnal</h5>
 			<div class="form-group row">
-				{{ form_label(form.registerFinish, "last register at: ", {'label_attr': {'class':'col-lg-2 col-form-label'}}) }}
+				{{ form_label(form.registerFinish, null, {'label_attr': {'class':'col-lg-2 col-form-label'}}) }}
 				<div class="col-lg-10 row">
 					<div class="col-auto">
 						<div class="input-group date" data-target-input="nearest" id="datepicker3">
@@ -156,7 +158,7 @@
 			</div>
 
 			<div class="form-group row">
-				{{ form_label(form.maxPlayers, "Max players: ", {'label_attr': {'class': 'col-lg-2 col-form-label'}}
+				{{ form_label(form.maxPlayers, null, {'label_attr': {'class': 'col-lg-2 col-form-label'}}
 				)}}
 				<div class="col-lg-2">
 					{{ form_widget(form.maxPlayers, {'attr': {'class': 'form-control'}}) }}
@@ -167,7 +169,7 @@
 
 
 	<hr>
-	<button class="btn btn-primary btn-block" name="event-add" type="submit">add new event</button>
+	<button class="btn btn-primary btn-block" name="event-add" type="submit">{{ 'event.add.submit'|trans }}</button>
 
 	{{ form_rest(form) }}
 
@@ -181,10 +183,10 @@
 
 	<script type="text/javascript">
 		var lat = document.getElementById('event_location_lat');
-var lng = document.getElementById('event_location_lng');
-var locale = "{{ app.request.locale }}";
-var algolia_place_app_id = "{{ algolia_place_app_id }}";
-var algolia_place_api_id = "{{ algolia_place_api_id }}";
+		var lng = document.getElementById('event_location_lng');
+		var locale = "{{ app.request.locale }}";
+		var algolia_place_app_id = "{{ algolia_place_app_id }}";
+		var algolia_place_api_id = "{{ algolia_place_api_id }}";
 	</script>
 
 	{{ encore_entry_script_tags('event') }}

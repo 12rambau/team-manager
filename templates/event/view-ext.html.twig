@@ -21,14 +21,14 @@
 		<div class="card-body">
 			<p>
 				<span class="fas fa-calendar mr-1"/>
-				{{ event.start|date('d/m/Y h:i:s') }}
+				{{ event.start|localizeddate('short', 'short') }}
 			</p>
 			<p>
 				<span class="fas fa-location-arrow mr-1"/>
 				{{ event.location.value }}
 				<a class="ml-3" href="#map">
 					<span class="text-default mr-1">
-						Go to map
+						{{ 'event.view.map'|trans }}
 					</span>
 					<span class="fa fa-arrow-right"/>
 				</a>
@@ -58,13 +58,15 @@
 		<div class="card-header">
 			<p class="card-title">
 				<span class="fas fa-filter mr-1"/>
-				Other events
+				{{ 'event.view.other-event.title'|trans }}
 			</p>
 		</div>
 		<div class="card-body">
 			{{ render(controller('App\\Controller\\AsideController::event', {'slug': event.slug})) }}
 			<p>
-				<a href="{{ path('event-index', {}) }}">All other events</a>
+				<a href="{{ path('event-index', {}) }}">
+					{{ 'event.view.other-event.all'|trans }}
+				</a>
 			</p>
 		</div>
 	</div>

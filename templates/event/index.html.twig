@@ -1,10 +1,11 @@
 {% extends 'layout.html.twig' %}
 
-{% block title %}Event index
+{% block title %}
+	{{ 'event.index.title'|trans }}
 {% endblock %}
 
 {% block page_title %}
-	<h1>Event index</h1>
+	<h1>{{ 'event.index.title'|trans }}</h1>
 {% endblock %}
 
 {% block stylesheets %}
@@ -19,7 +20,9 @@
 	{{ form_errors(form) }}
 
 	<div class="">
-		<button type="submit" name="listParticpation-update" class="btn btn-block btn-success">save changes</button>
+		<button type="submit" name="listParticpation-update" class="btn btn-block btn-success">
+			{{ 'event.index.save'|trans }}
+		</button>
 		<hr/>
 	</div>
 
@@ -41,7 +44,7 @@
 		<nav class="col-lg-6">
 			<ul class="pagination">
 				<li class="page-item {% if page == 1 %}disabled{% endif %}">
-					<a class="page-link" href="{{ path('event-index', {'page': page-1}) }}">Previous</a>
+					<a class="page-link" href="{{ path('event-index', {'page': page-1}) }}">{{ 'paginator.previous'|trans }}</a>
 				</li>
 				{% for i in max(page-3,1)..min(page+3,maxPage) %}
 					<li class="page-item {% if i == page %}active{% endif %}">
@@ -49,17 +52,17 @@
 					</li>
 				{% endfor %}
 				<li class="page-item {% if page == maxPage %}disabled{% endif %}">
-					<a class="page-link" href="{{ path('event-index', {'page': page+1}) }}">Next</a>
+					<a class="page-link" href="{{ path('event-index', {'page': page+1}) }}">{{ 'paginator.next'|trans }}</a>
 				</li>
 			</lu>
 		</nav>
-		<div class="col-lg-6">Result
+		<div class="col-lg-6">{{ 'paginator.result'|trans }}
 			{{ (page-1) * nbEventPerPage }}
 			-
 			{{ min(page * nbEventPerPage,nbEvent) }}
-			from
+			{{ 'paginator.from'|trans }}
 			{{ nbEvent }}
-			Events</div>
+			{{ 'event.class.label'|trans }}</div>
 	</div>
 
 {% endblock %}
@@ -67,8 +70,11 @@
 {% block aside %}
 	<div class="card shadow">
 		<div class="card-header">
-			<p class="card-title"><span class="fas fa-filter"/>Filter events</p>
+			<p class="card-title"><span class="fas fa-filter"/>
+				{{ 'event.index.aside.title'|trans }} Filter events
+			</p>
 		</div>
+		{# TODO change the filter #}
 		<div class="card-body">
 			<div class="card-body">
 				<ul id="tag-list" class="list-unstyled" data-tags={{ tags|length }}>
@@ -98,7 +104,5 @@
 			{{ parent() }}
 
 			{{ encore_entry_script_tags('event') }}
-
-			{#<script src="{{ asset('js/event/changeCheck.js') }}"></script>#}
 
 		{% endblock %}

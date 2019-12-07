@@ -1,14 +1,12 @@
 {% extends 'layout.html.twig' %}
 
 {% block title %}
-	{{ user.username }}
-	Profile
+	{{ 'user.view.title'|trans({'%user%': user.username}) }}
 {% endblock %}
 
 {% block page_title %}
 	<h1>
-		Profile -
-		{{ user.name }}
+		{{ 'user.view.title'|trans({'%user%': user.username}) }}
 	</h1>
 {% endblock %}
 
@@ -32,7 +30,9 @@
 					{% if app.user == user %}
 						<hr>
 
-						<a class="btn btn-primary btn-block" href="{{ path('profile-edit', {'username':user.username}) }}">Update profile</a>
+						<a class="btn btn-primary btn-block" href="{{ path('profile-edit', {'username':user.username}) }}">
+							{{ 'user.view.update'|trans }}
+						</a>
 					{% endif %}
 				</div>
 
@@ -40,7 +40,9 @@
 
 					<ul class="nav nav-tabs" id="myTab" role="tablist">
 						<li class="nav-item">
-							<a class="nav-link active" id="general-tab" data-toggle="tab" href="#general" role="tab" aria-controls="general" aria-selected="true">General</a>
+							<a class="nav-link active" id="general-tab" data-toggle="tab" href="#general" role="tab" aria-controls="general" aria-selected="true">
+								{{ 'user.view.general'|trans }}
+							</a>
 						</li>
 						{% for player in user.players %}
 							<li class="nav-item">
@@ -54,11 +56,12 @@
 							<fieldset class="border p-2">
 								<legend class="w-auto p-1">
 									<span class="fa fa-info mr-1"/>
-									Personnal info
+										{{ 'user.view.info'|trans }}
 								</legend>
 
 								<div class="form-group row col">
-									<div class="col-form-label col-3">Username:
+									<div class="col-form-label col-3">
+										{{ 'user.view.username'|trans }}
 									</div>
 									<div class="col-lg-9 form-control">
 										{{ user.username }}
@@ -66,7 +69,8 @@
 								</div>
 
 								<div class="form-group row col">
-									<div class="col-form-label col-3">First name:
+									<div class="col-form-label col-3">
+										{{ 'user.view.first-name'|trans }}
 									</div>
 									<div class="form-control col-lg-9">
 										{{ user.firstName }}
@@ -74,7 +78,8 @@
 								</div>
 
 								<div class="form-group row col">
-									<div class="col-form-label col-3">Last name:
+									<div class="col-form-label col-3">
+										{{ 'user.view.last-name'|trans }}
 									</div>
 									<div class="form-control col-lg-9">
 										{{ user.lastName }}
@@ -82,21 +87,23 @@
 								</div>
 
 								<div class="form-group row col">
-									<div class="col-form-label col-3">Birth Date:
+									<div class="col-form-label col-3">
+									{{ 'user.view.birth'|trans }}
 									</div>
 									<div class="form-control col-lg-9">
-										{{ user.birthDate|date("m/d/Y") }}
+										{{ user.birthDate|localizeddate('short', 'none') }}
 									</div>
 								</div>
 
 
 								<div class="form-group row col">
-									<div class="col-form-label col-3">Gender:
+									<div class="col-form-label col-3">
+										{{ 'user.view.gender'|trans }}
 									</div>
 									<div class="col-lg-9">
 										<div class="btn btn-primary">
 											<span class="fas fa-{{ (user.gender)?'male':'female' }} mr-1"/>
-											{{ (user.gender)?'Male':'Female' }}
+											{{ ('user.view' ~ (user.gender)?'male':'female')|trans }}
 										</div>
 									</div>
 								</div>
@@ -106,11 +113,12 @@
 							<fieldset class="border p-2">
 								<legend class="w-auto p-1">
 									<span class="fa fa-address-book mr-1"/>
-									Contact
+									{{ 'user.view.contact'|trans }}
 								</legend>
 
 								<div class="form-group row col">
-									<div class="col-form-label col-3">Email:
+									<div class="col-form-label col-3">
+									{{ 'user.view.email'|trans }}
 									</div>
 									<div class="form-control col-lg-9">
 										{{ user.email }}
@@ -118,7 +126,8 @@
 								</div>
 
 								<div class="form-group row col">
-									<div class="col-form-label col-3">Phone Number:
+									<div class="col-form-label col-3">
+										{{ 'user.view.phone'|trans }}
 									</div>
 									<div class=" form-control col-lg-9">
 										{{ user.phoneNumber }}
@@ -133,7 +142,7 @@
 								<fieldset class="border p-2">
 									<legend class="w-auto p-1">
 										<span class="fa fa-tag mr-1"/>
-										Tags
+										{{ 'user.view.tags'|trans }}
 									</legend>
 
 									{% for tag in player.tags %}
@@ -147,7 +156,7 @@
 								<fieldset class="border p-2">
 									<legend class="w-auto p-1">
 										<span class="fa fa-eye mr-1"/>
-										Features:
+										{{ 'user.view.features'|trans }}
 									</legend>
 
 									{% for feature in player.features %}
@@ -166,7 +175,7 @@
 								<fieldset class="border p-2">
 									<legend class="w-auto p-1">
 										<span class="fa fa-chart-bar mr-1"/>
-										Stats
+										{{ 'user.view.stats'|trans }}
 									</legend>
 
 									<div id="tag-number" data-index="{{ tags|length }}">

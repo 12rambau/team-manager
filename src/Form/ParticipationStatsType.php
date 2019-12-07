@@ -23,6 +23,7 @@ class ParticipationStatsType extends AbstractType
                 $team = $entity->getPlayer()->getTeam();
 
                 $form->add('stats', CollectionType::class, [
+                    'label' => false,
                     'entry_type' => PersonnalStatType::class,
                     'entry_options' => [
                         'team' => $team,

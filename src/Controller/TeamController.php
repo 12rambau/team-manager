@@ -16,6 +16,7 @@ class TeamController extends AbstractController
         $players = $em->getRepository(Player::class)->findByTeam($team);
 
         return $this->render('team/playerIndex.html.twig', [
+            'team' => $team,
             'players'=>$players
         ]);
     }

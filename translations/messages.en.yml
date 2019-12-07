@@ -1,0 +1,220 @@
+footer:
+    follow: Follow us
+    contact:
+        map: Map
+        contact: contact
+    newsletter: 
+        title: Sign up to our newsletter
+        placeholder: email..
+    github: 
+        message: This website is developped through the framework of <strong>team-manager</strong>, an open-source project
+        link: find more on github
+aside:
+    event:
+        tag: Tag
+        date: Date
+        in: In
+        out: Out
+paginator:
+    previous: previous
+    next: next
+    result: result
+    from: from
+blog:
+    class: 
+        label: Blog Post
+    edit:
+        title: '%action% a post'
+    index:
+        title: Blog index
+        by: by
+        on: 'on'
+        learn-more: learn more
+        no-post: no Post to display (yet!)
+    view:
+        image: "{0}no image|{1}1 image|]1,Inf]%count% images"
+        comment: "{0}no comment|{1}1 comment|]1,Inf]%count% comments"
+        deactivated: The Post is not yet activated
+        edit: edit
+        gallery:
+            access: access the gallery
+            edit: edit the gallery
+            no-images: no picture in this post (yet!)
+event:
+    participation:
+        in: 'in'
+        out: 'out'
+    class.label: event
+    add:
+        title: add new event
+        team.label: 'team:'
+        name.label: 'event name:'
+        tag.label: 'tag:'
+        info.label: 'info:'
+        max-player.label: 'max players:'
+        start.label: "start at:"
+        finish.label: "finish at:"
+        register-finish.label: "last register at:"
+        submit: add new event
+        location.label: 'location:'
+    results:
+        title: '%slug% results'
+        no-score: No score for now!
+        files:
+            title: Result files
+            no-file: No result filesfor now !
+        stat:
+            title: My personnal results
+            submit: submit
+            name: name
+            action: action
+            timer: timer
+            value: value
+            add: Add another stat
+    calendar:
+        title: calendar
+        legend: calendar legend
+    index:
+        title: event index
+        save: save changes
+        aside:
+            title: Filter events
+    plan:
+        title: '%slug% plannification'
+        plannification: plannification
+        add-template: Add a new field
+        bench: bench
+        template:
+            remove: remove template
+            change: change template 
+            reset: reset template
+    view:
+        comment: comment
+        map: Go to map
+        other-event:
+            title: Other events
+            all: All other events
+        plan: Prepare the match plan
+        results: see results
+        my-participation: My participation
+        save: save changes
+        list:
+            title: List of players
+            name: name
+            inOut: 'in/out'
+            comment: comment
+        drag-n-drop:
+            title: 'drag & drop'
+            in: Of course I can come!
+            out: Sorry but not this time!
+            "null": Not decided yet! 
+chat:
+    title: chat
+    send: send
+login:
+    login: login
+contact:
+    label: contact us
+    title: contact information
+    name:
+        placeholder: your name
+        not-blank: please provide your name
+    subject:
+        placeholder: subject
+        not-blank: please provide a subject
+    email:
+        placeholder: your email address
+        not-blank: please provide a valid email
+        not-email: your email doesn't seems to be valid
+    message:
+        placeholder: your message here
+        not-blank: please provide a message here
+navbar:
+    team: "{0} team|]0,Inf] teams"
+    news: 
+        title: news
+        blog: blog
+        gallery: gallery
+        add: add a new blog post
+    calendar:
+        title: calendar
+        list: list
+        mensual: mensual display
+        add: add new event
+    contact: contact
+    user:
+        profile: profile
+        login: login
+        logout: logout
+form:
+    submit: submit
+gallery:
+    add:
+        title: Add a new gallery
+        submit: add new images
+    index:
+        title: Gallery index
+        no-gallery: no gallery (yet!)
+    view:
+        title: 'Gallery - %name%'
+        no-image: No image (yet!)
+security:
+    forgotten:
+        title: Forgotten password
+        submit: send email
+    login:
+        title: Log in 
+        email: email
+        sign-in: Please sign in
+        username: username
+        password: password
+        remember-me: Remember me
+        submit: Sign in
+        not-registered: Not registered yet!
+        forgotten: forgotten password
+        log-with: 'Log in with %name%'
+        password-2: Second password
+    register:
+        title: Sign up
+        register: Please Register
+        submit: Register
+        already-register: Already registered
+    reset:
+        title: Reset Password
+        repeat: Repeat password
+        submit: Reset
+team:
+    view:
+        index: 
+            title: Player index
+            list: The player of %name% team
+            email: 'email:'
+            filter: Filter members
+user:
+    view:
+        title: '%user% profile'
+        update: Update profile
+        general: General section
+        info: personnal info
+        username: 'username:'
+        first-name: 'First name:'
+        last-name: 'Last name:'
+        birth: 'Birth Date:'
+        gender: 'Gender:'
+        male: Male
+        female: Female
+        contact: Contact
+        email: 'Email:'
+        phone: 'Phone Number:'
+        tags: Tags
+        features: 'Features:'
+        stats: Stats
+base:
+    title: Team home
+layout:
+    title: Page title
+    events: Events
+
+
+
+    

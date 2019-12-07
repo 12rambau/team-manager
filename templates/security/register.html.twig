@@ -1,42 +1,44 @@
-{% extends 'base.html.twig' %}
+{% extends 'login.html.twig' %}
 
-{% block title %}Sign up!{% endblock %}
-
-{% block stylesheets %}
-{{ parent() }}
-<link rel="stylesheet" href="{{ asset('css/security/form.css') }}" type="text/css"/>
-
-<style type="text/css">
-body {
-    background: transparent url('{{ asset('picture/default/login.jpg') }}')  no-repeat center fixed;
-    background-size: cover;
-}
-</style>
+{% block title %}
+	{{ 'security.register.title'|trans }}
 {% endblock %}
 
 {% block body %}
 
-<form method="post" class="form">
+	<form method="post" class="form">
 
-    <h2 class="form-heading">Please register</h2>
-    <div class="form-group">
-        <label class="sr-only" for="inputUsername">Username</label>
-        <input class="form-control" type="text" name="username" id="inputUsername" placeholder="Username" required autofocus>
-    </div>
-    <div class="form-group">
-        <label class="sr-only" for="inputEmail">Email</label>
-        <input class="form-control" type="email" name="email" id="inputemail" placeholder="email@domain.ext" required>
-    </div>
-    <div class="form-group">
-        <label class="sr-only" for="inputPassword">Password</label>
-        <input class="form-control" type="password" name="password" id="inputPassword" placeholder="Password" required>
-    </div>
+		<h2 class="form-heading">
+			{{ 'security.register.register'|trans }}
+		</h2>
+		<div class="form-group">
+			<label class="sr-only" for="inputUsername">
+				{{ 'security.login.username'|trans }}
+			</label>
+			<input class="form-control" type="text" name="username" id="inputUsername" placeholder="{{ 'security.login.username'|trans }}" required autofocus>
+		</div>
+		<div class="form-group">
+			<label class="sr-only" for="inputEmail">
+				{{ 'security.login.email'|trans }}
+			</label>
+			<input class="form-control" type="email" name="email" id="inputemail" placeholder="{{ 'security.login.email'|trans }}" required>
+		</div>
+		<div class="form-group">
+			<label class="sr-only" for="inputPassword">
+				{{ 'security.login.password'|trans }}
+			</label>
+			<input class="form-control" type="password" name="password" id="inputPassword" placeholder="{{ 'security.login.password'|trans }}" required>
+		</div>
 
-    <button class="btn btn-lg btn-primary btn-block" type="submit"> Register </button>
+		<button class="btn btn-lg btn-primary btn-block" type="submit">
+			{{ 'security.register.submit'|trans }}
+		</button>
 
-    <div>
-        <a href="{{path('login') }}"> Already registered </a>
-    </div>
+		<div>
+			<a href="{{path('login') }}">
+				{{ 'security.register.already-register'|trans }}
+			</a>
+		</div>
 
-</form>
+	</form>
 {% endblock %}

@@ -1,11 +1,11 @@
 profile-edit:
-    path: /user/{username}/edit
+    path: /{username}/edit
     controller: App\Controller\UserController::edit
 
 profile-view:
-    path: /user/{username}/view
+    path: /{username}/view
     controller: App\Controller\UserController::view
 
 profile-delete-picture:
-    path: /user/{username}/delete-Picture
+    path: /{username}/delete-Picture
     controller: App\Controller\UserController::resetProfilePic

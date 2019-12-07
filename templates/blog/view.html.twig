@@ -9,38 +9,38 @@
 		<h1>{{ post.title }}</h1>
 	</div>
 	<div>
-		<span class="text-primary">by
+		<span class="text-primary">{{ 'blog.index.by'|trans }}
 			{{ post.author.name }}</span>
 		<span class="text-muted ml-1">
-			on
-			{{ post.publishDate|date('d/m/Y') }}</span>
+			{{ 'blog.index.on'|trans }}
+			{{ post.publishDate|localizeddate('short', 'none', app.request.locale) }}</span>
 	</div>
 	<div class="row">
-		<a href="#gallery-section" class="btn btn-primary m-1">{{ (post.gallery)?post.gallery.images|length:'0' }}
-			images</a>
-		<a id="nb-comment" href="#comment-section" class="btn btn-primary m-1">{{post.comments|length }}
-			comments</a>
+		<a href="#gallery-section" class="btn btn-primary m-1">
+			{{ 'blog.view.image'|transchoice(post.gallery.images|length) }}</a>
+		<a id="nb-comment" href="#comment-section" class="btn btn-primary m-1">
+			{{ 'blog.view.comment'|transchoice(post.comments|length) }}</a>
 	</div>
 {% endblock %}
 
 {% block content %}
 	{% if post.active == false %}
 		<div class="alert alert-warning text-center">
-			The Post is not yet activated
+			{{ 'blog.view.deactivated'|trans }}
 		</div>
 	{% endif %}
 	<div class="col-12 row">
 		<div class="col-10">
 			<ol class="breadcrumb bg-transparent">
 				<li class="breadcrumb-item">
-					<a href="{{ path('blog-index') }}">News</a>
+					<a href="{{ path('blog-index') }}">{{ 'blog.class.label'|trans }}</a>
 				</li>
 				<li class="breadcrumb-item active" aria-current="page">{{ post.title }}</li>
 			</ol>
 		</div>
 		{% if (app.user is same as(post.author))  or is_granted('ROLE_ADMIN') %}
 			<div class="col-2">
-				<a class="btn float-right text-muted" data-toggle="popover" data-placement="bottom" tabindex="0" data-html="true" data-content='<a href="{{ path('blog-edit', {'slug':post.slug}) }}">edit</a>'>
+				<a class="btn float-right text-muted" data-toggle="popover" data-placement="bottom" tabindex="0" data-html="true" data-content='<a href="{{ path('blog-edit', {'slug':post.slug}) }}">{{ 'blog.view.edit'|trans }}</a>'>
 					<span class="fa fa-pencil-alt"/>
 				</a>
 			</div>
@@ -59,11 +59,11 @@
 		<div id="gallery-section">
 
 			<a href="{{ path('gallery-view', {'name':post.gallery}) }}" class=" btn btn-block btn-primary mb-2">
-				access the gallery
+				{{ 'blog.view.gallery.access'|trans }}
 			</a>
 			{% if (app.user is same as(post.author))  or is_granted('ROLE_ADMIN') %}
 				<a href="{{ path('gallery-edit', {'name':post.gallery}) }}" class="btn btn-block btn-warning mb-2">
-					Edit the gallery
+					{{ 'blog.view.gallery.edit'|trans }}
 				</a>
 			{% endif %}
 
@@ -91,14 +91,16 @@
 					</a>
 				</div>
 			{% else %}
-				<h5>No picture in this post! (yet)</h5>
+				<h5>{{ 'blog.view.gallery.no-image'|trans }}</h5>
 			{% endif %}
 		</div>
 
 		<hr>
 
-		<h3 id="comment-section">{{post.comments|length }}
-			comments</h3>
+		<h3 id="comment-section">
+			{{ 'blog.view.comment'|transchoice(post.comments|length) }}
+		</h3>
+
 		{{ form_start(form) }}
 
 		<div class="mb-4">
@@ -135,7 +137,7 @@
 								<strong>{{ comment.author.name }}</strong>
 								<small class="float-right text-muted">
 									<span class="far fa-clock"/>
-									{{ comment.publishDate|date('d/m H:i') }}
+									{{ comment.publishDate|localizeddate('short', 'short', app.request.locale) }}
 								</small>
 							</div>
 							<p>

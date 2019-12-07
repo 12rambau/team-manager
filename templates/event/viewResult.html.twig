@@ -1,13 +1,13 @@
 {% extends 'layout.html.twig' %}
 
-{% block title %}view results
+{% block title %}
+{{ 'event.results.title'|trans({'%slug%': event.name}) }}
 {% endblock %}
 
 {% block page_title %}
 	<h1>
 		<span class="badge badge-{{ event.tag.color }}">{{event.tag.name|slice(0,3)|raw}}.</span>
-		{{ event.name }}
-		- Results
+		{{ 'event.results.title'|trans({'%slug%': event.name}) }}
 	</h1>
 {% endblock %}
 
@@ -28,7 +28,7 @@
 					</span>
 				</h3>
 			{% else %}
-				No score for now !
+				{{ 'event.results.no-score'|trans }}
 			{% endif %}
 		</div>
 	</div>
@@ -36,13 +36,15 @@
 	{# the files that represent the result #}
 	<div class="card shadow mb-2" id="result-file">
 		<div class="card-header">
-			<h4>Result files</h4>
+			<h4>
+				{{ 'event.result.files.title'|trans }}
+			</h4>
 		</div>
 		<div class="card-body">
 			{% if result.files %}
 				toto
 			{% else %}
-				No result filesfor now !
+				{{ 'event.results.files.no-file'|trans }}
 			{% endif %}
 		</div>
 	</div>
@@ -50,13 +52,15 @@
 	{# my personnal results #}
 	<div class="card shadow mb-2" id="personnal-result">
 		<div class="card-header">
-			<h4>My personnal results</h4>
+			<h4>
+				{{ 'event.results.stat.title'|trans }}
+			</h4>
 		</div>
 		<div class="card-body">
 			{{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
 
 			<button typ="submit" name="stat-add" class=" btn btn-block btn-primary">
-				submit
+				{{ 'event.results.stat.submit'|trans }}
 			</button>
 
 			{{ form_errors(form) }}
@@ -71,10 +75,10 @@
 				"
 			>
 				<tr>
-					<th>name</th>
-					<th>timer</th>
-					<th>value</th>
-					<th>action</th>
+					<th>{{ 'event.results.stat.name'|trans }}</th>
+					<th>{{ 'event.results.stat.timer'|trans }}</th>
+					<th>{{ 'event.results.stat.value'|trans }}</th>
+					<th>{{ 'event.results.stat.action'|trans }}</th>
 				</tr>
 				{% for stat in form.stats %}
 					{% include 'form/prototype_stat.html.twig'  with {'form': stat, 'index':loop.index0} only %}
@@ -88,7 +92,7 @@
 				class="text-primary"
 				data-group="table-stat">
 				<span class="fa fa-plus mr-1"/>
-				Add another stat 
+				{{ 'event.results.stat.add'|trans }}
 			</a>
 
 			{{ form_rest(form)}}

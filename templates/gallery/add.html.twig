@@ -1,23 +1,27 @@
 {% extends (app.token.providerKey == 'admin') ? 'admin.layout.html.twig': 'layout.html.twig' %}
 
-{% block title %}add a new gallery{% endblock %}
+{% block title %}
+	{{ 'gallery.add.title'|trans }}
+{% endblock %}
 
 {% block page_title %}
-    <h1>add a new gallery</h1>
+	<h1>{{ 'gallery.add.title'|trans }}</h1>
 {% endblock %}
 
 {% block content %}
 
-    {{ form_start(form) }}
+	{{ form_start(form) }}
 
-        {{ form_errors(form) }}
+	{{ form_errors(form) }}
 
-        {{ form_rest(form) }}
+	{{ form_rest(form) }}
 
-        <hr>
-		<button type="submit" name="gallery-add" class="btn btn-primary btn-block">submit</button>
+	<hr>
 
-    {{ form_end(form) }}
+	<button type="submit" name="gallery-add" class="btn btn-primary btn-block">
+        {{ 'gallery.add.submit'|trans }}
+    </button>
+
+	{{ form_end(form) }}
 
 {% endblock %}
-

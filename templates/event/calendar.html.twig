@@ -1,12 +1,12 @@
 {% extends 'layout.html.twig' %}
 
 {% block title %}
-	Calendar
+	{{ 'event.calendar.title'|trans }}
 {% endblock %}
 
 {% block page_title %}
 	<h1>
-		Calendar
+		{{ 'event.calendar.title'|trans }}
 	</h1>
 {% endblock %}
 
@@ -20,8 +20,12 @@
 {% block aside %}
 	<div class="card">
 		<div class="card-header">
-			<p class="card-title"><span class="fas fa-info"/> Calendar legend</p>
+			<p class="card-title">
+				<span class="fas fa-info mr-1"/>
+				{{ 'event.calendar.legend'|trans }}
+			</p>
 		</div>
+		{# TODO change the legend #}
 		<div class="card-body">
 			<ul id="tag-list" class="list-unstyled" data-tags={{ tags|length }}>
 				<li class="m-1 border-bottom">

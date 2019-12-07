@@ -21,14 +21,14 @@
 		<div class="card-body">
 			<p>
 				<span class="fas fa-calendar mr-1"/>
-				{{ event.start|date('d/m/Y h:i:s') }}
+				{{ event.start|localizeddate('short', 'short') }}
 			</p>
 			<p>
 				<span class="fas fa-location-arrow mr-1"/>
 				{{ event.location.value }}
 				<a class="ml-3" href="#map">
 					<span class="text-default mr-1">
-						Go to map
+						{{ 'event.view.map'|trans }}
 					</span>
 					<span class="fa fa-arrow-right"/>
 				</a>
@@ -43,16 +43,18 @@
 			</p>
 			<p>
 				<a href="{{ path('event-plannification', {'slug':event.slug}) }}" class="btn btn-sm btn-primary">
-					Prepare the match plan
+					{{ 'event.view.plan'|trans }}
 				</a>
 				<a href="{{ path('result-view', {'slug':event.slug}) }}" class="btn btn-sm btn-primary">
-					See results
+					{{ 'event.view.results'|trans }}
 				</a>
 			</p>
 
 			<hr>
 
-			<h2 class="card-title">My Participation</h2>
+			<h2 class="card-title">
+				{{ 'event.view.my-participation'|trans }}
+			</h2>
 
 			{# TODO make the automatic check work (ajax is already functionnal) #}
 			<div class="form-inline" id="myForm" data-user-index="{{ userIndex }}">
@@ -60,11 +62,11 @@
 					<input class="my-participation" name="my-participation" value="0" {{(myParticipation.value == 0 and myParticipation.lastUpdate)?"checked" }}>
 					<button type="button" class="uncheck btn btn-outline-danger m-1">
 						<span class="fa fa-thumbs-down mr-1"/>
-						out
+						{{ 'event.participation.out'|trans }}
 					</button>
 					<button type="button" class="check btn btn-danger m-1">
 						<span class="fa fa-thumbs-down mr-1"/>
-						out
+						{{ 'event.participation.out'|trans }}
 					</button>
 				</label>
 
@@ -72,18 +74,18 @@
 					<input class="my-participation" name="my-participation" type="radio" value="1" {{ (myParticipation.value == 1)?"checked" }}>
 					<button type="button" class="uncheck btn btn-outline-success m-1">
 						<span class="fa fa-thumbs-up mr-1"/>
-						in
+						{{ 'event.participation.in'|trans }}
 					</button>
 					<button type="button" class="check btn btn-success m-1">
 						<span class="fa fa-thumbs-up mr-1"/>
-						in
+						{{ 'event.participation.in'|trans }}
 					</button>
 				</label>
 
 				<input type="text" id="myComment" maxlength="255" class="form-control col-7" value="{{ myParticipation.comment }}">
 
 				<button type="button" id="myParticipation-button" class="btn btn-secondary ml-1">
-					comment
+					{{ 'event.view.comment'|trans }}
 				</button>
 			</div>
 
@@ -98,18 +100,18 @@
 	<ul class="nav nav-tabs" id="myTab" role="tablist">
 		<li class="nav-item">
 			<a class="nav-link active" id="drag-tab" data-toggle="tab" href="#drag" role="tab" aria-controls="drag" aria-selected="true">
-				drag N Drop
+				{{ 'event.view.drag-n-drop.title'|trans }}
 			</a>
 		</li>
 		<li class="nav-item">
 			<a class="nav-link" id="list-tab" data-toggle="tab" href="#list" role="tab" aria-controls="list" aria-selected="false">
-				List of players
+				{{ 'event.view.list.title'|trans }}
 			</a>
 		</li>
 	</ul>
 	<div class="tab-content" id="myTabContent">
 		<button type="submit" name="listParticpation-update" class="btn btn-block btn-success">
-			save changes
+			{{ 'event.view.save'|trans }}
 		</button>
 		<img id="loading" class="loader float-right" src="{{ asset('image/default/loading.svg') }}" alt="loading">
 
@@ -122,9 +124,9 @@
 			<table class="table">
 				<thead>
 					<tr>
-						<th>name</th>
-						<th>In/Out</th>
-						<th>Comment</th>
+						<th>{{ 'event.view.list.name'|trans }}</th>
+						<th>{{ 'event.view.list.inOut'|trans }}</th>
+						<th>{{ 'event.view.list.comment'|trans }}</th>
 						<th>
 							<span class="fas fa-clock"/>
 						</th>
@@ -144,7 +146,7 @@
 							</td>
 							<td id="update-{{loop.index0}}">
 								{% if participations[loop.index0].lastUpdate %}
-									{{participations[loop.index0].lastUpdate|date('d.m') }}
+									{{ participations[loop.index0].lastUpdate|localizeddate('short', 'none') }}
 								{% endif %}
 							</td>
 						</tr>
@@ -161,7 +163,7 @@
 			<div class="alert alert-success" data-color="success">
 				<h3 class="col-12">
 					<span class="fas fa-thumbs-up mr-1"/>
-					Of course I can come !
+					{{ 'event.view.drag-n-drop.in'|trans }}
 				</h3>
 				<div id="drag-0" data-value="1" class="dropdown pt-5">
 					{% for participation in participations %}
@@ -177,7 +179,7 @@
 			<div class="alert alert-danger" data-color="danger">
 				<h3 class="col-12">
 					<span class="fas fa-thumbs-down mr-1"/>
-					Sorry but not this time !
+					{{ 'event.view.drag-n-drop.out'|trans }}
 				</h3>
 				<div id="drag-1" data-value="0" class="dropdown pt-5">
 					{% for participation in participations %}
@@ -193,7 +195,7 @@
 			<div class="alert alert-light">
 				<h3 class="col-12">
 					<span class="fas fa-question-circle mr-1"/>
-					Not decided yet !
+					{{ 'event.view.drag-n-drop.null'|trans }}
 				</h3>
 				<div id="drag-2">
 					{% for participation in participations %}
@@ -222,13 +224,15 @@
 		<div class="card-header">
 			<p class="card-title">
 				<span class="fas fa-filter mr-1"/>
-				Other events
+				{{ 'event.view.other-event.title'|trans }}
 			</p>
 		</div>
 		<div class="card-body">
 			{{ render(controller('App\\Controller\\AsideController::event', {'slug': event.slug})) }}
 			<p>
-				<a href="{{ path('event-index', {}) }}">All other events</a>
+				<a href="{{ path('event-index', {}) }}">
+					{{ 'event.view.other-event.all'|trans }}
+				</a>
 			</p>
 		</div>
 	</div>

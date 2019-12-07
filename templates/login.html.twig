@@ -1,0 +1,14 @@
+{% extends "base.html.twig" %}
+
+{% block stylesheets %}
+{{ parent() }}
+
+{{ encore_entry_link_tags('login') }}
+
+<style type="text/css">
+body {
+    background: transparent url('{{asset('picture/default/login.jpg') }}')  no-repeat center fixed;
+    background-size: cover;
+}
+</style>
+{% endblock %}

@@ -1,6 +1,7 @@
 {% extends 'layout.html.twig' %}
 
 {% block title %}
+	{{ 'event.plan.title'|trans({'%slug%': event.slug}) }}
 	{{ event.slug }}
 	plannification
 {% endblock %}
@@ -13,7 +14,7 @@
 		<a class="text-dark" href="{{ path('event-view', {'slug':event.slug}) }}">
 			{{ event.name }}
 		</a>
-		- Plannification
+		-  {{ 'event.plan.plannification'|trans }}
 	</h2>
 {% endblock %}
 
@@ -72,7 +73,7 @@
 	<div class="mt-3">
 		<a id="add-field" class="text-primary" data-group="field-list">
 			<span class="fa fa-plus mr-1"/>
-			Add a new field
+			{{ 'event.plan.add-template'|trans }}
 		</a>
 
 		<img id="loading-add" class="loader float-right" src="{{ asset('image/default/loading.svg') }}" alt="loading">
@@ -90,7 +91,7 @@
 		<div class="card-header">
 			<p class="card-title">
 				<span class="fas fa-couch mr-1"/>
-				bench
+				{{ 'event.plan.bench'|trans }}
 			</p>
 		</div>
 		<div 

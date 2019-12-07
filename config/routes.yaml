@@ -1,43 +1,67 @@
 user:
     resource: "Route/UserRouting.yaml" 
-    prefix: /
+    prefix: /{_locale}/user/
+    requirements:
+        _locale: '%supported_locales%'
 
 Security:
     resource: "Route/SecurityRouting.yaml"
-    prefix: /
+    prefix: /{_locale}/
+    requirements:
+        _locale: '%supported_locales%'
 
 blog:
     resource: "Route/BlogRouting.yaml"
-    prefix: /blog/
+    prefix: /{_locale}/blog/
+    requirements:
+        _locale: '%supported_locales%'
 
 comment:
     resource: "Route/CommentRouting.yaml"
-    prefix: /comment/
+    prefix: /{_locale}/comment/
+    requirements:
+        _locale: '%supported_locales%'
 
 home:
     resource: "Route/DefaultRouting.yaml"
-    prefix: /
+    prefix: /{_locale}/
+    defaults:
+        _locale: '%locale%'
+    requirements:
+        _locale: '%supported_locales%'
 
 admin:
     resource: "Route/AdminRouting.yaml"
-    prefix: /admin/
+    prefix: /{_locale}/admin/
+    requirements:
+        _locale: '%supported_locales%'
 
 event:
     resource: "Route/EventRouting.yaml"
-    prefix: /event/
+    prefix: /{_locale}/event/
+    requirements:
+        _locale: '%supported_locales%'
 
 chat:
     resource: "Route/ChatRouting.yaml"
-    prefix: /chat/
+    prefix: /{_locale}/chat/
+    requirements:
+        _locale: '%supported_locales%'
 
 team:
     resource: "Route/TeamRouting.yaml"
-    prefix: /team/
+    prefix: /{_locale}/team/
+    requirements:
+        _locale: '%supported_locales%'
 
 aside:
     resource: "Route/AsideRouting.yaml"
-    prefix: /aside/
+    prefix: /{_locale}/aside/
+    requirements:
+        _locale: '%supported_locales%'
 
 gallery:
     resource: "Route/GalleryRouting.yaml"
-    prefix: /gallery/
+    prefix: /{_locale}/gallery/
+    requirements:
+        _locale: '%supported_locales%'

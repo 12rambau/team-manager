@@ -5,12 +5,14 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<title>
-			{% block title %}Team Accueil
+			{% block title %}
+			{{ 'base.title'|trans }}
 			{% endblock %}
 		</title>
 
 		{% block stylesheets %}
 			<link rel="shortcut icon" type="image/png" href="{{ asset('image/default/favicon.png')|imagine_filter('favicon') }}"/>
+			
 			{{ encore_entry_link_tags('app') }}
 		{% endblock %}
 

@@ -17,25 +17,25 @@
 
 			{# contact #}
 			<div class="col-3">
-				<h5 class="text-primary">Follow us</h5>
+				<h5 class="text-primary">{{ 'footer.follow'|trans }}</h5>
 				<div class="social-icons">
 					{{ render(controller('App\\Controller\\DefaultController::Social')) }}
 				</div>
-				<h5 class="text-primary mt-2">Contact us</h5>
+				<h5 class="text-primary mt-2">{{ 'contact.label'|trans }}</h5>
 				<ul id="contact-footer">
 					<li>
-						<a class="text-muted" href="">Map</a>
+						<a class="text-muted" href="">{{ 'footer.contact.map'|trans }}</a>
 					</li>
 					<li>
-						<a class="text-muted" href="">Contact</a>
+						<a class="text-muted" href="">{{ 'footer.contact.contact'|trans }}</a>
 					</li>
 				</ul>
 			</div>
 
 			{# newsletter#}
 			<div class="col-3">
-				<h5 class="text-primary mb-2">SignUp to our newsletter</h5>
-				<input type="email" class="form-control" placeholder="email...">
+				<h5 class="text-primary mb-2">{{ 'footer.newsletter.title'|trans }}</h5>
+				<input type="email" class="form-control" placeholder="{{ 'footer.newsletter.placeholder'|trans }}">
 			</div>
 
 			{# github project #}
@@ -46,12 +46,11 @@
 					{{ club_name }}, 2019
 				</p>
 				<p>
-					This website is developped through the framework of
-					<strong>team-manager</strong>, an open-source project
+				{{ 'footer.github.message'|trans|raw }}
 				</p>
 				<div class="row">
 					<div class="col-8">
-						find more on github
+						{{ 'footer.github.link'|trans }}
 					</div>
 					<div class="social-icons col-4">
 						<a href="https://github.com/12rambau/team-manager">

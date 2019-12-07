@@ -1,10 +1,10 @@
 <small>
     <table class="table table-sm">
         <tr>
-            <th>tag</th>
-            <th>date</th>
-            <th>in</th>
-            <th>out</th>
+            <th>{{ 'aside.event.tag'|trans }}</th>
+            <th>{{ 'aside.event.date'|trans }}</th>
+            <th>{{ 'aside.event.in'|trans }}</th>
+            <th>{{ 'aside.event.out'|trans }}</th>
         </tr>
         {% for event in events %}
             <tr {% if event == currentEvent %}class="table-active"{% endif %}>

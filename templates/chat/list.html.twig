@@ -1,5 +1,6 @@
 <ul id="chat-messages" class="list-unstyled" data-number="{{ nbMessage }}">
 	{% for message in messages %}
+		{# TODO add a separator for the dates to not put them in display directly #}
 		{% if message.author == app.user %}
 			<li class="right clearfix">
 				<span class="float-left">
@@ -10,7 +11,7 @@
 						<strong>{{ message.author.username }}</strong>
 						<small class="float-left text-muted">
 							<span class="far fa-clock"/>
-							{{ message.date|date('d/m H:i') }}
+							{{ message.date|localizeddate('none', 'short', app.request.locale) }}
 						</small>
 					</div>
 					<p>
@@ -28,7 +29,7 @@
 						<strong>{{ message.author.username }}</strong>
 						<small class="float-right text-muted">
 							<span class="far fa-clock"/>
-							{{ message.date|date('d/m H:i') }}
+							{{ message.date|localizeddate('none', 'short', app.request.locale) }}
 						</small>
 					</div>
 					<p>

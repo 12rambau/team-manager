@@ -1,13 +1,13 @@
-{% extends (app.token.providerKey == 'admin') ? 'admin.layout.html.twig': 'layout.html.twig' %}
+{% extends 'layout.html.twig' %}
 
 {% block title %}
-	Gallery -
-	{{ gallery.name }}
+	{{ 'gallery.view.title'|trans({'%name%': gallery.name}) }}
 {% endblock %}
 
 {% block page_title %}
-	<h1>Gallery -
-		{{ gallery.name }}</h1>
+	<h1>
+		{{ 'gallery.view.title'|trans({'%name%': gallery.name}) }}
+	</h1>
 {% endblock %}
 
 {% block content %}
@@ -20,7 +20,9 @@
 			</div>
 		{% else %}
 			<div class="">
-				<h3>No images! (yet)</h3>
+				<h3>
+				{{ 'gallery.view.no-image'|trans }}
+				</h3>
 			</div>
 		{% endfor %}
 	</div>

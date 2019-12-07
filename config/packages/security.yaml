@@ -43,6 +43,7 @@ security:
         ROLE_SUPER_ADMIN: ROLE_ADMIN
 
     access_control:
+    #TODO change security parameters with locales
          - { path: ^/admin/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
          - { path: ^/admin, roles: ROLE_ADMIN }
     #     - { path: ^/profile, roles: ROLE_USER }

@@ -24,7 +24,7 @@ class TemplateSelectType extends AbstractType
 
             $form = $fEvent->getForm();
             $form->add('fields', CollectionType::class, [
-
+                'label' => false,
                 'entry_type'=> FieldTemplateType::class,
                 'entry_options' => [ 'team' => $team],
                 'allow_add' => true,

@@ -1,20 +1,8 @@
-{% extends 'base.html.twig' %}
+{% extends 'login.html.twig' %}
 
-{% block title %}Log in!
+{% block title %}
+	{{ 'security.login.title'|trans }}
 {% endblock %}
-
-{% block stylesheets %}
-	{{ parent() }}
-	{{ encore_entry_link_tags('login') }}
-
-	<style type="text/css">
-		body {
-			background: transparent url('{{ asset('image/default/login.jpg') }}') no-repeat center fixed;
-			background-size: cover;
-		}
-	</style>
-{% endblock %}
-
 
 {% block body %}
 	<div id="form" class="col-4">
@@ -24,47 +12,56 @@
 			{% endif %}
 
 			<h2 class="form-heading">
-				Please sign in</h2>
+				{{ 'security.login.sign-in'|trans }}
+			</h2>
 			<div class="form-group">
-				<label class="sr-only" for="inputUsername">Username</label>
-				<input class="form-control" type="text" name="username" id="inputUsername" placeholder="Username" required autofocus>
+				<label class="sr-only" for="inputUsername">
+					{{ 'security.login.username'|trans }}
+				</label>
+				<input class="form-control" type="text" name="username" id="inputUsername" placeholder="{{ 'security.login.username'|trans }}" required autofocus>
 			</div>
 			<div class="form-group">
-				<label class="sr-only" for="inputPassword">Password</label>
-				<input class="form-control" type="password" name="password" id="inputPassword" placeholder="Password" required>
+				<label class="sr-only" for="inputPassword">
+					{{ 'security.login.password'|trans }}
+				</label>
+				<input class="form-control" type="password" name="password" id="inputPassword" placeholder="{{ 'security.login.password'|trans }}" required>
 			</div>
 			<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
 			<div class="control-label">
 				<label>
 					<input type="checkbox" name="_remember_me">
-					Remember me
+					{{ 'security.login.remember-me'|trans }}
 				</label>
 			</div>
 
 			<button class="btn btn-lg btn-primary btn-block" type="submit">
-				Sign in
+				{{ 'security.login.submit'|trans }}
 			</button>
 
 			<div class="text-center">
-				<a class="text-center small" href="{{path('register') }}">Not registered yet !</a>
+				<a class="text-center small" href="{{path('register') }}">
+					{{ 'security.login.not-registered'|trans }}
+				</a>
 			</div>
 
 			<div class="text-center">
 				<a class="small" href="{{ path('forgotten_password') }}">
-					forgotten password</a>
+					{{ 'security.login.forgotten'|trans }}
+				</a>
 			</div>
 		</form>
 		<hr>
 
+		{# TODO make it functionnal  Oauth#}
 		<button id="facebook" class="btn btn-block button">
-			<span><i class="fab fa-facebook-f"></i> login with Facebook</span>
+			<span class="fab fa-facebook-f mr-1"/>
+			{{ 'security.login.log-with'|trans({'%name%': 'Facebook'}) }}
+			login with Facebook
 		</button>
-        <div id="google" class="btn btn-block button">
-			<span><i class="fab fa-google"></i> login with Google</span>
-		</div>
-        <div id="apple" class="btn btn-block button">
-			<span><i class="fab fa-apple"></i> login with Apple</span>
+		<div id="google" class="btn btn-block button">
+			<span class="fab fa-google mr-1"/>
+			{{ 'security.login.log-with'|trans({'%name%': 'Google'}) }}
 		</div>
 	</div>
 
