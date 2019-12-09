@@ -15,10 +15,8 @@ class ImageType extends AbstractType
     {
         $builder
             ->add('imageFile', FileType::class, [
+                'label' => false,
                 'required' => false,
-                'attr'=>[
-                    'onchange' => 'readURL(this)',
-                ]
             ]);
         ;
     }

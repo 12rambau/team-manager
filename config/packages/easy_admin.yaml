@@ -12,49 +12,44 @@ easy_admin:
                 edit: admin/edit_custom.html.twig
                 new: admin/new_custom.html.twig
         menu:
-             - { label: 'Public Homepage', route: home, icon: home, target: _blank}
-             - { label: Dashboard, icon: dashboard, route: home } #change the route when the dashboard is ready
-             - { label: Content }
-             - label: Club
+             - { label: ea.menu.homepage, route: home, icon: home, target: _blank}
+             - { label: ea.menu.dashboard, icon: dashboard, route: home } #change the route when the dashboard is ready
+             - { label: ea.menu.content }
+             - label: ea.menu.club
                icon: users
                children:
-                - { label: 'Club adress', entity: Location ,icon: address-card, params: {
+                - { label: ea.location.value , entity: Location ,icon: address-card, params: {
                  action: search, query: contact} }
-                - { icon: handshake, entity: Partner }
-                - { icon: quidditch, entity: Team }
-                - { icon: share-alt, entity: Social }
-             - label: Team
+                - { icon: handshake, entity: Partner, label: ea.partner.label }
+                - { icon: quidditch, entity: Team, label: ea.team.label }
+                - { icon: share-alt, entity: Social, label: ea.social.label }
+             - label: ea.team.label
                icon: quidditch
                children:
-                - { icon: user, entity: PlayerTag }
-                - { icon: info, entity: FeatureTag }
-                - { icon: poll, entity: StatTag}
-                - { icon: calendar, entity: EventTag }
-             - label: Blog
+                - { icon: user, entity: PlayerTag, label: ea.player-t.label }
+                - { icon: info, entity: FeatureTag, label: ea.feature-t.label }
+                - { icon: poll, entity: StatTag, label: ea.stat-t.label}
+                - { icon: calendar, entity: EventTag, label: ea.event-t.label }
+             - label: ea.news.label
                icon: rss
                children:
-                - { icon: file, entity: News }
-                - { icon: comments, entity: Comment }
-                - {icon: comments, entity: ChatMessage }
-             - label: Event
+                - { icon: file, entity: News, label: ea.news.label }
+                - { icon: comments, entity: Comment, label: ea.comment.label }
+                - {icon: comments, entity: ChatMessage, label: ea.chat.label}
+             - label: ea.event.label
                icon: calendar
                children:
-                - { icon: calendar-alt, entity: Event }
-                - { icon: campground, entity: FieldTemplate }
-                - { icon: trophy, entity: Result }
-             - { icon: images, entity: Gallery }
-             - label: User
+                - { icon: calendar-alt, entity: Event, label: ea.event.label }
+                - { icon: campground, entity: FieldTemplate, label: ea.field-t.label }
+                - { icon: trophy, entity: Result, label: ea.result.label }
+             - { icon: images, entity: Gallery, label: ea.gallery.label }
+             - label: ea.user.label
                icon: user
                children:
-                - { icon: quidditch, entity: Player }
-                - { icon: user, entity: User }
-                - { icon: poll, entity: PersonnalStat }
-                - { icon: info, entity: Feature }
-             - { label: Admin database}
-             - { icon: image, entity: Image }
-             - { icon: map-marked-alt, entity: Location, label: 'Event location' }
-             - { icon: user, entity: Participation, label: 'Participation in events' }
-             - { icon: street-view, entity: Position, label: 'Position on fields' }
+                - { icon: quidditch, entity: Player, label: ea.player.label }
+                - { icon: user, entity: User, label: ea.user.label }
+                - { icon: poll, entity: PersonnalStat, label: ea.stat.label }
+                - { icon: info, entity: Feature, label: ea.feature.label }
 
 
         assets:
@@ -82,547 +77,698 @@ easy_admin:
         #############################################
         Partner:
             class: App\Entity\Partner
-            label: Partner
+            label: ea.partner.label
             list:
                 fields:
                     - id
-                    - name
-                    - { property: image.filename, type: image, base_path: '%path_image%', label: Image }
-                    - { property: website, template: admin/field_url.html.twig }
+                    - { property: name, label: ea.partner.name }
+                    - { property: image.filename, type: image, base_path: '%path_image%', label: ea.partner.image }
+                    - { property: website, template: admin/field_url.html.twig, label: ea.partner.website }
             show:
                 fields:
-                    - name
-                    - { property: image.filename, type: image, base_path: '%path_image%', label: Image }
-                    - { property: website, template: admin/field_url.html.twig }
+                    - { property: name, label: ea.partner.name }
+                    - { property: image.filename, type: image, base_path: '%path_image%', label: ea.partner.image }
+                    - { property: website, template: admin/field_url.html.twig, label: ea.partner.website }
             form:
                 fields:
-                    - name
-                    - website
-                    - { property: image, type: App\Form\ImageType }
+                    - { property: name, label: ea.partner.name }
+                    - { property: website, label: ea.partner.website }
+                    - { property: image, type: App\Form\ImageType, label: ea.partner.image }
 
         #############################################
         ###               Team                     ##
         #############################################
         Team:
             class: App\Entity\Team
-            label: Team
+            label: ea.team.label
             list:
                 fields:
                     - id
-                    - name
-                    - { property: image.filename, type: image, base_path: '%path_image%', label: Image }
-                    - players
+                    - { property: name, label: ea.team.name }
+                    - { property: image.filename, type: image, base_path: '%path_image%', label: ea.team.image }
+                    - { property: players, label: ea.player.plural }
             show: 
                 fields:
-                    - name
-                    - { property: image.filename, type: image, base_path: '%path_image%', label: Image }
-                    - { property: descripsion, type: text}
+                    - { property: name, label: ea.team.name }
+                    - { property: image.filename, type: image, base_path: '%path_image%', label: ea.team.image }
+                    - { property: descripsion, type: text, label: ea.team.descripsion}
             form:
                 fields:
-                    - name
-                    - { property: image, type: App\Form\ImageType }
-                    - { property: descripsion, type: text }
+                    - { property: name, label: ea.team.name }
+                    - { property: image, type: App\Form\ImageType, label: ea.team.image }
+                    - { property: descripsion, type: text, label: ea.team.descripsion }
         
         #############################################
         ###               News                     ##
         #############################################
         News:
             class: App\Entity\BlogPost
-            label: 'Blog post'
+            label:  ea.news.label
             form:
                 fields:
-                    - { type: group, label: 'Basic information', icon: pencil-alt, columns: 8  }
-                    - title
-                    - short
-                    - gallery
-                    - { property: content, type: fos_ckeditor }
-                    - { type: group, label: Details, columns: 4 , help: 'for administration only'}
-                    - active
-                    - author
+                    - { type: group, label: ea.general.information, icon: pencil-alt, columns: 8  }
+                    - { property: title, label: ea.news.title }
+                    - { property: short, label: ea.news.short }
+                    - { property: gallery, label: ea.gallery.label }
+                    - { property: content, type: fos_ckeditor, label: ea.news.content }
+                    - { type: group, label: ea.general.details, columns: 4 , help: ea.general.admin-only }
+                    - { property: active, label: ea.general.active }
+                    - { property: author, label: ea.news.author }
             edit:
                 fields:
-                    - { type: group, label: Comments, icon: comments, columns: 12 }
-                    - gallery
-                    - {property: comments, type: collection, type_options: { allow_add: false }}
+                    - { type: group, label: ea.comment.plural, icon: comments, columns: 12 }
+                    - { property: gallery, label: ea.gallery.label }
+                    - {property: comments, type: collection, label: false, type_options: { allow_add: false }}
             show: 
-                fields: [title, short, gallery, { property: content, type: raw }, active, publishDate, editDate, author, comments]
+                fields:
+                    - { property: title, label: ea.news.title }
+                    - { property: short, label: ea.news.short }
+                    - { property: gallery, label: ea.gallery.label }
+                    - { property: content, type: raw, label: ea.news.content }
+                    - { property: active, label: ea.general.active }
+                    - { property: publishDate, label: ea.news.publish-date }
+                    - { property: editDate, label: ea.general.update-at }
+                    - {property: author, label: ea.news.author }
+                    - { property: comments, label: ea.comment.plural }
             list:
-                fields: [ id, title, publishDate, active, author, comments]
+                fields: 
+                    - id
+                    - { property: title, label: ea.news.title } 
+                    - { property: publishDate, label: ea.news.publish-date }
+                    - { property: active, label: ea.general.active } 
+                    - { property: author, label: ea.news.author } 
+                    - { property: comments, label: ea.comment.plural }
 
         #############################################
         ###           Chat Message                 ##
         #############################################
         ChatMessage:
+            label: ea.chat.label
             class: App\Entity\ChatMessage
             disabled_actions: [new]
             show:
-                fields: [content, date, author]
+                fields: 
+                    - {property: content, label: ea.chat.content }
+                    - {property: date, label: ea.chat.date }
+                    - {property: author, label: ea.chat.author }
             form:
                 fields:
-                    - { type: group, label: Content, icon: pencil-alt, columns: 8 }
-                    - content
-                    - { type: group, label: Details, columns: 4, help: 'for administration only'}
-                    - author
-                    - date
+                    - { type: group, label: ea.general.content, icon: pencil-alt, columns: 8 }
+                    - { property: content, label: false }
+                    - { type: group, label: ea.general.details, columns: 4, help: ea.general.admin-only }
+                    - { property: author, label: ea.chat.author }
+                    - { property: date, label: ea.chat.date }
 
         #############################################
         ###               Comment                  ##
         #############################################
         Comment:
+            label: ea.comment.label
             class: App\Entity\Comment
             disabled_actions: [new]
             form:
                 fields:
-                    - { type: group, label: Content, icon: pencil-alt, columns: 8 }
-                    - content
-                    - { type: group, label: Details, columns: 4, help: 'for administration only'}
-                    - author
-                    - publishDate
+                    - { type: group, label: ea.general.content, icon: pencil-alt, columns: 8 }
+                    - { property: content, label: false }
+                    - { type: group, label: ea.general.details, columns: 4, help: ea.general.admin-only}
+                    - { property: author, label: ea.comment.author }
+                    - { property: publishDate, label: ea.comment.publish-date }
             show:
-                fields: [content, publishDate, author, post]
+                fields: 
+                    - {property: content, label: ea.comment.content }
+                    - {property: publishDate, label: ea.comment.publish-date }
+                    - {property: author, label: ea.comment.author }
+                    - { property: post, label: ea.news.label }
 
         #############################################
         ###               Event Tag                ##
         #############################################
         EventTag:
+            label: ea.event-t.label
             class: App\Entity\EventTag
-            help: Do not delete tags that are used in several events, just deactivate them.
+            help: ea.event-t.help
             list:
                 fields:
                     - id 
-                    - { property: name, template: admin/field_tag.html.twig }
-                    - events
-                    - team
-                    - active
+                    - { property: name, template: admin/field_tag.html.twig, label: ea.event-t.name }
+                    - { property: events, label: ea.event.label }
+                    - { property: team, label: ea.team.label }
+                    - { property: active, label: ea.general.active }
             form:
                 fields:
-                    - { type: group, label: Content, icon: pencil-alt, columns: 8 }
-                    - name
-                    - { property: color, help: 'Need to be an official bootstrap color without cap.'}
-                    - { property: color, type_options: { block_prefix: bootrap_color} }
-                    - { type: group, label: Details, columns: 4, help: 'For administration only'}
-                    - active
+                    - { type: group, label: ea.general.content, icon: pencil-alt, columns: 8 }
+                    - { property: name, label: ea.event-t.name }
+                    - { property: color, type_options: { block_prefix: bootrap_color}, help: ea.general.bootstrap-color, label: ea.event-t.color }
+                    - { type: group, label: ea.general.details, columns: 4, help: ea.general.admin-only}
+                    - { property: active, label: ea.general.active }
             edit:
                 fields:
-                     - { type: group, label: Events, icon: calendar, columns: 12 }
-                     - { property: events, type: collection, type_options: { allow_add: false}}
+                     - { type: group, label: ea.event.plural, icon: calendar, columns: 12 }
+                     - { property: events, label: false, type: collection, type_options: { allow_add: false}}
             show:
                 fields:
-                    - { property: name, template: admin/field_tag.html.twig }
-                    - active
-                    - events
+                    - { property: name, template: admin/field_tag.html.twig, label: ea.event-t.name }
+                    - { property: active, label: ea.general.active }
+                    - { property: events, label: ea.event.plural }
 
         #############################################
         ###               Event                    ##
         #############################################
         Event:
+            label: ea.event.label
             class: App\Entity\Event
             list:
-                fields: [id, tag, name, start, finish, { property: NbParticipationIn, label: Participations }, maxPlayers, active ]
+                fields: 
+                - id
+                - { property: tag, label: ea.event-t.label }
+                - { property: name, label: ea.event.name }
+                - { property: start, label: ea.event.start }
+                - { property: finish, label: ea.event.finish }
+                - { property: NbParticipationIn, label: ea.event.participation-in }
+                - { property: maxPlayers, label: ea.event.max-player }
+                - { property: active, label: ea.general.active }
             form: 
                 fields:
-                    - { type: tab, label: Information, icon: info-circle }
-                    - { type: group, label: Descripsion, icon: pencil-alt, columns: 6 }
-                    - { property: tag, help: Use exclusively activated tags. }
-                    - name
-                    - info
-                    - { type: group, label: Schedule, icon: calendar, columns: 6}
-                    - start
-                    - finish
-                    - { type: tab, label: Location, icon: search-location }
-                    - { type: group, label: map, icon: map, columns: 8}
-                    - { property: location.value, type: text, label: Full adress, type_options: { block_prefix: map_picker} }
-                    - { type: group, columns: 4, label: Autocomplete, icon: magic }
-                    - { property: location.type, type: text, label: Type, type_options: { attr: {readonly: true}} }
-                    - { property: location.name, type: text, label: Name, type_options: { attr: {readonly: true}} }
-                    - { property: location.city, type: text, label: City, type_options: { attr: {readonly: true}} }
-                    - { property: location.country, type: text, label: Country, type_options: { attr: {readonly: true}} }
-                    - { property: location.countryCode, type: text, label: Country code, type_options: { attr: {readonly: true}} }
-                    - { property: location.administrative, type: text, label: Administrative, type_options: { attr: {readonly: true}} }
-                    - { property: location.county, type: text, label: County, type_options: { attr: {readonly: true}} }
-                    - { property: location.suburb, type: text, label: Suburb, type_options: { attr: {readonly: true}} }
-                    - { property: location.lat, type: text, label: lat, type_options: { attr: {readonly: true}} }
-                    - { property: location.lng, type: text, label: lng, type_options: { attr: {readonly: true}} }
-                    - { property: location.postcode, type: text, label: Postcode, type_options: { attr: {readonly: true}} }
-                    - { type: tab, label: Optionnal}
-                    - { type: group, label: End Register, icon: clock }
-                    - registerFinish
-                    - { type: group, label: Max players, icon: users }
-                    - maxPlayers
-                    - { type: tab, label: Edit field, icon: campground }
-                    #- { property: field.template, label: Template, type: entity, type_options: { class: App\Entity\FieldTemplate} }
-                    - { type: tab, label: Position players, icon: street-view, help: cannot add positions if the field has'nt been set. changing the field result in destroying all positions }
-                    #- field.positions
+                    - { type: tab, label: ea.event.information, icon: info-circle }
+                    - { type: group, label: ea.event.descripsion, icon: pencil-alt, columns: 6 }
+                    - { property: tag, label: ea.event-t.label, help: ea.event.tag-help }
+                    - { property: name, label: ea.event.name }
+                    - { property: info, label: ea.event.info }
+                    - { type: group, label: ea.event.schedule, icon: calendar, columns: 6}
+                    - { property: start, label: ea.event.start }
+                    - { property: finish, label: ea.event.finish }
+                    - { type: tab, label: ea.location.label, icon: search-location }
+                    - { type: group, label: ea.location.map, icon: map, columns: 8}
+                    - { property: location.value, type: text, label: ea.location.value, type_options: { block_prefix: map_picker} }
+                    - { type: group, columns: 4, label: ea.location.autocomplete, icon: magic }
+                    - { property: location.type, type: text, label: ea.location.type, type_options: { attr: {readonly: true}} }
+                    - { property: location.name, type: text, label: ea.location.name, type_options: { attr: {readonly: true}} }
+                    - { property: location.city, type: text, label: ea.location.city, type_options: { attr: {readonly: true}} }
+                    - { property: location.country, type: text, label: ea.location.country, type_options: { attr: {readonly: true}} }
+                    - { property: location.countryCode, type: text, label: ea.location.country-code, type_options: { attr: {readonly: true}} }
+                    - { property: location.administrative, type: text, label: ea.location.administrative, type_options: { attr: {readonly: true}} }
+                    - { property: location.county, type: text, label: ea.location.county, type_options: { attr: {readonly: true}} }
+                    - { property: location.suburb, type: text, label: ea.location.suburb, type_options: { attr: {readonly: true}} }
+                    - { property: location.lat, type: text, label: ea.location.lat, type_options: { attr: {readonly: true}} }
+                    - { property: location.lng, type: text, label: ea.location.lng, type_options: { attr: {readonly: true}} }
+                    - { property: location.postcode, type: text, label: ea.location.postcode, type_options: { attr: {readonly: true}} }
+                    - { type: tab, label: ea.event.optionnal}
+                    - { type: group, label: ea.event.register-finish, icon: clock }
+                    - { property: registerFinish, label: false }
+                    - { type: group, label: ea.event.max-player, icon: users }
+                    - { property: maxPlayers, label: false }
+            edit:
+                fields:
+                    - { type: tab, label: ea.event.field, icon: campground }
+                    # TODO use the field tool of the public interface
             show:
                 fields:
-                    - name
-                    - active
-                    - RegisterFinish
-                    - start
-                    - finish
-                    - maxPlayers
-                    - tag
-                    - location
-                    - participations
-                    - fields
-                    - result
-                    - stats
-                    - publishDate
+                    - { property: name, label: ea.event.name }
+                    - { property: active, label: ea.general.active }
+                    - { property: RegisterFinish, label: ea.event.register-finish }
+                    - { property: start, label: ea.event.start }
+                    - { property: finish, label: ea.event.finish }
+                    - { property: maxPlayers, label: ea.event.max-player }
+                    - { property: tag, label: ea.event-t.label }
+                    - { property: location, label: ea.location.label }
+                    - { property: participations, label: ea.entityparticipation.plural }
+                    - { property: fields, label: ea.event.fields }
+                    - { property: result, label: ea.event.result }
+                    - { property: publishDate, label: ea.event.publish-date }
 
         #############################################
         ###           Field Template               ##
         #############################################
         FieldTemplate:
             class: App\Entity\FieldTemplate
-            label: Field template
-            help: Do not delete templates that are used in several fields, just deactivate them.
+            label: ea.field-t.label
+            help: ea.field-t.help
             show: 
                 fields:
-                    - name
-                    - updateAt
-                    - { property: image.filename, type: image, base_path: '%path_image%', label: Image }
-                    - positions
-                    - fields
-                    - enable
+                    - { property: name, label: ea.field-t.name }
+                    - { property: updateAt, label: ea.general.update-at }
+                    - { property: image.filename, label: ea.field-t.image, type: image, base_path: '%path_image%' }
+                    - { property: positions, label: ea.position.plural }
+                    - { property: fields, label: ea.field.plural }
+                    - { property: enable, label: ea.general.active }
             list:
                 fields:
                     - id
-                    - name
-                    - updateAt
-                    - { property: image.filename, type: image, base_path: '%path_image%', label: Image }
-                    - positions
-                    - fields
-                    - enable
+                    - { property: name, label: ea.field-t.name }
+                    - { property: updateAt, label: ea.general.update-at }
+                    - { property: image.filename, label: ea.field-t.image, type: image, base_path: '%path_image%' }
+                    - { property: positions, label: ea.position.plural }
+                    - { property: fields, label: ea.field.plural }
+                    - { property: enable, label: ea.general.active }
             form: 
                 fields: 
-                    - { type: tab, label: initial information, icon: pencil-alt, help: Before placing the positions on the field you need to add a field picture. Then in the edit view you'll have the possibility to add them. }
-                    - name
-                    - { property: image, type: App\Form\ImageType }
+                    - { type: tab, label: ea.field-t.initial-label, icon: pencil-alt, help: ea.field-t.initial-help }
+                    - { property: name, label: ea.field-t.name }
+                    - { property: image, label: ea.field-t.image, type: App\Form\ImageType }
                     
             edit: 
                 fields:
-                    - { type: tab, label: placement, icon: users }
-                    - { type: group, label: field, icon: images, columns: 7}
-                    - { property: imageToFill, type_options: { block_prefix: field_to_fill} }
-                    - {type: group, label: positions, columns: 5}
-                    - {property: positions, label: '', type: collection, type_options: { by_reference: false, entry_type: App\Form\PositionType, block_prefix: field_template_position}}
+                    - { type: tab, label: ea.position.plural, icon: users }
+                    - { type: group, label: ea.field.label, icon: images, columns: 7}
+                    - { property: imageToFill, label: false, type_options: { block_prefix: field_to_fill} }
+                    - {type: group, label: ea.position.plural, columns: 5}
+                    - {property: positions, label: false, type: collection, type_options: { by_reference: false, entry_type: App\Form\PositionType, block_prefix: field_template_position}}
 
         #############################################
         ###               Field                    ##
         #############################################
         Field:
+            label: ea.field.label
             class: App\Entity\Field
+            disabled_actions: [new, edit, list, show]
 
         #############################################
         ###               Gallery                  ##
         #############################################
         Gallery:
+            #TODO customize everything
+            label: ea.gallery.label
             class: App\Entity\Gallery
+            list: 
+                fields:
+                    - id
+                    - { property: name, label: ea.gallery.name }
+                    - { property: images, label: ea.image.plural }
+            show:
+                fields:
+                    - { property: name, label: ea.gallery.name }
+                    - { property: images, label: ea.image.plural }
+            form: 
+                fields:
+                    - { property: name, label: ea.gallery.name }
+                    #TODO customize photo add rendering
+                    - { property: images, label: ea.image.plural, type: collection, type_options: { allow_add: true} }
 
         #############################################
         ###               Image                    ##
         #############################################
         Image:
+            #TODO remove some action and customize the show
+            label: ea.image.label
             class: App\Entity\Image
-            help: "The Image are for strict administrative purpose delete with caution (only in edit mode)"
-            disabled_actions: [new]
-            list: 
-                actions: [-delete]
-                fields:
-                    - id
-                    - { property: filename, type: image, base_path: '%path_image%' }
-                    - gallery
+            disabled_actions: [new, edit, list]
             show:
                 fields:
-                    - { property: filename, type: image, base_path: '%path_image%' }
-                    - gallery
-                    - updatedAt
-            form:
-                fields:
-                    - { property: imageFile, type: file }
+                    - { property: filename, label: ea.image.name, type: image, base_path: '%path_image%' }
+                    - { property: gallery, label: ea.gallery.label }
+                    - { property: updatedAt, label: ea.general.update-at }
 
         #############################################
         ###               Location                 ##
         #############################################
         Location:
+            label: ea.location.label
             class: App\Entity\Location
             list:
                 fields:
                     - id
-                    - value
-                    - lat
-                    - lng
-                    - tag
+                    - { property: value, label: ea.location.value }
+                    - { property: lat, label: ea.location.lat }
+                    - { property: lng, label: ea.location.lng }
+                    - { property: tag, label: ea.location.tag }
+            show:
+                fields:
+                    #TODO display the map 
+                    - { property: value, label: ea.location.value }
+                    - { property: type, label: ea.location.type }
+                    - { property: name, label: ea.location.name }
+                    - { property: city, label: ea.location.city }
+                    - { property: country, label: ea.location.country }
+                    - { property: countryCode, label: ea.location.country-code }
+                    - { property: administrative, label: ea.location.administrative }
+                    - { property: county, label: ea.location.county }
+                    - { property: suburb, label: ea.location.suburb }
+                    - { property: lat, label: ea.location.lat }
+                    - { property: lng, label: ea.location.lng }
+                    - { property: postcode, label: ea.location.postcode }
             form:
                 fields:
                     - { type: group, label: map, icon: map, columns: 8}
-                    - { property: value, type: text, label: Full adress, type_options: { block_prefix: map_picker} }
-                    - { type: group, columns: 4, label: Autocomplete, icon: magic }
-                    - { property: type, type: text, label: Type, type_options: { attr: {readonly: true}} }
-                    - { property: name, type: text, label: Name, type_options: { attr: {readonly: true}} }
-                    - { property: city, type: text, label: City, type_options: { attr: {readonly: true}} }
-                    - { property: country, type: text, label: Country, type_options: { attr: {readonly: true}} }
-                    - { property: countryCode, type: text, label: Country code, type_options: { attr: {readonly: true}} }
-                    - { property: administrative, type: text, label: Administrative, type_options: { attr: {readonly: true}} }
-                    - { property: county, type: text, label: County, type_options: { attr: {readonly: true}} }
-                    - { property: suburb, type: text, label: Suburb, type_options: { attr: {readonly: true}} }
-                    - { property: lat, type: text, label: lat, type_options: { attr: {readonly: true}} }
-                    - { property: lng, type: text, label: lng, type_options: { attr: {readonly: true}} }
-                    - { property: postcode, type: text, label: Postcode, type_options: { attr: {readonly: true}} }
+                    - { property: value, type: text, label: ea.location.value, type_options: { block_prefix: map_picker} }
+                    - { type: group, columns: 4, label: ea.location.autocomplete, icon: magic }
+                    - { property: type, type: text, label: ea.location.type, type_options: { attr: {readonly: true}} }
+                    - { property: name, type: text, label: ea.location.name, type_options: { attr: {readonly: true}} }
+                    - { property: city, type: text, label: ea.location.city, type_options: { attr: {readonly: true}} }
+                    - { property: country, type: text, label: ea.location.country, type_options: { attr: {readonly: true}} }
+                    - { property: countryCode, type: text, label: ea.location.country-code, type_options: { attr: {readonly: true}} }
+                    - { property: administrative, type: text, label: ea.location.administrative, type_options: { attr: {readonly: true}} }
+                    - { property: county, type: text, label: ea.location.county, type_options: { attr: {readonly: true}} }
+                    - { property: suburb, type: text, label: ea.location.suburb, type_options: { attr: {readonly: true}} }
+                    - { property: lat, type: text, label: ea.location.lat, type_options: { attr: {readonly: true}} }
+                    - { property: lng, type: text, label: ea.location.lng, type_options: { attr: {readonly: true}} }
+                    - { property: postcode, type: text, label: ea.location.postcode, type_options: { attr: {readonly: true}} }
 
         #############################################
         ###          Participation                 ##
         #############################################
         Participation:
+            disabled_actions: [new, list]
+            label: ea.participation.label
             class: App\Entity\Participation
+            show:
+                fields:
+                    - { property: player, label: ea.player.label}
+                    - { property: event, label: ea.event.label}
+                    - { property: value, label: ea.enity.participation.value }
+            edit:
+                fields:
+                    - { property: player, label: ea.player.label, type_options: { attr: {readonly: true}} }
+                    - { property: event, label: ea.event.label, type_options: { attr: {readonly: true}} }
+                    - { property: value, label: ea.enity.participation.value }
 
         #############################################
         ###        Personnal Stat                  ##
         #############################################
         PersonnalStat:
-            help: A stat cannot have a time and a value at the same time.
-            label: Personnal stats
+            label: ea.stat.label
+            #TODO remove some action and customize the show when time will be removed
             class: App\Entity\PersonnalStat
+            disabled_actions: [new]
             list: 
-                fields: [id, value, time, { property: tag.unity, label: Unity }, tag, participation]
-            form:
                 fields:
-                    - tag
-                    - { type: group, label: Value, icon: pencil-alt, columns: 6 }
-                    - value
-                    - { type: group, label: Time, icon: clock, columns: 6}
-                    - timer
-                    - time
-                    - { type: group, label: Details, icon: user, columns: 12}
-                    - participation
+                    - { property: value, label: ea.stat.value }
+                    - { property: tag.unity, label: ea.stat-t.unit }
+                    - { property: timer, label: ea.stat.timer }
+                    - { property: tag, label: ea.stat-t.label }
+                    - { property: participation, label: ea.participation.label }
+            show: 
+                fields:
+                    - { property: value, label: ea.stat.value }
+                    - { property: time, label: ea.stat.time }
+                    - { property: tag.unity, label: ea.stat-t.unit }
+                    - { property: tag, label: ea.stat-t.label }
+                    - { property: participation, label: ea.participation.label }
+            edit:
+                fields:
+                    - { property: tag, label: ea.stat-t.label }
+                    - { type: group, label: ea.stat.value, icon: pencil-alt, columns: 6 }
+                    - {property: value, label: false }
+                    - { type: group, label: ea.stat.timer, icon: clock, columns: 6}
+                    - { property: timer, label: ea.stat.timer }
+                    - { property: time, label: false }
+                    - { type: group, label: ea.general.details, icon: user, columns: 12}
+                    - {property: participation, label: ea.participation.label }
 
         #############################################
         ###               Position                 ##
         #############################################
         Position:
+            label: ea.position.label
+            disabled_actions: [new, edit, list]
             class: App\Entity\Position
+            show:
+                fields:
+                    - { property: name, label: ea.position.name }
+                    - { property: horizontal, label: ea.position.x-value }
+                    - { property: vertical, label: ea.position.y-value }
+                    - { property: fieldTemplate, label: ea.field-t.label }
+                    - { property: participations, label: ea.participation.plural }
+
 
         #############################################
         ###               Result                   ##
         #############################################
         Result:
+            label: ea.result.label
             class: App\Entity\Result
-            help: For the moment each event create an empty result entity. As such they mustn't be removed. the result are as such in Read-only and both the gallery and the score must be changed independantely.
+            help: ea.result.help
             disabled_actions: [delete, new]
+            list:
+                fields:
+                    - { property: score.home,  label: ea.score.home }
+                    - { property: score.our, label: ea.score.our }
+                    - { property: score.their, label: ea.score.their }
+                    - { property: score.opponent, label: ea.score.opponent }
+            show:
+                fields:
+                    - { property: score.home,  label: ea.score.home }
+                    - { property: score.our, label: ea.score.our }
+                    - { property: score.their, label: ea.score.their }
+                    - { property: score.opponent, label: ea.score.opponent }
+                    - { property: files, label: ea.result.files }
+
             form:
                 fields:
-                    - {type: group, columns: 6, label: Score, icon: trophy }
-                    - { property: score.home,  label: My team, type: text, type_options: { disabled: true}}
-                    - { property: score.our, label: Our score,  type: integer }
-                    - { property: score.their, label: Their score, type: integer }
-                    - { property: score.opponent, label: Opponent, type: text }
-                    - { type: group, columns: 6, label: Results Files, icon: files }
-                    - { property: files, type_options: { disabled: true} } #TODO find how to add multiple files
+                    - {type: group, columns: 6, label: ea.score.label, icon: trophy }
+                    - { property: score.home,  label: ea.score.home, type: text, type_options: { disabled: true}}
+                    - { property: score.our, label: ea.score.our,  type: integer }
+                    - { property: score.their, label: ea.score.their, type: integer }
+                    - { property: score.opponent, label: ea.score.opponent, type: text }
+                    - { type: group, columns: 6, label: ea.result.files, icon: files }
+                    - { property: files, label: false, type_options: { disabled: true} } #TODO find how to add multiple files
 
         #############################################
         ###               Score                    ##
         #############################################
         Score:
+            label: ea.score.label
             class: App\Entity\Score
-            disabled_actions: [delete, new, edit, show, list]
+            disabled_actions: [delete, new, edit, list]
+            show: 
+                fields:
+                    - { property: score.home,  label: ea.score.home }
+                    - { property: score.our, label: ea.score.our }
+                    - { property: score.their, label: ea.score.their }
+                    - { property: score.opponent, label: ea.score.opponent }
 
         #############################################
         ###            Stat tag                    ##
         #############################################
         StatTag:
             class: App\Entity\StatTag
-            label: Stats tag
-            help: Do not delete tags that are used in several stats, just deactivate them.
+            label: ea.stat-t.label
+            help: ea.stat-t.help
+            list:
+                fields:
+                    - id
+                    - { property: name, label: ea.stat-t.name }
+                    - { property: unity, label: ea.stat-t.unit }
+                    - { property: active, label: ea.general.active }
+                    - { property: stats, label: ea.stat.plural }
             show:
-                fields: [name, unity, active, stats]
+                fields: 
+                    - { property: name, label: ea.stat-t.name }
+                    - { property: unity, label: ea.stat-t.unit }
+                    - { property: active, label: ea.general.active }
+                    - { property: stats, label: ea.stat.plural }
             form:
                 fields:
-                    - { type: group, label: Content, icon: pencil-alt, columns: 8 }
-                    - name
-                    - unity
-                    - { type: group, label: Details, columns: 4, help: 'For administration only'}
-                    - active
+                    - { type: group, label: ea.general.content, icon: pencil-alt, columns: 8 }
+                    - { property: name, label: ea.stat-t.name }
+                    - { property: unity, label: ea.stat-t.unit }
+                    - { type: group, label: ea.general.details, columns: 4, help: ea.general.admin-only}
+                    - { property: active, label: ea.general.active }
             edit:
                 fields:
-                     - { type: group, label: Stats, icon: poll, columns: 12 }
-                     - { property: stats, type: collection, type_options: { allow_add: false } }
+                     - { type: group, label: ea.stat.plural, icon: poll, columns: 12 }
+                     - { property: stats, label: false, type: collection, type_options: { allow_add: false } }
 
         #############################################
         ###               User                     ##
         #############################################
         User:
+            label: ea.user.label
             class: App\Entity\User
             disabled_actions: [new]
-            help: The delete action has been moved to the edit view. Use with caution, all the user data will be lost.
+            help: ea.user.help
             list:
                 actions: [-delete]
                 batch_actions: [-delete]
                 max_results: 10
                 fields:
                     - id
-                    - { property: profilePic.filename, label: Profile pic, type: image, base_path: '%path_image%' }
-                    - username
-                    - email
+                    - { property: profilePic.filename, label: ea.user.pic, type: image, base_path: '%path_image%' }
+                    - { property: username, label: ea.user.username }
+                    - { property: email, label: ea.user.email }
             show: 
                 fields:
-                    - { property: profilePic.filename, label: '', type: image, base_path: '%path_image%' }
-                    - username
-                    - firstName
-                    - lastName
-                    - birthDate
-                    - { property: gender, template: admin/field_gender.html.twig }
-                    - roles
-                    - email
-                    - phoneNumber
-                    - posts
-                    - messages
-                    - comments
-                    - participations
-                    #- stats
+                    - { property: profilePic.filename, label: false, type: image, base_path: '%path_image%' }
+                    - { property: username, label: ea.user.username }
+                    - { property: firstName, label: ea.user.first-name }
+                    - { property: lastName, label: ea.user.last-name }
+                    - { property: birthDate, label: ea.user.birth-date }
+                    - { property: gender, label: ea.user.gender, template: admin/field_gender.html.twig }
+                    - { property: roles, label: ea.user.roles }
+                    - { property: email, label: ea.user.email }
+                    - { property: phoneNumber, label: ea.user.phone-number }
+                    - { property: posts, label: ea.news.plural }
+                    - { property: messages, label: ea.chat.plural }
+                    - { property: comments, label: ea.comment.plural }
+                    - { property: players, label: ea.player.plural }
             form:
                 fields:
-                    - { type: tab, label: General informations }
+                    - { type: tab, label: ea.general.information }
                     - { type: group, label: Avatar, icon: camera-retro, columns: 4, help: Cannot display the avatar for the moment }
-                    - { property: profilePic.imageFile, label: '', type: file }
-                    - { type: group, label: Identification, columns: 8, icon: user }
-                    - username
-                    - firstName
-                    - lastName
-                    - birthDate
-                    -  { property: gender, type: choice, type_options: { choices: { Male: true, Female: false}, required: true} } #the require option is to remove the "none"
+                    - { property: profilePic.imageFile, label: false, type: file }
+                    - { type: group, label: ea.user.identification, columns: 8, icon: user }
+                    - { property: username, label: ea.user.username }
+                    - { property: firstName, label: ea.user.first-name }
+                    - { property: lastName, label: ea.user.last-name }
+                    - { property: birthDate, label: ea.user.birth-date }
+                    -  { property: gender, label: ea.user.gender, type: choice, type_options: { choices: { Male: true, Female: false}, required: true} } #the require option is to remove the "none"
                     #- roles
-                    - { type: group, icon: phone, label: Contact }
-                    - email
-                    - phoneNumber
-                    - { type: tab, label: Site activities }
-                    - { type: group, label: Messages, icon: comments, columns: 6}
-                    - posts
-                    - { property: messages, label: Chat messages }
-                    - comments
-                    - { type: group, label: Events, icon: calendar, columns: 6 }
-                    - participations
-                    #- stats
+                    - { type: group, icon: phone, label: ea.user.contact }
+                    - { property: email, label: ea.user.email }
+                    - { property: phoneNumber, label: ea.user.phone-number }
+                    - { type: tab, label: ea.user.activities }
+                    - { type: group, label: ea.chat.plural, icon: comments, columns: 6}
+                    - { property: posts, label: ea.news.plural }
+                    - { property: messages, label: ea.chat.plural }
+                    - { property: comments, label: ea.comment.plural }
+            edit:
+                fields:
+                    - { type: group, label: ea.event.plural, icon: calendar, columns: 6 }
+                    - { property: players, label: ea.player.plural }
+
+
         
         #############################################
         ###               Player                   ##
         #############################################
         Player:
             class: App\Entity\Player
-            label: Player
+            label: ea.player.label
+            list:
+                fields:
+                    - { property: team, label: ea.team.label }
+                    - { property: user, label: ea.user.label }
+                    - { property: tags, label: ea.player-t.plural }
+                    - { property: participations, label: ea.participation.plural }
+                    
             form:
                 fields:
-                    - team
-                    - user
-                    - tags
+                    - { property: team, label: ea.team.label }
+                    - { property: user, label: ea.user.label }
+                    - { property: tags, label: ea.player-t.plural }
+            edit:
+                fields:
+                    - { property: participations, label: ea.participation.plural,type: collection, type_options: { allow_add: false, allow_delete: true} }
             show:
                 fields:
-                    - team
-                    - user
-                    - tags
+                    - { property: team, label: ea.team.label }
+                    - { property: user, label: ea.user.label }
+                    - { property: tags, label: ea.player-t.plural }
+                    - { property: participations, label: ea.participation.plural }
 
         #############################################
         ###               Player Tag               ##
         #############################################
         PlayerTag:
             class: App\Entity\PlayerTag
-            label: Player tag
-            help: Do not delete tags that are used in several players, just deactivate them.
+            label: ea.player-t.label
+            help: ea.player-t.help
             list:
                 fields:
                     - id
-                    - { property: name, template: admin/field_tag.html.twig }
-                    - team
-                    - players
-                    - active
+                    - { property: name, label: ea.player-t.name, template: admin/field_tag.html.twig }
+                    - { property: team, label: ea.team.label }
+                    - { property: players, label: ea.player.plural }
+                    - { property: active, label: ea.general.active }
             show:
                 fields:
-                    - { property: name, template: admin/field_tag.html.twig }
-                    - team
-                    - players
-                    - active
+                    - { property: name, label: ea.player-t.name, template: admin/field_tag.html.twig }
+                    - { property: team, label: ea.team.label }
+                    - { property: players, label: ea.player.plural }
+                    - { property: active, label: ea.general.active }
             form:
                 fields:
-                    - { type: group, label: Info, icon: pencil-alt, columns: 8 }
-                    - name
-                    - { property: color, type_options: { block_prefix: bootstrap_color } }
-                    - { type: group, label: Team, icon: users, columns: 4}
-                    - team
+                    - { type: group, label: ea.general.details, icon: pencil-alt, columns: 8 }
+                    - { property: name, label: ea.player-t.name }
+                    - { property: color, label: ea.player-t.color, help: ea.general.bootstrap-color, type_options: { block_prefix: bootstrap_color } }
+                    - { type: group, label: ea.team.label, icon: users, columns: 4}
+                    - { property: team, label: false }
             edit:
                 fields:
                     - { type: group, columns: 12}
-                    - active
-                    - { property: players, type: collection, type_options: { allow_delete: true, allow_add: false } }
+                    - { property: active, label: ea.general.active }
+                    - { property: players, label: ea.player.plural type: collection, type_options: { allow_delete: true, allow_add: false } }
 
         #############################################
         ###               Social                   ##
         #############################################
         Social:
             class: App\Entity\Social
-            label: Social Media
+            label: ea.social.label
             list:
                 fields:
                     - id
-                    - name
-                    - { property: url, template: admin/field_url.html.twig}
-                    - { property: icon, template: admin/field_brand_icon.html.twig}
-                    - { property: color, template: admin/field_hex_color.html.twig}
+                    - { property: name, label: ea.social.name }
+                    - { property: url,  label: ea.social.url, template: admin/field_url.html.twig}
+                    - { property: icon, label: ea.social.icon, template: admin/field_brand_icon.html.twig}
+                    - { property: color, label: ea.social.color, template: admin/field_hex_color.html.twig}
             show:
                 fields:
-                    - name
-                    - { property: url, template: admin/field_url.html.twig}
-                    - { property: icon, template: admin/field_brand_icon.html.twig}
-                    - { property: color, template: admin/field_hex_color.html.twig}
+                    - { property: name, label: ea.social.name }
+                    - { property: url,  label: ea.social.url, template: admin/field_url.html.twig}
+                    - { property: icon, label: ea.social.icon, template: admin/field_brand_icon.html.twig}
+                    - { property: color, label: ea.social.color, template: admin/field_hex_color.html.twig}
 
             form:
                 fields:
                     - { type: group, columns: 6}
-                    - name
-                    - { property: url, help: "the url of your page on this social network" }
+                    - { property: name, label: ea.social.name }
+                    - { property: url, label: ea.social.url, help: ea.social.url-help }
                     - { type: group, columns: 6}
-                    - { property: icon, help: "the name of your icon find on the 'Font is awesome' website. As a brand it will start with 'fab fa-[your_icon]'. if nothing appear, your icon doesn't exist.", type_options: { block_prefix: font_awesome} }
-                    - { property: color, help: set the color as an hex color. it will be display when the icon is hovered in the footer. If nothing displays it's not a color, type_options: { block_prefix: color} }
+                    - { property: icon, label: ea.social.icon, help: ea.social.icon-help, type_options: { block_prefix: font_awesome} }
+                    - { property: color, label: ea.social.color, help: ea.social.color-help, type_options: { block_prefix: color} }
 
         #############################################
         ###           Feature Tag                  ##
         #############################################
         FeatureTag:
-            #TODO customize display
             class: App\Entity\FeatureTag
-            Label: Feature tag
-            help: Do not delete tags that are used in several features, just deactivate them.
+            Label: ea.feature-t.label
+            help: ea.feature-t.help
+            list:
+                fields:
+                    - { property: name, label: ea.feature-t.name }
+                    - { property: team, label: ea.team.label }
+                    - { property: features, label: ea.feature.plural }
+                    - { property: active, label: ea.general.active }
             show:
                 fields:
-                    - name
-                    - team
-                    - features
-                    - active
+                    - { property: name, label: ea.feature-t.name }
+                    - { property: team, label: ea.team.label }
+                    - { property: features, label: ea.feature.plural }
+                    - { property: active, label: ea.general.active }
             form:
                 fields:
                     - { type: group }
-                    - name
-                    - team
+                    - { property: name, label: ea.feature-t.name }
+                    - { property: team, label: ea.team.label }
             edit:
                 fields:
                     - {type: group }
-                    - active
-                    - {property: features, type: collection, type_options: { allow_delete: true, allow_add: false } }
+                    - { property: active, label: ea.general.active }
+                    - {property: features, label: ea.feature.plural, type: collection, type_options: { allow_delete: true, allow_add: false } }
 
         #############################################
-        ###               Feature                 ##
+        ###               Feature                  ##
         #############################################
         Feature:
+            label: ea.feature.label
             class: App\Entity\Feature
-            label: Feature
+            disabled_actions: [new]
+            list:
+                fields:
+                    - { property: value, label: ea.feature.value }
+                    - { property: tag, label: ea.feature-t.label }
+                    - { property: player, label: ea.player.label }
             show:
                 fields:
-                    - value
-                    - tag
-                    - player
+                    - { property: value, label: ea.feature.value }
+                    - { property: tag, label: ea.feature-t.label }
+                    - { property: player, label: ea.player.label }
             form:
                 fields:
-                    - value
-                    - tag
-                    - player
+                    - { property: value, label: ea.feature.value }
+                    - { property: tag, label: ea.feature-t.label }
+                    - { property: player, label: ea.player.label }
 
 
 

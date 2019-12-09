@@ -66,6 +66,11 @@ class PlayerTag
         $this->active = true;
     }
 
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
     public function getColors()
     {
         return $this::COLORS;

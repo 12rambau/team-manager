@@ -1,3 +1,7 @@
+#############################################
+###          Public side                   ##
+#############################################
+
 footer:
     follow: Follow us
     contact:
@@ -216,5 +220,180 @@ layout:
     events: Events
 
 
+#############################################
+###          Easy Admin                    ##
+#############################################
+ea:
+    general:
+        admin-only: For administration only
+        information: Genral information
+        details: Details
+        content: Content
+        bootstrap-color: Need to be an official bootstrap color without cap. If white is displayed then there is a typo.
+        active: Active
+        update-at: Last updated
+    menu:
+        homepage: Public Homepage
+        dashboard: Dashboard
+        content: Content
+        club: Club
+        club-adress: Club adress
+    partner:
+        label: Partner
+        name: Name
+        image: Image
+        website: Website
+    team:
+        label: Team
+        plural: Teams
+        name: Name
+        image: Image
+        descripsion: Descripsion
+    news: 
+        label: Blog post
+        plural: Blog posts
+        title: Title
+        short: Short descripsion
+        content: Content
+        author: Author
+        publish-date: Date of publication 
+    chat:
+        label: Chat message
+        plural: Messages
+        content: Content
+        date: Date
+        author: Author
+    comment:
+        label: Comment
+        plural: Comments
+        publish-date: date of publication
+        author: Author
+        content: Content
+    event-t:
+        label: Event tag
+        help: Do not delete tags that are used in several events, just deactivate them.
+        name: Name
+        color: Color
+    feature:
+        label: Feature
+        plural: Features
+        value: Value
+    player: 
+        label: Player
+        plural: Players
+    social: 
+        label: Social media
+        plural: Social media
+        name: Name
+        url: Url
+        url-help: The url of your page on this social network
+        icon: Icon
+        icon-help: "The name of your icon find on the 'Font is awesome' website. As a brand it will start with 'fab fa-[your_icon]'. if nothing appear, your icon doesn't exist."
+        color: Color
+        color-help: Set the color as an hex color. it will be display when the icon is hovered in the footer. If nothing displays it's not a color
+    feature-t:
+        label: Feature tag
+        plural: tags
+        name: Name
+        help: Do not delete tags that are used in several features, just deactivate them.
+    player-t:
+        label: Player Tag
+        plural: Tags
+        help: Do not delete tags that are used in several players, just deactivate them.
+        name: Name
+        color: Color
+    event:
+        label: Event
+        plural: Events
+        name: Name
+        start: Start
+        finish: Finish
+        participation-in: Nb participation "in"
+        max-player: Max player
+        information: Information
+        descripsion: Descripsion
+        tag-help: Use exclusively activated tags.
+        info: Info
+        schedule: Schedule
+        optionnal: Optionnal 
+        register-finish: Register finish
+        field: Field
+    location:
+        label: Location
+        map: Map
+        value: Full adress
+        autocomplete: Autocomplete
+        type: Type
+        city: City
+        country: Country
+        country-code: Country code
+        administrative: Administrative
+        county: County 
+        suburb: Suburb
+        lat: Latitude
+        lng: Longitude
+        postcode: Postcode
+        tag: Tag
+        name: Name
+    field: 
+        label: Field
+        plural: Fields
+    field-t:
+        label: Field Template
+        help: Do not delete templates that are used in several fields, just deactivate them.
+        initial-label: Initial inforamtions
+        initila-help: Before placing the positions on the field you need to add a field picture. Then in the edit view you'll have the possibility to add them.
+        name: Name
+        image: Image
+    position:
+        label: Position
+        plural: Positions
+    result:
+        label: Result
+        help: For the moment each event create an empty result entity. As such they mustn't be removed. the result are as such in Read-only and both the gallery and the score must be changed independantely.
+        files: Result files
+    score:
+        label: Score
+        home: My Team
+        our: Our score
+        their: Their score
+        opponent: Opponent
+    stat:
+        label: Personnal stat
+        plural: Stats
+        value: Value
+        timer: Timer
+        time: Time
+    stat-t:
+        label: Stat Tag
+        plural: Tags
+        help: Do not delete tags that are used in several stats, just deactivate them.
+        name: Name
+        unit: Unit
+    user:
+        label: User
+        plural: users
+        help: The delete action has been moved to the edit view. Use with caution, all the user data will be lost.  
+        pic: Profile picture
+        username: Username
+        first-name: First name
+        last-name: Last name
+        phone-number: Phone number
+        email: Email
+        roles: Roles
+        identification: Identification
+        birth-date: Birth date
+        gender: Gender
+        contact: Contact
+        activities: Site activities
 
-    
+
+    gallery:
+        label: Gallery  
+        name: Name
+    image:
+        Label: Image
+        plural: Images
+    participation:
+        label: Participation
+        plural: Participations
