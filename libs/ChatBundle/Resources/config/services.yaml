@@ -1,0 +1,8 @@
+parameters:
+  chat_update_interval: 10000
+  supported_locales: en_US
+
+services:
+    _defaults:
+        autowire: true      
+        autoconfigure: true

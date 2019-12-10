@@ -1,0 +1,5 @@
+borntobealive_chat-add:
+    path: /add
+    controller: App\Controller\ChatController::add
+    options:
+        expose: true

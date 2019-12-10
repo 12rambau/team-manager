@@ -22,4 +22,5 @@ return [
     Liip\ImagineBundle\LiipImagineBundle::class => ['all' => true],
     EasyCorp\Bundle\EasyAdminBundle\EasyAdminBundle::class => ['all' => true],
     Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle::class => ['all' => true],
+    \bornToBeAlive\ChatBundle\ChatBundle::class => ['all' => true]
 ];
