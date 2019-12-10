@@ -1,8 +1,9 @@
 # This file is the entry point to configure your own services.
 # Files in the packages/ subdirectory configure your dependencies.
 parameters:
-    locale: 'en'
-    supported_locales: en|es|fr
+    locale: 'en_US'
+    supported_locales: en_US|es_ES|fr_FR
+    twig_locales: [en_US, es_ES, fr_FR]
 
     path_image: image/upload
     
@@ -21,6 +22,7 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:
             $projectDir: '%kernel.project_dir%'
+            $defaultLocale: locale
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -118,3 +120,7 @@ services:
         arguments: 
             - '@swiftmailer.mailer.default'
             - '%env(WEBMASTER_MAIL)%'
+    
+    App\Twig\CountryExtention:
+        tags:
+            - { name: twig.extention }

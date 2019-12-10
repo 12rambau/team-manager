@@ -27,7 +27,7 @@ export function display() {
         eventColor: 'purple',
 
         eventClick: function (event, jsevent, view) {
-            window.open(Routing.generate('event-view', { slug: event.url }));
+            window.open(Routing.generate('event-view', { slug: event.url, _locale: locale }));
             return false;
         }
     });

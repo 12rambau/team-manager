@@ -40,6 +40,10 @@
 		{% endblock %}
 
 		{% block javascripts %}
+			<script type="text/javascript">
+				var Locale = "{{ app.request.locale }}";
+			</script>
+
 			{# wait for the dev to modernise their bundle #}
 			<script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
 			<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>

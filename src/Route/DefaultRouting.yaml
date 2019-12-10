@@ -2,6 +2,18 @@ home:
     path: /
     controller: App\Controller\DefaultController::home
 
+home_localized:
+    path: /{_locale}/
+    controller: App\Controller\DefaultController::home
+    defaults:
+        _locale: '%locale%'
+    requirements:
+        _locale: '%supported_locales%'
+
 contact:
-    path: /contact-information
+    path: /{_locale}/contact-information
     controller: App\Controller\DefaultController::contact
+    defaults:
+        _locale: '%locale%'
+    requirements:
+        _locale: '%supported_locales%'

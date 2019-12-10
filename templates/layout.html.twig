@@ -24,6 +24,19 @@
 
 {% block body %}
 	<div class="container-fluid row mt-2">
+		<div class="col-12 clearfix mb-4">
+			<div class="float-right">
+			{% for locale in twig_locales %}
+				|
+				<a href="{{ path(app.request.get('_route'),app.request.get('_route_params')|merge({'_locale':locale})) }}">
+					<span class="mr-1" data-toggle="tooltip" data-placement="bottom" title="{{ locale|language(app.request.locale) }}">
+						<i class="flag-icon flag-icon-{{ locale|alpha2|lower }}"></i>
+					</span>
+				</a>
+				{{ (loop.last)?'|' }}
+			{% endfor %}
+			</div>
+		</div>
 		<div class="col-9">
 			{% block content %}{% endblock %}
 		</div>

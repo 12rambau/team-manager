@@ -13,5 +13,6 @@ twig:
         club_name: "%club_name%"
         chat_update_interval: "%chat_update_interval%"
         path_image: "%path_image%"
+        twig_locales: "%twig_locales%"
 
     

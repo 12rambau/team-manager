@@ -24,11 +24,7 @@ comment:
 
 home:
     resource: "Route/DefaultRouting.yaml"
-    prefix: /{_locale}/
-    defaults:
-        _locale: '%locale%'
-    requirements:
-        _locale: '%supported_locales%'
+    prefix: /
 
 admin:
     resource: "Route/AdminRouting.yaml"
