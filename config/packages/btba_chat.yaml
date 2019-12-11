@@ -1,0 +1,4 @@
+btba_chat:
+    update_interval: 1000
+    message_class: App\Entity\ChatMessage
+    author_class: App\Entity\User

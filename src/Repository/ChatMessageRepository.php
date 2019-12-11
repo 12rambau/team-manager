@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\ChatMessage;
+use btba\ChatBundle\Query\MessageQuery;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -14,16 +15,10 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class ChatMessageRepository extends ServiceEntityRepository
 {
+    use MessageQuery;
+
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, ChatMessage::class);
-    }
-
-    public function countAll()
-    {
-        return $this->createQueryBuilder('m')
-            ->select('count(m.id)')
-            ->getQuery()
-            ->getSingleScalarResult();
     }
 }

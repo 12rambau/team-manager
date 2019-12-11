@@ -1,0 +1,45 @@
+@import '~bootstrap/dist/css/bootstrap.css';
+@import '~jquery-ui/themes/base/all.css';
+@import '~@fortawesome/fontawesome-free/css/all.css';
+
+#chat{
+    width: 20em;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin-right: 1em;
+    z-index:3;
+}
+#chat-messages
+{
+    margin: 0;
+    padding: 0;
+}
+
+#chat-messages li
+{
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px dotted #B3A9A9;
+}
+
+#chat-messages li.left .chat-body
+{
+    margin-right: 60px;
+}
+
+#chat-messages li.right .chat-body
+{
+    margin-left: 60px;
+}
+
+
+#chat-messages li .chat-body p
+{
+    margin: 0;
+    color: #777777;
+}
+
+.loader{
+    display: none;
+}
