@@ -5,7 +5,7 @@ namespace App\Repository;
 use App\Entity\Participation;
 use App\Entity\Event;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use App\Entity\User;
 
 /**
@@ -16,7 +16,7 @@ use App\Entity\User;
  */
 class ParticipationRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Participation::class);
     }

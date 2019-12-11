@@ -4,9 +4,8 @@ namespace App\Repository;
 
 use App\Entity\PersonnalStat;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
-use App\Entity\Event;
-use App\Entity\User;
+use Doctrine\Common\Persistence\ManagerRegistry;
+
 
 /**
  * @method PersonnalStat|null find($id, $lockMode = null, $lockVersion = null)
@@ -16,7 +15,7 @@ use App\Entity\User;
  */
 class PersonnalStatRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, PersonnalStat::class);
     }
