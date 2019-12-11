@@ -1,0 +1,9 @@
+btba_chat-add:
+    path: /add
+    controller: App\Controller\ChatController::add
+    options:
+        expose: true
+
+btba_chat-test:
+    path: /test
+    controller: '@BtbaChatBundle\Controller\ChatController::test'

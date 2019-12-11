@@ -1,8 +1,8 @@
 <?php
 
-namespace bornToBeAlive\ChatBundle\Repository;
+namespace btba\ChatBundle\Repository;
 
-use BornToBeAlive\ChatBundle\Entity\Author;
+use btba\ChatBundle\Entity\Author;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 

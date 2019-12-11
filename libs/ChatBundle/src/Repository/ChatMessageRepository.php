@@ -1,8 +1,8 @@
 <?php
 
-namespace bornToBeAlive\ChatBundle\Repository;
+namespace btba\ChatBundle\Repository;
 
-use bornToBeAlive\ChatBundle\Entity\ChatMessage;
+use btba\ChatBundle\Entity\ChatMessage;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 

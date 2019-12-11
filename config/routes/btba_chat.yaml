@@ -1,0 +1,3 @@
+btba_chat_bundle:
+    resource: '@BtbaChatBundle/Resources/config/routes.yaml'
+    prefix: /chat_bundle/

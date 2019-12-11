@@ -1,11 +1,11 @@
 <?php
 
-namespace bornToBeAlive\ChatBundle\Controller;
+namespace btba\ChatBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use bornToBeAlive\ChatBundle\Entity\ChatMessage;
-use bornToBeAlive\ChatBundle\Form\ChatMessageType;
+use btba\ChatBundle\Entity\ChatMessage;
+use btba\ChatBundle\Form\ChatMessageType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
@@ -64,5 +64,10 @@ class ChatController extends AbstractController
         return $this->render('chat/show.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    public function test(): Response
+    {
+        return $this->render('@btbaChatBundle/test.html.twig');
     }
 }

@@ -1,8 +1,8 @@
 <?php
 
-namespace bornToBeAlive\ChatBundle\Form;
+namespace btba\ChatBundle\Form;
 
-use bornToBeAlive\ChatBundle\Entity\ChatMessage;
+use btba\ChatBundle\Entity\ChatMessage;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;

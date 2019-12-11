@@ -53,7 +53,7 @@
     "autoload": {
         "psr-4": {
             "App\\": "src/",
-            "bornToBeAlive\\ChatBundle\\": "libs/ChatBundle"
+            "btba\\ChatBundle\\": "libs/ChatBundle/src"
         }
     },
     "autoload-dev": {

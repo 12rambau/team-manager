@@ -1,37 +1,32 @@
 <?php
 
-namespace bornToBeAlive\ChatBundle\Entity;
+namespace btba\ChatBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
-use bornToBeAlive\ChatBundle\Entity\Author;
+use btba\ChatBundle\Model\BaseAuthor;
 
-/**
- * @ORM\Entity(repositoryClass="bornToBeAlive\ChatBundle\Repository\ChatMessageRepository")
- */
-class ChatMessage
+
+class BaseChatMessage
 {
     /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @var mixed
      */
-    private $id;
+    protected $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @var string
      */
-    private $content;
+    protected $content;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @var \DatetimeInterface
      */
-    private $date;
+    protected $date;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="messages", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
+     * @var mixed
      */
-    private $author;
+    protected $author;
 
     public function __construct()
     {
@@ -73,13 +68,16 @@ class ChatMessage
         return $this;
     }
 
-    public function getAuthor(): ?User
+    public function getAuthor()
     {
         return $this->author;
     }
 
-    public function setAuthor(?User $author): self
+    public function setAuthor($author): self
     {
+
+        // assert something 
+
         $this->author = $author;
 
         return $this;
