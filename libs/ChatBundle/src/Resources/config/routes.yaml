@@ -6,4 +6,4 @@ btba_chat-add:
 
 btba_chat-test:
     path: /test
-    controller: '@BtbaChatBundle\Controller\ChatController::test'
+    controller: 'btba\ChatBundle\Controller\ChatController::test'

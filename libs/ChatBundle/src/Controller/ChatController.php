@@ -4,7 +4,6 @@ namespace btba\ChatBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use btba\ChatBundle\Entity\ChatMessage;
 use btba\ChatBundle\Form\ChatMessageType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -13,17 +12,20 @@ use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 
 class ChatController extends AbstractController
 {
-
     public function add(Request $request, UploaderHelper $helper, CacheManager $cm): JsonResponse
     {
 
-        $message = new ChatMessage();
+        $message = new $this->message_class();
+        //TODO check if the class inherited from the message Model
 
         $form = $this->createForm(ChatMessageType::class, $message);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            //TODO check if the user inherited from the Author class 
+
             $message->setAuthor($this->getUser());
 
             $em = $this->getDoctrine()->getManager();
@@ -45,11 +47,11 @@ class ChatController extends AbstractController
     {
 
         $em = $this->getDoctrine()->getManager();
-        $totalMessage = $em->getRepository(ChatMessage::class)->countAll();
-        $messages = $em->getRepository(ChatMessage::class)->findBy([], null, $nbMessage, $totalMessage - $nbMessage);
+        $totalMessage = $em->getRepository($this->message_class)->countAll();
+        $messages = $em->getRepository($this->message_class)->findBy([], null, $nbMessage, $totalMessage - $nbMessage);
 
 
-        return $this->render('chat/list.html.twig', [
+        return $this->render('@BtbaChat/list.html.twig', [
             'messages' => $messages,
             'nbMessage' => $nbMessage
         ]);
@@ -57,17 +59,18 @@ class ChatController extends AbstractController
 
     public function show(): Response
     {
-        $message = new ChatMessage();
+        $message = new $this->message_class();
+        //TODO check if the message class enherited fromm message
 
         $form = $this->createForm(ChatMessageType::class, $message);
 
-        return $this->render('chat/show.html.twig', [
+        return $this->render('@BtbaChat/show.html.twig', [
             'form' => $form->createView(),
         ]);
     }
 
     public function test(): Response
     {
-        return $this->render('@btbaChatBundle/test.html.twig');
+        return $this->render('@BtbaChat/test.html.twig');
     }
 }

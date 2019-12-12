@@ -1,8 +1,15 @@
-parameters:
-  chat_update_interval: 10000
-  supported_locales: en_US
+
 
 services:
+
     _defaults:
-        autowire: true      
-        autoconfigure: true
+        autowire: true 
+        bind:
+            $message_class: '%btba_chat.message_class%'
+
+    chat.type:
+        class: btba\ChatBundle\Form\ChatMessageType
+        tags:
+            - {name: form.type }
+        arguments:
+            $trans: "@translator"

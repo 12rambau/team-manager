@@ -2,7 +2,6 @@
 
 namespace btba\ChatBundle\Form;
 
-use btba\ChatBundle\Entity\ChatMessage;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -11,10 +10,12 @@ use Symfony\Component\Translation\TranslatorInterface;
 class ChatMessageType extends AbstractType
 {
     private $trans;
+    private $message_class;
 
-    public function __construct(TranslatorInterface $trans)
+    public function __construct(String $message_class, TranslatorInterface $trans)
     {
         $this->trans = $trans;
+        $this->message_class = $message_class;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -29,7 +30,7 @@ class ChatMessageType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => ChatMessage::class,
+            'data_class' => $this->message_class,
         ]);
     }
 }
