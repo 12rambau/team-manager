@@ -3,8 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\User;
-use btba\ChatBundle\Model\BaseChatMessage;
+use Btba\ChatBundle\Model\BaseChatMessage;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ChatMessageRepository")
@@ -34,13 +33,4 @@ class ChatMessage extends BaseChatMessage
      */
     protected $author;
 
-    public function __construct()
-    {
-        $this->date = new \DateTime();
-    }
-
-    public function __toString()
-    {
-        return date_format($this->getDate(), "Y-m-d H:i:s");
-    }
 }

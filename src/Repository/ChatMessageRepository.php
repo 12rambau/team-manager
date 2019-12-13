@@ -3,7 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\ChatMessage;
-use btba\ChatBundle\Query\MessageQuery;
+use Btba\ChatBundle\Query\MessageQuery;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 

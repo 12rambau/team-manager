@@ -2,6 +2,9 @@
     "behat/transliterator": {
         "version": "v1.2.0"
     },
+    "btba/chat-bundle": {
+        "version": "dev-master"
+    },
     "cocur/slugify": {
         "version": "v3.2"
     },

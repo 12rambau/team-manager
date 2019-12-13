@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use App\Entity\BlogPost;
 use App\Entity\Comment;
 use App\Entity\Image;
-use btba\ChatBundle\Model\BaseAuthor;
+use Btba\ChatBundle\Model\BaseAuthor;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**

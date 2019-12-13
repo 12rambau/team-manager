@@ -5,7 +5,7 @@ import '../css/layout.css';
 import $ from 'jquery';
 import * as miniCalendar from './calendar/minicalendar';
 import * as navbar from './layout/navbar';
-import * as chat from './layout/chat';
+import * as chat from '../../vendor/btba/chat-bundle/assets/js/chat';
 
 //display the mini calendar
 $(function () {
@@ -18,12 +18,14 @@ $(function ($) {
 });
 
 //functions for the chat window management 
-$("#chevron").click(function(e) {
-    chat.changeChevron(e);
-});
-
-$("#chat-submit").click(function() {
-    chat.submitChat(e);
+$(function(){
+    $("#chevron").click(function(e) {
+        chat.changeChevron(e.target);
+    });
+    
+    $("#chat-submit").click(function(e) {
+        chat.submitChat(e);
+    });
 });
     
 
