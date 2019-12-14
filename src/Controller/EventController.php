@@ -21,9 +21,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use App\Form\EventFieldsType;
-use PHPUnit\Util\Json;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
-use Symfony\Component\Security\Core\Security;
 
 class EventController extends AbstractController
 {
@@ -235,7 +233,6 @@ class EventController extends AbstractController
 
     public function edit(Event $event, Request $request): Response
     {
-
         if ($this->getUser() != $event->getAuthor())
             throw new AccessDeniedException('Not your Event');
 
@@ -283,6 +280,7 @@ class EventController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $events = $em->getRepository(Event::class)->findbyDateInterval($start, $end);
 
+        //TODO change the url to a proper clickable url without using the onclick event
         $data = $this->get('serializer')->serialize($events, 'json', ['groups' => ['calendar']]);
 
         return new Response($data);
