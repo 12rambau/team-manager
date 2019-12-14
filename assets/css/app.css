@@ -129,3 +129,8 @@ input:checked+.uncheck {
 .social-icons a:hover {
   background-color: var(--primary);
 }
+
+label.required:after {
+  color: var(--danger);
+  content: " *";
+}
