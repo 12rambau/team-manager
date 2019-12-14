@@ -41,12 +41,11 @@ body {
     display: none;
     border: 1px solid;
     border-color: var(--secondary);
-    background-color: white;
+    background-color: var(--light);
     border-top: none;
     border-radius: 2px;
     padding-bottom: 1em;
     padding-top: 1em;
-    z-index: -1;
 }
 
 .shadow {
