@@ -63,6 +63,8 @@ class BlogController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($action == "add")
+                $post->setAuthor($this->getUser());
             $post->setEditDate(new \DateTime());
             $post->setActive(false);
 

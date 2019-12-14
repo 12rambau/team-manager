@@ -31,7 +31,8 @@ class BlogPostType extends AbstractType
             ])
             ->add('gallery', GalleryType::class, [
                 'label' => 'Image Gallery',
-                'help' => 'add the images of the Blog post, multiples files upload is available'
+                'help' => 'add the images of the Blog post, multiples files upload is available',
+                'required' => false
             ])
             ->add('content', CKEditorType::class)
             ->add('save', SubmitType::class, [
