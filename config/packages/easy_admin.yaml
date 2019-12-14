@@ -112,11 +112,13 @@ easy_admin:
                     - { property: name, label: ea.team.name }
                     - { property: image.filename, type: image, base_path: '%path_image%', label: ea.team.image }
                     - { property: descripsion, type: text, label: ea.team.descripsion}
+                    - { property: page, label: ea.team.page }
             form:
                 fields:
                     - { property: name, label: ea.team.name }
                     - { property: image, type: App\Form\ImageType, label: ea.team.image }
-                    - { property: descripsion, type: text, label: ea.team.descripsion }
+                    - { property: descripsion, type: textarea, label: ea.team.descripsion }
+                    - { property: page, label: ea.team.page, type: easyadmin_autocomplete, help: ea.team.page-help }
         
         #############################################
         ###               News                     ##

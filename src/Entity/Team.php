@@ -68,6 +68,11 @@ class Team
     */
     private $fieldTemplates;
 
+    /**
+    * @ORM\OneToOne(targetEntity="App\Entity\BlogPost", cascade={"persist"}, orphanRemoval=true)
+    */
+    private $page;
+
 
     public function __construct()
     {
@@ -356,6 +361,18 @@ class Team
                 $fieldTemplate->setTeam(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPage(): ?BlogPost
+    {
+        return $this->page;
+    }
+
+    public function setPage(?BlogPost $page): self
+    {
+        $this->page = $page;
 
         return $this;
     }

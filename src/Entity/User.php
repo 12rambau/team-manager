@@ -116,7 +116,7 @@ class User extends BaseAuthor implements UserInterface
 
     public function __toString()
     {
-        $str = $this->getFirstName() . " " . $this->getLastName();
+        $str = $this->getName();
 
         return $str;
     }

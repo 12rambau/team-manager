@@ -194,6 +194,7 @@ team:
             list: The player of %name% team
             email: 'email:'
             filter: Filter members
+            page-link: Learn more
 user:
     view:
         title: '%user% profile'
@@ -249,6 +250,8 @@ ea:
         name: Name
         image: Image
         descripsion: Descripsion
+        page: Page
+        page-help: "First create a blogPot concerning this new team and then link it here with it's name. Suggested: [team_name]."
     news: 
         label: Blog post
         plural: Blog posts

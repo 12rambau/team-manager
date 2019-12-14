@@ -13,42 +13,65 @@
 	<div class="row" style="height: 300px;">
 		<img src="{{ asset('image/default/no-pic-team.jpg') }}" class="img-rounded col-lg-12" alt="profile-pic">
 	</div>
-	<p>
-		{{ 'team.view.index.list'|trans({'%name%': team.name}) }}
-	</p>
 
-	{% for player in players %}
-		<div class="card">
-			<div class="card-body row">
-				<div class="col-2">
-					<a href="{{ path('profile-view', {'username': player.user.username}) }}">
-						<img src="{{ asset(vich_uploader_asset(player.user.profilePic, "imageFile"))| imagine_filter('profile_pic')}}" class="img-rounded col-lg-12" alt="profile-pic">
-					</a>
-				</div>
-				<div class="col">
-					<div class="row">
-						<h3>{{ player.user.firstName }}
-							{{player.user.LastName}}</h3>
-						<small class="text-muted">
-							//
-							{{ player.user.username }}</small>
-					</div>
-					<div class="row">
-						{{ 'team.view.index.email'|trans }}
-						{{player.user.email}}
-					</div>
-				</div>
-			</div>
+	<div class="mt-2 mb-2">
+		<div class="col-auto">
+			{{ team.descripsion }}
 		</div>
-	{% endfor %}
+		{% if team.page %}
+			<div class="col-3">
+				<a href="{{ path('blog-view', {'slug': team.page.slug}) }}" class="btn btn-primary">
+					{{ 'team.view.index.page-link'|trans }}
+				</a>
+			</div>
+		{% endif %}
+	</div>
+
+	<h3>
+		{{ 'team.view.index.list'|trans({'%name%': team.name}) }}
+	</h3>
+
+	<div class="card">
+		<div class="card-body">
+			{% for player in players %}
+				<div class="row">
+					<div class="col-2">
+						<a href="{{ path('profile-view', {'username': player.user.username}) }}">
+							<img src="{{ asset(vich_uploader_asset(player.user.profilePic, "imageFile"))| imagine_filter('profile_pic')}}" class="img-rounded col-lg-12" alt="profile-pic">
+						</a>
+					</div>
+					<div class="col">
+						<div class="mb-3">
+							<h3 class="d-inline">
+								{{ player.user }}
+							</h3>
+							<small class="text-muted ml-1 align-text-bottom">
+								//{{ player.user.username }}
+							</small>
+						</div>
+						<div class="form-group row col">
+							<div class="col-form-label col-3">
+							{{ 'team.view.index.email'|trans }}
+							</div>
+							<div class="form-control col-9">
+							{{player.user.email}}
+							</div>
+						</div>
+					</div>
+				</div>
+
+				{{ (not loop.last)?'<hr>' }}
+			{% endfor %}
+		</div>
+	</div>
 {% endblock %}
 
 {% block aside %}
 	<div class="card">
 		<div class="card-header">
 			<p class="card-title">
-			<span class="fas fa-filter mr-1"/>
-			{{ 'team.view.index.filter'|trans }}
+				<span class="fas fa-filter mr-1"/>
+				{{ 'team.view.index.filter'|trans }}
 			</p>
 		</div>
 		<div class="card-body">
