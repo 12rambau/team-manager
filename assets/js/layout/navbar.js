@@ -1,7 +1,7 @@
 import $ from 'jquery';
 
 export function update() {
-    var headerHeight = $('#logo').height() + 2; //2px padding top of the body element
+    var headerHeight = $('#logo').outerHeight(); //2px padding top of the body element
     // Collapse Navbar
     var navbarCollapse = function () {
         if ($(window).scrollTop() > headerHeight) {
