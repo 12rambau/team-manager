@@ -9,7 +9,7 @@ import * as chat from '../../vendor/btba/chat-bundle/assets/js/chat';
 
 //display the mini calendar
 $(function () {
-    miniCalendar.display(); 
+    miniCalendar.display();
 });
 
 //update the display of the navbar
@@ -18,14 +18,28 @@ $(function ($) {
 });
 
 //functions for the chat window management 
-$(function(){
-    $("#chevron").click(function(e) {
+$(function () {
+    $("#chevron").click(function (e) {
         chat.changeChevron(e.target);
     });
-    
-    $("#chat-submit").click(function(e) {
+
+    $("#chat-submit").click(function (e) {
         chat.submitChat(e);
     });
+
+    //si hauteur du bas de la page atteint celle du footer alors hauteur == hauteur du footer
+    var heightFooter = $('footer').outerHeight();
+
+
+    $(window).scroll(function () {
+        var scrollBottom = $(document).height() - $(window).height() - $(window).scrollTop();
+        if (scrollBottom < heightFooter) {
+            $("#chat").css('bottom', (heightFooter - scrollBottom) + "px");
+        } else {
+            $("#chat").css('bottom', 0);
+        }
+    });
+
 });
-    
+
 
