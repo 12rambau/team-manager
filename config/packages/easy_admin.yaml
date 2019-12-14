@@ -688,7 +688,7 @@ easy_admin:
                 fields:
                     - { type: group, columns: 12}
                     - { property: active, label: ea.general.active }
-                    - { property: players, label: ea.player.plural type: collection, type_options: { allow_delete: true, allow_add: false } }
+                    - { property: players, label: ea.player.plural, type: collection, type_options: { allow_delete: true, allow_add: false } }
 
         #############################################
         ###               Social                   ##
