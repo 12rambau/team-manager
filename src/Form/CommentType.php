@@ -16,7 +16,7 @@ class CommentType extends AbstractType
         $builder
             ->add('content', null, [
                 'help' => 'Minimum 2 characters',
-                'attr' => ['placeholder' => "yout comment ...",]
+                'attr' => ['placeholder' => "your comment ...",]
             ])
             ->add('send', SubmitType::class, [
                 'attr' => [

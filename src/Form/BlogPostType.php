@@ -33,7 +33,7 @@ class BlogPostType extends AbstractType
                 'label' => 'Image Gallery',
                 'help' => 'add the images of the Blog post, multiples files upload is available'
             ])
-            ->add('content', CKEditorType::Class)
+            ->add('content', CKEditorType::class)
             ->add('save', SubmitType::class, [
                 'attr' => ['class' => 'btn-primary btn-block']
             ])

@@ -43,7 +43,7 @@ blog:
         gallery:
             access: access the gallery
             edit: edit the gallery
-            no-images: no picture in this post (yet!)
+            no-image: no picture in this post (yet!)
 event:
     participation:
         in: 'in'
