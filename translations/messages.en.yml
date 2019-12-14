@@ -230,7 +230,7 @@ ea:
         information: Genral information
         details: Details
         content: Content
-        bootstrap-color: Need to be an official bootstrap color without cap. If white is displayed then there is a typo.
+        bootstrap-color: Need to be an official bootstrap color without cap. If white is displayed then there is a typo. Available colors can be find at <a href='https://getbootstrap.com/docs/4.0/utilities/colors/#background-color'>bootstrap</a>
         active: Active
         update-at: Last updated
     menu:
