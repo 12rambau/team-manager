@@ -5,7 +5,11 @@ function moveBadge(index, username, value) {
     // check if the badge exist, if not create a new one
     var badge;
     if (!$("#badge-" + username + "-" + index).length) {
-        badge = $('<span>', { 'class': 'badge badge-secondary', 'id': 'badge-' + username + "-" + index, 'text': username });
+        badge = $('<span>', {
+            'class': 'badge badge-pill badge-light border text-muted',
+            'id': 'badge-' + username + "-" + index,
+            'text': username
+        });
     } else {
         badge = $("#badge-" + username + "-" + index);
     }
