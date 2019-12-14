@@ -64,7 +64,10 @@ class DefaultController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($emailService->sendEmail($form->getData())) {
-                $request->getSession()->getFlashBag()->add('success', 'Email send.');
+                $request->getSession()->getFlashBag()->add('success', 'Email sent.');
+
+                //empty the form 
+                $form = $this->createForm(ContactType::class, null);
             } else {
                 $request->getSession()->getFlashBag()->add('danger', 'An error occured.');
             }
