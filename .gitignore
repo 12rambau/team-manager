@@ -29,6 +29,8 @@ yarn-error.log
 ###> phpunit/phpunit ###
 /phpunit.xml
 .phpunit.result.cache
+/tests/cache
+clover.xml
 ###< phpunit/phpunit ###
 
 ###> symfony/phpunit-bridge ###
