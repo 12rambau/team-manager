@@ -113,6 +113,7 @@ easy_admin:
                     - { property: image.filename, type: image, base_path: '%path_image%', label: ea.team.image }
                     - { property: descripsion, type: text, label: ea.team.descripsion}
                     - { property: page, label: ea.team.page }
+                    - { property: players, label: ea.player.plural, template: admin/field_custom_association.html.twig }
             form:
                 fields:
                     - { property: name, label: ea.team.name }
@@ -140,7 +141,6 @@ easy_admin:
                 fields:
                     - { type: group, label: ea.comment.plural, icon: comments, columns: 12 }
                     - { property: gallery, label: ea.gallery.label }
-                    - {property: comments, type: collection, type_options: { allow_add: false, label: false }}
             show: 
                 fields:
                     - { property: title, label: ea.news.title }
@@ -151,7 +151,7 @@ easy_admin:
                     - { property: publishDate, label: ea.news.publish-date }
                     - { property: editDate, label: ea.general.update-at }
                     - {property: author, label: ea.news.author }
-                    - { property: comments, label: ea.comment.plural }
+                    - { property: comments, label: ea.comment.plural, template: admin/field_custom_association.html.twig }
             list:
                 fields: 
                     - id
@@ -223,15 +223,11 @@ easy_admin:
                     - { property: color, type_options: { block_prefix: bootrap_color}, help: ea.general.bootstrap-color, label: ea.event-t.color }
                     - { type: group, label: ea.general.details, columns: 4, help: ea.general.admin-only}
                     - { property: active, label: ea.general.active }
-            edit:
-                fields:
-                     - { type: group, label: ea.event.plural, icon: calendar, columns: 12 }
-                     - { property: events, type: collection, type_options: { allow_add: false, label: false}}
             show:
                 fields:
                     - { property: name, template: admin/field_tag.html.twig, label: ea.event-t.name }
                     - { property: active, label: ea.general.active }
-                    - { property: events, label: ea.event.plural }
+                    - { property: events, label: ea.event.plural, template: admin/field_custom_association.html.twig }
 
         #############################################
         ###               Event                    ##
@@ -293,7 +289,7 @@ easy_admin:
                     - { property: maxPlayers, label: ea.event.max-player }
                     - { property: tag, label: ea.event-t.label }
                     - { property: location, label: ea.location.label }
-                    - { property: participations, label: ea.entityparticipation.plural }
+                    - { property: participations, label: ea.entityparticipation.plural, template: admin/field_custom_association.html.twig }
                     - { property: fields, label: ea.event.fields }
                     - { property: result, label: ea.event.result }
                     - { property: publishDate, label: ea.event.publish-date }
@@ -310,8 +306,8 @@ easy_admin:
                     - { property: name, label: ea.field-t.name }
                     - { property: updateAt, label: ea.general.update-at }
                     - { property: image.filename, label: ea.field-t.image, type: image, base_path: '%path_image%' }
-                    - { property: positions, label: ea.position.plural }
-                    - { property: fields, label: ea.field.plural }
+                    - { property: positions, label: ea.position.plural, template: admin/field_custom_association.html.twig  }
+                    - { property: fields, label: ea.field.plural, template: admin/field_custom_association.html.twig  }
                     - { property: enable, label: ea.general.active }
             list:
                 fields:
@@ -343,6 +339,7 @@ easy_admin:
             label: ea.field.label
             class: App\Entity\Field
             disabled_actions: [new, edit, list, show]
+            #TODO work on the show
 
         #############################################
         ###               Gallery                  ##
@@ -359,7 +356,7 @@ easy_admin:
             show:
                 fields:
                     - { property: name, label: ea.gallery.name }
-                    - { property: images, label: ea.image.plural }
+                    - { property: images, label: ea.image., template: admin/field_custom_association.html.twig  }
             form: 
                 fields:
                     - { property: name, label: ea.gallery.name }
@@ -489,7 +486,7 @@ easy_admin:
                     - { property: horizontal, label: ea.position.x-value }
                     - { property: vertical, label: ea.position.y-value }
                     - { property: fieldTemplate, label: ea.field-t.label }
-                    - { property: participations, label: ea.participation.plural }
+                    - { property: participations, label: ea.participation.plural, template: admin/field_custom_association.html.twig  }
 
 
         #############################################
@@ -557,7 +554,7 @@ easy_admin:
                     - { property: name, label: ea.stat-t.name }
                     - { property: unity, label: ea.stat-t.unit }
                     - { property: active, label: ea.general.active }
-                    - { property: stats, label: ea.stat.plural }
+                    - { property: stats, label: ea.stat.plural, template: admin/field_custom_association.html.twig  }
             form:
                 fields:
                     - { type: group, label: ea.general.content, icon: pencil-alt, columns: 8 }
@@ -565,10 +562,6 @@ easy_admin:
                     - { property: unity, label: ea.stat-t.unit }
                     - { type: group, label: ea.general.details, columns: 4, help: ea.general.admin-only}
                     - { property: active, label: ea.general.active }
-            edit:
-                fields:
-                     - { type: group, label: ea.stat.plural, icon: poll, columns: 12 }
-                     - { property: stats, type: collection, type_options: { allow_add: false, label: false } }
 
         #############################################
         ###               User                     ##
@@ -598,10 +591,10 @@ easy_admin:
                     - { property: roles, label: ea.user.roles }
                     - { property: email, label: ea.user.email }
                     - { property: phoneNumber, label: ea.user.phone-number }
-                    - { property: posts, label: ea.news.plural }
-                    - { property: messages, label: ea.chat.plural }
-                    - { property: comments, label: ea.comment.plural }
-                    - { property: players, label: ea.player.plural }
+                    - { property: posts, label: ea.news., template: admin/field_custom_association.html.twig  }
+                    - { property: messages, label: ea.chat.plural, template: admin/field_custom_association.html.twig  }
+                    - { property: comments, label: ea.comment.plural, template: admin/field_custom_association.html.twig  }
+                    - { property: players, label: ea.player.plural, template: admin/field_custom_association.html.twig  }
             form:
                 fields:
                     - { type: tab, label: ea.general.information }
@@ -617,15 +610,11 @@ easy_admin:
                     - { type: group, icon: phone, label: ea.user.contact }
                     - { property: email, label: ea.user.email }
                     - { property: phoneNumber, label: ea.user.phone-number }
-                    - { type: tab, label: ea.user.activities }
-                    - { type: group, label: ea.chat.plural, icon: comments, columns: 6}
-                    - { property: posts, label: ea.news.plural }
-                    - { property: messages, label: ea.chat.plural }
-                    - { property: comments, label: ea.comment.plural }
             edit:
                 fields:
-                    - { type: group, label: ea.event.plural, icon: calendar, columns: 6 }
-                    - { property: players, label: ea.player.plural }
+                    #ADD team instead of users 
+                    - { type: group, label: ea.players.plural, icon: user, columns: 6 }
+                    #- { property: players, label: ea.player.plural }
 
 
         
@@ -654,8 +643,8 @@ easy_admin:
                 fields:
                     - { property: team, label: ea.team.label }
                     - { property: user, label: ea.user.label }
-                    - { property: tags, label: ea.player-t.plural }
-                    - { property: participations, label: ea.participation.plural }
+                    - { property: tags, label: ea.player-t., template: admin/field_custom_association.html.twig  }
+                    - { property: participations, label: ea.participation.plural, template: admin/field_custom_association.html.twig  }
 
         #############################################
         ###               Player Tag               ##
@@ -675,7 +664,7 @@ easy_admin:
                 fields:
                     - { property: name, label: ea.player-t.name, template: admin/field_tag.html.twig }
                     - { property: team, label: ea.team.label }
-                    - { property: players, label: ea.player.plural }
+                    - { property: players, label: ea.player.plural, template: admin/field_custom_association.html.twig  }
                     - { property: active, label: ea.general.active }
             form:
                 fields:
@@ -684,11 +673,6 @@ easy_admin:
                     - { property: color, label: ea.player-t.color, help: ea.general.bootstrap-color, type_options: { block_prefix: bootstrap_color } }
                     - { type: group, label: ea.team.label, icon: users, columns: 4}
                     - { property: team, type_options: {label: false} }
-            edit:
-                fields:
-                    - { type: group, columns: 12}
-                    - { property: active, label: ea.general.active }
-                    - { property: players, label: ea.player.plural, type: collection, type_options: { allow_delete: true, allow_add: false } }
 
         #############################################
         ###               Social                   ##
@@ -736,7 +720,7 @@ easy_admin:
                 fields:
                     - { property: name, label: ea.feature-t.name }
                     - { property: team, label: ea.team.label }
-                    - { property: features, label: ea.feature.plural }
+                    - { property: features, label: ea.feature.plural, template: admin/field_custom_association.html.twig  }
                     - { property: active, label: ea.general.active }
             form:
                 fields:
@@ -747,7 +731,6 @@ easy_admin:
                 fields:
                     - {type: group }
                     - { property: active, label: ea.general.active }
-                    - {property: features, label: ea.feature.plural, type: collection, type_options: { allow_delete: true, allow_add: false } }
 
         #############################################
         ###               Feature                  ##
