@@ -631,14 +631,14 @@ easy_admin:
                     - { property: tags, label: ea.player-t.plural }
                     - { property: participations, label: ea.participation.plural }
                     
-            form:
+            new:
                 fields:
                     - { property: team, label: ea.team.label }
                     - { property: user, label: ea.user.label }
                     - { property: tags, label: ea.player-t.plural }
             edit:
                 fields:
-                    - { property: participations, label: ea.participation.plural,type: collection, type_options: { allow_add: false, allow_delete: true} }
+                    - { property: tags, label: ea.player-t.plural }
             show:
                 fields:
                     - { property: team, label: ea.team.label }
