@@ -137,10 +137,6 @@ easy_admin:
                     - { type: group, label: ea.general.details, columns: 4 , help: ea.general.admin-only }
                     - { property: active, label: ea.general.active }
                     - { property: author, label: ea.news.author }
-            edit:
-                fields:
-                    - { type: group, label: ea.comment.plural, icon: comments, columns: 12 }
-                    - { property: gallery, label: ea.gallery.label }
             show: 
                 fields:
                     - { property: title, label: ea.news.title }
@@ -359,7 +355,8 @@ easy_admin:
                     - { property: images, label: ea.image., template: admin/field_custom_association.html.twig  }
             form: 
                 fields:
-                    - { property: name, label: ea.gallery.name }
+                    - { property: name, label: ea.gallery.name, help: ea.gallery.name-help }
+                    - {property: blogPost, label: ea.news.label, type_options: { disabled: true } }
                     #TODO customize photo add rendering
                     - { property: images, label: ea.image.plural, type: collection, type_options: { allow_add: true} }
 

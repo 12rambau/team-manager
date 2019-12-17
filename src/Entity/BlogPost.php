@@ -10,9 +10,11 @@ use Cocur\Slugify\Slugify;
 use App\Entity\Comment;
 use App\Entity\Gallery;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BlogPostRepository")
+ * @UniqueEntity("gallery", message="Gallery for blog is unique")
  */
 class BlogPost
 {
@@ -73,7 +75,7 @@ class BlogPost
     private $comments;
 
     /**
-    * @ORM\OneToOne(targetEntity="App\Entity\Gallery", cascade={"persist"})
+    * @ORM\OneToOne(targetEntity="App\Entity\Gallery", cascade={"persist"},  mappedBy="blogPost")
     */
     private $gallery;
 
@@ -233,6 +235,8 @@ class BlogPost
     public function setGallery(?Gallery $gallery): self
     {
         $this->gallery = $gallery;
+        if ($gallery->getBlogPost() != $this)
+            $gallery->setBlogPost($this);
 
         return $this;
     }

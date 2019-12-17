@@ -395,6 +395,7 @@ ea:
     gallery:
         label: Gallery  
         name: Name
+        name-help: If the gallery is linked to a news, it is forbidden to change the name
     image:
         Label: Image
         plural: Images

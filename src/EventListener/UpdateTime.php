@@ -4,7 +4,6 @@ namespace App\EventListener;
 
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use App\Entity\Participation;
-use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 
 class UpdateTime
 {

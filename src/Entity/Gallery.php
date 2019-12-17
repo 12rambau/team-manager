@@ -30,6 +30,11 @@ class Gallery
     */
     private $images;
 
+    /**
+    * @ORM\OneToOne(targetEntity="App\Entity\BlogPost", inversedBy="gallery")
+    */
+    private $blogPost;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
@@ -84,6 +89,18 @@ class Gallery
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getBlogPost():?BlogPost
+    {
+        return $this->blogPost;
+    }
+
+    public function setBlogPost(?BlogPost $blogPost)
+    {
+        $this->blogPost = $blogPost;
 
         return $this;
     }

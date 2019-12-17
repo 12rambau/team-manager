@@ -43,7 +43,6 @@ services:
     App\EventListener\UpdateTime:
         tags:
             - { name: doctrine.event_listener, event: preUpdate }
-            - { name: doctrine.event_listener, event: postUpdate }
 
     App\EventListener\CreateParticipations:
         tags:
@@ -76,7 +75,6 @@ services:
     App\EventListener\CommentListener:
         tags:
             - { name: doctrine.event_listener, event: prePersist }
-            - { name: doctrine.event_listener, event: preUpdate }
 
     App\EventListener\ChatListener:
         tags:
@@ -123,3 +121,7 @@ services:
     App\Twig\CountryExtention:
         tags:
             - { name: twig.extention }
+
+    App\EventListener\GalleryListener:
+        tags:
+            - { name: doctrine.event_listener, event: preUpdate }
