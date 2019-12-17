@@ -233,6 +233,7 @@ ea:
         bootstrap-color: Need to be an official bootstrap color without cap. If white is displayed then there is a typo. Available colors can be find at <a href='https://getbootstrap.com/docs/4.0/utilities/colors/#background-color'>bootstrap</a>
         active: Active
         update-at: Last updated
+        max-200-char: <span>max characters:</span><span class="ml-1" id="max-char">0</span><span>/</span><span id="max">200</span>
     menu:
         homepage: Public Homepage
         dashboard: Dashboard

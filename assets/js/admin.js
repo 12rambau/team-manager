@@ -7,6 +7,7 @@ import 'bootstrap';
 import * as leaflet from './event/leaferMap';
 import * as autoload from './event/algolia';
 import * as position from './admin/position';
+import * as maxChar from './admin/max-char';
 
 $(function () {
     if ($("#map").length) leaflet.display();
@@ -51,6 +52,18 @@ $(".color-input").change(function () {
 
 $(".bootstrap-color-input").change(function () {
     $("#"+$(this).attr('id')+"_preview").attr('class', "form-control col-1 ml-2 bg-"+$(this).val());
+});
+
+//dealing with the max-character type area
+$( function(){
+    //count characters on start
+    $(".max-character").each(function(){
+        maxChar.updateMax(this);
+    });
+});
+
+$('.max-character').keyup(function(){
+    maxChar.updateMax(this);
 });
 
 

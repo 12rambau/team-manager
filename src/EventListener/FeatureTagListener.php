@@ -15,7 +15,7 @@ class FeatureTagListener
 
         if($entity instanceof FeatureTag)
         {
-            if(count($entity->getPlayers()) != 0)
+            if(count($entity->getFeatures()) != 0)
             {
                 throw new AccessDeniedException("you cannot remove this Feature Tag, it has already features registered. Deactivate it and create a new one or change all the Tags of its features.");
             }

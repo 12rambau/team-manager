@@ -111,14 +111,14 @@ easy_admin:
                 fields:
                     - { property: name, label: ea.team.name }
                     - { property: image.filename, type: image, base_path: '%path_image%', label: ea.team.image }
-                    - { property: descripsion, type: text, label: ea.team.descripsion}
+                    - { property: descripsion, label: ea.team.descripsion }
                     - { property: page, label: ea.team.page }
                     - { property: players, label: ea.player.plural, template: admin/field_custom_association.html.twig }
             form:
                 fields:
                     - { property: name, label: ea.team.name }
                     - { property: image, type: App\Form\ImageType, label: ea.team.image }
-                    - { property: descripsion, type: textarea, label: ea.team.descripsion }
+                    - { property: descripsion, label: ea.team.descripsion, help: ea.general.max-200-char, type_options: { attr: { class: 'max-character'} } }
                     - { property: page, label: ea.team.page, type: easyadmin_autocomplete, help: ea.team.page-help }
         
         #############################################
@@ -131,7 +131,7 @@ easy_admin:
                 fields:
                     - { type: group, label: ea.general.information, icon: pencil-alt, columns: 8  }
                     - { property: title, label: ea.news.title }
-                    - { property: short, label: ea.news.short }
+                    - { property: short, label: ea.news.short, help: ea.general.max-200-char, type_options: {attr: { class: max-character} } }
                     - { property: gallery, label: ea.gallery.label }
                     - { property: content, type: fos_ckeditor, label: ea.news.content }
                     - { type: group, label: ea.general.details, columns: 4 , help: ea.general.admin-only }
