@@ -167,7 +167,7 @@ easy_admin:
         ChatMessage:
             label: ea.chat.label
             class: App\Entity\ChatMessage
-            disabled_actions: [new]
+            disabled_actions: [new, edit]
             show:
                 fields: 
                     - {property: content, label: ea.chat.content }
