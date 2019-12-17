@@ -64,6 +64,7 @@ class FieldTemplate
         $this->positions = new ArrayCollection();
         $this->fields = new ArrayCollection();
         $this->enable = true;
+        $this->setUpdateAt();
     }
 
     public function __toString()

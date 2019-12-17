@@ -61,7 +61,6 @@ services:
 
     App\EventListener\FieldListener:
         tags:
-            - { name: doctrine.event_listener, event: prePersist }
             - { name: doctrine.event_listener, event: preUpdate }
 
     App\EventListener\EventListener:

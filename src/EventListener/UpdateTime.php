@@ -20,17 +20,4 @@ class UpdateTime
 
         return;
     }
-
-    public function postUpdate(LifecycleEventArgs $args)
-    {
-        
-        $entity = $args->getObject();
-
-        if ($entity instanceof Participation) { 
-            //throw new AccessDeniedException("Error Processing Request");
-            
-        }
-
-        return;
-    }
 }

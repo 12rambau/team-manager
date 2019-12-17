@@ -42,6 +42,7 @@ class Field
     public function __construct()
     {
         $this->participations = new ArrayCollection();
+        $this->setUpdateAt();
     }
 
     public function __toString()

@@ -6,8 +6,6 @@ use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use App\Entity\Participation;
 use App\Entity\Event;
 use App\Entity\Player;
-use App\Entity\User;
-use Doctrine\ORM\EntityManager;
 
 class CreateParticipations
 {

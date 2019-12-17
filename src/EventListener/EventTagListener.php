@@ -36,7 +36,7 @@ class EventTagListener
         {
             if(count($entity->getEvents()) != 0)
             {
-                throw new AccessDeniedException("you cannot remove this Event, it has already Events registered. Deactivate it and create a new one or change all the Tags of its events.");
+                throw new AccessDeniedException("you cannot remove this Event tag, it has already Events registered. Deactivate it and create a new one or change all the Tags of its events.");
             }
         }
     }

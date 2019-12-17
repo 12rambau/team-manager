@@ -14,7 +14,7 @@ class PersonnalStatListener
         if($entity instanceof PersonnalStat)
         {
             ($entity->getTimer()) ? $entity->setValue(null):$entity->setTime(null);
-            #send a message to the administrator
+            #TODO send a message to the administrator
         }
     }
 
@@ -25,7 +25,7 @@ class PersonnalStatListener
         if ($entity instanceof PersonnalStat)
         {
             ($entity->getTimer()) ? $entity->setValue(null):$entity->setTime(null);
-            #send a message to the administrator
+            #TODO send a message to the administrator
         }
 
     }

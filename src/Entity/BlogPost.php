@@ -79,7 +79,7 @@ class BlogPost
 
     public function __construct()
     {
-        $this->publishDate = new \DateTime();
+        $this->setPublishDate();
         $this->active = false;
         $this->comments = new ArrayCollection();
         $this->setGallery(new Gallery);
@@ -137,9 +137,9 @@ class BlogPost
         return $this->publishDate;
     }
 
-    public function setPublishDate(\DateTimeInterface $publishDate): self
+    public function setPublishDate(): self
     {
-        $this->publishDate = $publishDate;
+        $this->publishDate = new \DateTime();
 
         return $this;
     }
@@ -149,9 +149,9 @@ class BlogPost
         return $this->editDate;
     }
 
-    public function setEditDate(?\DateTimeInterface $editDate): self
+    public function setEditDate(): self
     {
-        $this->editDate = $editDate;
+        $this->editDate = new \DateTime();
 
         return $this;
     }

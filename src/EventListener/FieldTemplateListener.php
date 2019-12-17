@@ -16,6 +16,8 @@ class FieldTemplateListener
         {
             if (count($entity->getFields()))
                 throw new AccessDeniedException("this template has already field it cannot be changed");
+
+            $entity->setUpdateAt();
         }
     }
 
@@ -32,6 +34,8 @@ class FieldTemplateListener
 
                 throw new AccessDeniedException('this template has already fields it cannot be removed');
             }
+
+            $entity->setUpdateAt();
         }
     }
 }

@@ -13,8 +13,7 @@ class NewsListener
 
         if($entity instanceof BlogPost)
         {
-            $entity->setPublishDate(new \DateTime());
-            #send a message to the administrator
+            # TODO send a message to the administrator
         }
     }
 
@@ -24,8 +23,8 @@ class NewsListener
 
         if($entity instanceof BlogPost)
         {
-            $entity->setEditDate(new \DateTime());
-            #send a message to the administrator
+            $entity->setEditDate();
+            # TODO send a message to the administrator
         }
     }
 }
