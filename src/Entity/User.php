@@ -57,8 +57,9 @@ class User extends BaseAuthor implements UserInterface
     private $email;
 
     /**
-    * @ORM\Column(type="datetime", nullable=true)
-    */
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Assert\LessThan("today")
+     */
     private $birthDate;
 
     /**
@@ -101,8 +102,8 @@ class User extends BaseAuthor implements UserInterface
     private $phoneNumber;
 
     /**
-    * @ORM\OneToMany(targetEntity="App\Entity\Player", mappedBy="user", cascade={"persist"}, orphanRemoval=true)
-    */
+     * @ORM\OneToMany(targetEntity="App\Entity\Player", mappedBy="user", cascade={"persist"}, orphanRemoval=true)
+     */
     private $players;
 
     //magic function
@@ -124,7 +125,7 @@ class User extends BaseAuthor implements UserInterface
     //virtual properties
     public function getName(): string
     {
-        return $this->getFirstName()." ".$this->getLastName();
+        return $this->getFirstName() . " " . $this->getLastName();
     }
 
     public function getId(): ?int

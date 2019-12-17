@@ -33,6 +33,7 @@ class Event
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\GreaterThan("today", message="Event must be in the future ;-)")
      * @SerializedName("start")
      * @Groups({"calendar"})
      */
@@ -40,12 +41,15 @@ class Event
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\GreaterThan(propertyPath="start", message="The end Date shoud be after start")
      * @SerializedName("end")
      * @Groups({"calendar"})
      */
     private $finish;
 
     /**
+     * @Assert\GreaterThan(propertyPath="start", message="The register Date shoud be after start")
+     * @Assert\LessThan(propertyPath="finish", message="The register Date shoud be prior to finish")
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $registerFinish;
