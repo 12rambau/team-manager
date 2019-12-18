@@ -86,10 +86,16 @@ class DefaultControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/' . $this->locale . '/contact-information');
         $form = $crawler->selectButton('submit')->form();
         //if (!$form->getName()){
-            //$this->assertEquals($form->getName(), 'contact');
-           $this->markTestIncomplete('GetName() is only available in 5.0');
-       //}
+        //$this->assertEquals($form->getName(), 'contact');
+        $this->markTestIncomplete('GetName() is only available in 5.0');
+        //}
 
+        $form_name = 'contact';
+
+        $this->assertSelectorExists('#' . $form_name . '_subject');
+        $this->assertSelectorExists('#' . $form_name . '_name');
+        $this->assertSelectorExists('#' . $form_name . '_email');
+        $this->assertSelectorExists('#' . $form_name . '_message');
     }
 
     /**
@@ -97,26 +103,27 @@ class DefaultControllerTest extends WebTestCase
      */
     public function testContactForm(string $subject, string $name, string $email, string $message, int $nbErrors)
     {
-        $name = 'contact';
+        $form_name = 'contact';
 
         $crawler = $this->client->request('GET', '/' . $this->locale . '/contact-information');
         $form = $crawler->selectButton('submit')->form();
-        
+
         $crawler = $this->client->submit($form, [
-            $name . '[subject]' => $subject,
-            $name . '[name]'    => $name,
-            $name . '[email]'   => $email,
-            $name . '[message]' => $message
+            $form_name . '[subject]' => $subject,
+            $form_name . '[name]'    => $name,
+            $form_name . '[email]'   => $email,
+            $form_name . '[message]' => $message
         ]);
 
-        $this->assertTrue($crawler->filter('[id ^='.$name.'_][id $=_errors]')->count() == $nbErrors);
+        $this->assertTrue($crawler->filter('[id ^=' . $form_name . '_][id $=_errors]')->count() == $nbErrors);
 
         //check that the form is cleaned if valid
-        if (!$nbErrors){
-            $this->assertInputValueEquals('#'.$name.'_subject', '');
-            $this->assertInputValueEquals('#'.$name.'_name', '');
-            $this->assertInputValueEquals('#'.$name.'_email', '');
-            $this->assertInputValueEquals('#'.$name.'_message', '');
+        if (!$nbErrors) {
+            $this->assertInputValueSame($form_name . '[subject]', '');
+            $this->assertInputValueSame($form_name . '[name]', '');
+            $this->assertInputValueSame($form_name . '[email]', '');
+            //$this->assertSelectorTextContains('#'.$name.'_message', 'a');
+            $this->markTestIncomplete("Don't know how to test a textArea");
         }
     }
 
@@ -137,5 +144,4 @@ class DefaultControllerTest extends WebTestCase
             ['', 'toto', '', 'Team-manager Rocks!', 2]                          // 2 missings
         ];
     }
-
 }
