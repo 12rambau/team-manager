@@ -55,7 +55,6 @@ class DefaultControllerTest extends WebTestCase
          **   test anonymous   **
          ***********************/
 
-        $this->client = static::createClient();
         $this->client->request('GET', '/');
 
         //check if the appears without errors
@@ -78,41 +77,65 @@ class DefaultControllerTest extends WebTestCase
 
     public function testcontact()
     {
-        /*******************
-         *  route          *
-         ******************/
-        $this->client = static::createClient();
         $this->client->request('GET', '/' . $this->locale . '/contact-information');
 
         //check if the page appears without errors 
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
 
-        /*******************
-         *  form           *
-         ******************/
-
-         /*
-        //submit appropriate form 
-        //$this->client->enableProfiler();
+        //assert form name
         $crawler = $this->client->request('GET', '/' . $this->locale . '/contact-information');
         $form = $crawler->selectButton('submit')->form();
-        $name = 'contact';
-        //$this->assertEquals($form->getName(), $name); GetName() is only available in 5.0
-
-        $this->client->submit($form, [
-            $name . '[subject]'    => 'Subject',
-            $name . '[name]' => 'Pierrick',
-            $name . '[email]' => 'pierrick@domaine.com',
-            $name . '[message]' => 'Team-Manager Rocks !'
-        ]);
-
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode()); //check return to contact
-        $this->assertSelectorTextContains($name.'_subject','');//check empty fields 
-        $this->assertSelectorTextContains($name.'_name','');
-        $this->assertSelectorTextContains($name.'_email','');
-        $this->assertSelectorTextContains($name.'_message','');
-
-        */
+        //if (!$form->getName()){
+            //$this->assertEquals($form->getName(), 'contact');
+           $this->markTestIncomplete('GetName() is only available in 5.0');
+       //}
 
     }
+
+    /**
+     * @dataProvider CnntactFormProvider
+     */
+    public function testContactForm(string $subject, string $name, string $email, string $message, int $nbErrors)
+    {
+        $name = 'contact';
+
+        $crawler = $this->client->request('GET', '/' . $this->locale . '/contact-information');
+        $form = $crawler->selectButton('submit')->form();
+        
+        $crawler = $this->client->submit($form, [
+            $name . '[subject]' => $subject,
+            $name . '[name]'    => $name,
+            $name . '[email]'   => $email,
+            $name . '[message]' => $message
+        ]);
+
+        $this->assertTrue($crawler->filter('[id ^='.$name.'_][id $=_errors]')->count() == $nbErrors);
+
+        //check that the form is cleaned if valid
+        if (!$nbErrors){
+            $this->assertInputValueEquals('#'.$name.'_subject', '');
+            $this->assertInputValueEquals('#'.$name.'_name', '');
+            $this->assertInputValueEquals('#'.$name.'_email', '');
+            $this->assertInputValueEquals('#'.$name.'_message', '');
+        }
+    }
+
+    /**
+     * provider of values for the contactTest
+     * 
+     * @return array [subject, name, email, message, nbErrors]
+     */
+    public function CnntactFormProvider()
+    {
+        return [
+            ['subject', 'toto', 'toto@domaine.com', 'Team-manager Rocks!', 0],  //correct
+            ['', 'toto', 'toto@domaine.com', 'Team-manager Rocks!', 1],         //no-subject
+            ['subject', '', 'toto@domaine.com', 'Team-manager Rocks!', 1],      // no-name
+            ['subject', 'toto', '', 'Team-manager Rocks!', 1],                  // no-email
+            ['subject', 'toto', 'not.a.email', 'Team-manager Rocks!', 1],       // not-email
+            ['subject', 'toto', 'toto@domaine.com', '', 1],                     // no-message
+            ['', 'toto', '', 'Team-manager Rocks!', 2]                          // 2 missings
+        ];
+    }
+
 }
