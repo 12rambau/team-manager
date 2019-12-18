@@ -50,9 +50,9 @@
 				<h1 class="mx-auto my-0 text-uppercase">My awesome Team !</h1>
 				<h2 class="text-white-50 mx-auto mt-2 mb-5">A free, responsive an creative team-manager created with symfony and bootstrap.</h2>
 				{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-					<a href="{{ path('blog-index', {}) }}" class="btn btn-success js-scroll-trigger">Get Started</a>
+					<a id="first_button" href="{{ path('blog-index', {}) }}" class="btn btn-success js-scroll-trigger">Get Started</a>
 				{% else %}
-					<a href="{{ path('login') }}" class="btn btn-primary js-scroll-trigger">Log in</a>
+					<a id="first_button" href="{{ path('login') }}" class="btn btn-primary js-scroll-trigger">Log in</a>
 				{% endif %}
 			</div>
 		</div>
