@@ -229,11 +229,6 @@
 		</div>
 		<div class="card-body">
 			{{ render(controller('App\\Controller\\AsideController::event', {'slug': event.slug})) }}
-			<p>
-				<a href="{{ path('event-index', {}) }}">
-					{{ 'event.view.other-event.all'|trans }}
-				</a>
-			</p>
 		</div>
 	</div>
 {% endblock %}

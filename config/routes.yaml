@@ -38,12 +38,6 @@ event:
     requirements:
         _locale: '%supported_locales%'
 
-chat:
-    resource: "Route/ChatRouting.yaml"
-    prefix: /{_locale}/chat/
-    requirements:
-        _locale: '%supported_locales%'
-
 team:
     resource: "Route/TeamRouting.yaml"
     prefix: /{_locale}/team/

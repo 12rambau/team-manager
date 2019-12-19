@@ -1,26 +1,32 @@
 <small>
-    <table class="table table-sm">
-        <tr>
-            <th>{{ 'aside.event.tag'|trans }}</th>
-            <th>{{ 'aside.event.date'|trans }}</th>
-            <th>{{ 'aside.event.in'|trans }}</th>
-            <th>{{ 'aside.event.out'|trans }}</th>
-        </tr>
-        {% for event in events %}
-            <tr {% if event == currentEvent %}class="table-active"{% endif %}>
-                <td>
-                    <span class="badge badge-{{ event.tag.color }}">
-                        {{event.tag.name }}
-                    </span>
-                </td>
-                <td>
-                    <a href="{{ path('event-view', {'slug': event.slug }) }}" class="text-reset">
-                        {{ event.start|date('d/m/Y h:i:s') }}
-                    </a>
-                </td>
-                <td>{{ event.nbParticipationIn }}</td>
-                <td>{{ event.nbParticipationOut }}</td>
-            </tr>
-        {% endfor %}
-    </table>
+	<table id="events-aside" class="table table-sm">
+		<tr>
+			<th>{{ 'aside.event.tag'|trans }}</th>
+			<th>{{ 'aside.event.date'|trans }}</th>
+			<th>{{ 'aside.event.in'|trans }}</th>
+			<th>{{ 'aside.event.out'|trans }}</th>
+		</tr>
+		{% for event in events %}
+			<tr {% if event == currentEvent %} class="table-active" {% endif %}>
+				<td>
+					<span class="badge badge-{{ event.tag.color }}">
+						{{event.tag.name }}
+					</span>
+				</td>
+				<td>
+					<a href="{{ path('event-view', {'slug': event.slug }) }}" class="text-reset">
+						{{ event.start|date('d/m/Y h:i:s') }}
+					</a>
+				</td>
+				<td>{{ event.nbParticipationIn }}</td>
+				<td>{{ event.nbParticipationOut }}</td>
+			</tr>
+		{% endfor %}
+	</table>
 </small>
+
+<p>
+	<a href="{{ path('event-index', {}) }}">
+		{{ 'event.view.other-event.all'|trans }}
+	</a>
+</p>

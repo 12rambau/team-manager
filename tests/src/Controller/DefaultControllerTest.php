@@ -99,7 +99,7 @@ class DefaultControllerTest extends WebTestCase
     }
 
     /**
-     * @dataProvider CnntactFormProvider
+     * @dataProvider ContactFormProvider
      */
     public function testContactForm(string $subject, string $name, string $email, string $message, int $nbErrors)
     {
@@ -122,8 +122,7 @@ class DefaultControllerTest extends WebTestCase
             $this->assertInputValueSame($form_name . '[subject]', '');
             $this->assertInputValueSame($form_name . '[name]', '');
             $this->assertInputValueSame($form_name . '[email]', '');
-            //$this->assertSelectorTextContains('#'.$name.'_message', 'a');
-            $this->markTestIncomplete("Don't know how to test a textArea");
+            $this->assertSelectorTextSame('#'.$form_name.'_message', '');
         }
     }
 
@@ -132,7 +131,7 @@ class DefaultControllerTest extends WebTestCase
      * 
      * @return array [subject, name, email, message, nbErrors]
      */
-    public function CnntactFormProvider()
+    public function ContactFormProvider()
     {
         return [
             ['subject', 'toto', 'toto@domaine.com', 'Team-manager Rocks!', 0],  //correct

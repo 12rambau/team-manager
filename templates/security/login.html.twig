@@ -6,9 +6,9 @@
 
 {% block body %}
 	<div id="form" class="col-4">
-		<form method="post" class="form">
+		<form  method="post" class="form">
 			{% if error %}
-				<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+				<div id="errors" class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 			{% endif %}
 
 			<h2 class="form-heading">
@@ -57,7 +57,6 @@
 		<button id="facebook" class="btn btn-block button">
 			<span class="fab fa-facebook-f mr-1"/>
 			{{ 'security.login.log-with'|trans({'%name%': 'Facebook'}) }}
-			login with Facebook
 		</button>
 		<div id="google" class="btn btn-block button">
 			<span class="fab fa-google mr-1"/>

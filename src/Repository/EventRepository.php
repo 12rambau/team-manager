@@ -71,7 +71,7 @@ class EventRepository extends ServiceEntityRepository
         $qb2->select('ev')
             ->where('ev.start > :date')
             ->setParameter('date', $currentEvent->getStart())
-            ->orderBy('ev.start', 'ASC')
+            ->orderBy('ev.start', 'DESC')
             ->setFirstResult(0)
             ->setMaxResults($nbEvents);
         
@@ -79,16 +79,16 @@ class EventRepository extends ServiceEntityRepository
         $after = $qb2->getQuery()->getResult();
 
         $events = [];
+        $length = count($after);
+        for ($i=0; $i < $length; $i++)
+            array_push($events, $after[$i]);
+
+        array_push($events, $currentEvent);
+
         $length = count($before);
         for ($i=$length-1; $i >= 0; $i--)
             array_push($events, $before[$i]);
 
-        array_push($events, $currentEvent);
-
-        $length = count($after);
-        for ($i=0; $i < $length; $i++)
-            array_push($events, $after[$i]);
-        
         return $events;
     }
 }
